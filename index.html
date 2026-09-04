@@ -186,6 +186,107 @@
   .weatherLoc{margin-inline-start:auto;color:var(--muted);font-size:12.5px;}
   .weatherLoading,.weatherNA{color:var(--muted);font-size:13px;}
 
+  /* ---------- "Did you know?" carousel, shown per trip day ---------- */
+  .funFactCard{
+    background:linear-gradient(135deg, #eaf4fb, #f7f0ff);
+    border:1px solid #dfe7f5;border-radius:var(--radius-md);
+    padding:14px 16px 12px;margin-bottom:20px;box-shadow:var(--shadow-soft);
+    text-align:center;
+  }
+  .funFactCard[hidden]{display:none;}
+  .funFact-head{font-weight:800;color:#4a5fb0;font-size:13.5px;margin-bottom:6px;}
+  .funFact-body{display:flex;align-items:center;gap:10px;}
+  .funFactText{
+    flex:1;margin:0;font-size:14.5px;color:var(--ink);line-height:1.55;
+    min-height:1.6em;
+  }
+  .funFactArrow{
+    flex:0 0 auto;width:32px;height:32px;border-radius:50%;
+    border:none;background:#fff;color:#4a5fb0;font-size:19px;font-weight:800;
+    cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.1);
+    display:flex;align-items:center;justify-content:center;line-height:1;
+    transition:transform .12s ease;
+  }
+  .funFactArrow:hover{transform:scale(1.1);}
+  .funFactArrow:active{transform:scale(.92);}
+  .funFactDots{display:flex;justify-content:center;gap:6px;margin-top:10px;}
+  .funFactDots span{
+    width:6px;height:6px;border-radius:50%;background:#c8d2ea;transition:.2s;
+  }
+  .funFactDots span.on{background:#4a5fb0;width:16px;border-radius:4px;}
+
+  /* ---------- Trivia game page — brighter, bigger, kid-facing ---------- */
+  nav.daynav button#nav-trivia{position:relative;overflow:visible;}
+  nav.daynav button#nav-trivia .icon{
+    animation:kidBounce 2.2s ease-in-out infinite;
+  }
+  @keyframes kidBounce{
+    0%,100%{transform:translateY(0) rotate(0deg);}
+    25%{transform:translateY(-3px) rotate(-6deg);}
+    75%{transform:translateY(-1px) rotate(6deg);}
+  }
+  .kidTag{color:#7a3fc9 !important;}
+  .kidTitle{
+    background:linear-gradient(90deg, var(--red), #7a3fc9, var(--gold-dark));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    font-size:26px !important;
+  }
+  .quizIntro{font-size:15px;color:var(--muted);margin:6px 0 18px;}
+  .quizRoot{max-width:640px;}
+  .quizCard{
+    background:#fff;border:2px solid var(--gold);border-radius:22px;
+    padding:22px 20px;box-shadow:var(--shadow-pop);
+  }
+  .quizProgress{
+    display:flex;justify-content:space-between;align-items:center;
+    font-size:12.5px;color:var(--muted);font-weight:700;margin-bottom:12px;
+  }
+  .quizScore{color:var(--gold-dark);}
+  .quizQuestion{
+    font-family:'Frank Ruhl Libre',serif;font-size:19px;font-weight:700;
+    color:var(--red-dark);margin:0 0 18px;line-height:1.4;
+  }
+  .quizOptions{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .quizOption{
+    background:var(--gold-soft);border:2px solid transparent;border-radius:14px;
+    padding:15px 12px;font-size:15px;font-weight:700;color:var(--ink);
+    cursor:pointer;transition:transform .12s ease, box-shadow .12s ease;
+    font-family:inherit;text-align:center;
+  }
+  .quizOption:hover{transform:scale(1.03);box-shadow:var(--shadow-soft);}
+  .quizOption.correct{background:var(--green-bg);border-color:#3d7a3f;color:#2c5c2e;}
+  .quizOption.wrong{background:var(--red-soft);border-color:var(--red);color:var(--red-dark);}
+  .quizOption.disabled{pointer-events:none;opacity:.9;}
+  .quizOption.disabled:not(.correct):not(.wrong){opacity:.55;}
+  .quizFeedback{margin-top:16px;font-size:16px;font-weight:800;text-align:center;}
+  .quizFeedback.correct{color:#2c5c2e;}
+  .quizFeedback.wrong{color:var(--red-dark);}
+  .quizFact{
+    margin-top:10px;background:var(--gold-soft);border-radius:12px;
+    padding:12px 14px;font-size:13.5px;color:var(--ink);text-align:center;
+  }
+  .quizNextBtn{
+    display:block;margin:18px auto 0;background:var(--red-dark);color:#fff;
+    border:none;padding:12px 30px;border-radius:999px;font-weight:800;
+    font-size:15px;cursor:pointer;font-family:inherit;
+    transition:transform .12s ease;
+  }
+  .quizNextBtn:hover{transform:scale(1.04);}
+  .quizSummary{text-align:center;padding:10px 6px;}
+  .quizSummary .emoji{font-size:52px;line-height:1;margin-bottom:10px;}
+  .quizSummary .scoreLine{
+    font-family:'Frank Ruhl Libre',serif;font-size:24px;font-weight:800;
+    color:var(--red-dark);margin-bottom:8px;
+  }
+  .quizSummary .msg{font-size:15px;color:var(--ink);margin-bottom:20px;}
+  .quizAgainBtn{
+    background:linear-gradient(135deg, var(--red-dark), var(--red));color:#fff;
+    border:none;padding:13px 32px;border-radius:999px;font-weight:800;
+    font-size:15.5px;cursor:pointer;font-family:inherit;
+    box-shadow:var(--shadow-pop);transition:transform .12s ease;
+  }
+  .quizAgainBtn:hover{transform:scale(1.05);}
+
   .waFab{
     position:fixed;bottom:22px;left:22px;z-index:500;
     width:56px;height:56px;border-radius:50%;
@@ -375,6 +476,12 @@
     .installBanner{padding:9px 14px;font-size:13px;}
     .installBanner-text{min-width:0;}
     .weatherCard{padding:10px 14px;font-size:13.5px;gap:10px;}
+    .funFactCard{padding:12px 14px 10px;}
+    .funFactText{font-size:14px;}
+    .quizCard{padding:18px 14px;border-radius:18px;}
+    .quizQuestion{font-size:17px;}
+    .quizOptions{grid-template-columns:1fr;}
+    .kidTitle{font-size:22px !important;}
     .weatherLoc{font-size:12px;}
     .waFab{width:50px;height:50px;bottom:16px;left:16px;}
     .waFab svg{width:24px;height:24px;}
@@ -429,6 +536,15 @@
       <div class="mapRouteInfo" id="mapRouteInfo" hidden></div>
     </div>
     <div class="weatherCard" id="weatherCard" hidden></div>
+    <div class="funFactCard" id="funFactCard" hidden>
+      <div class="funFact-head">🎈 הידעת?</div>
+      <div class="funFact-body">
+        <button type="button" class="funFactArrow" id="funFactPrev" aria-label="העובדה הקודמת">‹</button>
+        <p class="funFactText" id="funFactText"></p>
+        <button type="button" class="funFactArrow" id="funFactNext" aria-label="העובדה הבאה">›</button>
+      </div>
+      <div class="funFactDots" id="funFactDots"></div>
+    </div>
     <div class="panel" id="panel"></div>
   </main>
 </div>
@@ -852,6 +968,106 @@ const DAYS = [
     <div class="box tan"><b>בדיקת שעות ומסלול • מקורות רשמיים</b>Geisterberg פועל ב-27.9.2026 09:00-17:00 (בטווח שישי-שלישי). Hohenwerfen פתוח בספטמבר 09:00-17:00, מופעים 11:15/15:15. Grossglockner פתוח עד תחילת נובמבר 2026, שעות ספטמבר 06:00-19:30. Schmittenhöhe ושיט פועלים ב-1.10.2026 09:00-17:00/10:00-17:00. Kaprun פתוח 21.5-11.10.2026, אוטובוסים 08:10-16:45/17:00. מקורות: grossglockner.at • burg-hohenwerfen.at • schmitten.at • skiamade.com • kaprun-stauseen.com</div>
   `
 },
+{
+  id:"trivia", nav:"טריוויה", navSub:"בואו לשחק!",
+  segment: [],
+  render: () => `
+    <div class="tag kidTag">🎮 פינת המשחק</div>
+    <h2 class="title kidTitle">🎯 טריוויה אוסטריה</h2>
+    <p class="quizIntro">כמה אתם מכירים את אוסטריה ואת הטיול שלנו? ${TRIVIA.length} שאלות כיפיות — בואו לבדוק! 🏔️</p>
+    <div id="quizRoot" class="quizRoot"></div>
+  `
+},
+];
+
+/* ---------- "Did you know?" facts, 3-5 per trip day ---------- */
+const FUN_FACTS = {
+  d1: [
+    "הטיסה מתל אביב לוינה אורכת כ-3.5 שעות — בערך כמו לצפות בשני סרטים ברצף!",
+    "וינה נקראת גם 'עיר המוזיקה' — כאן חיו וכתבו מוזיקאים מפורסמים כמו מוצרט ובטהובן.",
+    "אוסטריה היא מדינה בלי יציאה לים — כל הגבולות שלה הם עם מדינות אחרות.",
+    "המלון שלנו ליד שדה התעופה נמצא ממש כמה דקות הליכה מהמסוף — נוח מאוד אחרי טיסה ארוכה!",
+  ],
+  d2: [
+    "קתדרלת שטפאנסדום בווינה נבנתה לפני יותר מ-800 שנה!",
+    "הגג הצבעוני של הקתדרלה עשוי מיותר מ-230,000 רעפים צבעוניים.",
+    "ארמון הופבורג היה הבית של משפחת קיסרים במשך יותר מ-600 שנה.",
+    "Wagrain, הכפר שבו נגור, נמצא בלב האלפים באזור זלצבורגרלנד.",
+  ],
+  d3: [
+    "Hallstatt כל כך יפה שבסין בנו עיר תאומה שנראית בדיוק כמוה!",
+    "מתחת לכפר יש מכרות מלח בני יותר מ-7,000 שנה — מהעתיקים בעולם.",
+    "אגם Hallstättersee כל כך צלול שאפשר לראות עמוק לתוכו.",
+    "אגם Gosausee הוא אגם הררי שקט עם נוף ישיר להר הקרחון Dachstein.",
+  ],
+  d4: [
+    "Geisterberg פירושו 'הר הרוחות' — שם קצת מסתורי להר!",
+    "St. Johann im Pongau היא עיירה עתיקה שהוקמה לפני מאות שנים.",
+    "באזור Pongau יש עשרות רכבלים והרים לטיולים משפחתיים.",
+  ],
+  d5: [
+    "מצודת Hohenwerfen נבנתה לפני כמעט 1,000 שנה על צוק תלול!",
+    "במצודה מציגים לפעמים הדגמות ציד עם ברזים — עופות דורסים מאולפים.",
+    "אגם Wengsee ב-Werfenweng הוא אגם קטן ושליו לשיט רגוע.",
+  ],
+  d6: [
+    "Grossglockner הוא ההר הכי גבוה באוסטריה — 3,798 מטר!",
+    "הכביש ההררי Grossglockner Hochalpenstraße הוא אחד הכבישים ההרריים היפים באירופה.",
+    "מנקודת התצפית Kaiser-Franz-Josefs-Höhe רואים את הקרחון Pasterze — הקרחון הגדול באוסטריה.",
+    "בגלל השלג, הכביש הזה סגור בחורף ופתוח רק חלק מהשנה.",
+  ],
+  d7: [
+    "זלצבורג פירושו 'עיר המלח' בגרמנית.",
+    "מוצרט נולד בזלצבורג ב-1756, ואפשר עדיין לבקר בבית שבו הוא גדל.",
+    "מצודת הוהנזלצבורג היא אחת המצודות הגדולות שנשמרו באירופה.",
+    "הסרט המפורסם 'צלילי המוזיקה' צולם בזלצבורג ובסביבתה.",
+  ],
+  d8: [
+    "Zell am See נמצאת על שפת אגם כחול-טורקיז מרהיב.",
+    "Schmittenhöhe הוא הר תצפית עם נוף לאגם ולפסגות מושלגות.",
+    "סכר Mooserboden בקאפרון הוא אחד מסכרי ההרים הגדולים באירופה.",
+  ],
+  d9: [
+    "מנזר Melk הוא אחד המנזרים הבארוקיים המרשימים באירופה, על גבעה מעל נהר הדנובה.",
+    "עמק Wachau, שדרכו ניסע, מפורסם בכרמי הענבים שלו.",
+    "בעיירה הקטנה Dürnstein יש מגדל כחול מיוחד שרואים מרחוק.",
+  ],
+  d10: [
+    "בטיסה חזרה נראה שוב את האלפים מלמעלה — הזדמנות טובה להיפרד מהנוף!",
+    "אוסטריה חולקת גבולות עם 8 מדינות שונות — יותר משכנות מרוב מדינות אירופה.",
+  ],
+};
+
+/* ---------- Trivia quiz: multiple-choice questions about Austria + this trip ---------- */
+const TRIVIA = [
+  { q:"איך קוראים לבירה של אוסטריה?", options:["וינה","זלצבורג","גראץ","אינסברוק"], correct:0,
+    fact:"וינה היא הבירה הגדולה והיפה של אוסטריה — נבקר בה כבר ביום הראשון שלנו!" },
+  { q:"באיזה מטבע משלמים באוסטריה?", options:["יורו","פרנק","דולר","לירה"], correct:0,
+    fact:"אוסטריה היא חברה באיחוד האירופי, ולכן משתמשים בה במטבע היורו." },
+  { q:"מה שם ההר הכי גבוה באוסטריה, שנתקרב אליו בטיול?", options:["Grossglockner","Everest","Matterhorn","Mont Blanc"], correct:0,
+    fact:"Grossglockner גבוה כמעט 3,800 מטר — נראה אותו מקרוב ביום 6 בטיול." },
+  { q:"באיזו שפה מדברים באוסטריה?", options:["גרמנית","צרפתית","איטלקית","ספרדית"], correct:0,
+    fact:"גרמנית היא השפה הרשמית של אוסטריה." },
+  { q:"מה שם הכפר היפהפה על שפת אגם, שדומה לציור?", options:["Hallstatt","Salzburg","Wagrain","Innsbruck"], correct:0,
+    fact:"Hallstatt כל כך מפורסם שבסין בנו עיר תאומה שנראית בדיוק כמוהו!" },
+  { q:"כמה ימים אנחנו נשארים באוסטריה בטיול הזה?", options:["10 ימים","3 ימים","חודש שלם","שבוע"], correct:0,
+    fact:"מ-24 בספטמבר עד 3 באוקטובר — 10 ימים של הרפתקאות!" },
+  { q:"מה הצבעים של דגל אוסטריה?", options:["אדום-לבן-אדום","כחול-לבן","ירוק-לבן-אדום","שחור-צהוב"], correct:0,
+    fact:"בגלל זה גם האתר הזה מעוצב באדום ולבן!" },
+  { q:"איזה סוג תחבורה עוזר לעלות על הרים בלי ללכת ברגל?", options:["רכבל","אופנוע","סירה","רכבת תחתית"], correct:0,
+    fact:"רכבלים (Seilbahn) פזורים בכל האלפים ומקצרים טיפוסים ארוכים." },
+  { q:"איזו מתכת לבנה הופקה בעבר במכרות ליד Hallstatt?", options:["מלח","זהב","נחושת","פחם"], correct:0,
+    fact:"יש שם אחד ממכרות המלח העתיקים בעולם — בני יותר מ-7,000 שנה!" },
+  { q:"איזה בעל חיים עם קרניים מפותלות אפשר לפעמים לראות בהרי האלפים?", options:["יעל אלפיני","פינגווין","קנגורו","פיל"], correct:0,
+    fact:"היעל האלפיני (Steinbock) מטפס על צוקים תלולים בזריזות מדהימה." },
+  { q:"איזה מלחין מפורסם נולד בזלצבורג?", options:["וולפגנג אמדאוס מוצרט","בטהובן","באך","ורדי"], correct:0,
+    fact:"מוצרט נולד בזלצבורג ב-1756 — אפשר עדיין לבקר בבית שבו גדל." },
+  { q:"איך אומרים 'תודה' בגרמנית?", options:["Danke","Merci","Gracias","Grazie"], correct:0,
+    fact:"מילה שימושית לכל הטיול — Danke schön אומר 'תודה רבה'." },
+  { q:"מה שם האגם השקט שנלך לידו ברגל קלה ליד Hallstatt?", options:["Gosausee","Wolfgangsee","Zeller See","Wörthersee"], correct:0,
+    fact:"Gosausee מציע נוף ישיר להר הקרחון Dachstein." },
+  { q:"איזו עוגה מפורסמת מגיעה מווינה, עם שוקולד ומשמש?", options:["עוגת זאכר (Sachertorte)","עוגת גבינה","טירמיסו","בקלאווה"], correct:0,
+    fact:"עוגת הזאכר הומצאה בווינה ב-1832 ונחשבת לאחת העוגות המפורסמות בעולם." },
 ];
 
 /* ---------- Destination photos (Wikimedia Commons) ---------- */
@@ -891,7 +1107,7 @@ function renderGallery(id){
 /* ---------- Map (Google Maps, no key) + Waze navigation ---------- */
 const DAY_ICON = {
   overview:"🗺️", d1:"✈️", d2:"🏛️", d3:"🏞️", d4:"🎢", d5:"🏰",
-  d6:"🏔️", d7:"🎻", d8:"🚡", d9:"⛪", d10:"✈️", alt:"📋",
+  d6:"🏔️", d7:"🎻", d8:"🚡", d9:"⛪", d10:"✈️", alt:"📋", trivia:"🎯",
 };
 const LOC_ICON = {
   airport:"✈️", vienna:"🏛️", wagrain:"🏡", hallstatt:"🏘️", gosausee:"🏞️",
@@ -1247,6 +1463,177 @@ function updateNowBar(viewingId){
   document.getElementById("nowBarBtn").href = wazeLink(target.loc);
 }
 
+/* ---------- "Did you know?" carousel ---------- */
+let funFactList = [];
+let funFactIndex = 0;
+
+function renderFunFactDots(){
+  const dotsEl = document.getElementById("funFactDots");
+  if (!dotsEl) return;
+  dotsEl.innerHTML = funFactList.map((_, i) =>
+    `<span class="${i === funFactIndex ? "on" : ""}"></span>`
+  ).join("");
+}
+
+function renderFunFactView(){
+  const textEl = document.getElementById("funFactText");
+  if (!textEl || !funFactList.length) return;
+  textEl.textContent = funFactList[funFactIndex];
+  renderFunFactDots();
+}
+
+function updateFunFacts(id){
+  const card = document.getElementById("funFactCard");
+  if (!card) return;
+  const facts = FUN_FACTS[id];
+  if (!facts || !facts.length){
+    card.hidden = true;
+    funFactList = [];
+    return;
+  }
+  funFactList = facts;
+  funFactIndex = 0;
+  card.hidden = false;
+  renderFunFactView();
+}
+
+document.getElementById("funFactPrev")?.addEventListener("click", () => {
+  if (!funFactList.length) return;
+  funFactIndex = (funFactIndex - 1 + funFactList.length) % funFactList.length;
+  renderFunFactView();
+});
+document.getElementById("funFactNext")?.addEventListener("click", () => {
+  if (!funFactList.length) return;
+  funFactIndex = (funFactIndex + 1) % funFactList.length;
+  renderFunFactView();
+});
+
+/* ---------- Trivia quiz ---------- */
+function shuffleArr(arr){
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+let quizOrder = [];
+let quizPos = 0;
+let quizScore = 0;
+
+function initTrivia(){
+  const root = document.getElementById("quizRoot");
+  if (!root) return;
+  quizOrder = shuffleArr(TRIVIA.map((_, i) => i));
+  quizPos = 0;
+  quizScore = 0;
+  root.addEventListener("click", onQuizClick);
+  renderQuizQuestion();
+}
+
+function onQuizClick(e){
+  const optBtn = e.target.closest(".quizOption");
+  if (optBtn && !optBtn.classList.contains("disabled")){
+    handleQuizAnswer(optBtn);
+    return;
+  }
+  const nextBtn = e.target.closest(".quizNextBtn");
+  if (nextBtn){
+    quizPos++;
+    renderQuizQuestion();
+    return;
+  }
+  const againBtn = e.target.closest(".quizAgainBtn");
+  if (againBtn){
+    quizOrder = shuffleArr(TRIVIA.map((_, i) => i));
+    quizPos = 0;
+    quizScore = 0;
+    renderQuizQuestion();
+  }
+}
+
+function renderQuizQuestion(){
+  const root = document.getElementById("quizRoot");
+  if (!root) return;
+  if (quizPos >= quizOrder.length){
+    renderQuizSummary();
+    return;
+  }
+  const item = TRIVIA[quizOrder[quizPos]];
+  const optOrder = shuffleArr(item.options.map((_, i) => i));
+  root.innerHTML = `
+    <div class="quizCard">
+      <div class="quizProgress">
+        <span>שאלה ${quizPos + 1} מתוך ${quizOrder.length}</span>
+        <span class="quizScore">⭐ ${quizScore}</span>
+      </div>
+      <p class="quizQuestion">${item.q}</p>
+      <div class="quizOptions">
+        ${optOrder.map(i => `<button type="button" class="quizOption" data-idx="${i}">${item.options[i]}</button>`).join("")}
+      </div>
+    </div>
+  `;
+}
+
+function handleQuizAnswer(optBtn){
+  const item = TRIVIA[quizOrder[quizPos]];
+  const chosen = Number(optBtn.dataset.idx);
+  const isCorrect = chosen === item.correct;
+  if (isCorrect) quizScore++;
+
+  document.querySelectorAll(".quizOption").forEach(b => {
+    b.classList.add("disabled");
+    const idx = Number(b.dataset.idx);
+    if (idx === item.correct) b.classList.add("correct");
+    else if (b === optBtn) b.classList.add("wrong");
+  });
+
+  const card = document.querySelector(".quizCard");
+  if (card){
+    const scoreEl = card.querySelector(".quizScore");
+    if (scoreEl) scoreEl.textContent = "⭐ " + quizScore;
+    const feedback = document.createElement("div");
+    feedback.className = "quizFeedback " + (isCorrect ? "correct" : "wrong");
+    feedback.textContent = isCorrect ? "🎉 נכון מאוד!" : "❌ לא בדיוק...";
+    card.appendChild(feedback);
+    const fact = document.createElement("div");
+    fact.className = "quizFact";
+    fact.textContent = "💡 " + item.fact;
+    card.appendChild(fact);
+    const isLast = quizPos + 1 >= quizOrder.length;
+    const nextBtn = document.createElement("button");
+    nextBtn.type = "button";
+    nextBtn.className = "quizNextBtn";
+    nextBtn.textContent = isLast ? "לתוצאה הסופית 🏁" : "השאלה הבאה ⟵";
+    card.appendChild(nextBtn);
+  }
+}
+
+function renderQuizSummary(){
+  const root = document.getElementById("quizRoot");
+  if (!root) return;
+  const total = quizOrder.length;
+  let emoji, msg;
+  if (quizScore === total){
+    emoji = "🏆"; msg = "מושלם! אתם ממש מומחי אוסטריה!";
+  } else if (quizScore >= total * 0.7){
+    emoji = "🥳"; msg = "כל הכבוד! אתם מכירים את אוסטריה מצוין.";
+  } else if (quizScore >= total * 0.4){
+    emoji = "😊"; msg = "יפה מאוד! אחרי הטיול תדעו עוד יותר.";
+  } else {
+    emoji = "🌟"; msg = "התחלה נהדרת — בואו נגלה עוד באוסטריה ביחד!";
+  }
+  root.innerHTML = `
+    <div class="quizCard quizSummary">
+      <div class="emoji">${emoji}</div>
+      <div class="scoreLine">הניקוד שלכם: ${quizScore} מתוך ${total} ⭐</div>
+      <div class="msg">${msg}</div>
+      <button type="button" class="quizAgainBtn">🔁 לשחק שוב</button>
+    </div>
+  `;
+}
+
 /* ---------- Nav + panel rendering ---------- */
 const navEl = document.getElementById("daynav");
 const panelEl = document.getElementById("panel");
@@ -1318,13 +1705,27 @@ function selectDay(id){
   document.querySelectorAll("nav.daynav button").forEach(b=>b.classList.remove("active"));
   document.getElementById("nav-"+id).classList.add("active");
   const isOverview = (id === "overview" || id === "alt");
+  const isTrivia = (id === "trivia");
   const segment = day.segment.length ? day.segment : FULL_ROUTE;
 
-  try { updateMap(segment, isOverview); } catch(e) { console.error("map update failed", e); }
-  updateNowBar(id);
-  injectWeather(id);
-  mapTitleEl.textContent = (DAY_ICON[id]||"🗺️") + " מפה — " + day.nav;
-  mapSubEl.textContent = isOverview ? "כל המסלול" : "ממורכזת אוטומטית ביעד היום";
+  // The trivia game page has nothing to do with the map/weather/now-bar — hide them
+  // entirely instead of drawing an irrelevant route.
+  const mapCardEl = document.getElementById("mapCard");
+  if (mapCardEl) mapCardEl.hidden = isTrivia;
+
+  if (!isTrivia){
+    try { updateMap(segment, isOverview); } catch(e) { console.error("map update failed", e); }
+    updateNowBar(id);
+    injectWeather(id);
+    mapTitleEl.textContent = (DAY_ICON[id]||"🗺️") + " מפה — " + day.nav;
+    mapSubEl.textContent = isOverview ? "כל המסלול" : "ממורכזת אוטומטית ביעד היום";
+  } else {
+    document.getElementById("nowBar").hidden = true;
+    document.getElementById("weatherCard").hidden = true;
+    initTrivia();
+  }
+
+  updateFunFacts(id);
   window.scrollTo({top:0, behavior:"smooth"});
 }
 
