@@ -94,16 +94,28 @@
     gap:26px;
   }
 
-  /* ---------- Nav: row 1 = overview/info/trivia pills, row 2 = horizontal day scroller ---------- */
+  /* ---------- Nav: row 1 = overview/info/trivia pills, row 2 = horizontal day scroller ----------
+     Pinned to the top of the viewport at all times (position:sticky). The ::after strip is a
+     thin gold fade-line, and the box-shadow gives it a subtle "floating shelf" look, so content
+     scrolling underneath has a clean, deliberate edge instead of an abrupt flat cutoff. */
   nav.daynav{
     position:sticky;
     top:0;
-    z-index:5;
+    z-index:20;
     background:var(--cream);
     display:flex;
     flex-direction:column;
     gap:10px;
-    padding:10px 0 6px;
+    padding:10px 0 14px;
+    box-shadow:0 12px 14px -12px rgba(43,35,32,.20);
+  }
+  nav.daynav::after{
+    content:"";
+    position:absolute;
+    left:0;right:0;bottom:0;
+    height:2px;
+    background:linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity:.75;
   }
   nav.daynav button{
     all:unset;
