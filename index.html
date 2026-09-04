@@ -630,6 +630,7 @@ const LOC = {
   werfen:    {lat:47.4772, lon:13.1889, label:"Hohenwerfen"},
   werfenweng:{lat:47.4333, lon:13.2167, label:"Werfenweng"},
   amade:     {lat:47.3811, lon:13.2508, label:"Erlebnis-Therme Amadé", address:"Thermenplatz 1, 5541 Altenmarkt im Pongau, אוסטריה"},
+  wasserwelt:{lat:47.3385, lon:13.3040, label:"Wagrain Wasserwelt", address:"Kirchboden 25A, 5602 Wagrain, אוסטריה"},
   glockner:  {lat:47.0725, lon:12.8319, label:"Kaiser-Franz-Josefs-Höhe"},
   salzburg:  {lat:47.8095, lon:13.0550, label:"Salzburg"},
   zell:      {lat:47.3239, lon:12.7958, label:"Zell am See"},
@@ -795,8 +796,8 @@ const DAYS = [
       <tr><td>השלמת הסיור, תצפית וחנות האבירים</td><td>13:15-14:15</td></tr>
       <tr><td>Werfenweng: אגם Wengsee, משחקים, הליכה קצרה וקפה</td><td>14:30-16:30</td></tr>
       <tr><td>נסיעה ל-Erlebnis-Therme Amadé (Altenmarkt im Pongau)</td><td>~16:30-16:50</td></tr>
-      <tr><td>מרחצאות חמים ומגלשות מים ב-Erlebnis-Therme Amadé</td><td>17:00-19:30</td></tr>
-      <tr><td>חזרה ל-Wagrain</td><td>~19:45</td></tr>
+      <tr><td>מרחצאות חמים ומגלשות מים ב-Erlebnis-Therme Amadé (עד הסגירה)</td><td>17:00-20:30</td></tr>
+      <tr><td>חזרה ל-Wagrain</td><td>~20:45</td></tr>
     </table>
     <div class="sectionLabel">📍 מה יש שם</div>
     <div class="places">
@@ -808,7 +809,7 @@ const DAYS = [
       <div class="box green"><b>המופע</b>ב-11:15 וב-15:15, כ-25 דקות וכלול במחיר הכניסה.</div>
       <div class="box red"><b>עם הקטנה והסבים</b>יש מעלית לטירה, אך למופע מעל 100 מדרגות וירידה תלולה. לקחת מנשא; אין עגלה.</div>
     </div>
-    <div class="box tan"><b>שעות פעילות</b>ב-28.9.2026 הטירה פתוחה 09:00–17:00, ומופעי הנשרים מתקיימים ב-11:15 וב-15:15. כדאי לבדוק מראש את שעות הפעילות של Therme Amadé ולקחת בגדי ים ומגבות.</div>
+    <div class="box tan"><b>שעות פעילות</b>ב-28.9.2026 הטירה פתוחה 09:00–17:00, ומופעי הנשרים מתקיימים ב-11:15 וב-15:15. Erlebnis-Therme Amadé פתוחה עד 20:30 — כדאי לבדוק שעות מראש סמוך לנסיעה ולקחת בגדי ים ומגבות.</div>
     <div class="footerbar">הנסיעות הגיוניות: Werfenweng היא סטייה קצרה, ומ-Erlebnis-Therme Amadé החזרה ל-Wagrain אורכת רק כ-10 דקות — סיום קליל ליום.</div>
   `
 },
@@ -848,11 +849,11 @@ const DAYS = [
 },
 {
   id:"d7", nav:"30.9", navSub:"Salzburg",
-  segment: ["wagrain","salzburg","wagrain"],
+  segment: ["wagrain","salzburg","wasserwelt","wagrain"],
   render: () => `
-    <div class="tag">30.9 · עיר עתיקה • גנים ומצודה</div>
+    <div class="tag">30.9 · עיר עתיקה • גנים, מצודה ומרחצאות חמים</div>
     <h2 class="title">Salzburg</h2>
-    <div class="meta">נסיעה: Wagrain → Salzburg כ-1 שעה לכל כיוון</div>
+    <div class="meta">נסיעה: Wagrain → Salzburg כ-1 שעה לכל כיוון; Wagrain Wasserwelt בתוך Wagrain עצמה</div>
     <table class="sched">
       <tr><td>יציאה</td><td>08:30</td></tr>
       <tr><td>הגעה וחניה במרכז</td><td>~09:30</td></tr>
@@ -860,7 +861,9 @@ const DAYS = [
       <tr><td>צהריים</td><td>12:30</td></tr>
       <tr><td>Hohensalzburg Fortress</td><td>14:00</td></tr>
       <tr><td>Haus der Natur - מצוין לילדים ובגשם</td><td>אופציונלי</td></tr>
-      <tr><td>יציאה; חזרה סביב 18:00</td><td>~17:00</td></tr>
+      <tr><td>יציאה מ-Salzburg בחזרה ל-Wagrain</td><td>~17:00</td></tr>
+      <tr><td>Wagrain Wasserwelt: מרחצאות חמים ומגלשות מים (חינם לאורחי המלון)</td><td>18:15-20:00</td></tr>
+      <tr><td>חזרה למלון</td><td>~20:10</td></tr>
     </table>
     <div class="sectionLabel">📍 מה יש שם</div>
     <div class="places">
@@ -868,16 +871,18 @@ const DAYS = [
       <div class="p"><b>Getreidegasse — </b>רחוב הקניות ההיסטורי המרכזי, מוכר בזכות שלטי הברזל המעוטרים ובית הולדתו של מוצרט.</div>
       <div class="p"><b>Hohensalzburg Fortress — </b>אחת המצודות הגדולות והמשומרות באירופה, מגיעים ברכבל תלוי עם נוף מרהיב.</div>
       <div class="p"><b>Haus der Natur — </b>מוזיאון טבע ומדע פופולרי לילדים - אקווריום, טרריום זוחלים ותערוכות אינטראקטיביות; אלטרנטיבה מצוינת ליום גשום.</div>
+      <div class="p"><b>Wagrain Wasserwelt — </b>מתחם מרחצאות חמים ומגלשות מים בתוך Wagrain עצמה, ממש קרוב למלון; הכניסה חינמית לאורחי המלון עם כרטיס האורח. סיום מפנק ליום ארוך בעיר. <a href="https://www.wagrain-kleinarl.at/de/sommer/wasserwelt-wagrain.html" target="_blank" rel="noopener">האתר הרשמי</a>.</div>
     </div>
     <div class="boxes">
-      <div class="box green"><b>יום מגוון</b>מרכז היסטורי, מצודה ונוף, עם מוזיאון מצוין לילדים.</div>
+      <div class="box green"><b>יום מגוון</b>מרכז היסטורי, מצודה ונוף, עם מוזיאון מצוין לילדים, ומסתיים במרחצאות חמים קרוב למלון.</div>
       <div class="box red"><b>מזג אוויר</b>בגשם מאריכים את Haus der Natur ומקצרים הליכה בחוץ. זהו היום הכי גמיש במסלול - מועמד טבעי להחלפה עם ימי הרים.</div>
+      <div class="box tan"><b>Wasserwelt</b>הכניסה חינמית לאורחי המלון (Appartements Schattauer) — יש להציג את כרטיס האורח בקופה; כדאי לקחת בגדי ים ומגבות. פתוחה עד 20:00, כניסה אחרונה 19:00.</div>
     </div>
     <div class="sectionLabel">🧒 אופציות לילדים נוספות בסביבה</div>
     <table class="kids">
       <tr><td><b>Zwerglgarten + Zauberflötenspielplatz</b> — גן הגמדים הבארוקי (28 פסלים) וממש לידו מגרש משחקים - בתוך גן Mirabell עצמו, בדיוק במסלול הבוקר, לא דורש סטייה.</td><td>גן מירבל פתוח יומי כ-05:00-23:00; כניסה חופשית.</td></tr>
     </table>
-    <div class="footerbar">סוף יום: Wagrain Wasserwelt חינם דרך כרטיס האורח, אם נשאר כוח.</div>
+    <div class="footerbar">סוף יום: Wagrain Wasserwelt חינם עם כרטיס האורח, ואז חזרה קצרה למלון.</div>
   `
 },
 {
@@ -1019,7 +1024,6 @@ const DAYS = [
     <div class="sectionLabel">🔄 חלופות</div>
     <ul class="altlist">
       <li>Liechtensteinklamm — עובר לבנק החלופות. מתאים רק אם רוצים נקיק ומוכנים ל-440 מדרגות ולמנשא.</li>
-      <li>Wasserwelt Wagrain — בריכות ומגלשות; חינם דרך כרטיס האורח. תוספת אחר הצהריים.</li>
       <li>Wolfgangsee + St. Wolfgang — אגם, עיירה ושיט - ליום רגוע.</li>
       <li><b>Kaprun Hochgebirgsstauseen (Mooserboden)</b> — סכר הררי מרשים בגובה 2,040 מ׳. פירוט מלא ולוז מוצע בעמוד 1.10.</li>
       <li>Krimml Waterfalls — מפלים גדולים, רק אם מוכנים לנסיעה ארוכה.</li>
@@ -1091,6 +1095,7 @@ const FUN_FACTS = {
     "מוצרט נולד בזלצבורג ב-1756, ואפשר עדיין לבקר בבית שבו הוא גדל.",
     "מצודת הוהנזלצבורג היא אחת המצודות הגדולות שנשמרו באירופה.",
     "הסרט המפורסם 'צלילי המוזיקה' צולם בזלצבורג ובסביבתה.",
+    "בסוף היום נשחה ב-Wagrain Wasserwelt — ולנו זה חינם, כי אנחנו אורחים במלון!",
   ],
   d8: [
     "Zell am See נמצאת על שפת אגם כחול-טורקיז מרהיב.",
@@ -1182,7 +1187,7 @@ const DAY_ICON = {
 const LOC_ICON = {
   airport:"✈️", vienna:"🏛️", wagrain:"🏡", hallstatt:"🏘️", gosausee:"🏞️",
   alpendorf:"🎢", werfen:"🏰", werfenweng:"🏞️", amade:"♨️", glockner:"🏔️",
-  salzburg:"🏰", zell:"🚡", kaprun:"💧", melk:"⛪", durnstein:"⛪",
+  salzburg:"🏰", wasserwelt:"🌊", zell:"🚡", kaprun:"💧", melk:"⛪", durnstein:"⛪",
 };
 
 /* ---------- Weather: per-day forecast (Open-Meteo, no key needed) for the day's
@@ -1452,7 +1457,7 @@ const ROW_WAZE = {
   d4: [ ["הגעה ל-Alpendorf","alpendorf"], ["St. Johann: מרכז עתיק","alpendorf"], ["חזרה ל-Wagrain","wagrain"] ],
   d5: [ ["חניה ועלייה במעלית לטירה","werfen"], ["Werfenweng: אגם Wengsee","werfenweng"], ["מרחצאות חמים ומגלשות מים","amade"], ["חזרה ל-Wagrain","wagrain"] ],
   d6: [ ["תצפית הקרחון ב-Kaiser Franz Josef Höhe","glockner"], ["Wagrain","wagrain"] ],
-  d7: [ ["הגעה וחניה במרכז","salzburg"] ],
+  d7: [ ["הגעה וחניה במרכז","salzburg"], ["Wagrain Wasserwelt","wasserwelt"], ["חזרה למלון","wagrain"] ],
   d8: [ ["הגעה ל-Zell am See","zell"], ["חזרה ל-Wagrain","wagrain"], ["חניה בחניון החינמי ליד קופת Kesselfall","kaprun"] ],
   d9: [ ["הגעה ל-Melk","melk"], ["נסיעה לאורך Wachau ל-Dürnstein","durnstein"], ["יציאה לשדה התעופה","airport"], ["MOXY, החזרת רכב ואריזה","airport"] ],
 };
