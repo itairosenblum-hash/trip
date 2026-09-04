@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>אוסטריה למשפחה 2026 — המסלול שלנו</title>
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#1F5C4E">
+<meta name="theme-color" content="#8A0E22">
 <link rel="icon" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <meta name="mobile-web-app-capable" content="yes">
@@ -14,27 +14,30 @@
 <meta name="apple-mobile-web-app-title" content="אוסטריה 2026">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700;900&family=Heebo:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <style>
   :root{
-    --green:#1F5C4E;
-    --green-dark:#163F35;
-    --green-pop:#2E9370;
-    --orange:#B5651D;
-    --orange-pop:#E8862E;
-    --sky:#2C8FBF;
-    --sky-bg:#E7F4FA;
-    --cream:#FAF6EE;
-    --cream-2:#F2E9DC;
-    --ink:#26302C;
-    --muted:#6b7570;
-    --line:#DDD3C0;
-    --red-bg:#FBEBE7;
-    --green-bg:#E9F3EE;
+    --red:#C8102E;
+    --red-dark:#8A0E22;
+    --red-pop:#E63950;
+    --red-soft:#FBEAEC;
+    --gold:#C89B3C;
+    --gold-dark:#8f6d24;
+    --gold-soft:#FBF3E1;
+    --cream:#FFFFFF;
+    --cream-2:#FBEEEF;
+    --ink:#2B2320;
+    --muted:#78706c;
+    --line:#EFE1E1;
+    --red-bg:#FBEAEC;
+    --green-bg:#EFF6EC;
+    --green-txt:#3d7a3f;
     --yellow-bg:#FDF6E3;
     --radius-lg:20px;
     --radius-md:14px;
-    --shadow-soft:0 4px 16px rgba(38,48,44,.10);
-    --shadow-pop:0 6px 20px rgba(38,48,44,.16);
+    --shadow-soft:0 4px 16px rgba(43,35,32,.09);
+    --shadow-pop:0 6px 20px rgba(43,35,32,.16);
   }
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
@@ -50,13 +53,13 @@
   header.top{
     padding:26px 28px 22px;
     background:
-      radial-gradient(circle at 92% -10%, rgba(232,134,46,.16), transparent 55%),
-      radial-gradient(circle at 6% 120%, rgba(44,143,191,.14), transparent 50%),
-      linear-gradient(180deg,#fff, var(--cream));
-    border-bottom:2px solid var(--cream-2);
+      radial-gradient(circle at 92% -10%, rgba(200,16,46,.10), transparent 55%),
+      radial-gradient(circle at 6% 120%, rgba(200,155,60,.14), transparent 50%),
+      linear-gradient(180deg,#fff, #FFFAF9);
+    border-bottom:3px solid var(--red);
   }
-  header.top .eyebrow{color:var(--orange);font-size:14px;font-weight:700;margin-bottom:4px;letter-spacing:.2px;}
-  header.top h1{font-size:32px;color:var(--green-dark);font-weight:700;}
+  header.top .eyebrow{color:var(--red);font-size:14px;font-weight:700;margin-bottom:4px;letter-spacing:.2px;}
+  header.top h1{font-size:32px;color:var(--red-dark);font-weight:700;}
   header.top .sub{color:var(--muted);font-size:14.5px;margin-top:6px;}
 
   .layout{
@@ -90,14 +93,65 @@
   }
   nav.daynav button .icon{font-size:20px;line-height:1;flex:0 0 auto;}
   nav.daynav button .label{display:flex;flex-direction:column;gap:2px;min-width:0;}
-  nav.daynav button .d{font-weight:700;color:var(--green-dark);font-size:14px;}
+  nav.daynav button{position:relative;}
+  nav.daynav button .d{font-weight:700;color:var(--red-dark);font-size:14px;}
   nav.daynav button .t{color:var(--muted);font-size:12.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-  nav.daynav button:hover{background:#F0EADB;}
+  nav.daynav button:hover{background:var(--cream-2);}
   nav.daynav button:active{transform:scale(.97);}
-  nav.daynav button.active{background:var(--green);border-color:var(--orange-pop);box-shadow:var(--shadow-pop);}
+  nav.daynav button.active{background:var(--red-dark);border-color:var(--gold);box-shadow:var(--shadow-pop);}
   nav.daynav button.active .d,nav.daynav button.active .t{color:#fff;}
+  nav.daynav button.isToday:not(.active){border-color:var(--gold);}
+  nav.daynav button .todayDot{
+    position:absolute;top:6px;inset-inline-end:6px;
+    background:var(--gold);color:#fff;font-size:9.5px;font-weight:800;
+    padding:1px 6px;border-radius:999px;letter-spacing:.3px;
+  }
 
   main.content{flex:1;min-width:0;}
+
+  .nowBar{
+    display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+    background:linear-gradient(135deg, var(--gold-dark), var(--gold));
+    color:#fff;border-radius:var(--radius-lg);
+    padding:14px 18px;margin-bottom:16px;
+    box-shadow:var(--shadow-pop);
+  }
+  .nowBar[hidden]{display:none;}
+  .nowBar-text{display:flex;flex-direction:column;gap:2px;}
+  .nowBar-label{font-size:12px;font-weight:700;opacity:.9;letter-spacing:.2px;}
+  .nowBar-place{font-size:18px;font-weight:800;font-family:'Frank Ruhl Libre',serif;}
+  .nowBar-btn{
+    background:#fff;color:var(--gold-dark);text-decoration:none;
+    font-weight:800;font-size:14.5px;padding:11px 20px;border-radius:999px;
+    white-space:nowrap;box-shadow:0 3px 10px rgba(0,0,0,.15);
+    transition:transform .12s ease;
+  }
+  .nowBar-btn:hover{transform:translateY(-1px) scale(1.02);}
+
+  .weatherCard{
+    display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+    background:#fff;border:1px solid var(--line);border-radius:var(--radius-md);
+    padding:12px 16px;margin-bottom:20px;box-shadow:var(--shadow-soft);
+    font-size:14px;
+  }
+  .weatherCard[hidden]{display:none;}
+  .weatherIcon{font-size:26px;line-height:1;}
+  .weatherTemps{font-weight:700;color:var(--ink);}
+  .weatherTemps b{color:var(--red-dark);font-size:16.5px;}
+  .weatherRain{color:#3d7a9e;font-weight:600;}
+  .weatherLoc{margin-inline-start:auto;color:var(--muted);font-size:12.5px;}
+  .weatherLoading,.weatherNA{color:var(--muted);font-size:13px;}
+
+  .waFab{
+    position:fixed;bottom:22px;left:22px;z-index:500;
+    width:56px;height:56px;border-radius:50%;
+    background:#25D366;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 4px 16px rgba(0,0,0,.28);
+    transition:transform .15s ease;
+  }
+  .waFab:hover{transform:scale(1.08);}
+  .waFab svg{width:28px;height:28px;fill:#fff;}
 
   .mapCard{
     background:#fff;
@@ -113,22 +167,51 @@
     align-items:baseline;
     margin-bottom:6px;
   }
-  .mapCard .mapTitle h2{font-size:17px;color:var(--green-dark);}
+  .mapCard .mapTitle h2{font-size:17px;color:var(--red-dark);}
   .mapCard .mapTitle span{font-size:12.5px;color:var(--muted);}
-  .mapEmbedWrap{
+  #mapDiv{
     width:100%;
-    height:320px;
+    height:340px;
     border-radius:var(--radius-md);
     overflow:hidden;
+    direction:ltr;
     background:var(--cream-2);
-    border:1px solid var(--line);
   }
-  .mapEmbedWrap iframe{width:100%;height:100%;border:0;display:block;}
+  .map-marker{
+    width:12px;height:12px;border-radius:50%;
+    background:#cbb9ba;border:2px solid #fff;
+    box-shadow:0 1px 3px rgba(0,0,0,.35);
+    transition:all .15s ease;
+  }
+  .map-marker.active{
+    width:17px;height:17px;
+    background:var(--red);
+    margin:-2.5px 0 0 -2.5px;
+  }
+  .map-marker.base{
+    width:0;height:0;
+    border-left:9px solid transparent;
+    border-right:9px solid transparent;
+    border-bottom:14px solid var(--red-dark);
+    background:none;border-width:0;box-shadow:none;
+    filter:drop-shadow(0 1px 2px rgba(0,0,0,.4));
+  }
+  .leaflet-tooltip.map-tooltip{
+    direction:ltr;text-align:left;
+    font-family:'Heebo',sans-serif;
+    font-size:12px;
+    color:var(--ink);
+    background:#fff;
+    border:1px solid var(--line);
+    box-shadow:0 2px 6px rgba(0,0,0,.12);
+  }
+  .leaflet-tooltip.map-tooltip.base-tooltip{font-weight:700;color:var(--red-dark);}
+  .leaflet-tooltip.map-tooltip.active-tooltip{font-weight:700;color:var(--red-dark);}
 
   .rowWaze{
     display:inline-flex;align-items:center;justify-content:center;
     width:24px;height:24px;margin-inline-start:8px;
-    border-radius:50%;background:var(--sky-bg);
+    border-radius:50%;background:var(--gold-soft);
     font-size:13px;text-decoration:none;vertical-align:middle;line-height:1;
     transition:transform .12s ease, box-shadow .12s ease;
   }
@@ -150,40 +233,42 @@
   .photoGallery figure:hover img{transform:scale(1.06);}
   .photoGallery figcaption{
     position:absolute;inset-inline-start:0;bottom:0;width:100%;
-    background:linear-gradient(0deg, rgba(22,63,53,.78), rgba(22,63,53,0));
+    background:linear-gradient(0deg, rgba(60,20,24,.80), rgba(60,20,24,0));
     color:#fff;font-size:12.5px;padding:22px 12px 8px;
     text-align:start;
   }
 
   .panel{background:#fff;border:1px solid var(--line);border-radius:var(--radius-lg);padding:24px 26px 26px;box-shadow:var(--shadow-soft);}
-  .panel .tag{color:var(--orange);font-weight:700;font-size:14.5px;margin-bottom:4px;}
-  .panel h2.title{font-size:28px;color:var(--green-dark);margin-bottom:6px;}
+  .panel .tag{color:var(--red);font-weight:700;font-size:14.5px;margin-bottom:4px;}
+  .panel h2.title{font-size:28px;color:var(--red-dark);margin-bottom:6px;}
   .panel .meta{color:var(--muted);font-size:13.5px;margin-bottom:16px;}
 
   table.sched{width:100%;border-collapse:collapse;margin-bottom:18px;font-size:14.5px;}
-  table.sched td{padding:11px 12px;border-bottom:1px solid #EFE8DA;}
-  table.sched td:last-child{width:120px;font-weight:700;background:var(--cream-2);text-align:center;border-radius:10px;}
+  table.sched td{padding:11px 12px;border-bottom:1px solid #F3E7E7;}
+  table.sched td:last-child{width:120px;font-weight:700;background:var(--cream-2);text-align:center;border-radius:10px;color:var(--red-dark);}
   table.sched tr:last-child td{border-bottom:none;}
 
-  .sectionLabel{font-family:'Frank Ruhl Libre',serif;font-weight:700;color:var(--green-dark);font-size:16.5px;margin:18px 0 8px;}
+  .sectionLabel{font-family:'Frank Ruhl Libre',serif;font-weight:700;color:var(--red-dark);font-size:16.5px;margin:18px 0 8px;}
 
   .places{display:flex;flex-direction:column;gap:8px;margin-bottom:8px;}
   .places .p{font-size:14px;line-height:1.6;}
-  .places .p b{color:var(--orange);}
+  .places .p b{color:var(--red);}
 
   .boxes{display:flex;gap:14px;margin:16px 0;flex-wrap:wrap;}
   .box{flex:1 1 220px;border-radius:var(--radius-md);padding:14px 16px;font-size:14px;}
   .box b{display:block;margin-bottom:4px;font-size:14px;}
-  .box.green{background:var(--green-bg);}
-  .box.red{background:var(--red-bg);}
+  .box.green{background:var(--gold-soft);}
+  .box.green b{color:var(--gold-dark);}
+  .box.red{background:var(--red-soft);}
+  .box.red b{color:var(--red-dark);}
   .box.yellow{background:var(--yellow-bg);}
   .box.tan{background:var(--cream-2);}
 
   table.kids{width:100%;border-collapse:collapse;font-size:13.8px;margin-bottom:6px;}
-  table.kids td{padding:8px 10px;border-bottom:1px solid #EFE8DA;vertical-align:top;}
+  table.kids td{padding:8px 10px;border-bottom:1px solid #F3E7E7;vertical-align:top;}
   table.kids td:last-child{width:150px;background:var(--cream-2);border-radius:8px;font-size:12.8px;color:var(--muted);}
 
-  .footerbar{background:var(--green-dark);color:#fff;padding:13px 16px;border-radius:var(--radius-md);font-size:14px;font-weight:500;margin-top:16px;display:flex;align-items:center;gap:8px;}
+  .footerbar{background:var(--red-dark);color:#fff;padding:13px 16px;border-radius:var(--radius-md);font-size:14px;font-weight:500;margin-top:16px;display:flex;align-items:center;gap:8px;}
 
   ul.altlist{padding-inline-start:20px;margin:0 0 16px;font-size:14.3px;line-height:1.7;}
   ol.checklist{padding-inline-start:20px;margin:0 0 16px;font-size:14.3px;line-height:1.75;}
@@ -195,24 +280,33 @@
     .layout{flex-direction:column;padding:16px 14px 44px;gap:16px;}
     nav.daynav{
       position:static;
-      flex-direction:row;
-      overflow-x:auto;
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
       width:100%;
       flex:none;
       gap:8px;
-      padding:2px 2px 8px;
-      -webkit-overflow-scrolling:touch;
     }
-    nav.daynav button{flex:0 0 auto;white-space:nowrap;border:2px solid var(--line);background:#fff;}
-    nav.daynav button.active{border-color:var(--orange-pop);}
+    nav.daynav button{
+      flex-direction:column;justify-content:center;text-align:center;gap:4px;
+      border:2px solid var(--line);background:#fff;padding:10px 6px;min-height:64px;
+    }
+    nav.daynav button .label{align-items:center;}
+    nav.daynav button .t{white-space:normal;text-overflow:clip;line-height:1.25;}
+    nav.daynav button.active{border-color:var(--gold);}
     nav.daynav button .icon{font-size:22px;}
+    nav.daynav button .todayDot{top:4px;inset-inline-end:4px;}
+    .nowBar{padding:12px 14px;}
+    .nowBar-place{font-size:16px;}
+    .weatherCard{padding:10px 14px;font-size:13.5px;gap:10px;}
+    .weatherLoc{font-size:12px;}
+    .waFab{width:50px;height:50px;bottom:16px;left:16px;}
+    .waFab svg{width:24px;height:24px;}
     .panel{padding:18px 16px 20px;}
     .panel h2.title{font-size:23px;}
-    .mapEmbedWrap{height:260px;}
+    #mapDiv{height:260px;}
     .boxes{flex-direction:column;}
     .photoGallery figure{height:150px;flex:1 1 45%;}
     table.sched td{padding:12px 10px;font-size:14.5px;}
-    .wazeBtn{padding:11px 16px;font-size:14px;}
   }
 </style>
 </head>
@@ -226,16 +320,28 @@
 <div class="layout">
   <nav class="daynav" id="daynav"></nav>
   <main class="content">
+    <div class="nowBar" id="nowBar" hidden>
+      <div class="nowBar-text">
+        <span class="nowBar-label" id="nowBarLabel">🧭 עכשיו בלו״ז</span>
+        <span class="nowBar-place" id="nowBarPlace">—</span>
+      </div>
+      <a class="nowBar-btn" id="nowBarBtn" href="#" target="_blank" rel="noopener">נווט עכשיו ב-Waze</a>
+    </div>
     <div class="mapCard">
       <div class="mapTitle">
         <h2 id="mapTitle">🗺️ מפת היום</h2>
         <span id="mapSub">ממורכזת אוטומטית ביעד היום</span>
       </div>
-      <div class="mapEmbedWrap"><iframe id="mapFrame" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></div>
+      <div id="mapDiv"></div>
     </div>
+    <div class="weatherCard" id="weatherCard" hidden></div>
     <div class="panel" id="panel"></div>
   </main>
 </div>
+
+<a class="waFab" href="https://chat.whatsapp.com/FvTOR3qNp8tCQPNzDZPXvS?s=sw&amp;p=a&amp;mlu=4&amp;ilr=4" target="_blank" rel="noopener" title="קבוצת הוואטסאפ שלנו" aria-label="קבוצת הוואטסאפ שלנו">
+  <svg viewBox="0 0 448 512" aria-hidden="true"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.7z"/></svg>
+</a>
 
 <script>
 /* ---------- Coordinates ---------- */
@@ -600,11 +706,22 @@ const DAYS = [
   `
 },
 {
-  id:"alt", nav:"חלופות", navSub:"ובדיקות אחרונות",
+  id:"alt", nav:"מידע כללי", navSub:"טיסות, מלונות וחלופות",
   segment: [],
   render: () => `
     <div class="tag">לשמור בטלפון</div>
-    <h2 class="title">חלופות, הטבות ובדיקות אחרונות</h2>
+    <h2 class="title">מידע כללי לטיול</h2>
+    <div class="sectionLabel">✈️ הטיסות שלנו</div>
+    <table class="kids" style="margin-bottom:18px;">
+      <tr>
+        <td><b>OS82</b> — <span dir="ltr">Tel Aviv → Vienna</span><br><span dir="ltr">24 Sep 26 · 18:40 → 21:25</span></td>
+        <td>Austrian · Q (OK)<br>1 PC</td>
+      </tr>
+      <tr>
+        <td><b>OS79</b> — <span dir="ltr">Vienna → Tel Aviv</span><br><span dir="ltr">03 Oct 26 · 10:10 → 14:35</span></td>
+        <td>Austrian · Q (OK)<br>1 PC</td>
+      </tr>
+    </table>
     <div class="sectionLabel">🏨 המלונות שלנו</div>
     <table class="kids" style="margin-bottom:18px;">
       <tr>
@@ -688,18 +805,130 @@ const LOC_ICON = {
   salzburg:"🏰", zell:"🚡", kaprun:"💧", melk:"⛪", durnstein:"⛪",
 };
 
-function embedUrlFor(segment){
-  const keys = [...new Set(segment.length ? segment : FULL_ROUTE)];
-  const lats = keys.map(k=>LOC[k].lat), lons = keys.map(k=>LOC[k].lon);
-  const latC = (Math.min(...lats)+Math.max(...lats))/2;
-  const lonC = (Math.min(...lons)+Math.max(...lons))/2;
-  const span = Math.max(Math.max(...lats)-Math.min(...lats), Math.max(...lons)-Math.min(...lons));
-  let z = 13;
-  if (span > 3) z = 7;
-  else if (span > 1.2) z = 9;
-  else if (span > 0.4) z = 10;
-  else if (span > 0.15) z = 11;
-  return `https://maps.google.com/maps?q=${latC.toFixed(4)},${lonC.toFixed(4)}&z=${z}&output=embed`;
+/* ---------- Weather: per-day forecast (Open-Meteo, no key needed) for the day's
+   main destination, shown between the map and the schedule. ---------- */
+const WEATHER_LOC = {
+  d1:"airport", d2:"vienna", d3:"hallstatt", d4:"alpendorf", d5:"werfen",
+  d6:"glockner", d7:"salzburg", d8:"zell", d9:"melk", d10:"airport",
+};
+const WEATHER_CACHE = {};
+let weatherSeq = 0;
+
+function weatherEmoji(code){
+  if (code === 0) return "☀️";
+  if (code === 1 || code === 2) return "🌤️";
+  if (code === 3) return "☁️";
+  if (code === 45 || code === 48) return "🌫️";
+  if ([51,53,55,56,57,80,81,82].includes(code)) return "🌦️";
+  if ([61,63,65,66,67].includes(code)) return "🌧️";
+  if ([71,73,75,77,85,86].includes(code)) return "❄️";
+  if ([95,96,99].includes(code)) return "⛈️";
+  return "🌡️";
+}
+
+async function injectWeather(id){
+  const card = document.getElementById("weatherCard");
+  const locKey = WEATHER_LOC[id];
+  const date = DAY_DATES[id];
+  if (!locKey || !date){
+    card.hidden = true;
+    return;
+  }
+  const mySeq = ++weatherSeq;
+  card.hidden = false;
+  card.innerHTML = `<span class="weatherLoading">🌦️ טוען תחזית ל-${LOC[locKey].label}…</span>`;
+
+  const cacheKey = locKey + "_" + date;
+  try {
+    let data = WEATHER_CACHE[cacheKey];
+    if (!data){
+      const loc = LOC[locKey];
+      const url = `https://api.open-meteo.com/v1/forecast?latitude=${loc.lat}&longitude=${loc.lon}&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=Europe%2FVienna&start_date=${date}&end_date=${date}`;
+      const resp = await fetch(url);
+      if (!resp.ok) throw new Error("weather http " + resp.status);
+      data = await resp.json();
+      WEATHER_CACHE[cacheKey] = data;
+    }
+    if (mySeq !== weatherSeq) return; // a newer day was selected meanwhile — drop this result
+    const d = data.daily;
+    if (!d || !d.time || !d.time.length){
+      card.innerHTML = `<span class="weatherNA">📅 התחזית ל-${LOC[locKey].label} עדיין לא זמינה — תופיע כאן כשבועיים-שלושה לפני התאריך.</span>`;
+      return;
+    }
+    const code = d.weathercode[0];
+    const max = Math.round(d.temperature_2m_max[0]);
+    const min = Math.round(d.temperature_2m_min[0]);
+    const rain = d.precipitation_probability_max[0];
+    card.innerHTML = `
+      <span class="weatherIcon">${weatherEmoji(code)}</span>
+      <span class="weatherTemps"><b>${max}°</b> / ${min}°</span>
+      <span class="weatherRain">🌧️ ${rain}%</span>
+      <span class="weatherLoc">${LOC[locKey].label}</span>
+    `;
+  } catch(e){
+    if (mySeq !== weatherSeq) return;
+    card.innerHTML = `<span class="weatherNA">מזג האוויר לא נטען כרגע — שאר האתר פועל כרגיל.</span>`;
+  }
+}
+
+/* ---------- Leaflet map: full route (muted) + today's highlighted segment ---------- */
+let leafletMap = null;
+let mapLayers = []; // markers/polylines currently on the map, cleared+rebuilt on each render
+
+function initMap(){
+  if (typeof L === "undefined"){
+    document.getElementById("mapDiv").innerHTML =
+      '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--muted);font-size:13px;padding:12px;text-align:center;">המפה לא נטענה (בעיית רשת) — שאר האתר פועל כרגיל.</div>';
+    return;
+  }
+  leafletMap = L.map("mapDiv", {scrollWheelZoom:false});
+  L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
+    subdomains:"abcd",
+    maxZoom:19,
+    attribution:"© CARTO © OpenStreetMap contributors"
+  }).addTo(leafletMap);
+}
+
+function updateMap(segment, isOverview){
+  if (!leafletMap) return;
+  mapLayers.forEach(l=>leafletMap.removeLayer(l));
+  mapLayers = [];
+
+  // Full route, muted dashed line, always shown as context.
+  const fullLatLngs = FULL_ROUTE.map(k=>[LOC[k].lat, LOC[k].lon]);
+  const fullLine = L.polyline(fullLatLngs, {color:"#cbb9ba", weight:3, dashArray:"2,8", opacity:.8}).addTo(leafletMap);
+  mapLayers.push(fullLine);
+
+  // Today's segment, highlighted solid red line.
+  const keys = segment.length ? segment : FULL_ROUTE;
+  if (!isOverview && keys.length > 1){
+    const segLatLngs = keys.map(k=>[LOC[k].lat, LOC[k].lon]);
+    const segLine = L.polyline(segLatLngs, {color:"#C8102E", weight:5, opacity:.9}).addTo(leafletMap);
+    mapLayers.push(segLine);
+  }
+
+  // Markers: Wagrain (home base) gets a pin shape; today's other stops are highlighted red dots;
+  // in overview mode all stops are plain muted dots.
+  const uniqueKeys = [...new Set(keys)];
+  uniqueKeys.forEach(k=>{
+    const loc = LOC[k];
+    const isBase = (k === "wagrain");
+    const isActive = !isOverview && !isBase;
+    const cls = isBase ? "map-marker base" : (isActive ? "map-marker active" : "map-marker");
+    const size = isBase ? [18,14] : (isActive ? [17,17] : [12,12]);
+    const anchor = isBase ? [9,14] : (isActive ? [9,9] : [6,6]);
+    const icon = L.divIcon({className:"", html:`<div class="${cls}"></div>`, iconSize:size, iconAnchor:anchor});
+    const marker = L.marker([loc.lat, loc.lon], {icon}).addTo(leafletMap);
+    const tClass = "map-tooltip" + (isBase ? " base-tooltip" : (isActive ? " active-tooltip" : ""));
+    marker.bindTooltip(loc.label, {className:tClass, direction:"top", offset:[0,-10]});
+    mapLayers.push(marker);
+  });
+
+  // Fit bounds to the relevant set of points.
+  const boundsKeys = isOverview ? FULL_ROUTE : uniqueKeys;
+  const bounds = L.latLngBounds(boundsKeys.map(k=>[LOC[k].lat, LOC[k].lon]));
+  leafletMap.fitBounds(bounds, {padding:[30,30], maxZoom: isOverview ? 9 : 12});
+  setTimeout(()=>leafletMap.invalidateSize(), 50);
 }
 
 function wazeLink(k){
@@ -744,20 +973,68 @@ function injectRowWaze(id){
   });
 }
 
+/* ---------- Smart Waze target: reads today's schedule + the clock, and figures out
+   which point on today's route makes sense to navigate to right now. ---------- */
+function parseTimeToMinutes(text){
+  const m = text.match(/(\d{1,2}):(\d{2})/);
+  if(!m) return null;
+  return parseInt(m[1],10)*60 + parseInt(m[2],10);
+}
+
+function getRowTimes(id){
+  const rules = ROW_WAZE[id];
+  if(!rules) return [];
+  const day = DAYS.find(d=>d.id===id);
+  if(!day) return [];
+  const tmp = document.createElement("div");
+  tmp.innerHTML = day.render();
+  const out = [];
+  tmp.querySelectorAll("table.sched tr").forEach(tr=>{
+    const tds = tr.querySelectorAll("td");
+    if(tds.length < 2) return;
+    const text = tds[0].textContent;
+    const rule = rules.find(([sub])=> text.includes(sub));
+    if(!rule) return;
+    const [, locKey] = rule;
+    out.push({loc:locKey, label:text.split("—")[0].trim(), minutes: parseTimeToMinutes(tds[1].textContent)});
+  });
+  return out;
+}
+
+function getSmartTarget(id){
+  const rows = getRowTimes(id);
+  if(!rows.length) return null;
+  const now = new Date();
+  const nowMin = now.getHours()*60 + now.getMinutes();
+  // rows are already in schedule (chronological) order — pick the first one that hasn't
+  // happened yet; if the whole day already passed, fall back to the last stop (usually the hotel).
+  const upcoming = rows.find(r => r.minutes === null || r.minutes >= nowMin);
+  return upcoming || rows[rows.length - 1];
+}
+
+function updateNowBar(viewingId){
+  const bar = document.getElementById("nowBar");
+  const today = todaysDayId();
+  if (!today || viewingId !== today){
+    bar.hidden = true;
+    return;
+  }
+  const target = getSmartTarget(today);
+  if (!target){
+    bar.hidden = true;
+    return;
+  }
+  bar.hidden = false;
+  document.getElementById("nowBarLabel").textContent = "🧭 עכשיו בלו״ז: " + target.label;
+  document.getElementById("nowBarPlace").textContent = LOC[target.loc].label;
+  document.getElementById("nowBarBtn").href = wazeLink(target.loc);
+}
+
 /* ---------- Nav + panel rendering ---------- */
 const navEl = document.getElementById("daynav");
 const panelEl = document.getElementById("panel");
 const mapTitleEl = document.getElementById("mapTitle");
 const mapSubEl = document.getElementById("mapSub");
-const mapFrameEl = document.getElementById("mapFrame");
-
-DAYS.forEach((d,i)=>{
-  const btn = document.createElement("button");
-  btn.id = "nav-"+d.id;
-  btn.innerHTML = `<span class="icon">${DAY_ICON[d.id]||"📍"}</span><span class="label"><span class="d">${d.nav}</span><span class="t">${d.navSub}</span></span>`;
-  btn.addEventListener("click", ()=> selectDay(d.id));
-  navEl.appendChild(btn);
-});
 
 /* ---------- Auto-open today's day during the trip ---------- */
 const DAY_DATES = {
@@ -773,6 +1050,17 @@ function todaysDayId(){
   }
   return null;
 }
+const TODAY_ID = todaysDayId();
+
+DAYS.forEach((d,i)=>{
+  const btn = document.createElement("button");
+  btn.id = "nav-"+d.id;
+  const isToday = (d.id === TODAY_ID);
+  if (isToday) btn.classList.add("isToday");
+  btn.innerHTML = `<span class="icon">${DAY_ICON[d.id]||"📍"}</span><span class="label"><span class="d">${d.nav}</span><span class="t">${d.navSub}</span></span>${isToday ? '<span class="todayDot">היום</span>' : ''}`;
+  btn.addEventListener("click", ()=> selectDay(d.id));
+  navEl.appendChild(btn);
+});
 
 function selectDay(id){
   const day = DAYS.find(d=>d.id===id);
@@ -784,17 +1072,42 @@ function selectDay(id){
   const isOverview = (id === "overview" || id === "alt");
   const segment = day.segment.length ? day.segment : FULL_ROUTE;
 
-  mapFrameEl.src = embedUrlFor(segment);
+  try { updateMap(segment, isOverview); } catch(e) { console.error("map update failed", e); }
+  updateNowBar(id);
+  injectWeather(id);
   mapTitleEl.textContent = (DAY_ICON[id]||"🗺️") + " מפה — " + day.nav;
   mapSubEl.textContent = isOverview ? "כל המסלול" : "ממורכזת אוטומטית ביעד היום";
   window.scrollTo({top:0, behavior:"smooth"});
 }
 
-selectDay(todaysDayId() || "overview");
+try { initMap(); } catch(e) { console.error("map init failed", e); }
+selectDay(TODAY_ID || "overview");
 
+/* ---------- PWA auto-refresh: every time the app is opened/foregrounded, actively
+   check for a newer version and, if one takes over, reload automatically so the
+   visitor never has to manually clear the cache. ---------- */
 if ("serviceWorker" in navigator){
+  // Only auto-reload on a REAL update (a newer service worker replacing one that was
+  // already controlling this page) — not on the very first install, where the first
+  // "controllerchange" just means the page has a controller for the first time.
+  let hadController = !!navigator.serviceWorker.controller;
+
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("sw.js").catch(()=>{});
+    navigator.serviceWorker.register("sw.js", { updateViaCache: "none" }).then((reg) => {
+      // Re-check for a new version every time the app is opened or comes back to the foreground.
+      reg.update().catch(()=>{});
+      document.addEventListener("visibilitychange", () => {
+        if (document.visibilityState === "visible") reg.update().catch(()=>{});
+      });
+    }).catch(()=>{});
+  });
+
+  let swRefreshed = false;
+  navigator.serviceWorker.addEventListener("controllerchange", () => {
+    if (!hadController){ hadController = true; return; }
+    if (swRefreshed) return;
+    swRefreshed = true;
+    window.location.reload();
   });
 }
 </script>
