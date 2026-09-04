@@ -493,6 +493,7 @@
   .places{display:flex;flex-direction:column;gap:8px;margin-bottom:8px;}
   .places .p{font-size:14px;line-height:1.6;}
   .places .p b{color:var(--red);}
+  .places .p a{color:var(--red-dark);font-weight:700;text-decoration:underline;}
 
   .boxes{display:flex;gap:14px;margin:16px 0;flex-wrap:wrap;}
   .box{flex:1 1 220px;border-radius:var(--radius-md);padding:14px 16px;font-size:14px;}
@@ -628,6 +629,7 @@ const LOC = {
   alpendorf: {lat:47.3500, lon:13.2000, label:"Alpendorf / St. Johann"},
   werfen:    {lat:47.4772, lon:13.1889, label:"Hohenwerfen"},
   werfenweng:{lat:47.4333, lon:13.2167, label:"Werfenweng"},
+  amade:     {lat:47.3811, lon:13.2508, label:"Erlebnis-Therme Amadé", address:"Thermenplatz 1, 5541 Altenmarkt im Pongau, אוסטריה"},
   glockner:  {lat:47.0725, lon:12.8319, label:"Kaiser-Franz-Josefs-Höhe"},
   salzburg:  {lat:47.8095, lon:13.0550, label:"Salzburg"},
   zell:      {lat:47.3239, lon:12.7958, label:"Zell am See"},
@@ -779,11 +781,11 @@ const DAYS = [
 },
 {
   id:"d5", nav:"28.9", navSub:"Hohenwerfen + Werfenweng",
-  segment: ["wagrain","werfen","werfenweng","wagrain"],
+  segment: ["wagrain","werfen","werfenweng","amade","wagrain"],
   render: () => `
-    <div class="tag">28.9 (הורחב) · טירה, מופע נשרים ואגם הררי</div>
+    <div class="tag">28.9 (הורחב) · טירה, מופע נשרים, אגם הררי ומרחצאות חמים</div>
     <h2 class="title">Hohenwerfen + Werfenweng</h2>
-    <div class="meta">נסיעות: Wagrain → Hohenwerfen כ-35-45 דק׳; ל-Werfenweng כ-15-20 דק׳; חזרה כ-25 דק׳</div>
+    <div class="meta">נסיעות: Wagrain → Hohenwerfen כ-35-45 דק׳; ל-Werfenweng כ-15-20 דק׳; ל-Erlebnis-Therme Amadé כ-20 דק׳; חזרה ל-Wagrain כ-10 דק׳</div>
     <table class="sched">
       <tr><td>יציאה מ-Wagrain</td><td>08:30</td></tr>
       <tr><td>חניה ועלייה במעלית לטירה</td><td>~09:15</td></tr>
@@ -791,20 +793,23 @@ const DAYS = [
       <tr><td>מופע עופות דורסים: נשרים, בזים ועיטים במעוף חופשי</td><td>11:15-11:40</td></tr>
       <tr><td>צהריים בטירה או ב-Werfen</td><td>12:00-13:15</td></tr>
       <tr><td>השלמת הסיור, תצפית וחנות האבירים</td><td>13:15-14:15</td></tr>
-      <tr><td>Werfenweng: אגם Wengsee, משחקים, הליכה קצרה וקפה</td><td>14:30-17:30</td></tr>
-      <tr><td>חזרה ל-Wagrain</td><td>~18:00</td></tr>
+      <tr><td>Werfenweng: אגם Wengsee, משחקים, הליכה קצרה וקפה</td><td>14:30-16:30</td></tr>
+      <tr><td>נסיעה ל-Erlebnis-Therme Amadé (Altenmarkt im Pongau)</td><td>~16:30-16:50</td></tr>
+      <tr><td>מרחצאות חמים ומגלשות מים ב-Erlebnis-Therme Amadé</td><td>17:00-19:30</td></tr>
+      <tr><td>חזרה ל-Wagrain</td><td>~19:45</td></tr>
     </table>
     <div class="sectionLabel">📍 מה יש שם</div>
     <div class="places">
       <div class="p"><b>Burg Hohenwerfen — </b>מצודה מימי הביניים על צוק סלעי מעל עמק ה-Salzach, בת כ-900 שנה; סיור מודרך, תא עינויים, מגדל פעמונים עם נוף פנורמי, ומופעי ציפורי טרף בחצר.</div>
-      <div class="p"><b>Werfenweng — </b>כפר אלפי שקט ידידותי לסביבה, עם אגם קטן ונעים (Wengsee) ומגרש משחקים - עצירה רגועה בסוף היום.</div>
+      <div class="p"><b>Werfenweng — </b>כפר אלפי שקט ידידותי לסביבה, עם אגם קטן ונעים (Wengsee) ומגרש משחקים - עצירה רגועה באמצע היום.</div>
+      <div class="p"><b>Erlebnis-Therme Amadé — </b>מתחם מרחצאות חמים ומגלשות מים באלטנמרקט-אים-פונגאו, ממש ליד וגריין; בריכות פנים וחוץ, אזור ג׳קוזי ומגלשות לילדים — סיום מפנק ורגוע ליום עמוס. <a href="https://www.thermeamade.at/" target="_blank" rel="noopener">האתר הרשמי</a>.</div>
     </div>
     <div class="boxes">
       <div class="box green"><b>המופע</b>ב-11:15 וב-15:15, כ-25 דקות וכלול במחיר הכניסה.</div>
       <div class="box red"><b>עם הקטנה והסבים</b>יש מעלית לטירה, אך למופע מעל 100 מדרגות וירידה תלולה. לקחת מנשא; אין עגלה.</div>
     </div>
-    <div class="box tan"><b>שעות פעילות</b>ב-28.9.2026 הטירה פתוחה 09:00–17:00, ומופעי הנשרים מתקיימים ב-11:15 וב-15:15.</div>
-    <div class="footerbar">הנסיעות הגיוניות: Werfenweng היא סטייה קצרה, והחזרה ממנה ל-Wagrain אורכת כ-25 דקות.</div>
+    <div class="box tan"><b>שעות פעילות</b>ב-28.9.2026 הטירה פתוחה 09:00–17:00, ומופעי הנשרים מתקיימים ב-11:15 וב-15:15. כדאי לבדוק מראש את שעות הפעילות של Therme Amadé ולקחת בגדי ים ומגבות.</div>
+    <div class="footerbar">הנסיעות הגיוניות: Werfenweng היא סטייה קצרה, ומ-Erlebnis-Therme Amadé החזרה ל-Wagrain אורכת רק כ-10 דקות — סיום קליל ליום.</div>
   `
 },
 {
@@ -1073,6 +1078,7 @@ const FUN_FACTS = {
     "מצודת Hohenwerfen נבנתה לפני כמעט 1,000 שנה על צוק תלול!",
     "במצודה מציגים לפעמים הדגמות ציד עם ברזים — עופות דורסים מאולפים.",
     "אגם Wengsee ב-Werfenweng הוא אגם קטן ושליו לשיט רגוע.",
+    "בסוף היום נבקר ב-Erlebnis-Therme Amadé — מרחצאות חמים עם מגלשות מים, ממש ליד וגריין!",
   ],
   d6: [
     "Grossglockner הוא ההר הכי גבוה באוסטריה — 3,798 מטר!",
@@ -1175,7 +1181,7 @@ const DAY_ICON = {
 };
 const LOC_ICON = {
   airport:"✈️", vienna:"🏛️", wagrain:"🏡", hallstatt:"🏘️", gosausee:"🏞️",
-  alpendorf:"🎢", werfen:"🏰", werfenweng:"🏞️", glockner:"🏔️",
+  alpendorf:"🎢", werfen:"🏰", werfenweng:"🏞️", amade:"♨️", glockner:"🏔️",
   salzburg:"🏰", zell:"🚡", kaprun:"💧", melk:"⛪", durnstein:"⛪",
 };
 
@@ -1444,7 +1450,7 @@ const ROW_WAZE = {
   d2: [ ["יציאה למרכז וינה","vienna"], ["יציאה ל-Wagrain","wagrain"], ["צ׳ק-אין, סופר והתארגנות","wagrain"] ],
   d3: [ ["Hallstatt: כפר","hallstatt"], ["Gosausee והליכה קלה","gosausee"], ["חזרה ל-Wagrain","wagrain"] ],
   d4: [ ["הגעה ל-Alpendorf","alpendorf"], ["St. Johann: מרכז עתיק","alpendorf"], ["חזרה ל-Wagrain","wagrain"] ],
-  d5: [ ["חניה ועלייה במעלית לטירה","werfen"], ["Werfenweng: אגם Wengsee","werfenweng"], ["חזרה ל-Wagrain","wagrain"] ],
+  d5: [ ["חניה ועלייה במעלית לטירה","werfen"], ["Werfenweng: אגם Wengsee","werfenweng"], ["מרחצאות חמים ומגלשות מים","amade"], ["חזרה ל-Wagrain","wagrain"] ],
   d6: [ ["תצפית הקרחון ב-Kaiser Franz Josef Höhe","glockner"], ["Wagrain","wagrain"] ],
   d7: [ ["הגעה וחניה במרכז","salzburg"] ],
   d8: [ ["הגעה ל-Zell am See","zell"], ["חזרה ל-Wagrain","wagrain"], ["חניה בחניון החינמי ליד קופת Kesselfall","kaprun"] ],
