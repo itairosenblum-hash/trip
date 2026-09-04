@@ -1,10 +1,10 @@
-const CACHE = "austria-trip-v4";
+const CACHE = "austria-trip-v5";
 const ASSETS = [
   "./",
   "./index.html",
   "./manifest.json",
-  "./icons/icon-192.png",
-  "./icons/icon-512.png",
+  "./icons/icon-192.png?v=5",
+  "./icons/icon-512.png?v=5",
 ];
 
 self.addEventListener("install", (e) => {

@@ -6,8 +6,8 @@
 <title>אוסטריה למשפחה 2026 — המסלול שלנו</title>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#8A0E22">
-<link rel="icon" href="icons/icon-192.png">
-<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="icon" href="icons/icon-192.png?v=5">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=5">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -127,6 +127,27 @@
     transition:transform .12s ease;
   }
   .nowBar-btn:hover{transform:translateY(-1px) scale(1.02);}
+
+  .installBanner{
+    display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+    background:linear-gradient(135deg, var(--red-dark), var(--red));
+    color:#fff;padding:10px 24px;font-size:14px;
+  }
+  .installBanner[hidden]{display:none;}
+  .installBanner-icon{font-size:19px;line-height:1;}
+  .installBanner-text{flex:1;min-width:200px;}
+  .installBanner-btn{
+    background:#fff;color:var(--red-dark);border:none;font-weight:800;
+    padding:8px 18px;border-radius:999px;cursor:pointer;font-size:13.5px;
+    white-space:nowrap;transition:transform .12s ease;
+  }
+  .installBanner-btn:hover{transform:scale(1.04);}
+  .installBanner-btn[hidden]{display:none;}
+  .installBanner-close{
+    background:transparent;border:none;color:#fff;font-size:16px;cursor:pointer;
+    opacity:.85;padding:4px 6px;line-height:1;
+  }
+  .installBanner-close:hover{opacity:1;}
 
   .weatherCard{
     display:flex;align-items:center;gap:14px;flex-wrap:wrap;
@@ -297,6 +318,8 @@
     nav.daynav button .todayDot{top:4px;inset-inline-end:4px;}
     .nowBar{padding:12px 14px;}
     .nowBar-place{font-size:16px;}
+    .installBanner{padding:9px 14px;font-size:13px;}
+    .installBanner-text{min-width:0;}
     .weatherCard{padding:10px 14px;font-size:13.5px;gap:10px;}
     .weatherLoc{font-size:12px;}
     .waFab{width:50px;height:50px;bottom:16px;left:16px;}
@@ -316,6 +339,13 @@
   <div class="eyebrow">החופשה המשפחתית שלנו • ספטמבר–אוקטובר 2026</div>
   <h1>🏔️ אוסטריה למשפחה</h1>
 </header>
+
+<div class="installBanner" id="installBanner" hidden>
+  <span class="installBanner-icon">📲</span>
+  <span class="installBanner-text" id="installBannerText">התקינו את האתר כאפליקציה למסך הבית — גישה מהירה גם בלי אינטרנט</span>
+  <button class="installBanner-btn" id="installBannerBtn" type="button">התקן</button>
+  <button class="installBanner-close" id="installBannerClose" type="button" aria-label="סגור" title="סגור">✕</button>
+</div>
 
 <div class="layout">
   <nav class="daynav" id="daynav"></nav>
@@ -1110,6 +1140,73 @@ if ("serviceWorker" in navigator){
     window.location.reload();
   });
 }
+
+/* ---------- Install prompt: proactively offer to install the app, instead of
+   relying on the visitor to find the option in the browser menu themselves. ---------- */
+(function(){
+  const DISMISS_KEY = "austria_install_dismissed_v1";
+  const banner = document.getElementById("installBanner");
+  const textEl = document.getElementById("installBannerText");
+  const btnEl = document.getElementById("installBannerBtn");
+  const closeEl = document.getElementById("installBannerClose");
+  let deferredPrompt = null;
+
+  function isStandalone(){
+    return window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
+  }
+  function isIOS(){
+    const ua = window.navigator.userAgent;
+    const iOSDevice = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
+    const iPadOS13Plus = navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1;
+    return iOSDevice || iPadOS13Plus;
+  }
+  function dismissed(){
+    try { return localStorage.getItem(DISMISS_KEY) === "1"; } catch(e){ return false; }
+  }
+
+  function show(mode){
+    if (!banner || isStandalone() || dismissed()) return;
+    if (mode === "ios"){
+      textEl.textContent = "התקינו את האתר כאפליקציה: הקישו שיתוף ⬆️ ואז \"הוסף למסך הבית\"";
+      btnEl.hidden = true;
+    } else {
+      textEl.textContent = "התקינו את האתר כאפליקציה למסך הבית — גישה מהירה גם בלי אינטרנט";
+      btnEl.hidden = false;
+    }
+    banner.hidden = false;
+  }
+  function hide(){
+    if (banner) banner.hidden = true;
+  }
+
+  window.addEventListener("beforeinstallprompt", (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    show("android");
+  });
+
+  window.addEventListener("appinstalled", () => {
+    hide();
+    try { localStorage.setItem(DISMISS_KEY, "1"); } catch(e){}
+  });
+
+  btnEl && btnEl.addEventListener("click", async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    try { await deferredPrompt.userChoice; } catch(e){}
+    deferredPrompt = null;
+    hide();
+  });
+
+  closeEl && closeEl.addEventListener("click", () => {
+    hide();
+    try { localStorage.setItem(DISMISS_KEY, "1"); } catch(e){}
+  });
+
+  if (isIOS() && !isStandalone() && !dismissed()){
+    setTimeout(() => show("ios"), 1500);
+  }
+})();
 </script>
 
 </body>
