@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>אוסטריה למשפחה 2026 — המסלול שלנו</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700;900&family=Heebo:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green:#1F5C4E;
+    --green-dark:#163F35;
+    --orange:#B5651D;
+    --cream:#FAF6EE;
+    --cream-2:#F2E9DC;
+    --ink:#26302C;
+    --muted:#6b7570;
+    --line:#DDD3C0;
+    --red-bg:#FBEBE7;
+    --green-bg:#E9F3EE;
+    --yellow-bg:#FDF6E3;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Heebo',sans-serif;
+    font-weight:400;
+    line-height:1.55;
+  }
+  h1,h2,h3{font-family:'Frank Ruhl Libre',serif;margin:0;}
+  header.top{
+    padding:22px 28px 18px;
+    border-bottom:1px solid var(--line);
+    background:linear-gradient(180deg,#fff, var(--cream));
+  }
+  header.top .eyebrow{color:var(--orange);font-size:14px;font-weight:500;margin-bottom:4px;}
+  header.top h1{font-size:30px;color:var(--green-dark);font-weight:700;}
+  header.top .sub{color:var(--muted);font-size:14.5px;margin-top:6px;}
+
+  .layout{
+    display:flex;
+    align-items:flex-start;
+    max-width:1280px;
+    margin:0 auto;
+    padding:22px 28px 60px;
+    gap:26px;
+  }
+  nav.daynav{
+    flex:0 0 210px;
+    position:sticky;
+    top:18px;
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+  }
+  nav.daynav button{
+    all:unset;
+    cursor:pointer;
+    padding:11px 14px;
+    border-radius:10px;
+    font-size:14.5px;
+    color:var(--ink);
+    display:flex;
+    flex-direction:column;
+    gap:2px;
+    border-right:3px solid transparent;
+    transition:background .15s ease, border-color .15s ease;
+  }
+  nav.daynav button .d{font-weight:700;color:var(--green-dark);font-size:14px;}
+  nav.daynav button .t{color:var(--muted);font-size:12.5px;}
+  nav.daynav button:hover{background:#F0EADB;}
+  nav.daynav button.active{background:var(--green);border-right-color:var(--orange);}
+  nav.daynav button.active .d,nav.daynav button.active .t{color:#fff;}
+
+  main.content{flex:1;min-width:0;}
+
+  .mapCard{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:14px 16px 10px;
+    margin-bottom:20px;
+  }
+  .mapCard .mapTitle{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    margin-bottom:6px;
+  }
+  .mapCard .mapTitle h2{font-size:17px;color:var(--green-dark);}
+  .mapCard .mapTitle span{font-size:12.5px;color:var(--muted);}
+  #mapSvg{width:100%;height:auto;display:block;}
+  .legend{display:flex;gap:18px;justify-content:center;margin-top:4px;font-size:12px;color:var(--muted);}
+  .legend .sw{display:inline-flex;align-items:center;gap:6px;}
+  .legend .dot{width:10px;height:10px;border-radius:50%;display:inline-block;}
+
+  .panel{background:#fff;border:1px solid var(--line);border-radius:14px;padding:24px 26px 26px;}
+  .panel .tag{color:var(--orange);font-weight:700;font-size:14.5px;margin-bottom:4px;}
+  .panel h2.title{font-size:26px;color:var(--green-dark);margin-bottom:6px;}
+  .panel .meta{color:var(--muted);font-size:13.5px;margin-bottom:16px;}
+
+  table.sched{width:100%;border-collapse:collapse;margin-bottom:18px;font-size:14.5px;}
+  table.sched td{padding:9px 12px;border-bottom:1px solid #EFE8DA;}
+  table.sched td:last-child{width:120px;font-weight:700;background:var(--cream-2);text-align:center;border-radius:6px;}
+  table.sched tr:last-child td{border-bottom:none;}
+
+  .sectionLabel{font-family:'Frank Ruhl Libre',serif;font-weight:700;color:var(--green-dark);font-size:16.5px;margin:18px 0 8px;}
+
+  .places{display:flex;flex-direction:column;gap:8px;margin-bottom:8px;}
+  .places .p{font-size:14px;line-height:1.6;}
+  .places .p b{color:var(--orange);}
+
+  .boxes{display:flex;gap:14px;margin:16px 0;flex-wrap:wrap;}
+  .box{flex:1 1 220px;border-radius:10px;padding:14px 16px;font-size:14px;}
+  .box b{display:block;margin-bottom:4px;font-size:14px;}
+  .box.green{background:var(--green-bg);}
+  .box.red{background:var(--red-bg);}
+  .box.yellow{background:var(--yellow-bg);}
+  .box.tan{background:var(--cream-2);}
+
+  table.kids{width:100%;border-collapse:collapse;font-size:13.8px;margin-bottom:6px;}
+  table.kids td{padding:8px 10px;border-bottom:1px solid #EFE8DA;vertical-align:top;}
+  table.kids td:last-child{width:150px;background:var(--cream-2);border-radius:6px;font-size:12.8px;color:var(--muted);}
+
+  .footerbar{background:var(--green-dark);color:#fff;padding:12px 16px;border-radius:10px;font-size:14px;font-weight:500;margin-top:16px;}
+
+  ul.altlist{padding-inline-start:20px;margin:0 0 16px;font-size:14.3px;line-height:1.7;}
+  ol.checklist{padding-inline-start:20px;margin:0 0 16px;font-size:14.3px;line-height:1.75;}
+
+  @media (max-width: 860px){
+    .layout{flex-direction:column;}
+    nav.daynav{
+      position:static;
+      flex-direction:row;
+      overflow-x:auto;
+      width:100%;
+      flex:none;
+      gap:6px;
+      padding-bottom:6px;
+    }
+    nav.daynav button{flex:0 0 auto;white-space:nowrap;border-right:none;border-bottom:3px solid transparent;}
+    nav.daynav button.active{border-bottom-color:var(--orange);}
+    .boxes{flex-direction:column;}
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="eyebrow">החופשה המשפחתית שלנו • ספטמבר–אוקטובר 2026</div>
+  <h1>אוסטריה למשפחה</h1>
+  <div class="sub">וינה, Wagrain והאלפים • מסלול נוח עם רכב • מותאם לילדים בני 10, 7 ו-2.5, למשפחות נוספות ולסבא וסבתא</div>
+</header>
+
+<div class="layout">
+  <nav class="daynav" id="daynav"></nav>
+  <main class="content">
+    <div class="mapCard">
+      <div class="mapTitle">
+        <h2 id="mapTitle">מפת המסלול</h2>
+        <span>המקטע המודגש = היום שנבחר</span>
+      </div>
+      <svg id="mapSvg" viewBox="0 0 800 480"></svg>
+      <div class="legend">
+        <span class="sw"><span class="dot" style="background:#1F5C4E"></span> Wagrain (בסיס הלינה)</span>
+        <span class="sw"><span class="dot" style="background:#B5651D"></span> יעד של היום שנבחר</span>
+        <span class="sw"><span class="dot" style="background:#cabfa8"></span> שאר המסלול</span>
+      </div>
+    </div>
+    <div class="panel" id="panel"></div>
+  </main>
+</div>
+
+<script>
+/* ---------- Coordinates ---------- */
+const LOC = {
+  airport:   {lat:48.1103, lon:16.5697, label:"שדה התעופה / MOXY"},
+  vienna:    {lat:48.2082, lon:16.3738, label:"וינה (מרכז העיר)"},
+  wagrain:   {lat:47.3400, lon:13.3000, label:"Wagrain (בסיס)"},
+  hallstatt: {lat:47.5622, lon:13.6493, label:"Hallstatt"},
+  gosausee:  {lat:47.5386, lon:13.5461, label:"Gosausee"},
+  alpendorf: {lat:47.3500, lon:13.2000, label:"Alpendorf / St. Johann"},
+  werfen:    {lat:47.4772, lon:13.1889, label:"Hohenwerfen"},
+  werfenweng:{lat:47.4333, lon:13.2167, label:"Werfenweng"},
+  glockner:  {lat:47.0725, lon:12.8319, label:"Kaiser-Franz-Josefs-Höhe"},
+  salzburg:  {lat:47.8095, lon:13.0550, label:"Salzburg"},
+  zell:      {lat:47.3239, lon:12.7958, label:"Zell am See"},
+  kaprun:    {lat:47.2711, lon:12.7561, label:"Kaprun"},
+  melk:      {lat:48.2333, lon:15.3333, label:"Melk"},
+  durnstein: {lat:48.3958, lon:15.5183, label:"Dürnstein"},
+};
+const FULL_ROUTE = ["airport","vienna","wagrain","hallstatt","gosausee","wagrain","alpendorf","wagrain",
+  "werfen","werfenweng","wagrain","glockner","wagrain","salzburg","wagrain",
+  "zell","kaprun","zell","wagrain","melk","durnstein","airport"];
+
+/* ---------- Day content ---------- */
+const DAYS = [
+{
+  id:"overview", nav:"מבט על", navSub:"כל הטיול",
+  segment: FULL_ROUTE,
+  render: () => `
+    <div class="tag">מבט על</div>
+    <h2 class="title">כל הטיול בעמוד אחד</h2>
+    <table class="sched">
+      ${[
+        ["24.9 — טיסה לוינה","קל"],
+        ["25.9 — וינה ל-Wagrain","בינוני"],
+        ["26.9 — Hallstatt + Gosausee","בינוני"],
+        ["27.9 (הורחב) — Geisterberg + St. Johann","בינוני"],
+        ["28.9 (הורחב) — Hohenwerfen + Werfenweng","בינוני"],
+        ["29.9 — Grossglockner","ארוך"],
+        ["30.9 — Salzburg","בינוני"],
+        ["1.10 — Zell am See + Schmittenhöhe (+ תוספת Kaprun)","בינוני"],
+        ["2.10 (הורחב) — Melk + Dürnstein → Airport","בינוני"],
+        ["3.10 — טיסה הביתה","קל"],
+      ].map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`).join("")}
+    </table>
+    <div class="box tan">גמישות לפי מזג האוויר: Grossglockner, Hallstatt ו-Zell am See לימים עם הראות הטובה ביותר. Salzburg מתאים גם ליום מעונן או גשום.</div>
+    <div class="boxes">
+      <div class="box red"><b>חשוב</b>הרכבל ל-Geisterberg (Alpendorf) פועל בין 12.9–18.10.2026 רק בימי שישי–שלישי (לא כל יום). ה-27.9.2026 הוא יום שני ולכן תקין כפי שמתוכנן — אם מזיזים ימים בגלל מזג אוויר, אפשר להעביר את היום הזה רק לשבת/ראשון/שני/שלישי.</div>
+    </div>
+  `
+},
+{
+  id:"d1", nav:"24.9", navSub:"טיסה לוינה",
+  segment: ["airport"],
+  render: () => `
+    <div class="tag">24.9 · יום הגעה • לא מעמיסים</div>
+    <h2 class="title">טיסה לוינה</h2>
+    <div class="meta">נסיעה: שדה התעופה → MOXY - דקות בודדות</div>
+    <table class="sched">
+      <tr><td>הגעה לנתב״ג</td><td>15:30-16:00</td></tr>
+      <tr><td>טיסת OS82 לוינה</td><td>18:40</td></tr>
+      <tr><td>נחיתה ואיסוף מזוודות</td><td>21:25</td></tr>
+      <tr><td>לילה: MOXY Vienna Airport</td><td>לילה</td></tr>
+    </table>
+    <div class="boxes">
+      <div class="box tan"><b>המטרה</b>להגיע בנחת, לאסוף ציוד ולישון. לא מתכננים אטרקציות בערב.</div>
+      <div class="box yellow"><b>להכין מראש</b>בגדים וציוד ליום וינה שלמחרת, כדי שהבוקר יהיה מהיר.</div>
+    </div>
+    <div class="footerbar">כרטיס האורח: עדיין אין - מקבלים לאחר הצ׳ק-אין ב-Schattauer.</div>
+  `
+},
+{
+  id:"d2", nav:"25.9", navSub:"וינה ל-Wagrain",
+  segment: ["airport","vienna","wagrain"],
+  render: () => `
+    <div class="tag">25.9 · טעימה עירונית + מעבר להרים</div>
+    <h2 class="title">וינה ל-Wagrain</h2>
+    <div class="meta">נסיעות: MOXY → מרכז וינה כ-25-35 דק׳; וינה → Wagrain כ-3:30-4 שעות</div>
+    <table class="sched">
+      <tr><td>ארוחת בוקר</td><td>08:30</td></tr>
+      <tr><td>יציאה למרכז וינה</td><td>09:30</td></tr>
+      <tr><td>Graben, הקתדרלה, Stephansplatz, Heldenplatz ו-Hofburg</td><td>10:00-13:30</td></tr>
+      <tr><td>צהריים</td><td>13:30-14:30</td></tr>
+      <tr><td>יציאה ל-Wagrain</td><td>~15:00</td></tr>
+      <tr><td>צ׳ק-אין, סופר והתארגנות</td><td>18:30-19:00</td></tr>
+    </table>
+    <div class="sectionLabel">מה יש שם</div>
+    <div class="places">
+      <div class="p"><b>Graben — </b>רחוב הולכי רגל אלגנטי בלב העיר העתיקה, עם עמוד המגפה (Pestsäule) הבארוקי המפורסם ובתי קפה וחנויות משני צדדיו.</div>
+      <div class="p"><b>Stephansdom (הקתדרלה) — </b>קתדרלת סטפן הגותית, סמל וינה, עם גג הרעפים הצבעוני המפורסם והמגדל הגבוה שמשקיף על העיר.</div>
+      <div class="p"><b>Hofburg — </b>ארמון הקיסרים לשעבר של בית הבסבורג, כיום מקום מושבו של נשיא אוסטריה ובית לכמה מוזיאונים (כולל מוזיאון סיסי ובית הספר הספרדי לרכיבה).</div>
+      <div class="p"><b>Heldenplatz — </b>"כיכר הגיבורים" מול ה-Hofburg, עם פסלי פרשים גדולים - מקום פתוח ונעים להליכה עם ילדים.</div>
+    </div>
+    <div class="boxes">
+      <div class="box green"><b>למה זה עובד</b>טעימה מהעיר הקלאסית בלי לקחת יום מלא מהאלפים.</div>
+      <div class="box red"><b>חשוב</b>להחנות בחניון מרכזי. זה יום מעבר - לא מוסיפים אטרקציה.</div>
+    </div>
+    <div class="sectionLabel">אופציות לילדים נוספות בסביבה</div>
+    <table class="kids">
+      <tr><td><b>Prater (Wurstelprater)</b> — פארק שעשועים ותיק עם גלגל ענק, רכבת ליליפוט, קרוסלות ומתקנים לפעוטות. דורש נסיעה (כ-15-20 דק׳) מהמרכז, ולכן מתאים רק אם נשאר זמן מעבר ללו״ז המתוכנן.</td><td>שטח פתוח כל היום; רוב המתקנים מ-11:00; עונה עד 31.10.2026.</td></tr>
+    </table>
+    <div class="footerbar">מהיום: מקבלים ב-Schattauer את Salzburger Sportwelt Card.</div>
+  `
+},
+{
+  id:"d3", nav:"26.9", navSub:"Hallstatt + Gosausee",
+  segment: ["wagrain","hallstatt","gosausee","wagrain"],
+  render: () => `
+    <div class="tag">26.9 · כפר אייקוני + אגם אלפיני</div>
+    <h2 class="title">Hallstatt + Gosausee</h2>
+    <div class="meta">נסיעות: Wagrain → Hallstatt כ-1:10; ל-Gosausee כ-25 דק׳; חזרה כ-1:05</div>
+    <table class="sched">
+      <tr><td>יציאה מוקדמת</td><td>07:45</td></tr>
+      <tr><td>Hallstatt: כפר, אגם, כיכר ונקודות צילום</td><td>~09:00</td></tr>
+      <tr><td>Skywalk או מכרה המלח - רק אם אופציונלי מתאים</td><td>אופציונלי</td></tr>
+      <tr><td>צהריים</td><td>12:30-13:30</td></tr>
+      <tr><td>Gosausee והליכה קלה</td><td>14:00-16:30</td></tr>
+      <tr><td>חזרה ל-Wagrain</td><td>17:30-18:00</td></tr>
+    </table>
+    <div class="sectionLabel">מה יש שם</div>
+    <div class="places">
+      <div class="p"><b>Hallstatt — </b>כפר אלפיני עתיק על שפת אגם Hallstättersee, אתר מורשת עולמית של אונסק״ו; ידוע בזכות מכרות המלח (מהעתיקים בעולם) ובזכות התמונה האייקונית מול ההר.</div>
+      <div class="p"><b>Skywalk / מכרה המלח — </b>רכבל, נקודת תצפית מרחפת מעל הכפר, וסיור במכרה מלח היסטורי הכולל מגלשות עץ לילדים.</div>
+      <div class="p"><b>Gosausee — </b>אגם אלפיני שקט ובהיר עם שביל הליכה מישורי ונוף ישיר לקרחון Dachstein.</div>
+    </div>
+    <div class="boxes">
+      <div class="box green"><b>מה מיוחד</b>כפר אייקוני ואגם רגוע מול רכס Dachstein.</div>
+      <div class="box red"><b>חשוב</b>להגיע מוקדם בגלל החניה. המכרה אופציונלי. לבחור יום עם ראות טובה. לוודא שעות עלייה אחרונות ל-Skywalk/מכרה המלח (בד״כ ~16:00-16:30).</div>
+    </div>
+    <div class="footerbar">סוף יום: Wagrain Wasserwelt חינם דרך כרטיס האורח, אם נשאר כוח.</div>
+  `
+},
+{
+  id:"d4", nav:"27.9", navSub:"Geisterberg + St. Johann",
+  segment: ["wagrain","alpendorf","wagrain"],
+  render: () => `
+    <div class="tag">27.9 (הורחב) · יום ילדים מלא • הר ועיירה</div>
+    <h2 class="title">Geisterberg + St. Johann</h2>
+    <div class="meta">נסיעות: Wagrain → Alpendorf כ-15-20 דק׳; Alpendorf → מרכז St. Johann כ-10 דק׳; חזרה כ-20 דק׳</div>
+    <table class="sched">
+      <tr><td>יציאה מ-Wagrain</td><td>08:30</td></tr>
+      <tr><td>הגעה ל-Alpendorf</td><td>~08:50</td></tr>
+      <tr><td>רכבל לפסגה</td><td>09:00</td></tr>
+      <tr><td>מתקנים, מגלשות, משחקי מים, מסלול קל וצהריים בהר</td><td>09:30-15:30</td></tr>
+      <tr><td>ירידה ברכבל</td><td>15:30-16:00</td></tr>
+      <tr><td>St. Johann: מרכז עתיק, קתדרלת Pongau, גלידה וארוחת ערב מוקדמת</td><td>16:15-18:00</td></tr>
+      <tr><td>חזרה ל-Wagrain</td><td>~18:20</td></tr>
+    </table>
+    <div class="sectionLabel">מה יש שם</div>
+    <div class="places">
+      <div class="p"><b>Geisterberg — </b>"הר הרוחות" - הר חוויות למשפחות עם למעלה מ-40 תחנות משחק: מגלשות, משחקי מים, מגדלי טיפוס וכפר רוחות ידידותי; מגיעים ברכבל.</div>
+      <div class="p"><b>St. Johann im Pongau — </b>עיירת שוק ותיקה עם קתדרלה ניאו-רומנסקית ורודה בולטת (Pongau Dom) וסמטאות עתיקות.</div>
+    </div>
+    <div class="boxes">
+      <div class="box green"><b>מתאים למשפחה</b>רוב Geisterberg נוח גם עם הקטנה. רכבת-הטרקטור מקצרת הליכה ומאפשרת להישאר עד אחר הצהריים.</div>
+      <div class="box yellow"><b>בלי זיגזג</b>St. Johann נמצאת בדרך חזרה ובמרחק דקות מ-Alpendorf; התוספת כמעט לא מאריכה את הנהיגה.</div>
+    </div>
+    <div class="box red"><b>חשוב</b>הרכבל Alpendorf/Geisterberg פועל בתקופה 12.9–18.10.2026 רק בימי שישי-שלישי. ה-27.9.2026 הוא יום שני - תקין. אם מזיזים את היום בגלל מזג אוויר, לוודא שהיום החדש נמצא בטווח שישי-שלישי.</div>
+    <div class="footerbar">בלוק גמיש: אם הילדים מותשים, מדלגים על העיירה; אם יורד גשם, מחליפים אותה ב-Wasserwelt.</div>
+  `
+},
+{
+  id:"d5", nav:"28.9", navSub:"Hohenwerfen + Werfenweng",
+  segment: ["wagrain","werfen","werfenweng","wagrain"],
+  render: () => `
+    <div class="tag">28.9 (הורחב) · טירה, מופע נשרים ואגם הררי</div>
+    <h2 class="title">Hohenwerfen + Werfenweng</h2>
+    <div class="meta">נסיעות: Wagrain → Hohenwerfen כ-35-45 דק׳; ל-Werfenweng כ-15-20 דק׳; חזרה כ-25 דק׳</div>
+    <table class="sched">
+      <tr><td>יציאה מ-Wagrain</td><td>08:30</td></tr>
+      <tr><td>חניה ועלייה במעלית לטירה</td><td>~09:15</td></tr>
+      <tr><td>סיור, תערוכות, חידון ילדים ואודיו-גייד</td><td>09:30-11:00</td></tr>
+      <tr><td>מופע עופות דורסים: נשרים, בזים ועיטים במעוף חופשי</td><td>11:15-11:40</td></tr>
+      <tr><td>צהריים בטירה או ב-Werfen</td><td>12:00-13:15</td></tr>
+      <tr><td>השלמת הסיור, תצפית וחנות האבירים</td><td>13:15-14:15</td></tr>
+      <tr><td>Werfenweng: אגם Wengsee, משחקים, הליכה קצרה וקפה</td><td>14:30-17:30</td></tr>
+      <tr><td>חזרה ל-Wagrain</td><td>~18:00</td></tr>
+    </table>
+    <div class="sectionLabel">מה יש שם</div>
+    <div class="places">
+      <div class="p"><b>Burg Hohenwerfen — </b>מצודה מימי הביניים על צוק סלעי מעל עמק ה-Salzach, בת כ-900 שנה; סיור מודרך, תא עינויים, מגדל פעמונים עם נוף פנורמי, ומופעי ציפורי טרף בחצר.</div>
+      <div class="p"><b>Werfenweng — </b>כפר אלפי שקט ידידותי לסביבה, עם אגם קטן ונעים (Wengsee) ומגרש משחקים - עצירה רגועה בסוף היום.</div>
+    </div>
+    <div class="boxes">
+      <div class="box green"><b>המופע</b>ב-11:15 וב-15:15, כ-25 דקות וכלול במחיר הכניסה.</div>
+      <div class="box red"><b>עם הקטנה והסבים</b>יש מעלית לטירה, אך למופע מעל 100 מדרגות וירידה תלולה. לקחת מנשא; אין עגלה.</div>
+    </div>
+    <div class="box tan"><b>שעות פעילות</b>ב-28.9.2026 הטירה פתוחה 09:00–17:00, ומופעי הנשרים מתקיימים ב-11:15 וב-15:15.</div>
+    <div class="footerbar">הנסיעות הגיוניות: Werfenweng היא סטייה קצרה, והחזרה ממנה ל-Wagrain אורכת כ-25 דקות.</div>
+  `
+},
+{
+  id:"d6", nav:"29.9", navSub:"Grossglockner",
+  segment: ["wagrain","glockner","wagrain"],
+  render: () => `
+    <div class="tag">29.9 · יום WOW • כביש אלפיני וקרחון</div>
+    <h2 class="title">Grossglockner</h2>
+    <div class="meta">נהיגה: עד תחילת הכביש כ-1:15-1:30; סה״כ כ-5-6 שעות כולל עצירות</div>
+    <table class="sched">
+      <tr><td>יציאה</td><td>07:30</td></tr>
+      <tr><td>תחילת אזור הכביש האלפיני</td><td>~09:00</td></tr>
+      <tr><td>עצירות ב-Hochtor וב-Fuscher Törl במהלך היום</td><td></td></tr>
+      <tr><td>ארוחה בדרך לפי הקצב</td><td>צהריים</td></tr>
+      <tr><td>תצפית הקרחון ב-Kaiser Franz Josef Höhe</td><td>שיא היום</td></tr>
+      <tr><td>התחלת חזרה</td><td>~16:00</td></tr>
+      <tr><td>Wagrain</td><td>~18:30</td></tr>
+    </table>
+    <div class="sectionLabel">מה יש שם</div>
+    <div class="places">
+      <div class="p"><b>Großglockner Hochalpenstraße — </b>הכביש הפנורמי המפורסם באוסטריה - 48 ק״מ עם 36 עיקולים, חוצה את פארק הלאום Hohe Tauern ומוביל לרגלי ההר הגבוה באוסטריה (3,798 מ׳).</div>
+      <div class="p"><b>Hochtor / Fuscher Törl — </b>נקודות תצפית ומעברי הרים לאורך הדרך, עם נופים פתוחים לפסגות המושלגות.</div>
+      <div class="p"><b>Kaiser Franz Josef Höhe — </b>התצפית המרשימה ביותר בכביש - מבט ישיר על הפסטרצה, הקרחון הגדול באוסטריה, ועל פסגת Großglockner עצמה.</div>
+    </div>
+    <div class="boxes">
+      <div class="box green"><b>למה כן</b>פסגות ותצפיות של האלפים הגבוהים בלי טרק.</div>
+      <div class="box red"><b>כלל ברזל</b>לא נוסעים אם הראות גרועה; מעבירים ליום הבהיר ביותר.</div>
+    </div>
+    <div class="box tan"><b>שעות פעילות</b>הכביש פתוח מאפריל ועד תחילת נובמבר 2026 (תלוי מזג אוויר); בספטמבר 06:00–19:30.</div>
+    <div class="sectionLabel">אופציות לילדים נוספות בסביבה</div>
+    <table class="kids">
+      <tr><td><b>מגרשי משחקים ותערוכות לאורך הכביש</b> — כמה מנקודות העצירה כוללות מגרש משחקים קטן ותערוכות חינמיות (כמו Haus Alpine Naturschau) — נעים להפסקה קצרה.</td><td>תערוכות פתוחות יומי כ-10:00-17:00.</td></tr>
+    </table>
+    <div class="footerbar">נוחות: מתאים יחסית גם לסבים ולילדה קטנה - נסיעה ועצירות קצרות.</div>
+  `
+},
+{
+  id:"d7", nav:"30.9", navSub:"Salzburg",
+  segment: ["wagrain","salzburg","wagrain"],
+  render: () => `
+    <div class="tag">30.9 · עיר עתיקה • גנים ומצודה</div>
+    <h2 class="title">Salzburg</h2>
+    <div class="meta">נסיעה: Wagrain → Salzburg כ-1 שעה לכל כיוון</div>
+    <table class="sched">
+      <tr><td>יציאה</td><td>08:30</td></tr>
+      <tr><td>הגעה וחניה במרכז</td><td>~09:30</td></tr>
+      <tr><td>Mirabell, העיר העתיקה, Getreidegasse והקתדרלה</td><td>בוקר</td></tr>
+      <tr><td>צהריים</td><td>12:30</td></tr>
+      <tr><td>Hohensalzburg Fortress</td><td>14:00</td></tr>
+      <tr><td>Haus der Natur - מצוין לילדים ובגשם</td><td>אופציונלי</td></tr>
+      <tr><td>יציאה; חזרה סביב 18:00</td><td>~17:00</td></tr>
+    </table>
+    <div class="sectionLabel">מה יש שם</div>
+    <div class="places">
+      <div class="p"><b>Mirabell (ארמון וגן מירבל) — </b>ארמון בארוקי וגן נוי מפואר שצולם ב-"Sound of Music"; כולל את גן הגמדים העתיק (Zwerglgarten) ומגרש משחקים.</div>
+      <div class="p"><b>Getreidegasse — </b>רחוב הקניות ההיסטורי המרכזי, מוכר בזכות שלטי הברזל המעוטרים ובית הולדתו של מוצרט.</div>
+      <div class="p"><b>Hohensalzburg Fortress — </b>אחת המצודות הגדולות והמשומרות באירופה, מגיעים ברכבל תלוי עם נוף מרהיב.</div>
+      <div class="p"><b>Haus der Natur — </b>מוזיאון טבע ומדע פופולרי לילדים - אקווריום, טרריום זוחלים ותערוכות אינטראקטיביות; אלטרנטיבה מצוינת ליום גשום.</div>
+    </div>
+    <div class="boxes">
+      <div class="box green"><b>יום מגוון</b>מרכז היסטורי, מצודה ונוף, עם מוזיאון מצוין לילדים.</div>
+      <div class="box red"><b>מזג אוויר</b>בגשם מאריכים את Haus der Natur ומקצרים הליכה בחוץ. זהו היום הכי גמיש במסלול - מועמד טבעי להחלפה עם ימי הרים.</div>
+    </div>
+    <div class="sectionLabel">אופציות לילדים נוספות בסביבה</div>
+    <table class="kids">
+      <tr><td><b>Zwerglgarten + Zauberflötenspielplatz</b> — גן הגמדים הבארוקי (28 פסלים) וממש לידו מגרש משחקים - בתוך גן Mirabell עצמו, בדיוק במסלול הבוקר, לא דורש סטייה.</td><td>גן מירבל פתוח יומי כ-05:00-23:00; כניסה חופשית.</td></tr>
+    </table>
+    <div class="footerbar">סוף יום: Wagrain Wasserwelt חינם דרך כרטיס האורח, אם נשאר כוח.</div>
+  `
+},
+{
+  id:"d8", nav:"1.10", navSub:"Zell am See + Kaprun",
+  segment: ["wagrain","zell","kaprun","zell","wagrain"],
+  render: () => `
+    <div class="tag">1.10 · רכבל + פסגה + אגם ושיט</div>
+    <h2 class="title">Zell am See + Schmittenhöhe</h2>
+    <div class="meta">נסיעה: Wagrain → Zell am See כ-1 שעה לכל כיוון</div>
+    <table class="sched">
+      <tr><td>יציאה</td><td>08:15</td></tr>
+      <tr><td>הגעה ל-Zell am See</td><td>~09:15</td></tr>
+      <tr><td>Schmittenhöhe, פסגה ותצפיות</td><td>09:30-12:30</td></tr>
+      <tr><td>ירידה</td><td>~13:00</td></tr>
+      <tr><td>צהריים</td><td>13:15</td></tr>
+      <tr><td>טיילת האגם</td><td>14:30</td></tr>
+      <tr><td>שיט, אם פועל ומזג האוויר מתאים</td><td>~15:00</td></tr>
+      <tr><td>חזרה ל-Wagrain</td><td>~17:30</td></tr>
+    </table>
+    <div class="sectionLabel">מה יש שם</div>
+    <div class="places">
+      <div class="p"><b>Zell am See — </b>עיירת נופש ציורית על שפת אגם Zeller See, עם טיילת נעימה, חוף רחצה ואפשרויות שיט.</div>
+      <div class="p"><b>Schmittenhöhe — </b>"הר המשפחה" של האזור - רכבל עולה לפסגה עם נוף ל-30 פסגות מעל 3,000 מ׳ (כולל Großglockner) ופינת חוויה לילדים.</div>
+    </div>
+    <div class="boxes">
+      <div class="box green"><b>יום עשיר</b>הרים, רכבל, עיירת אגם ושיט - שילוב שונה מ-Hallstatt.</div>
+      <div class="box red"><b>חשוב</b>הרכבל והשיט בתשלום. אם הפסגה בעננים - מחליפים יום.</div>
+    </div>
+    <div class="box tan"><b>שעות פעילות</b>ב-1.10.2026: רכבל Schmittenhöhe פועל 09:00–17:00, ושיט הפנורמה פועל שעתי 10:00–17:00.</div>
+    <div class="sectionLabel">אופציות לילדים נוספות בסביבה</div>
+    <table class="kids">
+      <tr><td><b>Schmidolins Feuertaufe</b> — שביל חוויה עם 15 תחנות משחק בפסגת Schmittenhöhe עצמה - בדיוק איפה שתהיו, לא דורש נסיעה נוספת.</td><td>פתוח בשעות פעילות הרכבל (09:00-17:00).</td></tr>
+      <tr><td><b>מגרש משחקים Kinderland</b> — מגרש משחקים גדול ומגודר בפארק העירוני, צמוד לאגם וממש ליד הטיילת.</td><td>פתוח חופשי כל היום.</td></tr>
+    </table>
+
+    <div class="sectionLabel">תוספת אפשרית: Kaprun Hochgebirgsstauseen (סכר Mooserboden)</div>
+    <div class="meta">במרחק כ-10-15 דק׳ נסיעה בלבד מ-Zell am See — ניתן להוסיף כתחליף חלקי ליום, או כהרחבה אם יוצאים מוקדם יותר</div>
+    <table class="sched">
+      <tr><td>חניה בחניון החינמי ליד קופת Kesselfall, קפרון</td><td>לפי בחירה</td></tr>
+      <tr><td>הסעה רציפה + מעלית משופעת Lärchwand ל-Mooserboden (2,040 מ׳)</td><td>~45 דק׳ עלייה</td></tr>
+      <tr><td>סיור בסכר, נקודות תצפית, שביל חוויה לילדים "Stromi"</td><td>~1.5-2 שעות</td></tr>
+      <tr><td>ירידה חזרה בהסעה</td><td>~45 דק׳</td></tr>
+    </table>
+    <div class="places">
+      <div class="p"><b>Kaprun Hochgebirgsstauseen — </b>שני סכרים הרריים ענקיים (Mooserboden ו-Wasserfallboden) בגובה 2,040 מ׳, שנבנו לאחר מלחמת העולם השנייה; מגיעים בהסעה ובמעלית משופעת פתוחה - הגדולה מסוגה באירופה.</div>
+    </div>
+    <div class="boxes">
+      <div class="box green"><b>מה זה מוסיף</b>חוויית הנדסה-טבע ייחודית, נוף אלפי בגובה 2,040 מ׳, ושביל חוויה מותאם ילדים.</div>
+      <div class="box yellow"><b>טרייד-אוף</b>זמן ההסעה ארוך יחסית (כ-1.5 שעה הלוך-חזור) — סביר יותר כתחליף לחלק מהיום (לוותר על השיט/הטיילת) ולא כתוספת נטו.</div>
+    </div>
+    <div class="boxes">
+      <div class="box red"><b>עם הקטנה (2.5) והסבים</b>גובה 2,040 מ׳ יכול להיות קריר ורוחי - קחו שכבות חמות וכובע. לברר מראש מדיניות עגלה/מנשא (+43 50 313 23201).</div>
+      <div class="box tan"><b>עונה ולוגיסטיקה</b>פתוח 21.5–11.10.2026, אוטובוסים יומיים 08:10–16:45/17:00. אין גישה ברכב פרטי - חובה לחנות בחניון החינמי. לא ודאי אם נכלל ב-Salzburger Sportwelt Card.</div>
+    </div>
+    <div class="footerbar">סוף יום: Wagrain Wasserwelt חינם דרך כרטיס האורח, אם מתאים.</div>
+  `
+},
+{
+  id:"d9", nav:"2.10", navSub:"Melk + Dürnstein",
+  segment: ["wagrain","melk","durnstein","airport"],
+  render: () => `
+    <div class="tag">2.10 (הורחב) · יום מעבר עשיר דרך עמק Wachau</div>
+    <h2 class="title">Melk + Dürnstein → Airport</h2>
+    <div class="meta">נסיעות: Wagrain → Melk כ-2:30-2:45; ל-Dürnstein כ-30 דק׳; לשדה כ-1:10-1:20</div>
+    <table class="sched">
+      <tr><td>צ׳ק-אאוט ויציאה</td><td>08:00</td></tr>
+      <tr><td>הגעה ל-Melk</td><td>~10:45</td></tr>
+      <tr><td>מנזר Melk, המרפסת והספרייה</td><td>10:45-12:45</td></tr>
+      <tr><td>צהריים</td><td>13:00-14:00</td></tr>
+      <tr><td>נסיעה לאורך Wachau ל-Dürnstein</td><td>14:00-14:30</td></tr>
+      <tr><td>סמטאות העיר העתיקה, הדנובה וגן המשחקים</td><td>14:30-16:15</td></tr>
+      <tr><td>יציאה לשדה התעופה</td><td>16:30</td></tr>
+      <tr><td>MOXY, החזרת רכב ואריזה</td><td>~17:45-18:15</td></tr>
+    </table>
+    <div class="sectionLabel">מה יש שם</div>
+    <div class="places">
+      <div class="p"><b>Melk Abbey — </b>מנזר בנדיקטיני בארוקי מרהיב על צוק מעל הדנובה, עם ספרייה עתיקה מרשימה ומרפסת נוף פתוחה לעמק Wachau.</div>
+      <div class="p"><b>Dürnstein — </b>כפר ציורי בעמק היין Wachau, ידוע בזכות מגדל הכנסייה הכחול-לבן וחורבות המצודה שבה נכלא (לפי האגדה) ריצ׳רד לב הארי.</div>
+    </div>
+    <div class="boxes">
+      <div class="box green"><b>עוד יעד, מעט כביש</b>Dürnstein מוסיפה כ-30 דקות בין Melk לשדה ונותנת עיירה היסטורית ונוף לדנובה.</div>
+      <div class="box red"><b>מתאים להרכב</b>נשארים בעיר העתיקה ובטיילת; לא עולים לחורבות התלולות עם הקטנה והסבים.</div>
+    </div>
+    <div class="footerbar">בלוק גמיש: אם עייפים, מדלגים על Dürnstein ונוסעים ישירות ל-MOXY.</div>
+  `
+},
+{
+  id:"d10", nav:"3.10", navSub:"טיסה הביתה",
+  segment: ["airport"],
+  render: () => `
+    <div class="tag">3.10 · בוקר קל ליד השדה</div>
+    <h2 class="title">טיסה הביתה</h2>
+    <div class="meta">מעבר: MOXY → טרמינל - דקות בודדות</div>
+    <table class="sched">
+      <tr><td>קימה</td><td>~07:00</td></tr>
+      <tr><td>מעבר לטרמינל</td><td>07:15-07:30</td></tr>
+      <tr><td>טיסת OS79 לתל אביב</td><td>10:10</td></tr>
+      <tr><td>נחיתה בתל אביב</td><td>14:35</td></tr>
+    </table>
+    <div class="boxes">
+      <div class="box green"><b>היתרון</b>הלינה ליד השדה חוסכת נסיעה מוקדמת ומורידה לחץ.</div>
+      <div class="box yellow"><b>בלילה שלפני</b>להכין מזוודות, דרכונים, כרטיסי טיסה ובגדי טיסה.</div>
+    </div>
+    <div class="footerbar">סיום נעים ובטוח של הטיול.</div>
+  `
+},
+{
+  id:"alt", nav:"חלופות", navSub:"ובדיקות אחרונות",
+  segment: [],
+  render: () => `
+    <div class="tag">לשמור בטלפון</div>
+    <h2 class="title">חלופות, הטבות ובדיקות אחרונות</h2>
+    <div class="sectionLabel">חלופות</div>
+    <ul class="altlist">
+      <li>Liechtensteinklamm — עובר לבנק החלופות. מתאים רק אם רוצים נקיק ומוכנים ל-440 מדרגות ולמנשא.</li>
+      <li>Wasserwelt Wagrain — בריכות ומגלשות; חינם דרך כרטיס האורח. תוספת אחר הצהריים.</li>
+      <li>Wolfgangsee + St. Wolfgang — אגם, עיירה ושיט - ליום רגוע.</li>
+      <li><b>Kaprun Hochgebirgsstauseen (Mooserboden)</b> — סכר הררי מרשים בגובה 2,040 מ׳. פירוט מלא ולוז מוצע בעמוד 1.10.</li>
+      <li>Krimml Waterfalls — מפלים גדולים, רק אם מוכנים לנסיעה ארוכה.</li>
+      <li>Shuttleberg Kleinarl — רכבל והר למשפחות - רק לאחר אישור ההטבה מהמלון.</li>
+    </ul>
+    <div class="sectionLabel">בדיקות אחרונות</div>
+    <ol class="checklist">
+      <li>לבדוק תחזית 5-7 ימים לפני ולקבע את Grossglockner ליום הבהיר ביותר.</li>
+      <li>לאשר מול Schattauer את תנאי Wasserwelt, את Shuttleberg ל-2026, ואת הכללת/עלות Kaprun במסגרת Salzburger Sportwelt Card.</li>
+      <li>לבדוק סמוך לנסיעה את פעילות הרכבלים והשיט ב-Zell am See.</li>
+      <li>ל-Hohenwerfen לקחת מנשא ולהגיע בזמן למופע 11:15.</li>
+      <li>הרכבל ל-Geisterberg פועל רק בימי שישי-שלישי — אם מזיזים ימים, לוודא שה-27.9 נופל באחד מהם.</li>
+      <li>לוודא מדיניות עגלה/מנשא באוטובוסי Kaprun ובמעלית Lärchwand מראש טלפונית (+43 50 313 23201).</li>
+    </ol>
+    <div class="box tan"><b>בדיקת שעות ומסלול • מקורות רשמיים</b>Geisterberg פועל ב-27.9.2026 09:00-17:00 (בטווח שישי-שלישי). Hohenwerfen פתוח בספטמבר 09:00-17:00, מופעים 11:15/15:15. Grossglockner פתוח עד תחילת נובמבר 2026, שעות ספטמבר 06:00-19:30. Schmittenhöhe ושיט פועלים ב-1.10.2026 09:00-17:00/10:00-17:00. Kaprun פתוח 21.5-11.10.2026, אוטובוסים 08:10-16:45/17:00. מקורות: grossglockner.at • burg-hohenwerfen.at • schmitten.at • skiamade.com • kaprun-stauseen.com</div>
+  `
+},
+];
+
+/* ---------- Map rendering ---------- */
+const svgNS = "http://www.w3.org/2000/svg";
+const mapSvg = document.getElementById("mapSvg");
+const VBW = 860, VBH = 520, PAD = 78;
+const LAT0 = 47.7;
+const cosLat0 = Math.cos(LAT0 * Math.PI / 180);
+
+function project(lat, lon){ return { x: lon * cosLat0, y: -lat }; }
+
+const projected = {};
+let minX=Infinity,maxX=-Infinity,minY=Infinity,maxY=-Infinity;
+for (const k in LOC){
+  const p = project(LOC[k].lat, LOC[k].lon);
+  projected[k] = p;
+  minX=Math.min(minX,p.x); maxX=Math.max(maxX,p.x);
+  minY=Math.min(minY,p.y); maxY=Math.max(maxY,p.y);
+}
+const scale = Math.min((VBW-2*PAD)/(maxX-minX), (VBH-2*PAD)/(maxY-minY));
+function toPx(k){
+  const p = projected[k];
+  return {
+    x: PAD + (p.x - minX) * scale,
+    y: PAD + (p.y - minY) * scale,
+  };
+}
+const px = {}; for (const k in LOC) px[k] = toPx(k);
+
+function pathD(keys){
+  return keys.map((k,i)=> (i===0?"M":"L") + px[k].x.toFixed(1) + "," + px[k].y.toFixed(1)).join(" ");
+}
+
+function buildMap(){
+  mapSvg.setAttribute("viewBox", `0 0 ${VBW} ${VBH}`);
+  mapSvg.setAttribute("direction","ltr");
+  mapSvg.innerHTML = "";
+
+  // full route (background, muted)
+  const bg = document.createElementNS(svgNS,"path");
+  bg.setAttribute("d", pathD(FULL_ROUTE));
+  bg.setAttribute("fill","none");
+  bg.setAttribute("stroke","#cabfa8");
+  bg.setAttribute("stroke-width","2");
+  bg.setAttribute("stroke-dasharray","5,5");
+  mapSvg.appendChild(bg);
+
+  // highlighted segment (drawn later, on top, id="hl-path")
+  const hl = document.createElementNS(svgNS,"path");
+  hl.setAttribute("id","hl-path");
+  hl.setAttribute("fill","none");
+  hl.setAttribute("stroke","#B5651D");
+  hl.setAttribute("stroke-width","3.4");
+  mapSvg.appendChild(hl);
+
+// base markers (all locations, muted dots + small label)
+const LABEL_OFFSET = {
+  airport:    [-14, -16],
+  vienna:     [14, 22],
+  wagrain:    [-18, -14],
+  hallstatt:  [14, -6],
+  gosausee:   [-12, -18],
+  alpendorf:  [12, 26],
+  werfen:     [-50, -10],
+  werfenweng: [14, -16],
+  glockner:   [12, 24],
+  salzburg:   [-16, -12],
+  zell:       [-16, -16],
+  kaprun:     [14, 22],
+  melk:       [12, -8],
+  durnstein:  [12, 8],
+};
+for (const k in LOC){
+    const g = document.createElementNS(svgNS,"g");
+    g.setAttribute("data-key",k);
+    g.setAttribute("direction","ltr");
+    const isBase = k === "wagrain";
+    const c = document.createElementNS(svgNS, isBase ? "path" : "circle");
+    if (isBase){
+      c.setAttribute("d", starPath(px[k].x, px[k].y, 9, 4));
+      c.setAttribute("fill", "#1F5C4E");
+    } else {
+      c.setAttribute("cx", px[k].x); c.setAttribute("cy", px[k].y);
+      c.setAttribute("r", 5);
+      c.setAttribute("fill", "#cabfa8");
+    }
+    c.setAttribute("stroke","#fff");
+    c.setAttribute("stroke-width","1.2");
+    c.setAttribute("class","marker-dot");
+    const titleEl = document.createElementNS(svgNS,"title");
+    titleEl.textContent = LOC[k].label;
+    c.appendChild(titleEl);
+    g.appendChild(c);
+
+    const [dx, dy] = LABEL_OFFSET[k] || [8,4];
+    const t = document.createElementNS(svgNS,"text");
+    t.setAttribute("x", px[k].x + dx);
+    t.setAttribute("y", px[k].y + dy);
+    t.setAttribute("direction","ltr");
+    t.setAttribute("font-size", isBase ? "12.5" : "11");
+    t.setAttribute("font-weight", isBase ? "700" : "500");
+    t.setAttribute("fill", isBase ? "#1F5C4E" : "#9a9184");
+    t.setAttribute("text-anchor", dx < 0 ? "end" : "start");
+    t.setAttribute("class","marker-label");
+    t.textContent = LOC[k].label;
+    g.appendChild(t);
+
+    mapSvg.appendChild(g);
+}
+}
+
+function starPath(cx, cy, rOuter, rInner){
+  let d = "";
+  for (let i=0;i<10;i++){
+    const r = i%2===0 ? rOuter : rInner;
+    const ang = -Math.PI/2 + i * Math.PI/5;
+    const x = cx + r*Math.cos(ang);
+    const y = cy + r*Math.sin(ang);
+    d += (i===0?"M":"L") + x.toFixed(1) + "," + y.toFixed(1) + " ";
+  }
+  return d + "Z";
+}
+
+function updateMap(segment, showAllLabels){
+  const hl = document.getElementById("hl-path");
+  hl.setAttribute("d", segment.length>1 ? pathD(segment) : "");
+
+  const activeSet = new Set(segment);
+  mapSvg.querySelectorAll("g[data-key]").forEach(g=>{
+    const key = g.getAttribute("data-key");
+    const dot = g.querySelector(".marker-dot");
+    const label = g.querySelector(".marker-label");
+    const isBase = key === "wagrain";
+    const active = activeSet.has(key);
+    if (isBase){
+      dot.setAttribute("fill","#1F5C4E");
+      label.setAttribute("fill","#1F5C4E");
+      label.setAttribute("font-size", active ? "13.5" : "12.5");
+      label.style.display = "";
+    } else if (active){
+      dot.setAttribute("r", 7);
+      dot.setAttribute("fill","#B5651D");
+      label.setAttribute("fill","#8a4415");
+      label.setAttribute("font-size","12.5");
+      label.setAttribute("font-weight","700");
+      label.style.display = "";
+    } else {
+      dot.setAttribute("r", 5);
+      dot.setAttribute("fill","#cabfa8");
+      label.setAttribute("fill","#b7ad9c");
+      label.setAttribute("font-size","11");
+      label.setAttribute("font-weight","500");
+      label.style.display = showAllLabels ? "" : "none";
+    }
+  });
+}
+
+/* ---------- Nav + panel rendering ---------- */
+const navEl = document.getElementById("daynav");
+const panelEl = document.getElementById("panel");
+const mapTitleEl = document.getElementById("mapTitle");
+
+DAYS.forEach((d,i)=>{
+  const btn = document.createElement("button");
+  btn.id = "nav-"+d.id;
+  btn.innerHTML = `<span class="d">${d.nav}</span><span class="t">${d.navSub}</span>`;
+  btn.addEventListener("click", ()=> selectDay(d.id));
+  navEl.appendChild(btn);
+});
+
+function selectDay(id){
+  const day = DAYS.find(d=>d.id===id);
+  if(!day) return;
+  panelEl.innerHTML = day.render();
+  document.querySelectorAll("nav.daynav button").forEach(b=>b.classList.remove("active"));
+  document.getElementById("nav-"+id).classList.add("active");
+  const showAll = (id === "overview" || id === "alt");
+  updateMap(day.segment.length ? day.segment : FULL_ROUTE, showAll);
+  mapTitleEl.textContent = showAll ? "מפת המסלול המלא" : "מפת המסלול — " + day.nav;
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+buildMap();
+selectDay("overview");
+</script>
+
+</body>
+</html>
