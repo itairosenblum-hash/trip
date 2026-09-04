@@ -6,6 +6,8 @@
 <title>אוסטריה למשפחה 2026 — המסלול שלנו</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700;900&family=Heebo:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <style>
   :root{
     --green:#1F5C4E;
@@ -91,10 +93,68 @@
   }
   .mapCard .mapTitle h2{font-size:17px;color:var(--green-dark);}
   .mapCard .mapTitle span{font-size:12.5px;color:var(--muted);}
-  #mapSvg{width:100%;height:auto;display:block;}
-  .legend{display:flex;gap:18px;justify-content:center;margin-top:4px;font-size:12px;color:var(--muted);}
+  #mapDiv{
+    width:100%;
+    height:360px;
+    border-radius:10px;
+    overflow:hidden;
+    direction:ltr;
+    background:var(--cream-2);
+  }
+  .map-marker{
+    width:11px;height:11px;border-radius:50%;
+    background:#cabfa8;border:2px solid #fff;
+    box-shadow:0 1px 3px rgba(0,0,0,.35);
+    transition:all .15s ease;
+  }
+  .map-marker.active{
+    width:16px;height:16px;
+    background:var(--orange);
+    margin:-2.5px 0 0 -2.5px;
+  }
+  .map-marker.base{
+    width:0;height:0;
+    border-left:9px solid transparent;
+    border-right:9px solid transparent;
+    border-bottom:13px solid var(--green);
+    background:none;border-width:0;box-shadow:none;
+    filter:drop-shadow(0 1px 2px rgba(0,0,0,.4));
+  }
+  .leaflet-tooltip.map-tooltip{
+    direction:ltr;text-align:left;
+    font-family:'Heebo',sans-serif;
+    font-size:12px;
+    color:var(--ink);
+    background:#fff;
+    border:1px solid var(--line);
+    box-shadow:0 2px 6px rgba(0,0,0,.12);
+  }
+  .leaflet-tooltip.map-tooltip.base-tooltip{font-weight:700;color:var(--green-dark);}
+  .leaflet-tooltip.map-tooltip.active-tooltip{font-weight:700;color:#8a4415;}
+  .legend{display:flex;gap:18px;justify-content:center;margin-top:8px;font-size:12px;color:var(--muted);flex-wrap:wrap;}
   .legend .sw{display:inline-flex;align-items:center;gap:6px;}
   .legend .dot{width:10px;height:10px;border-radius:50%;display:inline-block;}
+
+  .photoGallery{display:flex;gap:12px;margin-bottom:18px;flex-wrap:wrap;}
+  .photoGallery figure{
+    margin:0;flex:1 1 260px;position:relative;
+    border-radius:12px;overflow:hidden;
+    height:190px;
+    background:var(--cream-2);
+    box-shadow:0 2px 8px rgba(38,48,44,.12);
+  }
+  .photoGallery figure a{display:block;width:100%;height:100%;}
+  .photoGallery img{
+    width:100%;height:100%;object-fit:cover;display:block;
+    transition:transform .3s ease;
+  }
+  .photoGallery figure:hover img{transform:scale(1.06);}
+  .photoGallery figcaption{
+    position:absolute;inset-inline-start:0;bottom:0;width:100%;
+    background:linear-gradient(0deg, rgba(22,63,53,.78), rgba(22,63,53,0));
+    color:#fff;font-size:12.5px;padding:22px 12px 8px;
+    text-align:start;
+  }
 
   .panel{background:#fff;border:1px solid var(--line);border-radius:14px;padding:24px 26px 26px;}
   .panel .tag{color:var(--orange);font-weight:700;font-size:14.5px;margin-bottom:4px;}
@@ -162,7 +222,7 @@
         <h2 id="mapTitle">מפת המסלול</h2>
         <span>המקטע המודגש = היום שנבחר</span>
       </div>
-      <svg id="mapSvg" viewBox="0 0 800 480"></svg>
+      <div id="mapDiv"></div>
       <div class="legend">
         <span class="sw"><span class="dot" style="background:#1F5C4E"></span> Wagrain (בסיס הלינה)</span>
         <span class="sw"><span class="dot" style="background:#B5651D"></span> יעד של היום שנבחר</span>
@@ -564,159 +624,119 @@ const DAYS = [
 },
 ];
 
-/* ---------- Map rendering ---------- */
-const svgNS = "http://www.w3.org/2000/svg";
-const mapSvg = document.getElementById("mapSvg");
-const VBW = 860, VBH = 520, PAD = 78;
-const LAT0 = 47.7;
-const cosLat0 = Math.cos(LAT0 * Math.PI / 180);
-
-function project(lat, lon){ return { x: lon * cosLat0, y: -lat }; }
-
-const projected = {};
-let minX=Infinity,maxX=-Infinity,minY=Infinity,maxY=-Infinity;
-for (const k in LOC){
-  const p = project(LOC[k].lat, LOC[k].lon);
-  projected[k] = p;
-  minX=Math.min(minX,p.x); maxX=Math.max(maxX,p.x);
-  minY=Math.min(minY,p.y); maxY=Math.max(maxY,p.y);
+/* ---------- Destination photos (Wikimedia Commons) ---------- */
+function wmFile(name, width){
+  return "https://commons.wikimedia.org/wiki/Special:FilePath/" + encodeURIComponent(name.replace(/ /g,"_")) + "?width=" + (width||1400);
 }
-const scale = Math.min((VBW-2*PAD)/(maxX-minX), (VBH-2*PAD)/(maxY-minY));
-function toPx(k){
-  const p = projected[k];
-  return {
-    x: PAD + (p.x - minX) * scale,
-    y: PAD + (p.y - minY) * scale,
-  };
+function wmPage(name){
+  return "https://commons.wikimedia.org/wiki/File:" + encodeURIComponent(name.replace(/ /g,"_"));
 }
-const px = {}; for (const k in LOC) px[k] = toPx(k);
-
-function pathD(keys){
-  return keys.map((k,i)=> (i===0?"M":"L") + px[k].x.toFixed(1) + "," + px[k].y.toFixed(1)).join(" ");
-}
-
-function buildMap(){
-  mapSvg.setAttribute("viewBox", `0 0 ${VBW} ${VBH}`);
-  mapSvg.setAttribute("direction","ltr");
-  mapSvg.innerHTML = "";
-
-  // full route (background, muted)
-  const bg = document.createElementNS(svgNS,"path");
-  bg.setAttribute("d", pathD(FULL_ROUTE));
-  bg.setAttribute("fill","none");
-  bg.setAttribute("stroke","#cabfa8");
-  bg.setAttribute("stroke-width","2");
-  bg.setAttribute("stroke-dasharray","5,5");
-  mapSvg.appendChild(bg);
-
-  // highlighted segment (drawn later, on top, id="hl-path")
-  const hl = document.createElementNS(svgNS,"path");
-  hl.setAttribute("id","hl-path");
-  hl.setAttribute("fill","none");
-  hl.setAttribute("stroke","#B5651D");
-  hl.setAttribute("stroke-width","3.4");
-  mapSvg.appendChild(hl);
-
-// base markers (all locations, muted dots + small label)
-const LABEL_OFFSET = {
-  airport:    [-14, -16],
-  vienna:     [14, 22],
-  wagrain:    [-18, -14],
-  hallstatt:  [14, -6],
-  gosausee:   [-12, -18],
-  alpendorf:  [12, 26],
-  werfen:     [-50, -10],
-  werfenweng: [14, -16],
-  glockner:   [12, 24],
-  salzburg:   [-16, -12],
-  zell:       [-16, -16],
-  kaprun:     [14, 22],
-  melk:       [12, -8],
-  durnstein:  [12, 8],
+const IMAGES = {
+  overview: [ {f:"Wagrain.JPG", alt:"Wagrain — בסיס הלינה שלנו"} ],
+  d2:  [ {f:"Wien - Stephansdom (3).JPG", alt:"קתדרלת שטפן, וינה"} ],
+  d3:  [ {f:"Hallstatt, Austria (37260661934).jpg", alt:"Hallstatt"},
+         {f:"Gosaulacke mit Blick zum Dachstein.jpg", alt:"Gosausee מול רכס Dachstein"} ],
+  d4:  [ {f:"St.-Johannes-Kirche in Sankt Johann im Pongau.jpg", alt:"St. Johann im Pongau"} ],
+  d5:  [ {f:"Hohenwerfen castle.jpg", alt:"מצודת Hohenwerfen"} ],
+  d6:  [ {f:"20190624.Kaiser-Franz-Joseph-Höhe, Grossglockner.-047.jpg", alt:"Kaiser-Franz-Josefs-Höhe, Grossglockner"} ],
+  d7:  [ {f:"Salzburg Festung Hohensalzburg Blick über Salzburg.jpg", alt:"מצודת Hohensalzburg, זלצבורג"} ],
+  d8:  [ {f:"Zell am see zeller see.jpg", alt:"Zell am See"},
+         {f:"Stausee Mooserboden Kaprun 01.jpg", alt:"סכר Mooserboden, Kaprun"} ],
+  d9:  [ {f:"Melk Abbey (8).jpg", alt:"מנזר Melk"},
+         {f:"Stiftskirche Dürnstein 01.JPG", alt:"Dürnstein"} ],
 };
-for (const k in LOC){
-    const g = document.createElementNS(svgNS,"g");
-    g.setAttribute("data-key",k);
-    g.setAttribute("direction","ltr");
-    const isBase = k === "wagrain";
-    const c = document.createElementNS(svgNS, isBase ? "path" : "circle");
-    if (isBase){
-      c.setAttribute("d", starPath(px[k].x, px[k].y, 9, 4));
-      c.setAttribute("fill", "#1F5C4E");
-    } else {
-      c.setAttribute("cx", px[k].x); c.setAttribute("cy", px[k].y);
-      c.setAttribute("r", 5);
-      c.setAttribute("fill", "#cabfa8");
-    }
-    c.setAttribute("stroke","#fff");
-    c.setAttribute("stroke-width","1.2");
-    c.setAttribute("class","marker-dot");
-    const titleEl = document.createElementNS(svgNS,"title");
-    titleEl.textContent = LOC[k].label;
-    c.appendChild(titleEl);
-    g.appendChild(c);
-
-    const [dx, dy] = LABEL_OFFSET[k] || [8,4];
-    const t = document.createElementNS(svgNS,"text");
-    t.setAttribute("x", px[k].x + dx);
-    t.setAttribute("y", px[k].y + dy);
-    t.setAttribute("direction","ltr");
-    t.setAttribute("font-size", isBase ? "12.5" : "11");
-    t.setAttribute("font-weight", isBase ? "700" : "500");
-    t.setAttribute("fill", isBase ? "#1F5C4E" : "#9a9184");
-    t.setAttribute("text-anchor", dx < 0 ? "end" : "start");
-    t.setAttribute("class","marker-label");
-    t.textContent = LOC[k].label;
-    g.appendChild(t);
-
-    mapSvg.appendChild(g);
-}
+function renderGallery(id){
+  const imgs = IMAGES[id];
+  if(!imgs || !imgs.length) return "";
+  return `<div class="photoGallery">${imgs.map(im => `
+    <figure>
+      <a href="${wmPage(im.f)}" target="_blank" rel="noopener">
+        <img src="${wmFile(im.f)}" alt="${im.alt}" loading="lazy"
+             onerror="this.closest('figure').style.display='none'">
+      </a>
+      <figcaption>${im.alt}</figcaption>
+    </figure>`).join("")}</div>`;
 }
 
-function starPath(cx, cy, rOuter, rInner){
-  let d = "";
-  for (let i=0;i<10;i++){
-    const r = i%2===0 ? rOuter : rInner;
-    const ang = -Math.PI/2 + i * Math.PI/5;
-    const x = cx + r*Math.cos(ang);
-    const y = cy + r*Math.sin(ang);
-    d += (i===0?"M":"L") + x.toFixed(1) + "," + y.toFixed(1) + " ";
+/* ---------- Map rendering (Leaflet + real tiles) ---------- */
+let map, hlLine, bgLine, mapReady = false;
+const markerRefs = {};
+
+function initMap(){
+  if (typeof L === "undefined"){
+    document.getElementById("mapDiv").innerHTML =
+      '<div style="height:100%;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:13.5px;text-align:center;padding:20px;">לא ניתן לטעון את המפה כרגע (בעיית רשת). שאר העמוד עובד כרגיל — רעננו כדי לנסות שוב.</div>';
+    return;
   }
-  return d + "Z";
+  map = L.map("mapDiv", {
+    zoomControl: true,
+    scrollWheelZoom: false,
+    attributionControl: true,
+  }).setView([47.4, 13.6], 8);
+
+  L.tileLayer("https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png", {
+    maxZoom: 17,
+    subdomains: "abc",
+    attribution: '&copy; <a href="https://opentopomap.org">OpenTopoMap</a> (CC-BY-SA) &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  }).addTo(map);
+
+  bgLine = L.polyline(FULL_ROUTE.map(k=>[LOC[k].lat, LOC[k].lon]), {
+    color:"#b7a988", weight:2.4, opacity:0.85, dashArray:"1,7", lineCap:"round"
+  }).addTo(map);
+
+  hlLine = L.polyline([], {color:"#B5651D", weight:4.2, opacity:0.95, lineCap:"round"}).addTo(map);
+
+  for (const k in LOC){
+    const isBase = k === "wagrain";
+    const icon = L.divIcon({
+      className: "",
+      html: `<div class="map-marker${isBase?" base":""}"></div>`,
+      iconSize: isBase ? [18,13] : [11,11],
+      iconAnchor: isBase ? [9,13] : [5,5],
+    });
+    const m = L.marker([LOC[k].lat, LOC[k].lon], {icon, keyboard:false});
+    m.addTo(map);
+    m.bindTooltip(LOC[k].label, {
+      direction:"top", offset:[0,isBase?-14:-8],
+      className:"map-tooltip" + (isBase ? " base-tooltip" : ""),
+      permanent:false,
+    });
+    markerRefs[k] = m;
+  }
+
+  setTimeout(()=>map.invalidateSize(), 200);
+  window.addEventListener("resize", ()=> map && map.invalidateSize());
+  mapReady = true;
 }
 
 function updateMap(segment, showAllLabels){
-  const hl = document.getElementById("hl-path");
-  hl.setAttribute("d", segment.length>1 ? pathD(segment) : "");
-
+  if (!mapReady) return;
   const activeSet = new Set(segment);
-  mapSvg.querySelectorAll("g[data-key]").forEach(g=>{
-    const key = g.getAttribute("data-key");
-    const dot = g.querySelector(".marker-dot");
-    const label = g.querySelector(".marker-label");
-    const isBase = key === "wagrain";
-    const active = activeSet.has(key);
-    if (isBase){
-      dot.setAttribute("fill","#1F5C4E");
-      label.setAttribute("fill","#1F5C4E");
-      label.setAttribute("font-size", active ? "13.5" : "12.5");
-      label.style.display = "";
-    } else if (active){
-      dot.setAttribute("r", 7);
-      dot.setAttribute("fill","#B5651D");
-      label.setAttribute("fill","#8a4415");
-      label.setAttribute("font-size","12.5");
-      label.setAttribute("font-weight","700");
-      label.style.display = "";
-    } else {
-      dot.setAttribute("r", 5);
-      dot.setAttribute("fill","#cabfa8");
-      label.setAttribute("fill","#b7ad9c");
-      label.setAttribute("font-size","11");
-      label.setAttribute("font-weight","500");
-      label.style.display = showAllLabels ? "" : "none";
+  for (const k in markerRefs){
+    const mk = markerRefs[k];
+    const isBase = k === "wagrain";
+    const active = activeSet.has(k) && !isBase;
+    const el = mk.getElement();
+    if (el){
+      const dot = el.querySelector(".map-marker");
+      if (dot) dot.classList.toggle("active", active);
     }
-  });
+    const tooltip = mk.getTooltip();
+    if (tooltip) tooltip.setLatLng(mk.getLatLng());
+    const shouldShow = isBase || active || showAllLabels;
+    if (shouldShow && !mk.isTooltipOpen()) mk.openTooltip();
+    if (!shouldShow && mk.isTooltipOpen()) mk.closeTooltip();
+    if (mk._icon){
+      mk._icon.classList.toggle("leaflet-tooltip-active-marker", active);
+    }
+  }
+
+  const latlngs = segment.length>1 ? segment.map(k=>[LOC[k].lat, LOC[k].lon]) : [];
+  hlLine.setLatLngs(latlngs);
+
+  const boundsKeys = segment.length ? segment : FULL_ROUTE;
+  const bounds = L.latLngBounds(boundsKeys.map(k=>[LOC[k].lat, LOC[k].lon]));
+  map.fitBounds(bounds, {padding:[38,38], maxZoom: 11});
 }
 
 /* ---------- Nav + panel rendering ---------- */
@@ -735,7 +755,7 @@ DAYS.forEach((d,i)=>{
 function selectDay(id){
   const day = DAYS.find(d=>d.id===id);
   if(!day) return;
-  panelEl.innerHTML = day.render();
+  panelEl.innerHTML = renderGallery(id) + day.render();
   document.querySelectorAll("nav.daynav button").forEach(b=>b.classList.remove("active"));
   document.getElementById("nav-"+id).classList.add("active");
   const showAll = (id === "overview" || id === "alt");
@@ -744,7 +764,7 @@ function selectDay(id){
   window.scrollTo({top:0, behavior:"smooth"});
 }
 
-buildMap();
+initMap();
 selectDay("overview");
 </script>
 
