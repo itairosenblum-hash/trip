@@ -5,14 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>אוסטריה למשפחה 2026 — המסלול שלנו</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700;900&family=Heebo:wght@300;400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700;900&family=Heebo:wght@300;400;500;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
     --green:#1F5C4E;
     --green-dark:#163F35;
+    --green-pop:#2E9370;
     --orange:#B5651D;
+    --orange-pop:#E8862E;
+    --sky:#2C8FBF;
+    --sky-bg:#E7F4FA;
     --cream:#FAF6EE;
     --cream-2:#F2E9DC;
     --ink:#26302C;
@@ -21,6 +23,10 @@
     --red-bg:#FBEBE7;
     --green-bg:#E9F3EE;
     --yellow-bg:#FDF6E3;
+    --radius-lg:20px;
+    --radius-md:14px;
+    --shadow-soft:0 4px 16px rgba(38,48,44,.10);
+    --shadow-pop:0 6px 20px rgba(38,48,44,.16);
   }
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
@@ -29,17 +35,27 @@
     color:var(--ink);
     font-family:'Heebo',sans-serif;
     font-weight:400;
-    line-height:1.55;
+    line-height:1.6;
+    font-size:15.5px;
   }
   h1,h2,h3{font-family:'Frank Ruhl Libre',serif;margin:0;}
   header.top{
-    padding:22px 28px 18px;
-    border-bottom:1px solid var(--line);
-    background:linear-gradient(180deg,#fff, var(--cream));
+    padding:26px 28px 22px;
+    background:
+      radial-gradient(circle at 92% -10%, rgba(232,134,46,.16), transparent 55%),
+      radial-gradient(circle at 6% 120%, rgba(44,143,191,.14), transparent 50%),
+      linear-gradient(180deg,#fff, var(--cream));
+    border-bottom:2px solid var(--cream-2);
   }
-  header.top .eyebrow{color:var(--orange);font-size:14px;font-weight:500;margin-bottom:4px;}
-  header.top h1{font-size:30px;color:var(--green-dark);font-weight:700;}
+  header.top .eyebrow{color:var(--orange);font-size:14px;font-weight:700;margin-bottom:4px;letter-spacing:.2px;}
+  header.top h1{font-size:32px;color:var(--green-dark);font-weight:700;}
   header.top .sub{color:var(--muted);font-size:14.5px;margin-top:6px;}
+  .tripChips{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;}
+  .tripChips span{
+    background:#fff;border:1px solid var(--line);border-radius:999px;
+    padding:6px 13px;font-size:13px;font-weight:600;color:var(--green-dark);
+    box-shadow:var(--shadow-soft);display:inline-flex;align-items:center;gap:6px;
+  }
 
   .layout{
     display:flex;
@@ -60,20 +76,23 @@
   nav.daynav button{
     all:unset;
     cursor:pointer;
-    padding:11px 14px;
-    border-radius:10px;
+    padding:12px 14px;
+    border-radius:14px;
     font-size:14.5px;
     color:var(--ink);
     display:flex;
-    flex-direction:column;
-    gap:2px;
-    border-right:3px solid transparent;
-    transition:background .15s ease, border-color .15s ease;
+    align-items:center;
+    gap:10px;
+    border:2px solid transparent;
+    transition:background .15s ease, border-color .15s ease, transform .1s ease;
   }
+  nav.daynav button .icon{font-size:20px;line-height:1;flex:0 0 auto;}
+  nav.daynav button .label{display:flex;flex-direction:column;gap:2px;min-width:0;}
   nav.daynav button .d{font-weight:700;color:var(--green-dark);font-size:14px;}
-  nav.daynav button .t{color:var(--muted);font-size:12.5px;}
+  nav.daynav button .t{color:var(--muted);font-size:12.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
   nav.daynav button:hover{background:#F0EADB;}
-  nav.daynav button.active{background:var(--green);border-right-color:var(--orange);}
+  nav.daynav button:active{transform:scale(.97);}
+  nav.daynav button.active{background:var(--green);border-color:var(--orange-pop);box-shadow:var(--shadow-pop);}
   nav.daynav button.active .d,nav.daynav button.active .t{color:#fff;}
 
   main.content{flex:1;min-width:0;}
@@ -81,9 +100,10 @@
   .mapCard{
     background:#fff;
     border:1px solid var(--line);
-    border-radius:14px;
-    padding:14px 16px 10px;
+    border-radius:var(--radius-lg);
+    padding:16px 16px 14px;
     margin-bottom:20px;
+    box-shadow:var(--shadow-soft);
   }
   .mapCard .mapTitle{
     display:flex;
@@ -93,55 +113,34 @@
   }
   .mapCard .mapTitle h2{font-size:17px;color:var(--green-dark);}
   .mapCard .mapTitle span{font-size:12.5px;color:var(--muted);}
-  #mapDiv{
+  .mapEmbedWrap{
     width:100%;
-    height:360px;
-    border-radius:10px;
+    height:320px;
+    border-radius:var(--radius-md);
     overflow:hidden;
-    direction:ltr;
     background:var(--cream-2);
-  }
-  .map-marker{
-    width:11px;height:11px;border-radius:50%;
-    background:#cabfa8;border:2px solid #fff;
-    box-shadow:0 1px 3px rgba(0,0,0,.35);
-    transition:all .15s ease;
-  }
-  .map-marker.active{
-    width:16px;height:16px;
-    background:var(--orange);
-    margin:-2.5px 0 0 -2.5px;
-  }
-  .map-marker.base{
-    width:0;height:0;
-    border-left:9px solid transparent;
-    border-right:9px solid transparent;
-    border-bottom:13px solid var(--green);
-    background:none;border-width:0;box-shadow:none;
-    filter:drop-shadow(0 1px 2px rgba(0,0,0,.4));
-  }
-  .leaflet-tooltip.map-tooltip{
-    direction:ltr;text-align:left;
-    font-family:'Heebo',sans-serif;
-    font-size:12px;
-    color:var(--ink);
-    background:#fff;
     border:1px solid var(--line);
-    box-shadow:0 2px 6px rgba(0,0,0,.12);
   }
-  .leaflet-tooltip.map-tooltip.base-tooltip{font-weight:700;color:var(--green-dark);}
-  .leaflet-tooltip.map-tooltip.active-tooltip{font-weight:700;color:#8a4415;}
-  .legend{display:flex;gap:18px;justify-content:center;margin-top:8px;font-size:12px;color:var(--muted);flex-wrap:wrap;}
-  .legend .sw{display:inline-flex;align-items:center;gap:6px;}
-  .legend .dot{width:10px;height:10px;border-radius:50%;display:inline-block;}
+  .mapEmbedWrap iframe{width:100%;height:100%;border:0;display:block;}
+  .wazeRow{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;}
+  .wazeBtn{
+    display:inline-flex;align-items:center;gap:8px;
+    background:var(--sky-bg);color:var(--sky);
+    border:1.5px solid #bfe2f0;border-radius:999px;
+    padding:9px 16px;font-size:13.5px;font-weight:700;
+    text-decoration:none;transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .wazeBtn:hover{box-shadow:var(--shadow-soft);transform:translateY(-1px);}
+  .wazeBtn .ico{font-size:16px;}
+  .wazeBtn .via{color:var(--muted);font-weight:500;font-size:12px;}
 
   .photoGallery{display:flex;gap:12px;margin-bottom:18px;flex-wrap:wrap;}
   .photoGallery figure{
     margin:0;flex:1 1 260px;position:relative;
-    border-radius:12px;overflow:hidden;
+    border-radius:var(--radius-md);overflow:hidden;
     height:190px;
     background:var(--cream-2);
-    box-shadow:0 2px 8px rgba(38,48,44,.12);
+    box-shadow:var(--shadow-soft);
   }
   .photoGallery figure a{display:block;width:100%;height:100%;}
   .photoGallery img{
@@ -156,14 +155,14 @@
     text-align:start;
   }
 
-  .panel{background:#fff;border:1px solid var(--line);border-radius:14px;padding:24px 26px 26px;}
+  .panel{background:#fff;border:1px solid var(--line);border-radius:var(--radius-lg);padding:24px 26px 26px;box-shadow:var(--shadow-soft);}
   .panel .tag{color:var(--orange);font-weight:700;font-size:14.5px;margin-bottom:4px;}
-  .panel h2.title{font-size:26px;color:var(--green-dark);margin-bottom:6px;}
+  .panel h2.title{font-size:28px;color:var(--green-dark);margin-bottom:6px;}
   .panel .meta{color:var(--muted);font-size:13.5px;margin-bottom:16px;}
 
   table.sched{width:100%;border-collapse:collapse;margin-bottom:18px;font-size:14.5px;}
-  table.sched td{padding:9px 12px;border-bottom:1px solid #EFE8DA;}
-  table.sched td:last-child{width:120px;font-weight:700;background:var(--cream-2);text-align:center;border-radius:6px;}
+  table.sched td{padding:11px 12px;border-bottom:1px solid #EFE8DA;}
+  table.sched td:last-child{width:120px;font-weight:700;background:var(--cream-2);text-align:center;border-radius:10px;}
   table.sched tr:last-child td{border-bottom:none;}
 
   .sectionLabel{font-family:'Frank Ruhl Libre',serif;font-weight:700;color:var(--green-dark);font-size:16.5px;margin:18px 0 8px;}
@@ -173,7 +172,7 @@
   .places .p b{color:var(--orange);}
 
   .boxes{display:flex;gap:14px;margin:16px 0;flex-wrap:wrap;}
-  .box{flex:1 1 220px;border-radius:10px;padding:14px 16px;font-size:14px;}
+  .box{flex:1 1 220px;border-radius:var(--radius-md);padding:14px 16px;font-size:14px;}
   .box b{display:block;margin-bottom:4px;font-size:14px;}
   .box.green{background:var(--green-bg);}
   .box.red{background:var(--red-bg);}
@@ -182,27 +181,38 @@
 
   table.kids{width:100%;border-collapse:collapse;font-size:13.8px;margin-bottom:6px;}
   table.kids td{padding:8px 10px;border-bottom:1px solid #EFE8DA;vertical-align:top;}
-  table.kids td:last-child{width:150px;background:var(--cream-2);border-radius:6px;font-size:12.8px;color:var(--muted);}
+  table.kids td:last-child{width:150px;background:var(--cream-2);border-radius:8px;font-size:12.8px;color:var(--muted);}
 
-  .footerbar{background:var(--green-dark);color:#fff;padding:12px 16px;border-radius:10px;font-size:14px;font-weight:500;margin-top:16px;}
+  .footerbar{background:var(--green-dark);color:#fff;padding:13px 16px;border-radius:var(--radius-md);font-size:14px;font-weight:500;margin-top:16px;display:flex;align-items:center;gap:8px;}
 
   ul.altlist{padding-inline-start:20px;margin:0 0 16px;font-size:14.3px;line-height:1.7;}
   ol.checklist{padding-inline-start:20px;margin:0 0 16px;font-size:14.3px;line-height:1.75;}
 
   @media (max-width: 860px){
-    .layout{flex-direction:column;}
+    body{font-size:16px;}
+    header.top{padding:20px 18px 18px;}
+    header.top h1{font-size:27px;}
+    .layout{flex-direction:column;padding:16px 14px 44px;gap:16px;}
     nav.daynav{
       position:static;
       flex-direction:row;
       overflow-x:auto;
       width:100%;
       flex:none;
-      gap:6px;
-      padding-bottom:6px;
+      gap:8px;
+      padding:2px 2px 8px;
+      -webkit-overflow-scrolling:touch;
     }
-    nav.daynav button{flex:0 0 auto;white-space:nowrap;border-right:none;border-bottom:3px solid transparent;}
-    nav.daynav button.active{border-bottom-color:var(--orange);}
+    nav.daynav button{flex:0 0 auto;white-space:nowrap;border:2px solid var(--line);background:#fff;}
+    nav.daynav button.active{border-color:var(--orange-pop);}
+    nav.daynav button .icon{font-size:22px;}
+    .panel{padding:18px 16px 20px;}
+    .panel h2.title{font-size:23px;}
+    .mapEmbedWrap{height:260px;}
     .boxes{flex-direction:column;}
+    .photoGallery figure{height:150px;flex:1 1 45%;}
+    table.sched td{padding:12px 10px;font-size:14.5px;}
+    .wazeBtn{padding:11px 16px;font-size:14px;}
   }
 </style>
 </head>
@@ -210,8 +220,15 @@
 
 <header class="top">
   <div class="eyebrow">החופשה המשפחתית שלנו • ספטמבר–אוקטובר 2026</div>
-  <h1>אוסטריה למשפחה</h1>
+  <h1>🏔️ אוסטריה למשפחה</h1>
   <div class="sub">וינה, Wagrain והאלפים • מסלול נוח עם רכב • מותאם לילדים בני 10, 7 ו-2.5, למשפחות נוספות ולסבא וסבתא</div>
+  <div class="tripChips">
+    <span>🚗 מסלול עם רכב</span>
+    <span>🏔️ האלפים</span>
+    <span>🏰 טירות</span>
+    <span>🏞️ אגמים</span>
+    <span>👨‍👩‍👧‍👦 כל המשפחה</span>
+  </div>
 </header>
 
 <div class="layout">
@@ -219,15 +236,11 @@
   <main class="content">
     <div class="mapCard">
       <div class="mapTitle">
-        <h2 id="mapTitle">מפת המסלול</h2>
-        <span>המקטע המודגש = היום שנבחר</span>
+        <h2 id="mapTitle">🗺️ מפת היום</h2>
+        <span id="mapSub">לחצו לניווט</span>
       </div>
-      <div id="mapDiv"></div>
-      <div class="legend">
-        <span class="sw"><span class="dot" style="background:#1F5C4E"></span> Wagrain (בסיס הלינה)</span>
-        <span class="sw"><span class="dot" style="background:#B5651D"></span> יעד של היום שנבחר</span>
-        <span class="sw"><span class="dot" style="background:#cabfa8"></span> שאר המסלול</span>
-      </div>
+      <div class="mapEmbedWrap"><iframe id="mapFrame" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></div>
+      <div class="wazeRow" id="wazeRow"></div>
     </div>
     <div class="panel" id="panel"></div>
   </main>
@@ -318,7 +331,7 @@ const DAYS = [
       <tr><td>יציאה ל-Wagrain</td><td>~15:00</td></tr>
       <tr><td>צ׳ק-אין, סופר והתארגנות</td><td>18:30-19:00</td></tr>
     </table>
-    <div class="sectionLabel">מה יש שם</div>
+    <div class="sectionLabel">📍 מה יש שם</div>
     <div class="places">
       <div class="p"><b>Graben — </b>רחוב הולכי רגל אלגנטי בלב העיר העתיקה, עם עמוד המגפה (Pestsäule) הבארוקי המפורסם ובתי קפה וחנויות משני צדדיו.</div>
       <div class="p"><b>Stephansdom (הקתדרלה) — </b>קתדרלת סטפן הגותית, סמל וינה, עם גג הרעפים הצבעוני המפורסם והמגדל הגבוה שמשקיף על העיר.</div>
@@ -329,7 +342,7 @@ const DAYS = [
       <div class="box green"><b>למה זה עובד</b>טעימה מהעיר הקלאסית בלי לקחת יום מלא מהאלפים.</div>
       <div class="box red"><b>חשוב</b>להחנות בחניון מרכזי. זה יום מעבר - לא מוסיפים אטרקציה.</div>
     </div>
-    <div class="sectionLabel">אופציות לילדים נוספות בסביבה</div>
+    <div class="sectionLabel">🧒 אופציות לילדים נוספות בסביבה</div>
     <table class="kids">
       <tr><td><b>Prater (Wurstelprater)</b> — פארק שעשועים ותיק עם גלגל ענק, רכבת ליליפוט, קרוסלות ומתקנים לפעוטות. דורש נסיעה (כ-15-20 דק׳) מהמרכז, ולכן מתאים רק אם נשאר זמן מעבר ללו״ז המתוכנן.</td><td>שטח פתוח כל היום; רוב המתקנים מ-11:00; עונה עד 31.10.2026.</td></tr>
     </table>
@@ -351,7 +364,7 @@ const DAYS = [
       <tr><td>Gosausee והליכה קלה</td><td>14:00-16:30</td></tr>
       <tr><td>חזרה ל-Wagrain</td><td>17:30-18:00</td></tr>
     </table>
-    <div class="sectionLabel">מה יש שם</div>
+    <div class="sectionLabel">📍 מה יש שם</div>
     <div class="places">
       <div class="p"><b>Hallstatt — </b>כפר אלפיני עתיק על שפת אגם Hallstättersee, אתר מורשת עולמית של אונסק״ו; ידוע בזכות מכרות המלח (מהעתיקים בעולם) ובזכות התמונה האייקונית מול ההר.</div>
       <div class="p"><b>Skywalk / מכרה המלח — </b>רכבל, נקודת תצפית מרחפת מעל הכפר, וסיור במכרה מלח היסטורי הכולל מגלשות עץ לילדים.</div>
@@ -380,7 +393,7 @@ const DAYS = [
       <tr><td>St. Johann: מרכז עתיק, קתדרלת Pongau, גלידה וארוחת ערב מוקדמת</td><td>16:15-18:00</td></tr>
       <tr><td>חזרה ל-Wagrain</td><td>~18:20</td></tr>
     </table>
-    <div class="sectionLabel">מה יש שם</div>
+    <div class="sectionLabel">📍 מה יש שם</div>
     <div class="places">
       <div class="p"><b>Geisterberg — </b>"הר הרוחות" - הר חוויות למשפחות עם למעלה מ-40 תחנות משחק: מגלשות, משחקי מים, מגדלי טיפוס וכפר רוחות ידידותי; מגיעים ברכבל.</div>
       <div class="p"><b>St. Johann im Pongau — </b>עיירת שוק ותיקה עם קתדרלה ניאו-רומנסקית ורודה בולטת (Pongau Dom) וסמטאות עתיקות.</div>
@@ -410,7 +423,7 @@ const DAYS = [
       <tr><td>Werfenweng: אגם Wengsee, משחקים, הליכה קצרה וקפה</td><td>14:30-17:30</td></tr>
       <tr><td>חזרה ל-Wagrain</td><td>~18:00</td></tr>
     </table>
-    <div class="sectionLabel">מה יש שם</div>
+    <div class="sectionLabel">📍 מה יש שם</div>
     <div class="places">
       <div class="p"><b>Burg Hohenwerfen — </b>מצודה מימי הביניים על צוק סלעי מעל עמק ה-Salzach, בת כ-900 שנה; סיור מודרך, תא עינויים, מגדל פעמונים עם נוף פנורמי, ומופעי ציפורי טרף בחצר.</div>
       <div class="p"><b>Werfenweng — </b>כפר אלפי שקט ידידותי לסביבה, עם אגם קטן ונעים (Wengsee) ומגרש משחקים - עצירה רגועה בסוף היום.</div>
@@ -439,7 +452,7 @@ const DAYS = [
       <tr><td>התחלת חזרה</td><td>~16:00</td></tr>
       <tr><td>Wagrain</td><td>~18:30</td></tr>
     </table>
-    <div class="sectionLabel">מה יש שם</div>
+    <div class="sectionLabel">📍 מה יש שם</div>
     <div class="places">
       <div class="p"><b>Großglockner Hochalpenstraße — </b>הכביש הפנורמי המפורסם באוסטריה - 48 ק״מ עם 36 עיקולים, חוצה את פארק הלאום Hohe Tauern ומוביל לרגלי ההר הגבוה באוסטריה (3,798 מ׳).</div>
       <div class="p"><b>Hochtor / Fuscher Törl — </b>נקודות תצפית ומעברי הרים לאורך הדרך, עם נופים פתוחים לפסגות המושלגות.</div>
@@ -450,7 +463,7 @@ const DAYS = [
       <div class="box red"><b>כלל ברזל</b>לא נוסעים אם הראות גרועה; מעבירים ליום הבהיר ביותר.</div>
     </div>
     <div class="box tan"><b>שעות פעילות</b>הכביש פתוח מאפריל ועד תחילת נובמבר 2026 (תלוי מזג אוויר); בספטמבר 06:00–19:30.</div>
-    <div class="sectionLabel">אופציות לילדים נוספות בסביבה</div>
+    <div class="sectionLabel">🧒 אופציות לילדים נוספות בסביבה</div>
     <table class="kids">
       <tr><td><b>מגרשי משחקים ותערוכות לאורך הכביש</b> — כמה מנקודות העצירה כוללות מגרש משחקים קטן ותערוכות חינמיות (כמו Haus Alpine Naturschau) — נעים להפסקה קצרה.</td><td>תערוכות פתוחות יומי כ-10:00-17:00.</td></tr>
     </table>
@@ -473,7 +486,7 @@ const DAYS = [
       <tr><td>Haus der Natur - מצוין לילדים ובגשם</td><td>אופציונלי</td></tr>
       <tr><td>יציאה; חזרה סביב 18:00</td><td>~17:00</td></tr>
     </table>
-    <div class="sectionLabel">מה יש שם</div>
+    <div class="sectionLabel">📍 מה יש שם</div>
     <div class="places">
       <div class="p"><b>Mirabell (ארמון וגן מירבל) — </b>ארמון בארוקי וגן נוי מפואר שצולם ב-"Sound of Music"; כולל את גן הגמדים העתיק (Zwerglgarten) ומגרש משחקים.</div>
       <div class="p"><b>Getreidegasse — </b>רחוב הקניות ההיסטורי המרכזי, מוכר בזכות שלטי הברזל המעוטרים ובית הולדתו של מוצרט.</div>
@@ -484,7 +497,7 @@ const DAYS = [
       <div class="box green"><b>יום מגוון</b>מרכז היסטורי, מצודה ונוף, עם מוזיאון מצוין לילדים.</div>
       <div class="box red"><b>מזג אוויר</b>בגשם מאריכים את Haus der Natur ומקצרים הליכה בחוץ. זהו היום הכי גמיש במסלול - מועמד טבעי להחלפה עם ימי הרים.</div>
     </div>
-    <div class="sectionLabel">אופציות לילדים נוספות בסביבה</div>
+    <div class="sectionLabel">🧒 אופציות לילדים נוספות בסביבה</div>
     <table class="kids">
       <tr><td><b>Zwerglgarten + Zauberflötenspielplatz</b> — גן הגמדים הבארוקי (28 פסלים) וממש לידו מגרש משחקים - בתוך גן Mirabell עצמו, בדיוק במסלול הבוקר, לא דורש סטייה.</td><td>גן מירבל פתוח יומי כ-05:00-23:00; כניסה חופשית.</td></tr>
     </table>
@@ -508,7 +521,7 @@ const DAYS = [
       <tr><td>שיט, אם פועל ומזג האוויר מתאים</td><td>~15:00</td></tr>
       <tr><td>חזרה ל-Wagrain</td><td>~17:30</td></tr>
     </table>
-    <div class="sectionLabel">מה יש שם</div>
+    <div class="sectionLabel">📍 מה יש שם</div>
     <div class="places">
       <div class="p"><b>Zell am See — </b>עיירת נופש ציורית על שפת אגם Zeller See, עם טיילת נעימה, חוף רחצה ואפשרויות שיט.</div>
       <div class="p"><b>Schmittenhöhe — </b>"הר המשפחה" של האזור - רכבל עולה לפסגה עם נוף ל-30 פסגות מעל 3,000 מ׳ (כולל Großglockner) ופינת חוויה לילדים.</div>
@@ -518,7 +531,7 @@ const DAYS = [
       <div class="box red"><b>חשוב</b>הרכבל והשיט בתשלום. אם הפסגה בעננים - מחליפים יום.</div>
     </div>
     <div class="box tan"><b>שעות פעילות</b>ב-1.10.2026: רכבל Schmittenhöhe פועל 09:00–17:00, ושיט הפנורמה פועל שעתי 10:00–17:00.</div>
-    <div class="sectionLabel">אופציות לילדים נוספות בסביבה</div>
+    <div class="sectionLabel">🧒 אופציות לילדים נוספות בסביבה</div>
     <table class="kids">
       <tr><td><b>Schmidolins Feuertaufe</b> — שביל חוויה עם 15 תחנות משחק בפסגת Schmittenhöhe עצמה - בדיוק איפה שתהיו, לא דורש נסיעה נוספת.</td><td>פתוח בשעות פעילות הרכבל (09:00-17:00).</td></tr>
       <tr><td><b>מגרש משחקים Kinderland</b> — מגרש משחקים גדול ומגודר בפארק העירוני, צמוד לאגם וממש ליד הטיילת.</td><td>פתוח חופשי כל היום.</td></tr>
@@ -563,7 +576,7 @@ const DAYS = [
       <tr><td>יציאה לשדה התעופה</td><td>16:30</td></tr>
       <tr><td>MOXY, החזרת רכב ואריזה</td><td>~17:45-18:15</td></tr>
     </table>
-    <div class="sectionLabel">מה יש שם</div>
+    <div class="sectionLabel">📍 מה יש שם</div>
     <div class="places">
       <div class="p"><b>Melk Abbey — </b>מנזר בנדיקטיני בארוקי מרהיב על צוק מעל הדנובה, עם ספרייה עתיקה מרשימה ומרפסת נוף פתוחה לעמק Wachau.</div>
       <div class="p"><b>Dürnstein — </b>כפר ציורי בעמק היין Wachau, ידוע בזכות מגדל הכנסייה הכחול-לבן וחורבות המצודה שבה נכלא (לפי האגדה) ריצ׳רד לב הארי.</div>
@@ -601,7 +614,7 @@ const DAYS = [
   render: () => `
     <div class="tag">לשמור בטלפון</div>
     <h2 class="title">חלופות, הטבות ובדיקות אחרונות</h2>
-    <div class="sectionLabel">חלופות</div>
+    <div class="sectionLabel">🔄 חלופות</div>
     <ul class="altlist">
       <li>Liechtensteinklamm — עובר לבנק החלופות. מתאים רק אם רוצים נקיק ומוכנים ל-440 מדרגות ולמנשא.</li>
       <li>Wasserwelt Wagrain — בריכות ומגלשות; חינם דרך כרטיס האורח. תוספת אחר הצהריים.</li>
@@ -610,7 +623,7 @@ const DAYS = [
       <li>Krimml Waterfalls — מפלים גדולים, רק אם מוכנים לנסיעה ארוכה.</li>
       <li>Shuttleberg Kleinarl — רכבל והר למשפחות - רק לאחר אישור ההטבה מהמלון.</li>
     </ul>
-    <div class="sectionLabel">בדיקות אחרונות</div>
+    <div class="sectionLabel">✅ בדיקות אחרונות</div>
     <ol class="checklist">
       <li>לבדוק תחזית 5-7 ימים לפני ולקבע את Grossglockner ליום הבהיר ביותר.</li>
       <li>לאשר מול Schattauer את תנאי Wasserwelt, את Shuttleberg ל-2026, ואת הכללת/עלות Kaprun במסגרת Salzburger Sportwelt Card.</li>
@@ -658,96 +671,54 @@ function renderGallery(id){
     </figure>`).join("")}</div>`;
 }
 
-/* ---------- Map rendering (Leaflet + real tiles) ---------- */
-let map, hlLine, bgLine, mapReady = false;
-const markerRefs = {};
+/* ---------- Map (Google Maps, no key) + Waze navigation ---------- */
+const DAY_ICON = {
+  overview:"🗺️", d1:"✈️", d2:"🏛️", d3:"🏞️", d4:"🎢", d5:"🏰",
+  d6:"🏔️", d7:"🎻", d8:"🚡", d9:"⛪", d10:"✈️", alt:"📋",
+};
+const LOC_ICON = {
+  airport:"✈️", vienna:"🏛️", wagrain:"🏡", hallstatt:"🏘️", gosausee:"🏞️",
+  alpendorf:"🎢", werfen:"🏰", werfenweng:"🏞️", glockner:"🏔️",
+  salzburg:"🏰", zell:"🚡", kaprun:"💧", melk:"⛪", durnstein:"⛪",
+};
 
-function initMap(){
-  if (typeof L === "undefined"){
-    document.getElementById("mapDiv").innerHTML =
-      '<div style="height:100%;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:13.5px;text-align:center;padding:20px;">לא ניתן לטעון את המפה כרגע (בעיית רשת). שאר העמוד עובד כרגיל — רעננו כדי לנסות שוב.</div>';
-    return;
-  }
-  map = L.map("mapDiv", {
-    zoomControl: true,
-    scrollWheelZoom: false,
-    attributionControl: true,
-  }).setView([47.4, 13.6], 8);
-
-  L.tileLayer("https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png", {
-    maxZoom: 17,
-    subdomains: "abc",
-    attribution: '&copy; <a href="https://opentopomap.org">OpenTopoMap</a> (CC-BY-SA) &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-  }).addTo(map);
-
-  bgLine = L.polyline(FULL_ROUTE.map(k=>[LOC[k].lat, LOC[k].lon]), {
-    color:"#b7a988", weight:2.4, opacity:0.85, dashArray:"1,7", lineCap:"round"
-  }).addTo(map);
-
-  hlLine = L.polyline([], {color:"#B5651D", weight:4.2, opacity:0.95, lineCap:"round"}).addTo(map);
-
-  for (const k in LOC){
-    const isBase = k === "wagrain";
-    const icon = L.divIcon({
-      className: "",
-      html: `<div class="map-marker${isBase?" base":""}"></div>`,
-      iconSize: isBase ? [18,13] : [11,11],
-      iconAnchor: isBase ? [9,13] : [5,5],
-    });
-    const m = L.marker([LOC[k].lat, LOC[k].lon], {icon, keyboard:false});
-    m.addTo(map);
-    m.bindTooltip(LOC[k].label, {
-      direction:"top", offset:[0,isBase?-14:-8],
-      className:"map-tooltip" + (isBase ? " base-tooltip" : ""),
-      permanent:false,
-    });
-    markerRefs[k] = m;
-  }
-
-  setTimeout(()=>map.invalidateSize(), 200);
-  window.addEventListener("resize", ()=> map && map.invalidateSize());
-  mapReady = true;
+function embedUrlFor(segment){
+  const keys = [...new Set(segment.length ? segment : FULL_ROUTE)];
+  const lats = keys.map(k=>LOC[k].lat), lons = keys.map(k=>LOC[k].lon);
+  const latC = (Math.min(...lats)+Math.max(...lats))/2;
+  const lonC = (Math.min(...lons)+Math.max(...lons))/2;
+  const span = Math.max(Math.max(...lats)-Math.min(...lats), Math.max(...lons)-Math.min(...lons));
+  let z = 13;
+  if (span > 3) z = 7;
+  else if (span > 1.2) z = 9;
+  else if (span > 0.4) z = 10;
+  else if (span > 0.15) z = 11;
+  return `https://maps.google.com/maps?q=${latC.toFixed(4)},${lonC.toFixed(4)}&z=${z}&output=embed`;
 }
 
-function updateMap(segment, showAllLabels){
-  if (!mapReady) return;
-  const activeSet = new Set(segment);
-  for (const k in markerRefs){
-    const mk = markerRefs[k];
-    const isBase = k === "wagrain";
-    const active = activeSet.has(k) && !isBase;
-    const el = mk.getElement();
-    if (el){
-      const dot = el.querySelector(".map-marker");
-      if (dot) dot.classList.toggle("active", active);
-    }
-    const tooltip = mk.getTooltip();
-    if (tooltip) tooltip.setLatLng(mk.getLatLng());
-    const shouldShow = isBase || active || showAllLabels;
-    if (shouldShow && !mk.isTooltipOpen()) mk.openTooltip();
-    if (!shouldShow && mk.isTooltipOpen()) mk.closeTooltip();
-    if (mk._icon){
-      mk._icon.classList.toggle("leaflet-tooltip-active-marker", active);
-    }
-  }
+function wazeLink(k){
+  return `https://waze.com/ul?ll=${LOC[k].lat}%2C${LOC[k].lon}&navigate=yes`;
+}
 
-  const latlngs = segment.length>1 ? segment.map(k=>[LOC[k].lat, LOC[k].lon]) : [];
-  hlLine.setLatLngs(latlngs);
-
-  const boundsKeys = segment.length ? segment : FULL_ROUTE;
-  const bounds = L.latLngBounds(boundsKeys.map(k=>[LOC[k].lat, LOC[k].lon]));
-  map.fitBounds(bounds, {padding:[38,38], maxZoom: 11});
+function renderWaze(segment){
+  const keys = [...new Set(segment.filter(k=>k!=="wagrain"))];
+  if(!keys.length) return "";
+  return keys.map(k=>`<a class="wazeBtn" href="${wazeLink(k)}" target="_blank" rel="noopener">
+      <span class="ico">🧭</span> נווט ב-Waze ל-${LOC_ICON[k]||"📍"} ${LOC[k].label}</a>`).join("");
 }
 
 /* ---------- Nav + panel rendering ---------- */
 const navEl = document.getElementById("daynav");
 const panelEl = document.getElementById("panel");
 const mapTitleEl = document.getElementById("mapTitle");
+const mapSubEl = document.getElementById("mapSub");
+const mapFrameEl = document.getElementById("mapFrame");
+const wazeRowEl = document.getElementById("wazeRow");
 
 DAYS.forEach((d,i)=>{
   const btn = document.createElement("button");
   btn.id = "nav-"+d.id;
-  btn.innerHTML = `<span class="d">${d.nav}</span><span class="t">${d.navSub}</span>`;
+  btn.innerHTML = `<span class="icon">${DAY_ICON[d.id]||"📍"}</span><span class="label"><span class="d">${d.nav}</span><span class="t">${d.navSub}</span></span>`;
   btn.addEventListener("click", ()=> selectDay(d.id));
   navEl.appendChild(btn);
 });
@@ -758,13 +729,18 @@ function selectDay(id){
   panelEl.innerHTML = renderGallery(id) + day.render();
   document.querySelectorAll("nav.daynav button").forEach(b=>b.classList.remove("active"));
   document.getElementById("nav-"+id).classList.add("active");
-  const showAll = (id === "overview" || id === "alt");
-  updateMap(day.segment.length ? day.segment : FULL_ROUTE, showAll);
-  mapTitleEl.textContent = showAll ? "מפת המסלול המלא" : "מפת המסלול — " + day.nav;
+  const isOverview = (id === "overview" || id === "alt");
+  const segment = day.segment.length ? day.segment : FULL_ROUTE;
+
+  mapFrameEl.src = embedUrlFor(segment);
+  wazeRowEl.innerHTML = isOverview
+    ? '<span style="color:var(--muted);font-size:13px;">בחרו יום ספציפי מהתפריט כדי לקבל ניווט ב-Waze ליעד שלו</span>'
+    : (renderWaze(segment) || "");
+  mapTitleEl.textContent = (DAY_ICON[id]||"🗺️") + " מפה — " + day.nav;
+  mapSubEl.textContent = isOverview ? "כל המסלול" : "לחצו על הכפתור כדי לנווט";
   window.scrollTo({top:0, behavior:"smooth"});
 }
 
-initMap();
 selectDay("overview");
 </script>
 
