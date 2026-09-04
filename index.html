@@ -61,6 +61,13 @@
   header.top .eyebrow{color:var(--red);font-size:14px;font-weight:700;margin-bottom:4px;letter-spacing:.2px;}
   header.top h1{font-size:32px;color:var(--red-dark);font-weight:700;}
   header.top .sub{color:var(--muted);font-size:14.5px;margin-top:6px;}
+  .countdown{
+    display:inline-block;margin-top:10px;
+    background:var(--gold-soft);color:var(--gold-dark);
+    font-weight:700;font-size:13px;
+    padding:6px 14px;border-radius:999px;border:1px solid var(--gold);
+  }
+  .countdown[hidden]{display:none;}
 
   .layout{
     display:flex;
@@ -190,6 +197,7 @@
   }
   .mapCard .mapTitle h2{font-size:17px;color:var(--red-dark);}
   .mapCard .mapTitle span{font-size:12.5px;color:var(--muted);}
+  .mapWrap{position:relative;}
   #mapDiv{
     width:100%;
     height:340px;
@@ -198,6 +206,35 @@
     direction:ltr;
     background:var(--cream-2);
   }
+  .mapControls{
+    position:absolute;top:10px;right:10px;z-index:1000;
+    display:flex;flex-direction:column;gap:6px;
+  }
+  .mapCtrlBtn{
+    width:34px;height:34px;border-radius:8px;
+    border:1px solid var(--line);background:#fff;
+    box-shadow:0 2px 6px rgba(0,0,0,.18);
+    font-size:16px;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    transition:transform .12s ease;
+  }
+  .mapCtrlBtn:hover{transform:scale(1.07);}
+  .mapCtrlBtn:active{transform:scale(.95);}
+  .mapRouteInfo{
+    margin-top:8px;font-size:12.5px;color:var(--muted);
+    display:flex;gap:16px;flex-wrap:wrap;
+  }
+  .mapRouteInfo[hidden]{display:none;}
+  .mapRouteInfo b{color:var(--red-dark);}
+  .mapCard.fullscreen{
+    position:fixed;inset:0;z-index:3000;
+    margin:0;border-radius:0;
+    height:100vh;display:flex;flex-direction:column;
+    padding:14px;
+  }
+  .mapCard.fullscreen .mapWrap{flex:1;min-height:0;}
+  .mapCard.fullscreen #mapDiv{height:100%;}
+  body.mapFsOpen{overflow:hidden;}
   .map-marker{
     width:12px;height:12px;border-radius:50%;
     background:#cbb9ba;border:2px solid #fff;
@@ -298,6 +335,7 @@
     body{font-size:16px;}
     header.top{padding:20px 18px 18px;}
     header.top h1{font-size:27px;}
+    .countdown{font-size:12px;padding:5px 12px;}
     .layout{flex-direction:column;padding:16px 14px 44px;gap:16px;}
     nav.daynav{
       position:static;
@@ -327,6 +365,8 @@
     .panel{padding:18px 16px 20px;}
     .panel h2.title{font-size:23px;}
     #mapDiv{height:260px;}
+    .mapCtrlBtn{width:32px;height:32px;font-size:15px;}
+    .mapRouteInfo{font-size:12px;gap:12px;}
     .boxes{flex-direction:column;}
     .photoGallery figure{height:150px;flex:1 1 45%;}
     table.sched td{padding:12px 10px;font-size:14.5px;}
@@ -338,6 +378,7 @@
 <header class="top">
   <div class="eyebrow">החופשה המשפחתית שלנו • ספטמבר–אוקטובר 2026</div>
   <h1>🏔️ אוסטריה למשפחה</h1>
+  <span class="countdown" id="countdown" hidden></span>
 </header>
 
 <div class="installBanner" id="installBanner" hidden>
@@ -357,12 +398,19 @@
       </div>
       <a class="nowBar-btn" id="nowBarBtn" href="#" target="_blank" rel="noopener">נווט עכשיו ב-Waze</a>
     </div>
-    <div class="mapCard">
+    <div class="mapCard" id="mapCard">
       <div class="mapTitle">
         <h2 id="mapTitle">🗺️ מפת היום</h2>
         <span id="mapSub">ממורכזת אוטומטית ביעד היום</span>
       </div>
-      <div id="mapDiv"></div>
+      <div class="mapWrap">
+        <div id="mapDiv"></div>
+        <div class="mapControls">
+          <button type="button" class="mapCtrlBtn" id="mapLayerBtn" title="החלף שכבת מפה">🛰️</button>
+          <button type="button" class="mapCtrlBtn" id="mapFullBtn" title="הרחב למסך מלא">⛶</button>
+        </div>
+      </div>
+      <div class="mapRouteInfo" id="mapRouteInfo" hidden></div>
     </div>
     <div class="weatherCard" id="weatherCard" hidden></div>
     <div class="panel" id="panel"></div>
@@ -901,9 +949,53 @@ async function injectWeather(id){
   }
 }
 
-/* ---------- Leaflet map: full route (muted) + today's highlighted segment ---------- */
+/* ---------- Leaflet map: full route (muted) + today's highlighted segment,
+   drawn as the real driving road (via OSRM, no key) with a straight-line fallback,
+   plus a base-layer toggle (street/topo) and a fullscreen mode. ---------- */
 let leafletMap = null;
 let mapLayers = []; // markers/polylines currently on the map, cleared+rebuilt on each render
+let mapGen = 0;      // bumped on every updateMap() call so stale async work (routes, animations) can bail out
+let streetLayer = null, topoLayer = null;
+let currentLayerMode = "street";
+
+const ROUTE_CACHE = {};
+async function fetchRoute(keys){
+  const cacheKey = keys.join(",");
+  if (ROUTE_CACHE[cacheKey]) return ROUTE_CACHE[cacheKey];
+  const coordStr = keys.map(k => `${LOC[k].lon},${LOC[k].lat}`).join(";");
+  const url = `https://router.project-osrm.org/route/v1/driving/${coordStr}?overview=full&geometries=geojson`;
+  const resp = await fetch(url);
+  if (!resp.ok) throw new Error("osrm http " + resp.status);
+  const data = await resp.json();
+  if (data.code !== "Ok" || !data.routes || !data.routes.length) throw new Error("osrm no route");
+  const route = data.routes[0];
+  const result = {
+    latlngs: route.geometry.coordinates.map(c => [c[1], c[0]]),
+    distanceKm: route.distance / 1000,
+    durationMin: route.duration / 60,
+  };
+  ROUTE_CACHE[cacheKey] = result;
+  return result;
+}
+
+// Reveals a polyline progressively (a light "drawing" animation) rather than popping in at once.
+// `gen` is the mapGen snapshot at call time — if a newer updateMap() has since run, we quietly stop.
+function animatePolyline(latlngs, options, gen, duration){
+  const line = L.polyline([], options).addTo(leafletMap);
+  mapLayers.push(line);
+  const total = latlngs.length;
+  if (total < 2){ line.setLatLngs(latlngs); return line; }
+  const start = performance.now();
+  function step(now){
+    if (gen !== mapGen) return;
+    const t = Math.min(1, (now - start) / duration);
+    const count = Math.max(2, Math.round(total * t));
+    line.setLatLngs(latlngs.slice(0, count));
+    if (t < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+  return line;
+}
 
 function initMap(){
   if (typeof L === "undefined"){
@@ -912,34 +1004,82 @@ function initMap(){
     return;
   }
   leafletMap = L.map("mapDiv", {scrollWheelZoom:false});
-  L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
+  streetLayer = L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
     subdomains:"abcd",
     maxZoom:19,
     attribution:"© CARTO © OpenStreetMap contributors"
-  }).addTo(leafletMap);
+  });
+  topoLayer = L.tileLayer("https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png", {
+    subdomains:"abc",
+    maxZoom:17,
+    attribution:"© OpenTopoMap (CC-BY-SA) © OpenStreetMap contributors"
+  });
+  streetLayer.addTo(leafletMap);
+
+  const layerBtn = document.getElementById("mapLayerBtn");
+  if (layerBtn){
+    layerBtn.addEventListener("click", () => {
+      if (currentLayerMode === "street"){
+        leafletMap.removeLayer(streetLayer);
+        topoLayer.addTo(leafletMap);
+        currentLayerMode = "topo";
+        layerBtn.textContent = "🗺️";
+        layerBtn.title = "עבור לתצוגת רחוב";
+      } else {
+        leafletMap.removeLayer(topoLayer);
+        streetLayer.addTo(leafletMap);
+        currentLayerMode = "street";
+        layerBtn.textContent = "🛰️";
+        layerBtn.title = "עבור לתצוגה טופוגרפית";
+      }
+    });
+  }
+
+  const fullBtn = document.getElementById("mapFullBtn");
+  const mapCardEl = document.getElementById("mapCard");
+  if (fullBtn && mapCardEl){
+    fullBtn.addEventListener("click", () => {
+      const isFull = mapCardEl.classList.toggle("fullscreen");
+      document.body.classList.toggle("mapFsOpen", isFull);
+      fullBtn.textContent = isFull ? "✕" : "⛶";
+      fullBtn.title = isFull ? "סגור מסך מלא" : "הרחב למסך מלא";
+      setTimeout(() => leafletMap.invalidateSize(), 260);
+    });
+  }
 }
 
-function updateMap(segment, isOverview){
+function fmtRouteInfo(distanceKm, durationMin){
+  const km = Math.round(distanceKm);
+  const h = Math.floor(durationMin / 60), m = Math.round(durationMin % 60);
+  const timeStr = h > 0 ? `${h}:${String(m).padStart(2,"0")} שעות` : `${m} דק׳`;
+  return `<span>🛣️ <b>${km}</b> ק"מ</span><span>⏱️ <b>${timeStr}</b> נסיעה</span>`;
+}
+
+async function updateMap(segment, isOverview){
   if (!leafletMap) return;
   mapLayers.forEach(l=>leafletMap.removeLayer(l));
   mapLayers = [];
+  const gen = ++mapGen;
 
-  // Full route, muted dashed line, always shown as context.
-  const fullLatLngs = FULL_ROUTE.map(k=>[LOC[k].lat, LOC[k].lon]);
-  const fullLine = L.polyline(fullLatLngs, {color:"#cbb9ba", weight:3, dashArray:"2,8", opacity:.8}).addTo(leafletMap);
-  mapLayers.push(fullLine);
+  const routeInfoEl = document.getElementById("mapRouteInfo");
+  if (routeInfoEl) routeInfoEl.hidden = true;
 
-  // Today's segment, highlighted solid red line.
   const keys = segment.length ? segment : FULL_ROUTE;
+  const uniqueKeys = [...new Set(keys)];
+
+  // Straight-line coordinates — drawn immediately so the map never waits on the network,
+  // then swapped for the real road route (via OSRM) if/when that resolves.
+  const fullStraight = FULL_ROUTE.map(k=>[LOC[k].lat, LOC[k].lon]);
+  const segStraight = keys.map(k=>[LOC[k].lat, LOC[k].lon]);
+
+  let fullLine = animatePolyline(fullStraight, {color:"#cbb9ba", weight:3, dashArray:"2,8", opacity:.8}, gen, 500);
+  let segLine = null;
   if (!isOverview && keys.length > 1){
-    const segLatLngs = keys.map(k=>[LOC[k].lat, LOC[k].lon]);
-    const segLine = L.polyline(segLatLngs, {color:"#C8102E", weight:5, opacity:.9}).addTo(leafletMap);
-    mapLayers.push(segLine);
+    segLine = animatePolyline(segStraight, {color:"#C8102E", weight:5, opacity:.9}, gen, 650);
   }
 
   // Markers: Wagrain (home base) gets a pin shape; today's other stops are highlighted red dots;
-  // in overview mode all stops are plain muted dots.
-  const uniqueKeys = [...new Set(keys)];
+  // in overview mode all stops are plain muted dots. Clicking a marker pops up its name + a Waze link.
   uniqueKeys.forEach(k=>{
     const loc = LOC[k];
     const isBase = (k === "wagrain");
@@ -951,14 +1091,45 @@ function updateMap(segment, isOverview){
     const marker = L.marker([loc.lat, loc.lon], {icon}).addTo(leafletMap);
     const tClass = "map-tooltip" + (isBase ? " base-tooltip" : (isActive ? " active-tooltip" : ""));
     marker.bindTooltip(loc.label, {className:tClass, direction:"top", offset:[0,-10]});
+    marker.bindPopup(
+      `<div style="font-family:Heebo,sans-serif;text-align:center;">
+        <b>${loc.label}</b><br>
+        <a href="${wazeLink(k)}" target="_blank" rel="noopener" style="color:#C8102E;font-weight:700;text-decoration:none;">🧭 נווט ב-Waze</a>
+      </div>`
+    );
     mapLayers.push(marker);
   });
 
-  // Fit bounds to the relevant set of points.
+  // Fit bounds to the relevant set of points (based on the straight-line coordinates —
+  // available immediately, and close enough even once the real route comes in).
   const boundsKeys = isOverview ? FULL_ROUTE : uniqueKeys;
   const bounds = L.latLngBounds(boundsKeys.map(k=>[LOC[k].lat, LOC[k].lon]));
   leafletMap.fitBounds(bounds, {padding:[30,30], maxZoom: isOverview ? 9 : 12});
   setTimeout(()=>leafletMap.invalidateSize(), 50);
+
+  // Upgrade to the real driving route in the background; silently keep the straight
+  // lines if the routing service is unreachable.
+  fetchRoute(FULL_ROUTE).then(r => {
+    if (gen !== mapGen) return;
+    leafletMap.removeLayer(fullLine);
+    const idx = mapLayers.indexOf(fullLine);
+    if (idx !== -1) mapLayers.splice(idx, 1);
+    fullLine = animatePolyline(r.latlngs, {color:"#cbb9ba", weight:3, dashArray:"2,8", opacity:.8}, gen, 500);
+  }).catch(()=>{});
+
+  if (!isOverview && keys.length > 1){
+    fetchRoute(keys).then(r => {
+      if (gen !== mapGen) return;
+      leafletMap.removeLayer(segLine);
+      const idx = mapLayers.indexOf(segLine);
+      if (idx !== -1) mapLayers.splice(idx, 1);
+      segLine = animatePolyline(r.latlngs, {color:"#C8102E", weight:5, opacity:.9}, gen, 800);
+      if (routeInfoEl){
+        routeInfoEl.innerHTML = fmtRouteInfo(r.distanceKm, r.durationMin);
+        routeInfoEl.hidden = false;
+      }
+    }).catch(()=>{});
+  }
 }
 
 function wazeLink(k){
@@ -1081,6 +1252,37 @@ function todaysDayId(){
   return null;
 }
 const TODAY_ID = todaysDayId();
+
+/* ---------- Countdown badge in the header: days left, or which trip day we're on. ---------- */
+function updateCountdown(){
+  const el = document.getElementById("countdown");
+  if (!el) return;
+  const now = new Date();
+  const today0 = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const tripStart = new Date(2026, 8, 24);
+  const tripEnd = new Date(2026, 9, 3);
+  const diffDays = Math.round((tripStart - today0) / 86400000);
+
+  if (today0 > tripEnd){
+    el.hidden = true;
+    return;
+  }
+  if (diffDays > 1){
+    el.textContent = `⏳ עוד ${diffDays} ימים לטיסה!`;
+  } else if (diffDays === 1){
+    el.textContent = `⏳ מחר טסים!`;
+  } else if (diffDays === 0){
+    el.textContent = `🎉 היום זה קורה — טיסה טובה!`;
+  } else if (TODAY_ID && /^d\d+$/.test(TODAY_ID)){
+    const n = TODAY_ID.slice(1);
+    el.textContent = `📍 יום ${n} מתוך 10 בטיול`;
+  } else {
+    el.hidden = true;
+    return;
+  }
+  el.hidden = false;
+}
+updateCountdown();
 
 DAYS.forEach((d,i)=>{
   const btn = document.createElement("button");
