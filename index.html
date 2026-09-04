@@ -4,6 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>אוסטריה למשפחה 2026 — המסלול שלנו</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1F5C4E">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="אוסטריה 2026">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700;900&family=Heebo:wght@300;400;500;700;800&display=swap" rel="stylesheet">
 <style>
@@ -50,12 +58,6 @@
   header.top .eyebrow{color:var(--orange);font-size:14px;font-weight:700;margin-bottom:4px;letter-spacing:.2px;}
   header.top h1{font-size:32px;color:var(--green-dark);font-weight:700;}
   header.top .sub{color:var(--muted);font-size:14.5px;margin-top:6px;}
-  .tripChips{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;}
-  .tripChips span{
-    background:#fff;border:1px solid var(--line);border-radius:999px;
-    padding:6px 13px;font-size:13px;font-weight:600;color:var(--green-dark);
-    box-shadow:var(--shadow-soft);display:inline-flex;align-items:center;gap:6px;
-  }
 
   .layout{
     display:flex;
@@ -122,17 +124,15 @@
     border:1px solid var(--line);
   }
   .mapEmbedWrap iframe{width:100%;height:100%;border:0;display:block;}
-  .wazeRow{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;}
-  .wazeBtn{
-    display:inline-flex;align-items:center;gap:8px;
-    background:var(--sky-bg);color:var(--sky);
-    border:1.5px solid #bfe2f0;border-radius:999px;
-    padding:9px 16px;font-size:13.5px;font-weight:700;
-    text-decoration:none;transition:transform .12s ease, box-shadow .12s ease;
+
+  .rowWaze{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:24px;height:24px;margin-inline-start:8px;
+    border-radius:50%;background:var(--sky-bg);
+    font-size:13px;text-decoration:none;vertical-align:middle;line-height:1;
+    transition:transform .12s ease, box-shadow .12s ease;
   }
-  .wazeBtn:hover{box-shadow:var(--shadow-soft);transform:translateY(-1px);}
-  .wazeBtn .ico{font-size:16px;}
-  .wazeBtn .via{color:var(--muted);font-weight:500;font-size:12px;}
+  .rowWaze:hover{box-shadow:var(--shadow-soft);transform:scale(1.12);}
 
   .photoGallery{display:flex;gap:12px;margin-bottom:18px;flex-wrap:wrap;}
   .photoGallery figure{
@@ -221,14 +221,6 @@
 <header class="top">
   <div class="eyebrow">החופשה המשפחתית שלנו • ספטמבר–אוקטובר 2026</div>
   <h1>🏔️ אוסטריה למשפחה</h1>
-  <div class="sub">וינה, Wagrain והאלפים • מסלול נוח עם רכב • מותאם לילדים בני 10, 7 ו-2.5, למשפחות נוספות ולסבא וסבתא</div>
-  <div class="tripChips">
-    <span>🚗 מסלול עם רכב</span>
-    <span>🏔️ האלפים</span>
-    <span>🏰 טירות</span>
-    <span>🏞️ אגמים</span>
-    <span>👨‍👩‍👧‍👦 כל המשפחה</span>
-  </div>
 </header>
 
 <div class="layout">
@@ -237,10 +229,9 @@
     <div class="mapCard">
       <div class="mapTitle">
         <h2 id="mapTitle">🗺️ מפת היום</h2>
-        <span id="mapSub">לחצו לניווט</span>
+        <span id="mapSub">ממורכזת אוטומטית ביעד היום</span>
       </div>
       <div class="mapEmbedWrap"><iframe id="mapFrame" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></div>
-      <div class="wazeRow" id="wazeRow"></div>
     </div>
     <div class="panel" id="panel"></div>
   </main>
@@ -249,9 +240,9 @@
 <script>
 /* ---------- Coordinates ---------- */
 const LOC = {
-  airport:   {lat:48.1103, lon:16.5697, label:"שדה התעופה / MOXY"},
+  airport:   {lat:48.1103, lon:16.5697, label:"שדה התעופה / MOXY", address:"Moxy Vienna Airport, Ausfahrtsstraße 4, 1300 Wien, אוסטריה"},
   vienna:    {lat:48.2082, lon:16.3738, label:"וינה (מרכז העיר)"},
-  wagrain:   {lat:47.3400, lon:13.3000, label:"Wagrain (בסיס)"},
+  wagrain:   {lat:47.3400, lon:13.3000, label:"Wagrain (בסיס)", address:"Appartements Schattauer, Markt 164, 5602 Wagrain, אוסטריה"},
   hallstatt: {lat:47.5622, lon:13.6493, label:"Hallstatt"},
   gosausee:  {lat:47.5386, lon:13.5461, label:"Gosausee"},
   alpendorf: {lat:47.3500, lon:13.2000, label:"Alpendorf / St. Johann"},
@@ -307,7 +298,7 @@ const DAYS = [
       <tr><td>הגעה לנתב״ג</td><td>15:30-16:00</td></tr>
       <tr><td>טיסת OS82 לוינה</td><td>18:40</td></tr>
       <tr><td>נחיתה ואיסוף מזוודות</td><td>21:25</td></tr>
-      <tr><td>לילה: MOXY Vienna Airport</td><td>לילה</td></tr>
+      <tr><td>לילה: MOXY Vienna Airport — Ausfahrtsstraße 4, 1300 Wien</td><td>לילה</td></tr>
     </table>
     <div class="boxes">
       <div class="box tan"><b>המטרה</b>להגיע בנחת, לאסוף ציוד ולישון. לא מתכננים אטרקציות בערב.</div>
@@ -329,7 +320,7 @@ const DAYS = [
       <tr><td>Graben, הקתדרלה, Stephansplatz, Heldenplatz ו-Hofburg</td><td>10:00-13:30</td></tr>
       <tr><td>צהריים</td><td>13:30-14:30</td></tr>
       <tr><td>יציאה ל-Wagrain</td><td>~15:00</td></tr>
-      <tr><td>צ׳ק-אין, סופר והתארגנות</td><td>18:30-19:00</td></tr>
+      <tr><td>צ׳ק-אין, סופר והתארגנות — Appartements Schattauer, Markt 164, Wagrain</td><td>18:30-19:00</td></tr>
     </table>
     <div class="sectionLabel">📍 מה יש שם</div>
     <div class="places">
@@ -574,7 +565,7 @@ const DAYS = [
       <tr><td>נסיעה לאורך Wachau ל-Dürnstein</td><td>14:00-14:30</td></tr>
       <tr><td>סמטאות העיר העתיקה, הדנובה וגן המשחקים</td><td>14:30-16:15</td></tr>
       <tr><td>יציאה לשדה התעופה</td><td>16:30</td></tr>
-      <tr><td>MOXY, החזרת רכב ואריזה</td><td>~17:45-18:15</td></tr>
+      <tr><td>MOXY, החזרת רכב ואריזה — Ausfahrtsstraße 4, 1300 Wien</td><td>~17:45-18:15</td></tr>
     </table>
     <div class="sectionLabel">📍 מה יש שם</div>
     <div class="places">
@@ -614,6 +605,21 @@ const DAYS = [
   render: () => `
     <div class="tag">לשמור בטלפון</div>
     <h2 class="title">חלופות, הטבות ובדיקות אחרונות</h2>
+    <div class="sectionLabel">🏨 המלונות שלנו</div>
+    <table class="kids" style="margin-bottom:18px;">
+      <tr>
+        <td><b>Appartements Schattauer</b> — Markt 164, 5602 Wagrain, אוסטריה
+          <a class="rowWaze" href="${wazeLink("wagrain")}" target="_blank" rel="noopener" title="נווט ב-Waze ל-Schattauer">🧭</a>
+        </td>
+        <td><span dir="ltr">25.9 – 1.10</span></td>
+      </tr>
+      <tr>
+        <td><b>Moxy Vienna Airport</b> — Ausfahrtsstraße 4, 1300 Wien, אוסטריה
+          <a class="rowWaze" href="${wazeLink("airport")}" target="_blank" rel="noopener" title="נווט ב-Waze ל-Moxy">🧭</a>
+        </td>
+        <td><span dir="ltr">24.9, 2.10</span></td>
+      </tr>
+    </table>
     <div class="sectionLabel">🔄 חלופות</div>
     <ul class="altlist">
       <li>Liechtensteinklamm — עובר לבנק החלופות. מתאים רק אם רוצים נקיק ומוכנים ל-440 מדרגות ולמנשא.</li>
@@ -697,14 +703,45 @@ function embedUrlFor(segment){
 }
 
 function wazeLink(k){
-  return `https://waze.com/ul?ll=${LOC[k].lat}%2C${LOC[k].lon}&navigate=yes`;
+  const loc = LOC[k];
+  if (loc.address){
+    return `https://waze.com/ul?q=${encodeURIComponent(loc.address)}&navigate=yes`;
+  }
+  return `https://waze.com/ul?ll=${loc.lat}%2C${loc.lon}&navigate=yes`;
 }
 
-function renderWaze(segment){
-  const keys = [...new Set(segment.filter(k=>k!=="wagrain"))];
-  if(!keys.length) return "";
-  return keys.map(k=>`<a class="wazeBtn" href="${wazeLink(k)}" target="_blank" rel="noopener">
-      <span class="ico">🧭</span> נווט ב-Waze ל-${LOC_ICON[k]||"📍"} ${LOC[k].label}</a>`).join("");
+/* Per-day map of [substring appearing in a schedule row's first cell -> LOC key],
+   used to attach an inline Waze button to the specific row that marks arrival/start
+   at that destination. Substrings are exact fragments of the existing row text. */
+const ROW_WAZE = {
+  d1: [ ["נחיתה ואיסוף מזוודות","airport"], ["לילה: MOXY Vienna Airport","airport"] ],
+  d2: [ ["יציאה למרכז וינה","vienna"], ["יציאה ל-Wagrain","wagrain"], ["צ׳ק-אין, סופר והתארגנות","wagrain"] ],
+  d3: [ ["Hallstatt: כפר","hallstatt"], ["Gosausee והליכה קלה","gosausee"], ["חזרה ל-Wagrain","wagrain"] ],
+  d4: [ ["הגעה ל-Alpendorf","alpendorf"], ["St. Johann: מרכז עתיק","alpendorf"], ["חזרה ל-Wagrain","wagrain"] ],
+  d5: [ ["חניה ועלייה במעלית לטירה","werfen"], ["Werfenweng: אגם Wengsee","werfenweng"], ["חזרה ל-Wagrain","wagrain"] ],
+  d6: [ ["תצפית הקרחון ב-Kaiser Franz Josef Höhe","glockner"], ["Wagrain","wagrain"] ],
+  d7: [ ["הגעה וחניה במרכז","salzburg"] ],
+  d8: [ ["הגעה ל-Zell am See","zell"], ["חזרה ל-Wagrain","wagrain"], ["חניה בחניון החינמי ליד קופת Kesselfall","kaprun"] ],
+  d9: [ ["הגעה ל-Melk","melk"], ["נסיעה לאורך Wachau ל-Dürnstein","durnstein"], ["יציאה לשדה התעופה","airport"], ["MOXY, החזרת רכב ואריזה","airport"] ],
+};
+
+function injectRowWaze(id){
+  const rules = ROW_WAZE[id];
+  if(!rules) return;
+  panelEl.querySelectorAll("table.sched td:first-child").forEach(td=>{
+    const text = td.textContent;
+    const rule = rules.find(([sub])=> text.includes(sub));
+    if(!rule) return;
+    const [, locKey] = rule;
+    const a = document.createElement("a");
+    a.href = wazeLink(locKey);
+    a.target = "_blank";
+    a.rel = "noopener";
+    a.className = "rowWaze";
+    a.title = "נווט ב-Waze ל-" + LOC[locKey].label;
+    a.textContent = "🧭";
+    td.appendChild(a);
+  });
 }
 
 /* ---------- Nav + panel rendering ---------- */
@@ -713,7 +750,6 @@ const panelEl = document.getElementById("panel");
 const mapTitleEl = document.getElementById("mapTitle");
 const mapSubEl = document.getElementById("mapSub");
 const mapFrameEl = document.getElementById("mapFrame");
-const wazeRowEl = document.getElementById("wazeRow");
 
 DAYS.forEach((d,i)=>{
   const btn = document.createElement("button");
@@ -723,25 +759,44 @@ DAYS.forEach((d,i)=>{
   navEl.appendChild(btn);
 });
 
+/* ---------- Auto-open today's day during the trip ---------- */
+const DAY_DATES = {
+  d1:"2026-09-24", d2:"2026-09-25", d3:"2026-09-26", d4:"2026-09-27", d5:"2026-09-28",
+  d6:"2026-09-29", d7:"2026-09-30", d8:"2026-10-01", d9:"2026-10-02", d10:"2026-10-03",
+};
+function todaysDayId(){
+  const now = new Date();
+  const y = now.getFullYear(), m = String(now.getMonth()+1).padStart(2,"0"), dd = String(now.getDate()).padStart(2,"0");
+  const todayStr = `${y}-${m}-${dd}`;
+  for (const id in DAY_DATES){
+    if (DAY_DATES[id] === todayStr) return id;
+  }
+  return null;
+}
+
 function selectDay(id){
   const day = DAYS.find(d=>d.id===id);
   if(!day) return;
   panelEl.innerHTML = renderGallery(id) + day.render();
+  injectRowWaze(id);
   document.querySelectorAll("nav.daynav button").forEach(b=>b.classList.remove("active"));
   document.getElementById("nav-"+id).classList.add("active");
   const isOverview = (id === "overview" || id === "alt");
   const segment = day.segment.length ? day.segment : FULL_ROUTE;
 
   mapFrameEl.src = embedUrlFor(segment);
-  wazeRowEl.innerHTML = isOverview
-    ? '<span style="color:var(--muted);font-size:13px;">בחרו יום ספציפי מהתפריט כדי לקבל ניווט ב-Waze ליעד שלו</span>'
-    : (renderWaze(segment) || "");
   mapTitleEl.textContent = (DAY_ICON[id]||"🗺️") + " מפה — " + day.nav;
-  mapSubEl.textContent = isOverview ? "כל המסלול" : "לחצו על הכפתור כדי לנווט";
+  mapSubEl.textContent = isOverview ? "כל המסלול" : "ממורכזת אוטומטית ביעד היום";
   window.scrollTo({top:0, behavior:"smooth"});
 }
 
-selectDay("overview");
+selectDay(todaysDayId() || "overview");
+
+if ("serviceWorker" in navigator){
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("sw.js").catch(()=>{});
+  });
+}
 </script>
 
 </body>
