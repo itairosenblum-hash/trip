@@ -129,6 +129,8 @@
   }
   nav.daynav button .icon{font-size:18px;line-height:1;flex:0 0 auto;}
   nav.daynav button .label{display:flex;flex-direction:column;gap:1px;min-width:0;}
+  nav.daynav button .wd{color:var(--muted);font-size:10.5px;font-weight:600;letter-spacing:.2px;}
+  nav.daynav button.active .wd{color:rgba(255,255,255,.8);}
   nav.daynav button .d{font-weight:700;color:var(--red-dark);font-size:13.5px;}
   nav.daynav button .t{color:var(--muted);font-size:11.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
   nav.daynav button:active{transform:scale(.97);}
@@ -686,7 +688,7 @@ const DAYS = [
   id:"d1", nav:"24.9", navSub:"טיסה לוינה",
   segment: ["airport"],
   render: () => `
-    <div class="tag">24.9 · יום הגעה • לא מעמיסים</div>
+    <div class="tag">יום ה׳, 24.9 · יום הגעה • לא מעמיסים</div>
     <h2 class="title">טיסה לוינה</h2>
     <div class="meta">נסיעה: שדה התעופה → MOXY - דקות בודדות</div>
     <table class="sched">
@@ -706,7 +708,7 @@ const DAYS = [
   id:"d2", nav:"25.9", navSub:"וינה ל-Wagrain",
   segment: ["airport","vienna","wagrain"],
   render: () => `
-    <div class="tag">25.9 · טעימה עירונית + מעבר להרים</div>
+    <div class="tag">יום ו׳, 25.9 · טעימה עירונית + מעבר להרים</div>
     <h2 class="title">וינה ל-Wagrain</h2>
     <div class="meta">נסיעות: MOXY → מרכז וינה כ-25-35 דק׳; וינה → Wagrain כ-3:30-4 שעות</div>
     <table class="sched">
@@ -739,7 +741,7 @@ const DAYS = [
   id:"d3", nav:"26.9", navSub:"Hallstatt + Gosausee",
   segment: ["wagrain","hallstatt","gosausee","wagrain"],
   render: () => `
-    <div class="tag">26.9 · כפר אייקוני + אגם אלפיני</div>
+    <div class="tag">שבת, 26.9 · כפר אייקוני + אגם אלפיני</div>
     <h2 class="title">Hallstatt + Gosausee</h2>
     <div class="meta">נסיעות: Wagrain → Hallstatt כ-1:10; ל-Gosausee כ-25 דק׳; חזרה כ-1:05</div>
     <table class="sched">
@@ -767,7 +769,7 @@ const DAYS = [
   id:"d4", nav:"27.9", navSub:"Geisterberg + St. Johann",
   segment: ["wagrain","alpendorf","wagrain"],
   render: () => `
-    <div class="tag">27.9 (הורחב) · יום ילדים מלא • הר ועיירה</div>
+    <div class="tag">יום א׳, 27.9 (הורחב) · יום ילדים מלא • הר ועיירה</div>
     <h2 class="title">Geisterberg + St. Johann</h2>
     <div class="meta">נסיעות: Wagrain → Alpendorf כ-15-20 דק׳; Alpendorf → מרכז St. Johann כ-10 דק׳; חזרה כ-20 דק׳</div>
     <table class="sched">
@@ -796,7 +798,7 @@ const DAYS = [
   id:"d5", nav:"28.9", navSub:"Hohenwerfen + Werfenweng",
   segment: ["wagrain","werfen","werfenweng","amade","wagrain"],
   render: () => `
-    <div class="tag">28.9 (הורחב) · טירה, מופע נשרים, אגם הררי ומרחצאות חמים</div>
+    <div class="tag">יום ב׳, 28.9 (הורחב) · טירה, מופע נשרים, אגם הררי ומרחצאות חמים</div>
     <h2 class="title">Hohenwerfen + Werfenweng</h2>
     <div class="meta">נסיעות: Wagrain → Hohenwerfen כ-35-45 דק׳; ל-Werfenweng כ-15-20 דק׳; ל-Erlebnis-Therme Amadé כ-20 דק׳; חזרה ל-Wagrain כ-10 דק׳</div>
     <table class="sched">
@@ -829,7 +831,7 @@ const DAYS = [
   id:"d6", nav:"29.9", navSub:"Grossglockner",
   segment: ["wagrain","glockner","wagrain"],
   render: () => `
-    <div class="tag">29.9 · יום WOW • כביש אלפיני וקרחון</div>
+    <div class="tag">יום ג׳, 29.9 · יום WOW • כביש אלפיני וקרחון</div>
     <h2 class="title">Grossglockner</h2>
     <div class="meta">נהיגה: עד תחילת הכביש כ-1:15-1:30; סה״כ כ-5-6 שעות כולל עצירות</div>
     <table class="sched">
@@ -863,7 +865,7 @@ const DAYS = [
   id:"d7", nav:"30.9", navSub:"Salzburg",
   segment: ["wagrain","salzburg","wasserwelt","wagrain"],
   render: () => `
-    <div class="tag">30.9 · עיר עתיקה • גנים, מצודה ומרחצאות חמים</div>
+    <div class="tag">יום ד׳, 30.9 · עיר עתיקה • גנים, מצודה ומרחצאות חמים</div>
     <h2 class="title">Salzburg</h2>
     <div class="meta">נסיעה: Wagrain → Salzburg כ-1 שעה לכל כיוון; Wagrain Wasserwelt בתוך Wagrain עצמה</div>
     <table class="sched">
@@ -901,7 +903,7 @@ const DAYS = [
   id:"d8", nav:"1.10", navSub:"Zell am See + Kaprun",
   segment: ["wagrain","zell","kaprun","zell","wagrain"],
   render: () => `
-    <div class="tag">1.10 · רכבל + פסגה + אגם ושיט</div>
+    <div class="tag">יום ה׳, 1.10 · רכבל + פסגה + אגם ושיט</div>
     <h2 class="title">Zell am See + Schmittenhöhe</h2>
     <div class="meta">נסיעה: Wagrain → Zell am See כ-1 שעה לכל כיוון</div>
     <table class="sched">
@@ -956,7 +958,7 @@ const DAYS = [
   id:"d9", nav:"2.10", navSub:"Melk + Dürnstein",
   segment: ["wagrain","melk","durnstein","airport"],
   render: () => `
-    <div class="tag">2.10 (הורחב) · יום מעבר עשיר דרך עמק Wachau</div>
+    <div class="tag">יום ו׳, 2.10 (הורחב) · יום מעבר עשיר דרך עמק Wachau</div>
     <h2 class="title">Melk + Dürnstein → Airport</h2>
     <div class="meta">נסיעות: Wagrain → Melk כ-2:30-2:45; ל-Dürnstein כ-30 דק׳; לשדה כ-1:10-1:20</div>
     <table class="sched">
@@ -985,7 +987,7 @@ const DAYS = [
   id:"d10", nav:"3.10", navSub:"טיסה הביתה",
   segment: ["airport"],
   render: () => `
-    <div class="tag">3.10 · בוקר קל ליד השדה</div>
+    <div class="tag">שבת, 3.10 · בוקר קל ליד השדה</div>
     <h2 class="title">טיסה הביתה</h2>
     <div class="meta">מעבר: MOXY → טרמינל - דקות בודדות</div>
     <table class="sched">
@@ -1744,6 +1746,20 @@ function todaysDayId(){
 }
 const TODAY_ID = todaysDayId();
 
+/* ---------- Weekday label (e.g. "יום ה׳", "שבת") for a trip-day id, from DAY_DATES ---------- */
+const WEEKDAY_HE = ["יום א׳","יום ב׳","יום ג׳","יום ד׳","יום ה׳","יום ו׳","שבת"]; // index = Date#getDay()
+const WEEKDAY_HE_SHORT = ["א׳","ב׳","ג׳","ד׳","ה׳","ו׳","שבת"];
+function weekdayLabel(id){
+  const iso = DAY_DATES[id];
+  if (!iso) return "";
+  return WEEKDAY_HE[new Date(iso + "T00:00:00").getDay()];
+}
+function weekdayShort(id){
+  const iso = DAY_DATES[id];
+  if (!iso) return "";
+  return WEEKDAY_HE_SHORT[new Date(iso + "T00:00:00").getDay()];
+}
+
 /* ---------- Countdown badge in the header: days left, or which trip day we're on. ---------- */
 function updateCountdown(){
   const el = document.getElementById("countdown");
@@ -1783,7 +1799,8 @@ DAYS.forEach((d,i)=>{
   btn.id = "nav-"+d.id;
   const isToday = (d.id === TODAY_ID);
   if (isToday) btn.classList.add("isToday");
-  btn.innerHTML = `<span class="icon">${DAY_ICON[d.id]||"📍"}</span><span class="label"><span class="d">${d.nav}</span><span class="t">${d.navSub}</span></span>${isToday ? '<span class="todayDot">היום</span>' : ''}`;
+  const wd = weekdayShort(d.id);
+  btn.innerHTML = `<span class="icon">${DAY_ICON[d.id]||"📍"}</span><span class="label">${wd ? `<span class="wd">${wd}</span>` : ""}<span class="d">${d.nav}</span><span class="t">${d.navSub}</span></span>${isToday ? '<span class="todayDot">היום</span>' : ''}`;
   btn.addEventListener("click", ()=> selectDay(d.id));
   (TOP_NAV_IDS.includes(d.id) ? navTopEl : dayScrollEl).appendChild(btn);
 });
@@ -1828,7 +1845,8 @@ function selectDay(id){
     try { updateMap(segment, isOverview); } catch(e) { console.error("map update failed", e); }
     updateNowBar(id);
     injectWeather(id);
-    mapTitleEl.textContent = (DAY_ICON[id]||"🗺️") + " מפה — " + day.nav;
+    const wdLabel = weekdayShort(id);
+    mapTitleEl.textContent = (DAY_ICON[id]||"🗺️") + " מפה — " + (wdLabel ? wdLabel + " " : "") + day.nav;
     mapSubEl.textContent = isOverview ? "כל המסלול" : "ממורכזת אוטומטית ביעד היום";
   } else {
     document.getElementById("nowBar").hidden = true;
