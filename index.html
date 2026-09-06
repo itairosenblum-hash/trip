@@ -649,16 +649,14 @@ const LOC = {
   fuscher_torl: {lat:47.1128, lon:12.8422, label:"Fuscher Törl"},
   hochtor:   {lat:47.0982, lon:12.8354, label:"Hochtor"},
   glockner:  {lat:47.0725, lon:12.8319, label:"Kaiser-Franz-Josefs-Höhe"},
-  salzburg:  {lat:47.8095, lon:13.0550, label:"Salzburg"},
-  hohensalzburg: {lat:47.7950, lon:13.0475, label:"Hohensalzburg Fortress", address:"Mönchsberg 34, 5020 Salzburg, אוסטריה"},
-  hausdernatur:  {lat:47.7989, lon:13.0431, label:"Haus der Natur", address:"Museumsplatz 5, 5020 Salzburg, אוסטריה"},
+  stwolfgang: {lat:47.7392, lon:13.4398, label:"St. Wolfgang / Schafbergbahn", address:"Markt 35, 5360 St. Wolfgang im Salzkammergut, אוסטריה"},
   zell:      {lat:47.3239, lon:12.7958, label:"Zell am See"},
   kaprun:    {lat:47.2711, lon:12.7561, label:"Kaprun"},
   melk:      {lat:48.2333, lon:15.3333, label:"Melk"},
   durnstein: {lat:48.3958, lon:15.5183, label:"Dürnstein"},
 };
 const FULL_ROUTE = ["airport","vienna","wagrain","hallstatt","gosausee","wagrain","alpendorf","wagrain",
-  "werfen","werfenweng","wagrain","glockner","wagrain","salzburg","wagrain",
+  "werfen","werfenweng","wagrain","glockner","wagrain","stwolfgang","wagrain",
   "zell","kaprun","zell","wagrain","melk","durnstein","airport"];
 
 /* ---------- Day content ---------- */
@@ -677,13 +675,13 @@ const DAYS = [
         ["27.9 (הורחב) — Geisterberg + St. Johann","בינוני"],
         ["28.9 (הורחב) — Hohenwerfen + Werfenweng","בינוני"],
         ["29.9 — Grossglockner","ארוך"],
-        ["30.9 — Salzburg","בינוני"],
+        ["30.9 — Wolfgangsee + Schafbergbahn","בינוני"],
         ["1.10 — Zell am See + Schmittenhöhe (+ תוספת Kaprun)","בינוני"],
         ["2.10 (הורחב) — Melk + Dürnstein → Airport","בינוני"],
         ["3.10 — טיסה הביתה","קל"],
       ].map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`).join("")}
     </table>
-    <div class="box tan">גמישות לפי מזג האוויר: Grossglockner, Hallstatt ו-Zell am See לימים עם הראות הטובה ביותר. Salzburg מתאים גם ליום מעונן או גשום.</div>
+    <div class="box tan">גמישות לפי מזג האוויר: Grossglockner, Hallstatt, Zell am See ו-Wolfgangsee (הנוף מהרכבת לפסגה) לימים עם הראות הטובה ביותר. אם יורד גשם באחד מהם, Salzburg (בעמוד מידע כללי) היא חלופה טובה ליום מעונן.</div>
     <div class="boxes">
       <div class="box red"><b>חשוב</b>הרכבל ל-Geisterberg (Alpendorf) פועל בין 12.9–18.10.2026 רק בימי שישי–שלישי (לא כל יום). ה-27.9.2026 הוא יום שני ולכן תקין כפי שמתוכנן — אם מזיזים ימים בגלל מזג אוויר, אפשר להעביר את היום הזה רק לשבת/ראשון/שני/שלישי.</div>
     </div>
@@ -868,39 +866,39 @@ const DAYS = [
   `
 },
 {
-  id:"d7", nav:"30.9", navSub:"Salzburg",
-  segment: ["wagrain","salzburg","hohensalzburg","hausdernatur","wasserwelt","wagrain"],
+  id:"d7", nav:"30.9", navSub:"Wolfgangsee + Schafbergbahn",
+  segment: ["wagrain","stwolfgang","wasserwelt","wagrain"],
   render: () => `
-    <div class="tag">יום ד׳, 30.9 · עיר עתיקה • גנים, מצודה ומרחצאות חמים</div>
-    <h2 class="title">Salzburg</h2>
-    <div class="meta">נסיעה: Wagrain → Salzburg כ-1 שעה לכל כיוון; Wagrain Wasserwelt בתוך Wagrain עצמה</div>
+    <div class="tag">יום ד׳, 30.9 · אגם אלפיני • רכבת קיטור לפסגה • מרחצאות חמים</div>
+    <h2 class="title">Wolfgangsee + Schafbergbahn</h2>
+    <div class="meta">נסיעה: Wagrain → St. Wolfgang כ-1:25-1:40 לכל כיוון; Wagrain Wasserwelt בתוך Wagrain עצמה</div>
     <table class="sched">
-      <tr><td>יציאה</td><td>08:30</td></tr>
-      <tr><td>הגעה וחניה במרכז</td><td>~09:30</td></tr>
-      <tr><td>Mirabell, העיר העתיקה, Getreidegasse והקתדרלה</td><td>בוקר</td></tr>
-      <tr><td>צהריים</td><td>12:30</td></tr>
-      <tr><td>Hohensalzburg Fortress</td><td>14:00</td></tr>
-      <tr><td>Haus der Natur - מצוין לילדים ובגשם</td><td>אופציונלי</td></tr>
-      <tr><td>יציאה מ-Salzburg בחזרה ל-Wagrain</td><td>~17:00</td></tr>
+      <tr><td>יציאה מ-Wagrain</td><td>08:00</td></tr>
+      <tr><td>הגעה ל-St. Wolfgang, חניה ליד תחנת הרכבת</td><td>~09:30</td></tr>
+      <tr><td>טיילת האגם וכיכר הכפר (מול מלון Weißes Rössl)</td><td>09:45-10:15</td></tr>
+      <tr><td>עלייה ברכבת השיניים ההיסטורית Schafbergbahn לפסגה</td><td>~10:30</td></tr>
+      <tr><td>זמן חופשי בפסגה: תצפית, הליכה קלה וצהריים</td><td>~11:30-13:00</td></tr>
+      <tr><td>ירידה חזרה ברכבת לתחנה התחתונה</td><td>13:00-13:45</td></tr>
+      <tr><td>שיט קצר באגם Wolfgangsee, אם פועל ומזג האוויר מתאים</td><td>אופציונלי</td></tr>
+      <tr><td>יציאה בחזרה ל-Wagrain</td><td>~15:15</td></tr>
       <tr><td>Wagrain Wasserwelt: מרחצאות חמים ומגלשות מים (חינם לאורחי המלון)</td><td>18:15-20:00</td></tr>
       <tr><td>חזרה למלון</td><td>~20:10</td></tr>
     </table>
     <div class="sectionLabel">📍 מה יש שם</div>
     <div class="places">
-      <div class="p"><b>Mirabell (ארמון וגן מירבל) — </b>ארמון בארוקי וגן נוי מפואר שצולם ב-"Sound of Music"; כולל את גן הגמדים העתיק (Zwerglgarten) ומגרש משחקים.</div>
-      <div class="p"><b>Getreidegasse — </b>רחוב הקניות ההיסטורי המרכזי, מוכר בזכות שלטי הברזל המעוטרים ובית הולדתו של מוצרט.</div>
-      <div class="p"><b>Hohensalzburg Fortress — </b>אחת המצודות הגדולות והמשומרות באירופה, מגיעים ברכבל תלוי עם נוף מרהיב.</div>
-      <div class="p"><b>Haus der Natur — </b>מוזיאון טבע ומדע פופולרי לילדים - אקווריום, טרריום זוחלים ותערוכות אינטראקטיביות; אלטרנטיבה מצוינת ליום גשום.</div>
-      <div class="p"><b>Wagrain Wasserwelt — </b>מתחם מרחצאות חמים ומגלשות מים בתוך Wagrain עצמה, ממש קרוב למלון; הכניסה חינמית לאורחי המלון עם כרטיס האורח. סיום מפנק ליום ארוך בעיר. <a href="https://www.wagrain-kleinarl.at/de/sommer/wasserwelt-wagrain.html" target="_blank" rel="noopener">האתר הרשמי</a>.</div>
+      <div class="p"><b>Wolfgangsee — </b>אחד האגמים היפים והידועים בזלצקאמרגוט, מוקף הרים ירוקים; הכפר St. Wolfgang על גדתו מפורסם בזכות המלון ההיסטורי Weißes Rössl ("הסוס הלבן") והכנסייה העתיקה שבמרכזו.</div>
+      <div class="p"><b>Schafbergbahn — </b>רכבת שיניים היסטורית מ-1893 (מהוותיקות באירופה), מטפסת מגובה האגם עד לפסגת שפברג (1,783 מ׳) בכ-40-60 דקות; חלק מהקרונות עדיין מונעים בקיטור אמיתי, לצד קרונות דיזל מודרניים. מהפסגה נשקף נוף מרהיב לכ-13 אגמים באזור.</div>
+      <div class="p"><b>שיט באגם — </b>טיול קצר בסירת נוסעים על פני Wolfgangsee עם נוף לכפרים שלאורך החוף - תוספת נעימה אם נשאר זמן ואנרגיה.</div>
+      <div class="p"><b>Wagrain Wasserwelt — </b>מתחם מרחצאות חמים ומגלשות מים בתוך Wagrain עצמה, ממש קרוב למלון; הכניסה חינמית לאורחי המלון עם כרטיס האורח. סיום מפנק ליום ארוך. <a href="https://www.wagrain-kleinarl.at/de/sommer/wasserwelt-wagrain.html" target="_blank" rel="noopener">האתר הרשמי</a>.</div>
     </div>
     <div class="boxes">
-      <div class="box green"><b>יום מגוון</b>מרכז היסטורי, מצודה ונוף, עם מוזיאון מצוין לילדים, ומסתיים במרחצאות חמים קרוב למלון.</div>
-      <div class="box red"><b>מזג אוויר</b>בגשם מאריכים את Haus der Natur ומקצרים הליכה בחוץ. זהו היום הכי גמיש במסלול - מועמד טבעי להחלפה עם ימי הרים.</div>
-      <div class="box tan"><b>Wasserwelt</b>הכניסה חינמית לאורחי המלון (Appartements Schattauer) — יש להציג את כרטיס האורח בקופה; כדאי לקחת בגדי ים ומגבות. פתוחה עד 20:00, כניסה אחרונה 19:00.</div>
+      <div class="box green"><b>יום מיוחד</b>אגם מהיפים באזור ורכבת שיניים היסטורית לפסגה - שילוב נדיר של טבע ונוסטלגיה, ומסתיים במרחצאות חמים קרוב למלון.</div>
+      <div class="box red"><b>חשוב</b>מומלץ להזמין כרטיסים ל-Schafbergbahn מראש - זו אטרקציה פופולרית שנגמרים בה מקומות בעונה. הקרונות המונעים בקיטור אמיתי אינם מובטחים בכל נסיעה - שווה לבדוק בהזמנה אם רוצים דווקא אותם.</div>
+      <div class="box tan"><b>עונה ומחירים • Schafbergbahn</b>פועלת 25.4–1.11.2026 (בטווח הטיול שלנו). מחיר הלוך-חזור: מבוגר כ-61€, ילד (4-14) כ-18.40€. תחנה תחתונה: Markt 35, 5360 St. Wolfgang.</div>
     </div>
     <div class="sectionLabel">🧒 אופציות לילדים נוספות בסביבה</div>
     <table class="kids">
-      <tr><td><b>Zwerglgarten + Zauberflötenspielplatz</b> — גן הגמדים הבארוקי (28 פסלים) וממש לידו מגרש משחקים - בתוך גן Mirabell עצמו, בדיוק במסלול הבוקר, לא דורש סטייה.</td><td>גן מירבל פתוח יומי כ-05:00-23:00; כניסה חופשית.</td></tr>
+      <tr><td><b>Zwölferhorn (St. Gilgen)</b> — רכבל נוסף לפסגה עם מגלשת קיץ (Alpine Coaster) ומסלולי הליכה קלים, בצד השני של האגם - כ-15 דק׳ נסיעה מ-St. Wolfgang. אופציה אם נשאר זמן וכוח, לא חלק מהתוכנית הקבועה.</td><td>פועל בעונת הקיץ; לבדוק שעות מראש.</td></tr>
     </table>
     <div class="footerbar">סוף יום: Wagrain Wasserwelt חינם עם כרטיס האורח, ואז חזרה קצרה למלון.</div>
   `
@@ -1044,7 +1042,7 @@ const DAYS = [
     <div class="sectionLabel">🔄 חלופות</div>
     <ul class="altlist">
       <li>Liechtensteinklamm — עובר לבנק החלופות. מתאים רק אם רוצים נקיק ומוכנים ל-440 מדרגות ולמנשא.</li>
-      <li>Wolfgangsee + St. Wolfgang — אגם, עיירה ושיט - ליום רגוע.</li>
+      <li><b>Salzburg</b> — סיור עירוני (Mirabell, העיר העתיקה, Getreidegasse, Hohensalzburg Fortress, Haus der Natur). חלופה טובה ליום מעונן/גשום, או להחלפה עם 30.9 אם מזג האוויר לא מתאים לרכבת ההרים.</li>
       <li><b>Kaprun Hochgebirgsstauseen (Mooserboden)</b> — סכר הררי מרשים בגובה 2,040 מ׳. פירוט מלא ולוז מוצע בעמוד 1.10.</li>
       <li>Krimml Waterfalls — מפלים גדולים, רק אם מוכנים לנסיעה ארוכה.</li>
       <li>Shuttleberg Kleinarl — רכבל והר למשפחות - רק לאחר אישור ההטבה מהמלון.</li>
@@ -1052,13 +1050,14 @@ const DAYS = [
     <div class="sectionLabel">✅ בדיקות אחרונות</div>
     <ol class="checklist">
       <li>לבדוק תחזית 5-7 ימים לפני ולקבע את Grossglockner ליום הבהיר ביותר.</li>
+      <li>להזמין מראש כרטיסים ל-Schafbergbahn (30.9) - אטרקציה פופולרית שנגמרים בה מקומות בעונה.</li>
       <li>לאשר מול Schattauer את תנאי Wasserwelt, את Shuttleberg ל-2026, ואת הכללת/עלות Kaprun במסגרת Salzburger Sportwelt Card.</li>
       <li>לבדוק סמוך לנסיעה את פעילות הרכבלים והשיט ב-Zell am See.</li>
       <li>ל-Hohenwerfen לקחת מנשא ולהגיע בזמן למופע 11:15.</li>
       <li>הרכבל ל-Geisterberg פועל רק בימי שישי-שלישי — אם מזיזים ימים, לוודא שה-27.9 נופל באחד מהם.</li>
       <li>לוודא מדיניות עגלה/מנשא באוטובוסי Kaprun ובמעלית Lärchwand מראש טלפונית (+43 50 313 23201).</li>
     </ol>
-    <div class="box tan"><b>בדיקת שעות ומסלול • מקורות רשמיים</b>Geisterberg פועל ב-27.9.2026 09:00-17:00 (בטווח שישי-שלישי). Hohenwerfen פתוח בספטמבר 09:00-17:00, מופעים 11:15/15:15. Grossglockner פתוח עד תחילת נובמבר 2026, שעות ספטמבר 06:00-19:30. Schmittenhöhe ושיט פועלים ב-1.10.2026 09:00-17:00/10:00-17:00. Kaprun פתוח 21.5-11.10.2026, אוטובוסים 08:10-16:45/17:00. מקורות: grossglockner.at • burg-hohenwerfen.at • schmitten.at • skiamade.com • kaprun-stauseen.com</div>
+    <div class="box tan"><b>בדיקת שעות ומסלול • מקורות רשמיים</b>Geisterberg פועל ב-27.9.2026 09:00-17:00 (בטווח שישי-שלישי). Hohenwerfen פתוח בספטמבר 09:00-17:00, מופעים 11:15/15:15. Grossglockner פתוח עד תחילת נובמבר 2026, שעות ספטמבר 06:00-19:30. Schafbergbahn פועלת 25.4-1.11.2026. Schmittenhöhe ושיט פועלים ב-1.10.2026 09:00-17:00/10:00-17:00. Kaprun פתוח 21.5-11.10.2026, אוטובוסים 08:10-16:45/17:00. מקורות: grossglockner.at • burg-hohenwerfen.at • 5schaetze.at • schmitten.at • skiamade.com • kaprun-stauseen.com</div>
   `
 },
 {
@@ -1111,10 +1110,10 @@ const FUN_FACTS = {
     "בגלל השלג, הכביש הזה סגור בחורף ופתוח רק חלק מהשנה.",
   ],
   d7: [
-    "זלצבורג פירושו 'עיר המלח' בגרמנית.",
-    "מוצרט נולד בזלצבורג ב-1756, ואפשר עדיין לבקר בבית שבו הוא גדל.",
-    "מצודת הוהנזלצבורג היא אחת המצודות הגדולות שנשמרו באירופה.",
-    "הסרט המפורסם 'צלילי המוזיקה' צולם בזלצבורג ובסביבתה.",
+    "הרכבת Schafbergbahn פועלת כבר מאז שנת 1893 — היא אחת מרכבות ההרים העתיקות באירופה!",
+    "מפסגת שפברג (1,783 מ׳) אפשר לראות בערך 13 אגמים שונים ביום בהיר!",
+    "חלק מקרונות הרכבת עדיין מונעים בקיטור אמיתי — ממש כמו לפני יותר מ-100 שנה.",
+    "אגם Wolfgangsee נקרא על שם קדוש שחי באזור לפני יותר מ-1,000 שנה.",
     "בסוף היום נשחה ב-Wagrain Wasserwelt — ולנו זה חינם, כי אנחנו אורחים במלון!",
   ],
   d8: [
@@ -1180,7 +1179,8 @@ const IMAGES = {
   d4:  [ {f:"St.-Johannes-Kirche in Sankt Johann im Pongau.jpg", alt:"St. Johann im Pongau"} ],
   d5:  [ {f:"Hohenwerfen castle.jpg", alt:"מצודת Hohenwerfen"} ],
   d6:  [ {f:"20190624.Kaiser-Franz-Joseph-Höhe, Grossglockner.-047.jpg", alt:"Kaiser-Franz-Josefs-Höhe, Grossglockner"} ],
-  d7:  [ {f:"Salzburg Festung Hohensalzburg Blick über Salzburg.jpg", alt:"מצודת Hohensalzburg, זלצבורג"} ],
+  d7:  [ {f:"Schafbergbahn-Dampflok.jpg", alt:"קרון הקיטור של ה-Schafbergbahn"},
+         {f:"St. Gilgen - Nordwestansicht des Wolfgangsees.JPG", alt:"נוף לאגם Wolfgangsee"} ],
   d8:  [ {f:"Zell am see zeller see.jpg", alt:"Zell am See"},
          {f:"Stausee Mooserboden Kaprun 01.jpg", alt:"סכר Mooserboden, Kaprun"} ],
   d9:  [ {f:"Melk Abbey (8).jpg", alt:"מנזר Melk"},
@@ -1202,20 +1202,20 @@ function renderGallery(id){
 /* ---------- Map (Google Maps, no key) + Waze navigation ---------- */
 const DAY_ICON = {
   overview:"🗺️", d1:"✈️", d2:"🏛️", d3:"🏞️", d4:"🎢", d5:"🏰",
-  d6:"🏔️", d7:"🎻", d8:"🚡", d9:"⛪", d10:"✈️", alt:"📋", trivia:"🎯",
+  d6:"🏔️", d7:"🚂", d8:"🚡", d9:"⛪", d10:"✈️", alt:"📋", trivia:"🎯",
 };
 const LOC_ICON = {
   airport:"✈️", vienna:"🏛️", wagrain:"🏡", hallstatt:"🏘️", hallstatt_salt:"⛏️", gosausee:"🏞️",
   alpendorf:"🎢", werfen:"🏰", werfenweng:"🏞️", amade:"♨️",
   fuscher_torl:"🌄", hochtor:"🏔️", glockner:"🏔️",
-  salzburg:"🏰", hohensalzburg:"🏯", hausdernatur:"🔬", wasserwelt:"🌊", zell:"🚡", kaprun:"💧", melk:"⛪", durnstein:"⛪",
+  stwolfgang:"🚂", wasserwelt:"🌊", zell:"🚡", kaprun:"💧", melk:"⛪", durnstein:"⛪",
 };
 
 /* ---------- Weather: per-day forecast (Open-Meteo, no key needed) for the day's
    main destination, shown between the map and the schedule. ---------- */
 const WEATHER_LOC = {
   d1:"airport", d2:"vienna", d3:"hallstatt", d4:"alpendorf", d5:"werfen",
-  d6:"glockner", d7:"salzburg", d8:"zell", d9:"melk", d10:"airport",
+  d6:"glockner", d7:"stwolfgang", d8:"zell", d9:"melk", d10:"airport",
 };
 const WEATHER_CACHE = {};
 let weatherSeq = 0;
@@ -1478,7 +1478,7 @@ const ROW_WAZE = {
   d4: [ ["הגעה ל-Alpendorf","alpendorf"], ["St. Johann: מרכז עתיק","alpendorf"], ["חזרה ל-Wagrain","wagrain"] ],
   d5: [ ["חניה ועלייה במעלית לטירה","werfen"], ["Werfenweng: אגם Wengsee","werfenweng"], ["מרחצאות חמים ומגלשות מים","amade"], ["חזרה ל-Wagrain","wagrain"] ],
   d6: [ ["עצירה ב-Fuscher Törl","fuscher_torl"], ["עצירה ב-Hochtor","hochtor"], ["תצפית הקרחון ב-Kaiser Franz Josef Höhe","glockner"], ["Wagrain","wagrain"] ],
-  d7: [ ["הגעה וחניה במרכז","salzburg"], ["Hohensalzburg Fortress","hohensalzburg"], ["Haus der Natur","hausdernatur"], ["Wagrain Wasserwelt","wasserwelt"], ["חזרה למלון","wagrain"] ],
+  d7: [ ["הגעה ל-St. Wolfgang","stwolfgang"], ["Wagrain Wasserwelt","wasserwelt"], ["חזרה למלון","wagrain"] ],
   d8: [ ["הגעה ל-Zell am See","zell"], ["חזרה ל-Wagrain","wagrain"], ["חניה בחניון החינמי ליד קופת Kesselfall","kaprun"] ],
   d9: [ ["הגעה ל-Melk","melk"], ["נסיעה לאורך Wachau ל-Dürnstein","durnstein"], ["יציאה לשדה התעופה","airport"], ["MOXY, החזרת רכב ואריזה","airport"] ],
 };
