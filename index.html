@@ -639,14 +639,19 @@ const LOC = {
   vienna:    {lat:48.2082, lon:16.3738, label:"וינה (מרכז העיר)"},
   wagrain:   {lat:47.3400, lon:13.3000, label:"Wagrain (בסיס)", address:"Appartements Schattauer, Markt 164, 5602 Wagrain, אוסטריה"},
   hallstatt: {lat:47.5622, lon:13.6493, label:"Hallstatt"},
+  hallstatt_salt: {lat:47.5567, lon:13.6413, label:"Skywalk / מכרה המלח (Salzwelten Hallstatt)", address:"Salzbergstraße 21, 4830 Hallstatt, אוסטריה"},
   gosausee:  {lat:47.5386, lon:13.5461, label:"Gosausee"},
   alpendorf: {lat:47.3500, lon:13.2000, label:"Alpendorf / St. Johann"},
   werfen:    {lat:47.4772, lon:13.1889, label:"Hohenwerfen"},
   werfenweng:{lat:47.4333, lon:13.2167, label:"Werfenweng"},
   amade:     {lat:47.3811, lon:13.2508, label:"Erlebnis-Therme Amadé", address:"Thermenplatz 1, 5541 Altenmarkt im Pongau, אוסטריה"},
   wasserwelt:{lat:47.3385, lon:13.3040, label:"Wagrain Wasserwelt", address:"Kirchboden 25A, 5602 Wagrain, אוסטריה"},
+  fuscher_torl: {lat:47.1128, lon:12.8422, label:"Fuscher Törl"},
+  hochtor:   {lat:47.0982, lon:12.8354, label:"Hochtor"},
   glockner:  {lat:47.0725, lon:12.8319, label:"Kaiser-Franz-Josefs-Höhe"},
   salzburg:  {lat:47.8095, lon:13.0550, label:"Salzburg"},
+  hohensalzburg: {lat:47.7950, lon:13.0475, label:"Hohensalzburg Fortress", address:"Mönchsberg 34, 5020 Salzburg, אוסטריה"},
+  hausdernatur:  {lat:47.7989, lon:13.0431, label:"Haus der Natur", address:"Museumsplatz 5, 5020 Salzburg, אוסטריה"},
   zell:      {lat:47.3239, lon:12.7958, label:"Zell am See"},
   kaprun:    {lat:47.2711, lon:12.7561, label:"Kaprun"},
   melk:      {lat:48.2333, lon:15.3333, label:"Melk"},
@@ -739,7 +744,7 @@ const DAYS = [
 },
 {
   id:"d3", nav:"26.9", navSub:"Hallstatt + Gosausee",
-  segment: ["wagrain","hallstatt","gosausee","wagrain"],
+  segment: ["wagrain","hallstatt","hallstatt_salt","gosausee","wagrain"],
   render: () => `
     <div class="tag">שבת, 26.9 · כפר אייקוני + אגם אלפיני</div>
     <h2 class="title">Hallstatt + Gosausee</h2>
@@ -829,7 +834,7 @@ const DAYS = [
 },
 {
   id:"d6", nav:"29.9", navSub:"Grossglockner",
-  segment: ["wagrain","glockner","wagrain"],
+  segment: ["wagrain","fuscher_torl","hochtor","glockner","wagrain"],
   render: () => `
     <div class="tag">יום ג׳, 29.9 · יום WOW • כביש אלפיני וקרחון</div>
     <h2 class="title">Grossglockner</h2>
@@ -837,7 +842,8 @@ const DAYS = [
     <table class="sched">
       <tr><td>יציאה</td><td>07:30</td></tr>
       <tr><td>תחילת אזור הכביש האלפיני</td><td>~09:00</td></tr>
-      <tr><td>עצירות ב-Hochtor וב-Fuscher Törl במהלך היום</td><td></td></tr>
+      <tr><td>עצירה ב-Fuscher Törl: נקודת תצפית ומעבר הרים</td><td>~09:30</td></tr>
+      <tr><td>עצירה ב-Hochtor: פסגת הכביש ומנהרת הגבול</td><td>~10:00</td></tr>
       <tr><td>ארוחה בדרך לפי הקצב</td><td>צהריים</td></tr>
       <tr><td>תצפית הקרחון ב-Kaiser Franz Josef Höhe</td><td>שיא היום</td></tr>
       <tr><td>התחלת חזרה</td><td>~16:00</td></tr>
@@ -863,7 +869,7 @@ const DAYS = [
 },
 {
   id:"d7", nav:"30.9", navSub:"Salzburg",
-  segment: ["wagrain","salzburg","wasserwelt","wagrain"],
+  segment: ["wagrain","salzburg","hohensalzburg","hausdernatur","wasserwelt","wagrain"],
   render: () => `
     <div class="tag">יום ד׳, 30.9 · עיר עתיקה • גנים, מצודה ומרחצאות חמים</div>
     <h2 class="title">Salzburg</h2>
@@ -1199,9 +1205,10 @@ const DAY_ICON = {
   d6:"🏔️", d7:"🎻", d8:"🚡", d9:"⛪", d10:"✈️", alt:"📋", trivia:"🎯",
 };
 const LOC_ICON = {
-  airport:"✈️", vienna:"🏛️", wagrain:"🏡", hallstatt:"🏘️", gosausee:"🏞️",
-  alpendorf:"🎢", werfen:"🏰", werfenweng:"🏞️", amade:"♨️", glockner:"🏔️",
-  salzburg:"🏰", wasserwelt:"🌊", zell:"🚡", kaprun:"💧", melk:"⛪", durnstein:"⛪",
+  airport:"✈️", vienna:"🏛️", wagrain:"🏡", hallstatt:"🏘️", hallstatt_salt:"⛏️", gosausee:"🏞️",
+  alpendorf:"🎢", werfen:"🏰", werfenweng:"🏞️", amade:"♨️",
+  fuscher_torl:"🌄", hochtor:"🏔️", glockner:"🏔️",
+  salzburg:"🏰", hohensalzburg:"🏯", hausdernatur:"🔬", wasserwelt:"🌊", zell:"🚡", kaprun:"💧", melk:"⛪", durnstein:"⛪",
 };
 
 /* ---------- Weather: per-day forecast (Open-Meteo, no key needed) for the day's
@@ -1467,11 +1474,11 @@ function wazeLink(k){
 const ROW_WAZE = {
   d1: [ ["נחיתה ואיסוף מזוודות","airport"], ["לילה: MOXY Vienna Airport","airport"] ],
   d2: [ ["יציאה למרכז וינה","vienna"], ["יציאה ל-Wagrain","wagrain"], ["צ׳ק-אין, סופר והתארגנות","wagrain"] ],
-  d3: [ ["Hallstatt: כפר","hallstatt"], ["Gosausee והליכה קלה","gosausee"], ["חזרה ל-Wagrain","wagrain"] ],
+  d3: [ ["Hallstatt: כפר","hallstatt"], ["Skywalk או מכרה המלח","hallstatt_salt"], ["Gosausee והליכה קלה","gosausee"], ["חזרה ל-Wagrain","wagrain"] ],
   d4: [ ["הגעה ל-Alpendorf","alpendorf"], ["St. Johann: מרכז עתיק","alpendorf"], ["חזרה ל-Wagrain","wagrain"] ],
   d5: [ ["חניה ועלייה במעלית לטירה","werfen"], ["Werfenweng: אגם Wengsee","werfenweng"], ["מרחצאות חמים ומגלשות מים","amade"], ["חזרה ל-Wagrain","wagrain"] ],
-  d6: [ ["תצפית הקרחון ב-Kaiser Franz Josef Höhe","glockner"], ["Wagrain","wagrain"] ],
-  d7: [ ["הגעה וחניה במרכז","salzburg"], ["Wagrain Wasserwelt","wasserwelt"], ["חזרה למלון","wagrain"] ],
+  d6: [ ["עצירה ב-Fuscher Törl","fuscher_torl"], ["עצירה ב-Hochtor","hochtor"], ["תצפית הקרחון ב-Kaiser Franz Josef Höhe","glockner"], ["Wagrain","wagrain"] ],
+  d7: [ ["הגעה וחניה במרכז","salzburg"], ["Hohensalzburg Fortress","hohensalzburg"], ["Haus der Natur","hausdernatur"], ["Wagrain Wasserwelt","wasserwelt"], ["חזרה למלון","wagrain"] ],
   d8: [ ["הגעה ל-Zell am See","zell"], ["חזרה ל-Wagrain","wagrain"], ["חניה בחניון החינמי ליד קופת Kesselfall","kaprun"] ],
   d9: [ ["הגעה ל-Melk","melk"], ["נסיעה לאורך Wachau ל-Dürnstein","durnstein"], ["יציאה לשדה התעופה","airport"], ["MOXY, החזרת רכב ואריזה","airport"] ],
 };
