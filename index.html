@@ -637,7 +637,10 @@
 const LOC = {
   airport:   {lat:48.1103, lon:16.5697, label:"שדה התעופה / MOXY", address:"Moxy Vienna Airport, Ausfahrtsstraße 4, 1300 Wien, אוסטריה"},
   vienna:    {lat:48.2082, lon:16.3738, label:"וינה (מרכז העיר)"},
+  gmunden:   {lat:47.9186, lon:13.7982, label:"Gmunden / Traunsee"},
+  schlossort: {lat:47.9059, lon:13.7936, label:"Schloss Ort", address:"Toscanapark, 4810 Gmunden, אוסטריה"},
   wagrain:   {lat:47.3400, lon:13.3000, label:"Wagrain (בסיס)", address:"Appartements Schattauer, Markt 164, 5602 Wagrain, אוסטריה"},
+  wagrain_billa: {lat:47.3341, lon:13.2935, label:"BILLA Wagrain (סופרמרקט)", address:"Markt 169, 5602 Wagrain, אוסטריה"},
   hallstatt: {lat:47.5622, lon:13.6493, label:"Hallstatt"},
   hallstatt_salt: {lat:47.5567, lon:13.6413, label:"Skywalk / מכרה המלח (Salzwelten Hallstatt)", address:"Salzbergstraße 21, 4830 Hallstatt, אוסטריה"},
   gosausee:  {lat:47.5386, lon:13.5461, label:"Gosausee"},
@@ -656,7 +659,6 @@ const LOC = {
   kaprun:    {lat:47.2711, lon:12.7561, label:"Kaprun"},
   melk:      {lat:48.2333, lon:15.3333, label:"Melk"},
   durnstein: {lat:48.3958, lon:15.5183, label:"Dürnstein"},
-  prater:    {lat:48.2166, lon:16.3948, label:"Prater (Wurstelprater)", address:"Prater 7, 1020 Wien, אוסטריה"},
   zwoelferhorn: {lat:47.7681, lon:13.3564, label:"Zwölferhornbahn, St. Gilgen", address:"Konrad-Lesiak-Platz 3, 5340 St. Gilgen, אוסטריה"},
   liechtensteinklamm: {lat:47.3467, lon:13.1998, label:"Liechtensteinklamm", address:"Liechtensteinklammstraße 123, 5600 St. Johann im Pongau, אוסטריה"},
   krimml:    {lat:47.2144, lon:12.1706, label:"Krimmler Wasserfälle", address:"Krimmler Wasserfälle, 5743 Krimml, אוסטריה"},
@@ -665,7 +667,7 @@ const LOC = {
   hausdernatur:  {lat:47.7989, lon:13.0431, label:"Haus der Natur", address:"Museumsplatz 5, 5020 Salzburg, אוסטריה"},
   werfenweng:{lat:47.4333, lon:13.2167, label:"Werfenweng"},
 };
-const FULL_ROUTE = ["airport","vienna","wagrain","hallstatt","gosausee","wagrain","alpendorf","wagrain",
+const FULL_ROUTE = ["airport","gmunden","wagrain","hallstatt","gosausee","wagrain","alpendorf","wagrain",
   "werfen","hallein_salt","keltenblitz","wagrain","glockner","wagrain","stwolfgang","wagrain",
   "zell","kaprun","zell","wagrain","melk","durnstein","airport"];
 
@@ -680,7 +682,7 @@ const DAYS = [
     <table class="sched">
       ${[
         ["24.9 — טיסה לוינה","קל"],
-        ["25.9 — וינה ל-Wagrain","בינוני"],
+        ["25.9 — Gmunden + Traunsee","קל"],
         ["26.9 — Hallstatt + Gosausee","בינוני"],
         ["27.9 (הורחב) — Geisterberg + St. Johann","בינוני"],
         ["28.9 (הורחב) — Hohenwerfen + Hallein","בינוני"],
@@ -712,42 +714,41 @@ const DAYS = [
     </table>
     <div class="boxes">
       <div class="box tan"><b>המטרה</b>להגיע בנחת, לאסוף ציוד ולישון. לא מתכננים אטרקציות בערב.</div>
-      <div class="box yellow"><b>להכין מראש</b>בגדים וציוד ליום וינה שלמחרת, כדי שהבוקר יהיה מהיר.</div>
+      <div class="box yellow"><b>להכין מראש</b>בגדים וציוד ליום הנסיעה הארוך שלמחרת (עד Gmunden ואז Wagrain), כדי שהבוקר יהיה מהיר.</div>
     </div>
     <div class="footerbar">כרטיס האורח: עדיין אין - מקבלים לאחר הצ׳ק-אין ב-Schattauer.</div>
   `
 },
 {
-  id:"d2", nav:"25.9", navSub:"וינה ל-Wagrain",
-  segment: ["airport","vienna","wagrain"],
+  id:"d2", nav:"25.9", navSub:"Gmunden + Traunsee",
+  segment: ["airport","gmunden","schlossort","wagrain_billa","wagrain"],
   render: () => `
-    <div class="tag">יום ו׳, 25.9 · טעימה עירונית + מעבר להרים</div>
-    <h2 class="title">וינה ל-Wagrain</h2>
-    <div class="meta">נסיעות: MOXY → מרכז וינה כ-25-35 דק׳; וינה → Wagrain כ-3:30-4 שעות</div>
+    <div class="tag">יום ו׳, 25.9 · עצירה רגועה באגם + מעבר להרים</div>
+    <h2 class="title">Gmunden + Traunsee</h2>
+    <div class="meta">נסיעות: MOXY → Gmunden כ-2:30 שעות; Gmunden → Wagrain כ-1:30-1:40</div>
     <table class="sched">
-      <tr><td>ארוחת בוקר</td><td>08:30</td></tr>
-      <tr><td>יציאה למרכז וינה</td><td>09:30</td></tr>
-      <tr><td>Graben, הקתדרלה, Stephansplatz, Heldenplatz ו-Hofburg</td><td>10:00-13:30</td></tr>
-      <tr><td>צהריים</td><td>13:30-14:30</td></tr>
-      <tr><td>יציאה ל-Wagrain</td><td>~15:00</td></tr>
-      <tr><td>צ׳ק-אין, סופר והתארגנות — Appartements Schattauer, Markt 164, Wagrain</td><td>18:30-19:00</td></tr>
+      <tr><td>יציאה מ-MOXY (איסוף רכבים מההשכרה, העמסת מזוודות)</td><td>10:00</td></tr>
+      <tr><td>הגעה ל-Gmunden, חניה חינמית ליד Schloss Ort (Toscanapark)</td><td>~12:30</td></tr>
+      <tr><td>גשר העץ ל-Schloss Ort, טיילת האגם, פיקניק/צהריים וקפה מול הנוף</td><td>12:30-15:00</td></tr>
+      <tr><td>המשך נסיעה ל-Wagrain</td><td>15:00</td></tr>
+      <tr><td>עצירה בסופרמרקט BILLA Wagrain (ליד המלון)</td><td>~16:30-17:00</td></tr>
+      <tr><td>צ׳ק-אין והתארגנות — Appartements Schattauer, Markt 164, Wagrain</td><td>~17:00-17:30</td></tr>
     </table>
     <div class="sectionLabel">📍 מה יש שם</div>
     <div class="places">
-      <div class="p"><b>Graben — </b>רחוב הולכי רגל אלגנטי בלב העיר העתיקה, עם עמוד המגפה (Pestsäule) הבארוקי המפורסם ובתי קפה וחנויות משני צדדיו.</div>
-      <div class="p"><b>Stephansdom (הקתדרלה) — </b>קתדרלת סטפן הגותית, סמל וינה, עם גג הרעפים הצבעוני המפורסם והמגדל הגבוה שמשקיף על העיר.</div>
-      <div class="p"><b>Hofburg — </b>ארמון הקיסרים לשעבר של בית הבסבורג, כיום מקום מושבו של נשיא אוסטריה ובית לכמה מוזיאונים (כולל מוזיאון סיסי ובית הספר הספרדי לרכיבה).</div>
-      <div class="p"><b>Heldenplatz — </b>"כיכר הגיבורים" מול ה-Hofburg, עם פסלי פרשים גדולים - מקום פתוח ונעים להליכה עם ילדים.</div>
+      <div class="p"><b>Gmunden — </b>עיירה ציורית על קצה הצפוני של אגם Traunsee בלב הזלצקאמרגוט, עם טיילת מישורית ונוחה לעגלות לאורך שפת האגם, בתי קפה ומזרקות.</div>
+      <div class="p"><b>Schloss Ort — </b>טירה עתיקה שיושבת ממש בתוך המים על אי קטן, ומחוברת ליבשה בגשר עץ ציורי; ההליכה סביבה וגשר העץ חינמיים לגמרי, וכניסה פנימית לחצר/מגדל היא תוספת קטנה ואופציונלית.</div>
+      <div class="p"><b>טיילת ומרחב לילדים — </b>שבילי הליכה מישוריים לאורך האגם, מקומות נוחים להאכיל ברווזים, ומגרשי משחקים קרובים (כמו Freizeitanlage Seebahnhof) - מקום טוב לילדים לרוץ אחרי נסיעה ארוכה.</div>
     </div>
     <div class="boxes">
-      <div class="box green"><b>למה זה עובד</b>טעימה מהעיר הקלאסית בלי לקחת יום מלא מהאלפים.</div>
-      <div class="box red"><b>חשוב</b>להחנות בחניון מרכזי. זה יום מעבר - לא מוסיפים אטרקציה.</div>
+      <div class="box green"><b>למה זה עובד</b>עצירה בטבע במקום יום עירוני שלם - פחות הליכה מאומצת, יותר מרגוע, ומתאים גם לסבים ולילדים קטנים. וגם בול באמצע הדרך בין וינה ל-Wagrain.</div>
+      <div class="box tan"><b>חניה וכניסה</b>חניון Toscanapark ליד הטירה חינמי. הליכה סביב הטירה וגשר העץ - חינם. כניסה לחצר הפנימית/מגדל: מבוגר כ-4-5€ (בלבד למי שרוצה, לא חובה).</div>
+      <div class="box tan"><b>מקומות לצהריים</b>Orther Stubn - מסעדה ממש ליד הטירה על האי; ולאורך הטיילת יש עוד כמה בתי קפה ומסעדות עם נוף לאגם - קל למצוא מקום מול הנוף בלי הזמנה מראש.</div>
     </div>
+    <div class="box red"><b>חשוב</b>יוצאים ב-10:00 כדי לתת מרווח לאיסוף הרכבים והמזוודות. חלון הזמן בגמונדן גמיש - אפשר לקצר אם מתעכבים בבוקר, כדי לא לפספס את הסופרמרקט בוגריין.</div>
     <div class="sectionLabel">🧒 אופציות לילדים נוספות בסביבה</div>
     <table class="kids">
-      <tr><td><b>Prater (Wurstelprater)</b> — פארק שעשועים ותיק עם גלגל ענק, רכבת ליליפוט, קרוסלות ומתקנים לפעוטות. דורש נסיעה (כ-15-20 דק׳) מהמרכז, ולכן מתאים רק אם נשאר זמן מעבר ללו״ז המתוכנן.
-          <a class="rowWaze" href="${wazeLink("prater")}" target="_blank" rel="noopener" title="נווט ב-Waze ל-Prater">🧭</a>
-        </td><td>שטח פתוח כל היום; רוב המתקנים מ-11:00; עונה עד 31.10.2026.</td></tr>
+      <tr><td><b>שיט קצר באגם Traunsee</b> — יש ספינות נוסעים (כולל ספינת קיטור היסטורית) שיוצאות מהטיילת בגמונדן; תוספת נעימה אם נשאר זמן, לא חלק מהתוכנית הקבועה.</td><td>עונת קיץ; לבדוק שעות מראש בטיילת.</td></tr>
     </table>
     <div class="footerbar">מהיום: מקבלים ב-Schattauer את Salzburger Sportwelt Card.</div>
   `
@@ -1133,9 +1134,9 @@ const FUN_FACTS = {
     "המלון שלנו ליד שדה התעופה נמצא ממש כמה דקות הליכה מהמסוף — נוח מאוד אחרי טיסה ארוכה!",
   ],
   d2: [
-    "קתדרלת שטפאנסדום בווינה נבנתה לפני יותר מ-800 שנה!",
-    "הגג הצבעוני של הקתדרלה עשוי מיותר מ-230,000 רעפים צבעוניים.",
-    "ארמון הופבורג היה הבית של משפחת קיסרים במשך יותר מ-600 שנה.",
+    "Schloss Ort יושבת ממש בתוך המים על אי קטן, ומחוברת ליבשה רק בגשר עץ.",
+    "הטירה שימשה מיקום צילום לסדרת הטלוויזיה הגרמנית הפופולרית \"Schlosshotel Orth\".",
+    "אגם Traunsee הוא האגם העמוק והגדול ביותר שנמצא כולו בתוך אוסטריה - 191 מטר עומק!",
     "Wagrain, הכפר שבו נגור, נמצא בלב האלפים באזור זלצבורגרלנד.",
   ],
   d3: [
@@ -1189,7 +1190,7 @@ const FUN_FACTS = {
 /* ---------- Trivia quiz: multiple-choice questions about Austria + this trip ---------- */
 const TRIVIA = [
   { q:"איך קוראים לבירה של אוסטריה?", options:["וינה","זלצבורג","גראץ","אינסברוק"], correct:0,
-    fact:"וינה היא הבירה הגדולה והיפה של אוסטריה — נבקר בה כבר ביום הראשון שלנו!" },
+    fact:"וינה היא הבירה הגדולה והיפה של אוסטריה — שם נוחתת הטיסה שלנו ביום הראשון!" },
   { q:"באיזה מטבע משלמים באוסטריה?", options:["יורו","פרנק","דולר","לירה"], correct:0,
     fact:"אוסטריה היא חברה באיחוד האירופי, ולכן משתמשים בה במטבע היורו." },
   { q:"מה שם ההר הכי גבוה באוסטריה, שנתקרב אליו בטיול?", options:["Grossglockner","Everest","Matterhorn","Mont Blanc"], correct:0,
@@ -1227,7 +1228,7 @@ function wmPage(name){
 }
 const IMAGES = {
   overview: [ {f:"Wagrain.JPG", alt:"Wagrain — בסיס הלינה שלנו"} ],
-  d2:  [ {f:"Wien - Stephansdom (3).JPG", alt:"קתדרלת שטפן, וינה"} ],
+  d2:  [ {f:"Gmunden - Schloss Ort (3).JPG", alt:"Schloss Ort, Gmunden"} ],
   d3:  [ {f:"Hallstatt, Austria (37260661934).jpg", alt:"Hallstatt"},
          {f:"Gosaulacke mit Blick zum Dachstein.jpg", alt:"Gosausee מול רכס Dachstein"} ],
   d4:  [ {f:"St.-Johannes-Kirche in Sankt Johann im Pongau.jpg", alt:"St. Johann im Pongau"} ],
@@ -1256,22 +1257,22 @@ function renderGallery(id){
 
 /* ---------- Map (Google Maps, no key) + Waze navigation ---------- */
 const DAY_ICON = {
-  overview:"🗺️", d1:"✈️", d2:"🏛️", d3:"🏞️", d4:"🎢", d5:"🏰",
+  overview:"🗺️", d1:"✈️", d2:"🏞️", d3:"🏞️", d4:"🎢", d5:"🏰",
   d6:"🏔️", d7:"🚂", d8:"🚡", d9:"⛪", d10:"✈️", alt:"📋", trivia:"🎯",
 };
 const LOC_ICON = {
-  airport:"✈️", vienna:"🏛️", wagrain:"🏡", hallstatt:"🏘️", hallstatt_salt:"⛏️", gosausee:"🏞️",
+  airport:"✈️", vienna:"🏛️", gmunden:"🏞️", schlossort:"🏰", wagrain:"🏡", wagrain_billa:"🛒", hallstatt:"🏘️", hallstatt_salt:"⛏️", gosausee:"🏞️",
   alpendorf:"🎢", werfen:"🏰", hallein_salt:"⛏️", keltenblitz:"🛝", amade:"♨️",
   fuscher_torl:"🌄", hochtor:"🏔️", glockner:"🏔️",
   stwolfgang:"🚂", wasserwelt:"🌊", zell:"🚡", schmittenhoehe:"🚠", kaprun:"💧", melk:"⛪", durnstein:"⛪",
-  prater:"🎡", zwoelferhorn:"🚡", liechtensteinklamm:"🏞️", krimml:"💦", shuttleberg:"🚡",
+  zwoelferhorn:"🚡", liechtensteinklamm:"🏞️", krimml:"💦", shuttleberg:"🚡",
   hohensalzburg:"🏰", hausdernatur:"🏛️", werfenweng:"🏞️",
 };
 
 /* ---------- Weather: per-day forecast (Open-Meteo, no key needed) for the day's
    main destination, shown between the map and the schedule. ---------- */
 const WEATHER_LOC = {
-  d1:"airport", d2:"vienna", d3:"hallstatt", d4:"alpendorf", d5:"werfen",
+  d1:"airport", d2:"gmunden", d3:"hallstatt", d4:"alpendorf", d5:"werfen",
   d6:"glockner", d7:"stwolfgang", d8:"zell", d9:"melk", d10:"airport",
 };
 const WEATHER_CACHE = {};
@@ -1530,7 +1531,7 @@ function wazeLink(k){
    at that destination. Substrings are exact fragments of the existing row text. */
 const ROW_WAZE = {
   d1: [ ["נחיתה ואיסוף מזוודות","airport"], ["לילה: MOXY Vienna Airport","airport"] ],
-  d2: [ ["יציאה למרכז וינה","vienna"], ["יציאה ל-Wagrain","wagrain"], ["צ׳ק-אין, סופר והתארגנות","wagrain"] ],
+  d2: [ ["הגעה ל-Gmunden","gmunden"], ["גשר העץ ל-Schloss Ort","schlossort"], ["עצירה בסופרמרקט BILLA","wagrain_billa"], ["צ׳ק-אין והתארגנות","wagrain"] ],
   d3: [ ["Hallstatt: כפר","hallstatt"], ["Skywalk או מכרה המלח","hallstatt_salt"], ["Gosausee והליכה קלה","gosausee"], ["חזרה ל-Wagrain","wagrain"] ],
   d4: [ ["הגעה ל-Alpendorf","alpendorf"], ["St. Johann: מרכז עתיק","alpendorf"], ["חזרה ל-Wagrain","wagrain"] ],
   d5: [ ["חניה ועלייה במעלית לטירה","werfen"], ["Salzwelten Hallein","hallein_salt"], ["Keltenblitz","keltenblitz"], ["מרחצאות חמים ומגלשות מים","amade"], ["חזרה ל-Wagrain","wagrain"] ],
