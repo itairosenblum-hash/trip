@@ -652,9 +652,18 @@ const LOC = {
   glockner:  {lat:47.0725, lon:12.8319, label:"Kaiser-Franz-Josefs-Höhe"},
   stwolfgang: {lat:47.7392, lon:13.4398, label:"St. Wolfgang / Schafbergbahn", address:"Markt 35, 5360 St. Wolfgang im Salzkammergut, אוסטריה"},
   zell:      {lat:47.3239, lon:12.7958, label:"Zell am See"},
+  schmittenhoehe: {lat:47.3212, lon:12.7935, label:"Schmittenhöhebahn (תחנת עמק)", address:"Schmittenstraße 119, 5700 Zell am See, אוסטריה"},
   kaprun:    {lat:47.2711, lon:12.7561, label:"Kaprun"},
   melk:      {lat:48.2333, lon:15.3333, label:"Melk"},
   durnstein: {lat:48.3958, lon:15.5183, label:"Dürnstein"},
+  prater:    {lat:48.2166, lon:16.3948, label:"Prater (Wurstelprater)", address:"Prater 7, 1020 Wien, אוסטריה"},
+  zwoelferhorn: {lat:47.7681, lon:13.3564, label:"Zwölferhornbahn, St. Gilgen", address:"Konrad-Lesiak-Platz 3, 5340 St. Gilgen, אוסטריה"},
+  liechtensteinklamm: {lat:47.3467, lon:13.1998, label:"Liechtensteinklamm", address:"Liechtensteinklammstraße 123, 5600 St. Johann im Pongau, אוסטריה"},
+  krimml:    {lat:47.2144, lon:12.1706, label:"Krimmler Wasserfälle", address:"Krimmler Wasserfälle, 5743 Krimml, אוסטריה"},
+  shuttleberg: {lat:47.2967, lon:13.3467, label:"Shuttleberg Kleinarl", address:"Viehhofstraße 12, 5603 Kleinarl, אוסטריה"},
+  hohensalzburg: {lat:47.7950, lon:13.0475, label:"Hohensalzburg Fortress", address:"Mönchsberg 34, 5020 Salzburg, אוסטריה"},
+  hausdernatur:  {lat:47.7989, lon:13.0431, label:"Haus der Natur", address:"Museumsplatz 5, 5020 Salzburg, אוסטריה"},
+  werfenweng:{lat:47.4333, lon:13.2167, label:"Werfenweng"},
 };
 const FULL_ROUTE = ["airport","vienna","wagrain","hallstatt","gosausee","wagrain","alpendorf","wagrain",
   "werfen","hallein_salt","keltenblitz","wagrain","glockner","wagrain","stwolfgang","wagrain",
@@ -736,7 +745,9 @@ const DAYS = [
     </div>
     <div class="sectionLabel">🧒 אופציות לילדים נוספות בסביבה</div>
     <table class="kids">
-      <tr><td><b>Prater (Wurstelprater)</b> — פארק שעשועים ותיק עם גלגל ענק, רכבת ליליפוט, קרוסלות ומתקנים לפעוטות. דורש נסיעה (כ-15-20 דק׳) מהמרכז, ולכן מתאים רק אם נשאר זמן מעבר ללו״ז המתוכנן.</td><td>שטח פתוח כל היום; רוב המתקנים מ-11:00; עונה עד 31.10.2026.</td></tr>
+      <tr><td><b>Prater (Wurstelprater)</b> — פארק שעשועים ותיק עם גלגל ענק, רכבת ליליפוט, קרוסלות ומתקנים לפעוטות. דורש נסיעה (כ-15-20 דק׳) מהמרכז, ולכן מתאים רק אם נשאר זמן מעבר ללו״ז המתוכנן.
+          <a class="rowWaze" href="${wazeLink("prater")}" target="_blank" rel="noopener" title="נווט ב-Waze ל-Prater">🧭</a>
+        </td><td>שטח פתוח כל היום; רוב המתקנים מ-11:00; עונה עד 31.10.2026.</td></tr>
     </table>
     <div class="footerbar">מהיום: מקבלים ב-Schattauer את Salzburger Sportwelt Card.</div>
   `
@@ -766,6 +777,7 @@ const DAYS = [
       <div class="box green"><b>מה מיוחד</b>כפר אייקוני ואגם רגוע מול רכס Dachstein.</div>
       <div class="box red"><b>חשוב</b>להגיע מוקדם בגלל החניה. המכרה אופציונלי. לבחור יום עם ראות טובה. לוודא שעות עלייה אחרונות ל-Skywalk/מכרה המלח (בד״כ ~16:00-16:30).</div>
     </div>
+    <div class="box tan"><b>מחיר וכרטיסים • Skywalk + מכרה המלח (Salzwelten Hallstatt)</b>כרטיס משולב (רכבל + מכרה): מבוגר כ-49€, ילד (4-15) כ-23€. עונה 29.8-24.10.2026: מכרה 09:30-16:30, רכבל 09:00-18:00 (כניסה אחרונה חצי שעה לפני). מומלץ לרכוש מראש באתר הרשמי כדי לדלג על התור. <a href="https://www.salzwelten.at/en/hallstatt" target="_blank" rel="noopener">האתר הרשמי</a> · <a href="https://tickets.salzwelten.at/en/2/date" target="_blank" rel="noopener">הזמנת כרטיסים</a>.</div>
     <div class="footerbar">סוף יום: Wagrain Wasserwelt חינם דרך כרטיס האורח, אם נשאר כוח.</div>
   `
 },
@@ -795,6 +807,7 @@ const DAYS = [
       <div class="box yellow"><b>בלי זיגזג</b>St. Johann נמצאת בדרך חזרה ובמרחק דקות מ-Alpendorf; התוספת כמעט לא מאריכה את הנהיגה.</div>
     </div>
     <div class="box red"><b>חשוב</b>הרכבל Alpendorf/Geisterberg פועל בתקופה 12.9–18.10.2026 רק בימי שישי-שלישי. ה-27.9.2026 הוא יום שני - תקין. אם מזיזים את היום בגלל מזג אוויר, לוודא שהיום החדש נמצא בטווח שישי-שלישי.</div>
+    <div class="box tan"><b>מחיר וכרטיסים • Geisterberg</b>כרטיס יום למבוגר כ-32.50€ באינטרנט (כ-38.50€ בקופה), ילד כ-19.50€ באינטרנט (כ-23€ בקופה) - הזמנה מראש באתר חוסכת עד 15%. <a href="https://www.snow-space.com/en/summer/tickets/one-day-tickets" target="_blank" rel="noopener">רכישת כרטיסים באתר הרשמי</a>.</div>
     <div class="footerbar">בלוק גמיש: אם הילדים מותשים, מדלגים על העיירה; אם יורד גשם, מחליפים אותה ב-Wasserwelt.</div>
   `
 },
@@ -832,6 +845,11 @@ const DAYS = [
       <div class="box red"><b>תלוי מזג אוויר</b>מגלשת הקיץ Keltenblitz פועלת רק בתנאי יובש טובים - נסגרת בגשם. אם יורד גשם, אפשר להישאר רק במכרה המלח (מקורה לגמרי) ולוותר על המגלשה.</div>
     </div>
     <div class="box tan"><b>שעות ומחירים • 28.9.2026</b>הטירה פתוחה 09:00–17:00, מופעי הנשרים ב-11:15 וב-15:15. Salzwelten Hallein פתוח 09:00-17:00 (סיור אחרון). Keltenblitz בעונה הזו (עד 11.10) פתוח בימי שני-שישי 11:00-17:00 - 28.9 הוא יום שני, מתאים. מחיר משולב (מכרה+מגלשה, "Adventure Card"): מבוגר כ-47€, ילד (4-14) כ-26€ - זול יותר מרכישה נפרדת. Erlebnis-Therme Amadé פתוחה עד 20:30.</div>
+    <div class="box tan"><b>כרטיסים - איפה להזמין מראש</b>
+      <b>Burg Hohenwerfen:</b> כרטיס All-Inclusive עם מעלית - מבוגר מ-20.90€, ילד (6-14) מ-8.60€ (כולל מופע הנשרים). <a href="https://www.burg-hohenwerfen.at/en/your-visit/tickets" target="_blank" rel="noopener">האתר הרשמי</a>.<br>
+      <b>Salzwelten Hallein:</b> מבוגר כ-35€, ילד (4-15) כ-16€ (או במחיר המשולב עם Keltenblitz שמוזכר למעלה). <a href="https://www.salzwelten.at/en/hallein" target="_blank" rel="noopener">האתר הרשמי</a>.<br>
+      <b>Keltenblitz (Dürrnberg):</b> נסיעה בודדת - מבוגר 19.50€, ילד 13.20€. <a href="https://duerrnberg.at/en/prices/" target="_blank" rel="noopener">מחירים באתר הרשמי</a>.
+    </div>
     <div class="footerbar">הנסיעות הגיוניות: Hallein נמצאת בהמשך אותו כביש מ-Werfen לכיוון זלצבורג, ומ-Erlebnis-Therme Amadé החזרה ל-Wagrain אורכת רק כ-10 דקות - סיום קליל ליום עמוס.</div>
   `
 },
@@ -863,6 +881,7 @@ const DAYS = [
       <div class="box red"><b>כלל ברזל</b>לא נוסעים אם הראות גרועה; מעבירים ליום הבהיר ביותר.</div>
     </div>
     <div class="box tan"><b>שעות פעילות</b>הכביש פתוח מאפריל ועד תחילת נובמבר 2026 (תלוי מזג אוויר); בספטמבר 06:00–19:30.</div>
+    <div class="box tan"><b>מחיר • אגרת כביש</b>משולם במזומן/כרטיס בקופה בכניסה (אין צורך בהזמנה מראש) - כרטיס יום לרכב: כ-46.50€ (כ-36.50€ לנסיעות אחרי 18:00, כ-40€ לרכב חשמלי). <a href="https://www.grossglockner.at/en/for-your-visit/prices-opening-times" target="_blank" rel="noopener">מחירים מעודכנים באתר הרשמי</a>.</div>
     <div class="sectionLabel">🧒 אופציות לילדים נוספות בסביבה</div>
     <table class="kids">
       <tr><td><b>מגרשי משחקים ותערוכות לאורך הכביש</b> — כמה מנקודות העצירה כוללות מגרש משחקים קטן ותערוכות חינמיות (כמו Haus Alpine Naturschau) — נעים להפסקה קצרה.</td><td>תערוכות פתוחות יומי כ-10:00-17:00.</td></tr>
@@ -899,11 +918,13 @@ const DAYS = [
     <div class="boxes">
       <div class="box green"><b>יום מיוחד</b>אגם מהיפים באזור ורכבת שיניים היסטורית לפסגה - שילוב נדיר של טבע ונוסטלגיה, ומסתיים במרחצאות חמים קרוב למלון.</div>
       <div class="box red"><b>חשוב</b>מומלץ להזמין כרטיסים ל-Schafbergbahn מראש - זו אטרקציה פופולרית שנגמרים בה מקומות בעונה. הקרונות המונעים בקיטור אמיתי אינם מובטחים בכל נסיעה - שווה לבדוק בהזמנה אם רוצים דווקא אותם.</div>
-      <div class="box tan"><b>עונה ומחירים • Schafbergbahn</b>פועלת 25.4–1.11.2026 (בטווח הטיול שלנו). מחיר הלוך-חזור: מבוגר כ-61€, ילד (4-14) כ-18.40€. תחנה תחתונה: Markt 35, 5360 St. Wolfgang.</div>
+      <div class="box tan"><b>עונה ומחירים • Schafbergbahn</b>פועלת 25.4–1.11.2026 (בטווח הטיול שלנו). מחיר הלוך-חזור: מבוגר כ-61€, ילד (4-14) כ-18.40€. תחנה תחתונה: Markt 35, 5360 St. Wolfgang. מומלץ להזמין מראש - מקומות מוגבלים בעונה. <a href="https://www.5schaetze.at/en/schafbergbahn.html" target="_blank" rel="noopener">האתר הרשמי</a> · <a href="https://ticketing.5schaetze.at/en/Home/Index" target="_blank" rel="noopener">הזמנת כרטיסים</a>.</div>
     </div>
     <div class="sectionLabel">🧒 אופציות לילדים נוספות בסביבה</div>
     <table class="kids">
-      <tr><td><b>Zwölferhorn (St. Gilgen)</b> — רכבל נוסף לפסגה עם מגלשת קיץ (Alpine Coaster) ומסלולי הליכה קלים, בצד השני של האגם - כ-15 דק׳ נסיעה מ-St. Wolfgang. אופציה אם נשאר זמן וכוח, לא חלק מהתוכנית הקבועה.</td><td>פועל בעונת הקיץ; לבדוק שעות מראש.</td></tr>
+      <tr><td><b>Zwölferhorn (St. Gilgen)</b> — רכבל נוסף לפסגה עם מגלשת קיץ (Alpine Coaster) ומסלולי הליכה קלים, בצד השני של האגם - כ-15 דק׳ נסיעה מ-St. Wolfgang. אופציה אם נשאר זמן וכוח, לא חלק מהתוכנית הקבועה.
+          <a class="rowWaze" href="${wazeLink("zwoelferhorn")}" target="_blank" rel="noopener" title="נווט ב-Waze ל-Zwölferhornbahn">🧭</a>
+        </td><td>פועל בעונת הקיץ; לבדוק שעות מראש.</td></tr>
     </table>
     <div class="footerbar">סוף יום: Wagrain Wasserwelt חינם עם כרטיס האורח, ואז חזרה קצרה למלון.</div>
   `
@@ -935,6 +956,7 @@ const DAYS = [
       <div class="box red"><b>חשוב</b>הרכבל והשיט בתשלום. אם הפסגה בעננים - מחליפים יום.</div>
     </div>
     <div class="box tan"><b>שעות פעילות</b>ב-1.10.2026: רכבל Schmittenhöhe פועל 09:00–17:00, ושיט הפנורמה פועל שעתי 10:00–17:00.</div>
+    <div class="box tan"><b>מחיר וכרטיסים • Schmittenhöhe</b>כרטיס פסגה הלוך-חזור: מבוגר כ-45€, ילד כ-22.50€ (יש גם כרטיס "הרפתקה" זול יותר לגובה נמוך יותר, כ-33€/16.50€). אפשר וכדאי לרכוש מראש באתר. <a href="https://www.schmitten.at/en/Tickets-Prices/Summertickets" target="_blank" rel="noopener">האתר הרשמי - מחירי קיץ</a>.</div>
     <div class="sectionLabel">🧒 אופציות לילדים נוספות בסביבה</div>
     <table class="kids">
       <tr><td><b>Schmidolins Feuertaufe</b> — שביל חוויה עם 15 תחנות משחק בפסגת Schmittenhöhe עצמה - בדיוק איפה שתהיו, לא דורש נסיעה נוספת.</td><td>פתוח בשעות פעילות הרכבל (09:00-17:00).</td></tr>
@@ -959,6 +981,7 @@ const DAYS = [
     <div class="boxes">
       <div class="box red"><b>עם הקטנה (2.5) והסבים</b>גובה 2,040 מ׳ יכול להיות קריר ורוחי - קחו שכבות חמות וכובע. לברר מראש מדיניות עגלה/מנשא (+43 50 313 23201).</div>
       <div class="box tan"><b>עונה ולוגיסטיקה</b>פתוח 21.5–11.10.2026, אוטובוסים יומיים 08:10–16:45/17:00. אין גישה ברכב פרטי - חובה לחנות בחניון החינמי. לא ודאי אם נכלל ב-Salzburger Sportwelt Card.</div>
+      <div class="box tan"><b>מחיר וכרטיסים • Kaprun Hochgebirgsstauseen</b>כרטיס הלוך-חזור (2 קווי אוטובוס + מעלית משופעת): מבוגר כ-39.50€, ילד (6-15) כ-22€, עד גיל 5 חינם. <a href="https://www.kaprun-stauseen.com/preise/" target="_blank" rel="noopener">מחירים באתר הרשמי</a>.</div>
     </div>
     <div class="footerbar">סוף יום: Wagrain Wasserwelt חינם דרך כרטיס האורח, אם מתאים.</div>
   `
@@ -989,6 +1012,7 @@ const DAYS = [
       <div class="box green"><b>עוד יעד, מעט כביש</b>Dürnstein מוסיפה כ-30 דקות בין Melk לשדה ונותנת עיירה היסטורית ונוף לדנובה.</div>
       <div class="box red"><b>מתאים להרכב</b>נשארים בעיר העתיקה ובטיילת; לא עולים לחורבות התלולות עם הקטנה והסבים.</div>
     </div>
+    <div class="box tan"><b>מחיר וכרטיסים • מנזר Melk</b>מבוגר 16€, כרטיס משפחתי (הורים+ילדים עד גיל 16) 32€, סטודנטים 8€. מכיוון שזה יום עם לו״ז צפוף לפני הטיסה, כדאי להזמין מראש כדי לדלג על התור בקופה. <a href="https://www.stiftmelk.at/en/visit-experience/opening-hours-prices-guided-tours/" target="_blank" rel="noopener">האתר הרשמי</a>.</div>
     <div class="footerbar">בלוק גמיש: אם עייפים, מדלגים על Dürnstein ונוסעים ישירות ל-MOXY.</div>
   `
 },
@@ -1046,17 +1070,30 @@ const DAYS = [
     </table>
     <div class="sectionLabel">🔄 חלופות</div>
     <ul class="altlist">
-      <li>Liechtensteinklamm — עובר לבנק החלופות. מתאים רק אם רוצים נקיק ומוכנים ל-440 מדרגות ולמנשא.</li>
-      <li><b>Salzburg</b> — סיור עירוני (Mirabell, העיר העתיקה, Getreidegasse, Hohensalzburg Fortress, Haus der Natur). חלופה טובה ליום מעונן/גשום, או להחלפה עם 30.9 אם מזג האוויר לא מתאים לרכבת ההרים.</li>
-      <li><b>Werfenweng</b> — כפר אלפי שקט עם אגם קטן ונעים (Wengsee) ומגרש משחקים; ירד מהתוכנית הקבועה של 28.9 כדי לפנות זמן ל-Hallein, אבל בהחלט אפשר לשלב במקום Keltenblitz אם יורד גשם או שהילדים עייפים.</li>
+      <li>Liechtensteinklamm — עובר לבנק החלופות. מתאים רק אם רוצים נקיק ומוכנים ל-440 מדרגות ולמנשא. מחיר: מבוגר 16€, נוער (6-18) 9€. <a href="https://www.liechtensteinklamm.info/preise/" target="_blank" rel="noopener">מחירים באתר הרשמי</a>.
+        <a class="rowWaze" href="${wazeLink("liechtensteinklamm")}" target="_blank" rel="noopener" title="נווט ב-Waze ל-Liechtensteinklamm">🧭</a>
+      </li>
+      <li><b>Salzburg</b> — סיור עירוני (Mirabell, העיר העתיקה, Getreidegasse, Hohensalzburg Fortress
+        <a class="rowWaze" href="${wazeLink("hohensalzburg")}" target="_blank" rel="noopener" title="נווט ב-Waze ל-Hohensalzburg">🧭</a>,
+        Haus der Natur
+        <a class="rowWaze" href="${wazeLink("hausdernatur")}" target="_blank" rel="noopener" title="נווט ב-Waze ל-Haus der Natur">🧭</a>
+        ). חלופה טובה ליום מעונן/גשום, או להחלפה עם 30.9 אם מזג האוויר לא מתאים לרכבת ההרים.</li>
+      <li><b>Werfenweng</b> — כפר אלפי שקט עם אגם קטן ונעים (Wengsee) ומגרש משחקים; ירד מהתוכנית הקבועה של 28.9 כדי לפנות זמן ל-Hallein, אבל בהחלט אפשר לשלב במקום Keltenblitz אם יורד גשם או שהילדים עייפים.
+        <a class="rowWaze" href="${wazeLink("werfenweng")}" target="_blank" rel="noopener" title="נווט ב-Waze ל-Werfenweng">🧭</a>
+      </li>
       <li><b>Kaprun Hochgebirgsstauseen (Mooserboden)</b> — סכר הררי מרשים בגובה 2,040 מ׳. פירוט מלא ולוז מוצע בעמוד 1.10.</li>
-      <li>Krimml Waterfalls — מפלים גדולים, רק אם מוכנים לנסיעה ארוכה.</li>
-      <li>Shuttleberg Kleinarl — רכבל והר למשפחות - רק לאחר אישור ההטבה מהמלון.</li>
+      <li>Krimml Waterfalls — מפלים גדולים, רק אם מוכנים לנסיעה ארוכה. מחיר: מבוגר 9€, ילד (6-15) 4.50€. <a href="https://www.wasserfaelle-krimml.at/besuchen/tickets" target="_blank" rel="noopener">מחירים באתר הרשמי</a>.
+        <a class="rowWaze" href="${wazeLink("krimml")}" target="_blank" rel="noopener" title="נווט ב-Waze למפלי Krimml">🧭</a>
+      </li>
+      <li>Shuttleberg Kleinarl — רכבל והר למשפחות - רק לאחר אישור ההטבה מהמלון. <a href="https://www.shuttleberg.com/en/" target="_blank" rel="noopener">האתר הרשמי</a>.
+        <a class="rowWaze" href="${wazeLink("shuttleberg")}" target="_blank" rel="noopener" title="נווט ב-Waze ל-Shuttleberg Kleinarl">🧭</a>
+      </li>
     </ul>
     <div class="sectionLabel">✅ בדיקות אחרונות</div>
     <ol class="checklist">
       <li>לבדוק תחזית 5-7 ימים לפני ולקבע את Grossglockner ליום הבהיר ביותר.</li>
       <li>להזמין מראש כרטיסים ל-Schafbergbahn (30.9) - אטרקציה פופולרית שנגמרים בה מקומות בעונה.</li>
+      <li>כדאי לרכוש מראש גם ל-Hallstatt Salzwelten (26.9), Geisterberg (27.9 - חוסך עד 15%), ו-Hohenwerfen (28.9); הקישורים והמחירים המעודכנים נמצאים בעמוד של כל יום.</li>
       <li>לאשר מול Schattauer את תנאי Wasserwelt, את Shuttleberg ל-2026, ואת הכללת/עלות Kaprun במסגרת Salzburger Sportwelt Card.</li>
       <li>לבדוק סמוך לנסיעה את פעילות הרכבלים והשיט ב-Zell am See.</li>
       <li>ל-Hohenwerfen לקחת מנשא ולהגיע בזמן למופע 11:15.</li>
@@ -1218,7 +1255,9 @@ const LOC_ICON = {
   airport:"✈️", vienna:"🏛️", wagrain:"🏡", hallstatt:"🏘️", hallstatt_salt:"⛏️", gosausee:"🏞️",
   alpendorf:"🎢", werfen:"🏰", hallein_salt:"⛏️", keltenblitz:"🛝", amade:"♨️",
   fuscher_torl:"🌄", hochtor:"🏔️", glockner:"🏔️",
-  stwolfgang:"🚂", wasserwelt:"🌊", zell:"🚡", kaprun:"💧", melk:"⛪", durnstein:"⛪",
+  stwolfgang:"🚂", wasserwelt:"🌊", zell:"🚡", schmittenhoehe:"🚠", kaprun:"💧", melk:"⛪", durnstein:"⛪",
+  prater:"🎡", zwoelferhorn:"🚡", liechtensteinklamm:"🏞️", krimml:"💦", shuttleberg:"🚡",
+  hohensalzburg:"🏰", hausdernatur:"🏛️", werfenweng:"🏞️",
 };
 
 /* ---------- Weather: per-day forecast (Open-Meteo, no key needed) for the day's
@@ -1489,7 +1528,7 @@ const ROW_WAZE = {
   d5: [ ["חניה ועלייה במעלית לטירה","werfen"], ["Salzwelten Hallein","hallein_salt"], ["Keltenblitz","keltenblitz"], ["מרחצאות חמים ומגלשות מים","amade"], ["חזרה ל-Wagrain","wagrain"] ],
   d6: [ ["עצירה ב-Fuscher Törl","fuscher_torl"], ["עצירה ב-Hochtor","hochtor"], ["תצפית הקרחון ב-Kaiser Franz Josef Höhe","glockner"], ["Wagrain","wagrain"] ],
   d7: [ ["הגעה ל-St. Wolfgang","stwolfgang"], ["Wagrain Wasserwelt","wasserwelt"], ["חזרה למלון","wagrain"] ],
-  d8: [ ["הגעה ל-Zell am See","zell"], ["חזרה ל-Wagrain","wagrain"], ["חניה בחניון החינמי ליד קופת Kesselfall","kaprun"] ],
+  d8: [ ["הגעה ל-Zell am See","zell"], ["Schmittenhöhe, פסגה ותצפיות","schmittenhoehe"], ["חזרה ל-Wagrain","wagrain"], ["חניה בחניון החינמי ליד קופת Kesselfall","kaprun"] ],
   d9: [ ["הגעה ל-Melk","melk"], ["נסיעה לאורך Wachau ל-Dürnstein","durnstein"], ["יציאה לשדה התעופה","airport"], ["MOXY, החזרת רכב ואריזה","airport"] ],
 };
 
