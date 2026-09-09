@@ -69,7 +69,6 @@
   header.top{
     position:relative;
     padding:26px 28px 22px;
-    padding-inline-end:80px;
     background:
       radial-gradient(circle at 92% -10%, rgba(200,16,46,.10), transparent 55%),
       radial-gradient(circle at 6% 120%, rgba(200,155,60,.14), transparent 50%),
@@ -393,19 +392,18 @@
   }
   .quizAgainBtn:hover{transform:scale(1.05);}
 
-  /* Sits in the header corner rather than floating over the page. With the tab bar now
-     fixed to the bottom, a floating button there covered the content it hovered over —
-     on the costs page it landed straight on the amounts column. */
+  /* Sits as the last item in the tab bar. Keeps the WhatsApp green so it reads as an
+     outbound link rather than another page of the site. */
   .waFab{
-    position:absolute;top:20px;inset-inline-end:24px;z-index:5;
-    width:42px;height:42px;border-radius:50%;
-    background:#25D366;
-    display:flex;align-items:center;justify-content:center;
-    box-shadow:0 3px 10px rgba(0,0,0,.20);
-    transition:transform .15s ease;
+    flex:1;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+    padding:9px 2px 10px;
+    text-decoration:none;
+    color:#128C4A;font-size:11px;font-weight:700;
+    transition:transform .12s ease;
   }
-  .waFab:hover{transform:scale(1.08);}
-  .waFab svg{width:22px;height:22px;fill:#fff;}
+  .waFab:active{transform:scale(.96);}
+  .waFab svg{width:19px;height:19px;fill:#25D366;display:block;}
 
   .mapCard{
     background:#fff;
@@ -579,15 +577,6 @@
 
   /* ---------- Costs page: one block per family rather than a wide matrix, because a
      6-column table is unreadable on a phone and this site is used mostly on mobile. ---------- */
-  .costTotalBar{
-    background:linear-gradient(135deg, var(--red-dark), var(--red));
-    color:#fff;border-radius:var(--radius-lg);
-    padding:16px 20px;margin-bottom:20px;box-shadow:var(--shadow-pop);
-  }
-  .costTotalBar .big{
-    font-family:'Frank Ruhl Libre',serif;font-size:30px;font-weight:800;display:block;line-height:1.2;
-  }
-  .costTotalBar .cap{font-size:13px;opacity:.9;}
   .costFam{
     background:#fff;border:1px solid var(--line);border-inline-start:4px solid var(--gold);
     border-radius:var(--radius-md);padding:14px 16px;margin-bottom:14px;
@@ -681,6 +670,60 @@
       var(--ink) 9px 12px, transparent 12px 14px);
     opacity:.55;
   }
+  /* ---------- Checklist page: collapsible sections of tick-boxes. State lives in
+     localStorage, so each family ticks their own copy on their own device — there is no
+     backend here, and nothing syncs between phones. ---------- */
+  .ckProgress{
+    background:linear-gradient(135deg, var(--red-dark), var(--red));
+    color:#fff;border-radius:var(--radius-lg);padding:15px 18px;margin-bottom:18px;
+    box-shadow:var(--shadow-pop);
+  }
+  .ckProgress .row{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:9px;}
+  .ckProgress .big{font-family:'Frank Ruhl Libre',serif;font-size:27px;font-weight:800;line-height:1;}
+  .ckProgress .cap{font-size:12.5px;opacity:.9;}
+  .ckBar{height:8px;border-radius:99px;background:rgba(255,255,255,.28);overflow:hidden;}
+  .ckBar i{display:block;height:100%;background:var(--gold);border-radius:99px;transition:width .35s ease;}
+  .ckSec{
+    background:#fff;border:1px solid var(--line);border-radius:var(--radius-md);
+    margin-bottom:12px;box-shadow:var(--shadow-soft);overflow:hidden;
+  }
+  .ckHead{
+    all:unset;display:flex;align-items:center;gap:10px;width:100%;
+    cursor:pointer;padding:12px 15px;box-sizing:border-box;
+  }
+  .ckHead .ic{font-size:19px;line-height:1;flex:0 0 auto;}
+  .ckHead .nm{font-weight:800;font-size:15.5px;color:var(--red-dark);flex:1;min-width:0;}
+  .ckHead .cnt{
+    font-size:11.5px;font-weight:800;color:var(--gold-dark);
+    background:var(--gold-soft);border-radius:99px;padding:2px 9px;flex:0 0 auto;
+  }
+  .ckSec.done .ckHead .cnt{background:var(--green-bg);color:var(--green-txt);}
+  .ckHead .car{color:var(--muted);font-size:13px;transition:transform .2s ease;flex:0 0 auto;}
+  .ckSec.open .ckHead .car{transform:rotate(180deg);}
+  .ckBody{display:none;padding:0 15px 12px;}
+  .ckSec.open .ckBody{display:block;}
+  .ckItem{
+    display:flex;align-items:flex-start;gap:10px;
+    padding:9px 0;border-top:1px solid #F6EDED;cursor:pointer;
+  }
+  .ckBox{
+    flex:0 0 auto;width:21px;height:21px;margin-top:1px;border-radius:6px;
+    border:2px solid var(--line);background:#fff;
+    display:flex;align-items:center;justify-content:center;
+    font-size:13px;color:#fff;line-height:1;transition:.15s;
+  }
+  .ckItem.on .ckBox{background:var(--green-txt);border-color:var(--green-txt);}
+  .ckItem .txt{font-size:14.2px;line-height:1.5;}
+  .ckItem .txt small{display:block;color:var(--muted);font-size:12.3px;margin-top:1px;}
+  .ckItem.on .txt{color:var(--muted);text-decoration:line-through;text-decoration-color:var(--line);}
+  .ckItem.on .txt small{text-decoration:none;}
+  .ckTools{display:flex;gap:9px;margin-top:16px;flex-wrap:wrap;}
+  .ckTools button{
+    all:unset;cursor:pointer;font-size:13px;font-weight:700;
+    padding:9px 16px;border-radius:99px;border:1px solid var(--line);
+    background:var(--cream-2);color:var(--ink);
+  }
+  .ckTools button:hover{background:#f5dfe1;}
   .footerbar{background:var(--red-dark);color:#fff;padding:13px 16px;border-radius:var(--radius-md);font-size:14px;font-weight:500;margin-top:16px;display:flex;align-items:center;gap:8px;}
 
   ul.altlist{padding-inline-start:20px;margin:0 0 16px;font-size:14.3px;line-height:1.7;}
@@ -688,14 +731,13 @@
 
   @media (max-width: 860px){
     body{font-size:16px;}
-    header.top{padding:20px 18px 18px;padding-inline-end:64px;}
+    header.top{padding:20px 18px 18px;}
     header.top h1{font-size:27px;}
     .countdown{font-size:12px;padding:5px 12px;}
     .layout{padding:16px 14px 88px;gap:16px;}
     nav.daynav{top:0;padding:8px 0 4px;gap:8px;}
     .tabbar button{padding:8px 2px 9px;font-size:10.5px;}
     .tabbar button .icon{font-size:18px;}
-    .costTotalBar .big{font-size:26px;}
     .costFam{padding:12px 13px;}
     .costFam table{font-size:13.5px;}
     .bpass-code{font-size:26px;}
@@ -724,8 +766,8 @@
     .quizOptions{grid-template-columns:1fr;}
     .kidTitle{font-size:22px !important;}
     .weatherLoc{font-size:12px;}
-    .waFab{width:38px;height:38px;top:16px;inset-inline-end:14px;}
-    .waFab svg{width:20px;height:20px;}
+    .waFab{padding:8px 2px 9px;font-size:10.5px;}
+    .waFab svg{width:18px;height:18px;}
     .panel{padding:18px 16px 20px;}
     .panel h2.title{font-size:23px;}
     #mapDiv{height:260px;}
@@ -744,7 +786,7 @@
   <h1>🏔️ אוסטריה למשפחה</h1>
   <span class="countdown" id="countdown" hidden></span>
   <a class="waFab" href="https://chat.whatsapp.com/FvTOR3qNp8tCQPNzDZPXvS?s=sw&amp;p=a&amp;mlu=4&amp;ilr=4" target="_blank" rel="noopener" title="קבוצת הוואטסאפ שלנו" aria-label="קבוצת הוואטסאפ שלנו">
-  <svg viewBox="0 0 448 512" aria-hidden="true"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.7z"/></svg>
+  <svg viewBox="0 0 448 512" aria-hidden="true"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.7z"/></svg><span>וואטסאפ</span>
 </a>
 </header>
 
@@ -844,30 +886,9 @@ const FULL_ROUTE = ["airport","gmunden","amade","wagrain","hallstatt","gosausee"
 /* ---------- Day content ---------- */
 const DAYS = [
 {
-  id:"overview", nav:"מבט על", navSub:"כל הטיול",
-  segment: FULL_ROUTE,
-  render: () => `
-    <div class="tag">מבט על</div>
-    <h2 class="title">כל הטיול בעמוד אחד</h2>
-    <table class="sched">
-      ${[
-        ["24.9 — טיסה לוינה","קל"],
-        ["25.9 — Gmunden + Traunsee (+ טרמה בערב)","בינוני"],
-        ["26.9 — Hallstatt + Gosausee","בינוני"],
-        ["27.9 (הורחב) — Geisterberg + St. Johann","בינוני"],
-        ["28.9 (הורחב) — Hohenwerfen + Hallein","בינוני"],
-        ["29.9 — Grossglockner","ארוך"],
-        ["30.9 — Wolfgangsee + Schafbergbahn","בינוני"],
-        ["1.10 — Zell am See + Schmittenhöhe (+ תוספת Kaprun)","בינוני"],
-        ["2.10 (הורחב) — Melk + Dürnstein → Airport","בינוני"],
-        ["3.10 — טיסה הביתה","קל"],
-      ].map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`).join("")}
-    </table>
-    <div class="box tan">גמישות לפי מזג האוויר: Grossglockner, Hallstatt, Zell am See ו-Wolfgangsee (הנוף מהרכבת לפסגה) לימים עם הראות הטובה ביותר. אם יורד גשם באחד מהם, Salzburg (בעמוד מידע כללי) היא חלופה טובה ליום מעונן.</div>
-    <div class="boxes">
-      <div class="box red"><b>חשוב</b>הרכבל ל-Geisterberg (Alpendorf) פועל בין 12.9–18.10.2026 רק בימי שישי–שלישי (לא כל יום). ה-27.9.2026 הוא יום שני ולכן תקין כפי שמתוכנן — אם מזיזים ימים בגלל מזג אוויר, אפשר להעביר את היום הזה רק לשבת/ראשון/שני/שלישי.</div>
-    </div>
-  `
+  id:"checklist", nav:"צ׳קליסט", navSub:"לפני שיוצאים",
+  segment: [],
+  render: () => renderChecklist(),
 },
 {
   id:"d1", nav:"24.9", navSub:"טיסה לוינה",
@@ -1264,6 +1285,9 @@ const DAYS = [
       <div class="box red"><b>המסקנה: לא כדאי לכם</b>מול העלויות בפועל, הכרטיס מכסה בערך 350€ למשפחה של 2+2 - ועולה 310€. חיסכון של כ-20€, ורק אם הרכבל ב-Hallstatt כלול ולא רק המכרה. לזוג מבוגרים החיסכון כ-35€, לבוגר יחיד כ-41€. בכל המקרים זה שולי, ולמשפחות עם ילדים כמעט אפסי - כי כרטיס ילד עולה חצי ממבוגר, בעוד שכרטיסי הכניסה הבודדים לילדים זולים בהרבה מחצי. <b>עדיף לרכוש כרטיסים בודדים אונליין מראש.</b></div>
       <div class="box tan"><b>חשוב: לא חופף לכרטיס האורח מ-Schattauer</b>ה-Salzburger Sportwelt Card שמקבלים חינם במלון (Wasserwelt Wagrain + Shuttleberg Kleinarl + הנחות מקומיות) הוא כרטיס שונה לגמרי מה-SalzburgerLand Card הזה, ולא נכלל בו - שני הכרטיסים משלימים זה את זה, לא מתחרים.</div>
     </div>
+    <div class="sectionLabel">🌦️ גמישות לפי מזג האוויר</div>
+    <div class="box tan">Grossglockner, Hallstatt, Zell am See ו-Wolfgangsee (הנוף מהרכבת לפסגה) שמורים לימים עם הראות הטובה ביותר. אם יורד גשם באחד מהם, Salzburg היא חלופה טובה ליום מעונן. שימו לב שהרכבל ל-Geisterberg פועל בין 12.9–18.10.2026 רק בימי שישי–שלישי, אז אפשר להזיז את ה-27.9 רק לשבת, ראשון, שני או שלישי.</div>
+
     <div class="sectionLabel">🚦 מוקדי עומס ושעות שיא</div>
     <div class="meta">בלו״ז של כל יום, שורות שצפוי בהן עומס מסומנות בכפתור 🚦 - הקשה עליו פותחת את הפרטים.</div>
     <ul class="trafficList">
@@ -1371,6 +1395,171 @@ const FUN_FACTS = {
   ],
 };
 
+/* ---------- Checklist ---------- */
+const CHECKLIST = [
+  {id:"docs", ic:"🛂", name:"מסמכים", items:[
+    {t:"דרכונים בתוקף לכל בני המשפחה", s:"לוודא תוקף של לפחות 6 חודשים מיום החזרה"},
+    {t:"ביטוח נסיעות כולל כיסוי לילדים"},
+    {t:"רישיון נהיגה בינלאומי", s:"לנהגים בלבד — נדרש באוסטריה לצד הרישיון הישראלי"},
+    {t:"אישורי טיסה OS82 / OS79 שמורים בטלפון"},
+    {t:"אישור הזמנה — Appartements Schattauer"},
+    {t:"אישור הזמנה — Moxy Vienna Airport (שני הלילות)"},
+    {t:"אישור הזמנת רכב שכור"},
+  ]},
+  {id:"cloth", ic:"🧥", name:"ביגוד אישי", items:[
+    {t:"הלבשה תחתונה וגרביים", s:"10 ימים — או פחות אם עושים כביסה באמצע"},
+    {t:"חולצות קצרות וארוכות", s:"בספטמבר-אוקטובר הטמפרטורה נעה בין כ-5° בבוקר בהרים ל-20° בעמק"},
+    {t:"סווטשירט או פליז — שניים לאדם", s:"שכבת האמצע החשובה ביותר"},
+    {t:"מעיל חם", s:"לגרוסגלוקנר ולקאפרון — מעל 2,000 מ׳ קר ורוחי גם בקיץ"},
+    {t:"מעיל גשם או פונצ׳ו", s:"קל לקפל, שווה לכל אחד בנפרד"},
+    {t:"מכנסיים ארוכים"},
+    {t:"מכנסיים קצרים", s:"לימים החמים ולמעבר בטרמה"},
+    {t:"פיג׳מות"},
+    {t:"בגדי ים לכל אחד", s:"טרמה אמאדה ב-25.9 ו-Wasserwelt במהלך השבוע"},
+    {t:"כובע חם וכובע שמש"},
+    {t:"כפפות דקות וצעיף או באף", s:"בעיקר לימי הגובה"},
+    {t:"נעלי הליכה סגורות ונוחות"},
+    {t:"כפכפים", s:"למלון, לטרמה ולבריכה"},
+    {t:"בגדים חגיגיים קלים", s:"אם מתכננים ערב במסעדה"},
+    {t:"שקית לכביסה מלוכלכת"},
+  ]},
+  {id:"toilet", ic:"🧴", name:"תמרוקים והיגיינה", items:[
+    {t:"מברשות שיניים ומשחה"},
+    {t:"שמפו, מרכך וסבון גוף"},
+    {t:"דאודורנט"},
+    {t:"קרם הגנה", s:"הקרינה בגובה חזקה יותר משנדמה, גם ביום מעונן"},
+    {t:"שפתון לחות", s:"האוויר ההררי מייבש"},
+    {t:"מברשת שיער וגומיות"},
+    {t:"ציוד גילוח"},
+    {t:"היגיינה נשית"},
+    {t:"מגבונים לחים וג׳ל אלכוהול"},
+    {t:"מגבת מהירת ייבוש", s:"למרחצאות ולאגמים"},
+    {t:"תרופות אישיות ומרשמים", s:"בכמות מספקת לכל הטיול"},
+    {t:"ערכת עזרה ראשונה ופלסטרים", s:"גם לשלפוחיות מהליכה"},
+    {t:"תרופות ילדים", s:"מורידי חום ותרופה נגד בחילה — הכבישים ההרריים מפותלים"},
+  ]},
+  {id:"kids", ic:"👶", name:"לפעוטות", items:[
+    {t:"חיתולים ומגבונים לכל התקופה"},
+    {t:"קרם החתלה"},
+    {t:"מנשא", s:"בהוהנוורפן יש מעל 100 מדרגות למופע; עגלה לא עוברת"},
+    {t:"בקבוקים, כוסות ומזון מיוחד"},
+    {t:"בגדי החלפה נוספים בתיק היד"},
+    {t:"שמיכי, מוצץ או צעצוע מרגיע"},
+    {t:"חטיפים לנסיעות הארוכות"},
+  ]},
+  {id:"gear", ic:"🎒", name:"ציוד וגאדג׳טים", items:[
+    {t:"מתאם חשמל אירופאי"},
+    {t:"מטענים, כבלים ופאוור בנק"},
+    {t:"תיק גב קטן ליום טיול"},
+    {t:"בקבוקי מים רב-פעמיים"},
+    {t:"משקפי שמש לכולם"},
+    {t:"מצלמה וכרטיס זיכרון פנוי"},
+    {t:"שקיות ניילון לבגדים רטובים"},
+  ]},
+  {id:"car", ic:"🚗", name:"רכב ונסיעות", items:[
+    {t:"כיסאות בטיחות מתאימים לגיל הילדים", s:"להזמין מראש מול חברת ההשכרה"},
+    {t:"מטענים לרכב וכבלים"},
+    {t:"הורדת מפות אופליין לאזור"},
+    {t:"חטיפים ומים לנסיעות הארוכות"},
+    {t:"שקיות למקרה של בחילה", s:"הכביש לגרוסגלוקנר כולל 36 עיקולים"},
+  ]},
+  {id:"last", ic:"⏰", name:"ביום היציאה", items:[
+    {t:"צ׳ק-אין אונליין לטיסה"},
+    {t:"בדיקת משקל מזוודות", s:"מזוודה אחת לכל נוסע (1 PC)"},
+    {t:"טעינת כל הטלפונים והמצלמות"},
+    {t:"התקנת האתר כאפליקציה למסך הבית", s:"עובד גם בלי אינטרנט"},
+    {t:"החלפת כסף / כרטיס אשראי ללא עמלת המרה"},
+  ]},
+];
+
+const CK_KEY = "austria_checklist_v2";
+let ckState = {};
+try { ckState = JSON.parse(localStorage.getItem(CK_KEY) || "{}"); } catch(e){ ckState = {}; }
+function ckSave(){ try { localStorage.setItem(CK_KEY, JSON.stringify(ckState)); } catch(e){} }
+function ckKey(si, ii){ return CHECKLIST[si].id + ":" + ii; }
+
+function renderChecklist(){
+  return `
+    <div class="tag">לפני שיוצאים</div>
+    <h2 class="title">✅ הצ׳קליסט שלנו</h2>
+    <div class="meta">כל משפחה מסמנת לעצמה. הסימון נשמר במכשיר — אפשר לסגור ולחזור.</div>
+    <div class="ckProgress">
+      <div class="row">
+        <span class="big" id="ckPct">0%</span>
+        <span class="cap" id="ckCap">0 מתוך 0 בוצעו</span>
+      </div>
+      <div class="ckBar"><i id="ckFill" style="width:0%"></i></div>
+    </div>
+    <div id="ckRoot">${CHECKLIST.map((sec, si) => {
+      const done = sec.items.filter((_,ii)=>ckState[ckKey(si,ii)]).length;
+      return `<div class="ckSec${done===sec.items.length?" done":""}${si===0?" open":""}" data-s="${si}">
+        <button type="button" class="ckHead">
+          <span class="ic">${sec.ic}</span>
+          <span class="nm">${sec.name}</span>
+          <span class="cnt">${done}/${sec.items.length}</span>
+          <span class="car">▾</span>
+        </button>
+        <div class="ckBody">${sec.items.map((it,ii)=>{
+          const on = !!ckState[ckKey(si,ii)];
+          return `<div class="ckItem${on?" on":""}" data-s="${si}" data-i="${ii}">
+            <span class="ckBox">${on?"✓":""}</span>
+            <span class="txt">${it.t}${it.s?`<small>${it.s}</small>`:""}</span>
+          </div>`;
+        }).join("")}</div>
+      </div>`;
+    }).join("")}</div>
+    <div class="ckTools">
+      <button type="button" id="ckOpenAll">פתח הכל</button>
+      <button type="button" id="ckCloseAll">סגור הכל</button>
+      <button type="button" id="ckReset">אפס סימונים</button>
+    </div>
+    <div class="box tan" style="margin-top:16px;"><b>איך זה עובד</b>הסימונים נשמרים בדפדפן של המכשיר שסימנתם בו, ולא משותפים בין המשפחות — לכל משפחה רשימה משלה. אם תפתחו את האתר בטלפון אחר, הרשימה שם תהיה ריקה.</div>
+  `;
+}
+
+function ckUpdateProgress(){
+  let total=0, done=0;
+  CHECKLIST.forEach((sec,si)=>sec.items.forEach((_,ii)=>{ total++; if(ckState[ckKey(si,ii)]) done++; }));
+  const pct = total ? Math.round(done/total*100) : 0;
+  const p = document.getElementById("ckPct");
+  if (!p) return;
+  p.textContent = pct + "%";
+  document.getElementById("ckCap").textContent = `${done} מתוך ${total} בוצעו`;
+  document.getElementById("ckFill").style.width = pct + "%";
+}
+
+// Wired once per render of the checklist page, via delegation on #ckRoot.
+function initChecklist(){
+  const root = document.getElementById("ckRoot");
+  if (!root) return;
+  ckUpdateProgress();
+  root.addEventListener("click", e => {
+    const head = e.target.closest(".ckHead");
+    if (head){ head.parentElement.classList.toggle("open"); return; }
+    const item = e.target.closest(".ckItem");
+    if (!item) return;
+    const si = +item.dataset.s, ii = +item.dataset.i, k = ckKey(si,ii);
+    ckState[k] = !ckState[k];
+    ckSave();
+    // repaint just this row and its section counter, so open/closed state is preserved
+    const sec = item.closest(".ckSec");
+    item.classList.toggle("on", !!ckState[k]);
+    item.querySelector(".ckBox").textContent = ckState[k] ? "✓" : "";
+    const secDone = CHECKLIST[si].items.filter((_,j)=>ckState[ckKey(si,j)]).length;
+    sec.querySelector(".cnt").textContent = secDone + "/" + CHECKLIST[si].items.length;
+    sec.classList.toggle("done", secDone === CHECKLIST[si].items.length);
+    ckUpdateProgress();
+  });
+  document.getElementById("ckOpenAll")?.addEventListener("click", ()=>
+    root.querySelectorAll(".ckSec").forEach(s=>s.classList.add("open")));
+  document.getElementById("ckCloseAll")?.addEventListener("click", ()=>
+    root.querySelectorAll(".ckSec").forEach(s=>s.classList.remove("open")));
+  document.getElementById("ckReset")?.addEventListener("click", ()=>{
+    if(!confirm("לאפס את כל הסימונים?")) return;
+    ckState = {}; ckSave(); selectDay("checklist");
+  });
+}
+
 /* ---------- Flights, rendered as boarding-pass cards ----------
    Durations account for the one-hour offset between Israel (UTC+3 in September) and
    Vienna (UTC+2), so they don't match a naive subtraction of the printed clock times. */
@@ -1458,8 +1647,6 @@ function famRowCost(row, fam){
 
 function renderCosts(){
   const famTotals = COST_FAMILIES.map(f => COST_ROWS.reduce((s,r)=> s + famRowCost(r,f), 0));
-  const grand = famTotals.reduce((a,b)=>a+b, 0);
-  const heads = COST_FAMILIES.reduce((s,f)=> s + f.adults + f.kids + f.tots, 0);
 
   const blocks = COST_FAMILIES.map((f, i) => `
     <div class="costFam">
@@ -1481,11 +1668,6 @@ function renderCosts(){
     <div class="tag">תכנון תקציב</div>
     <h2 class="title">עלויות האטרקציות</h2>
     <div class="meta">רק אטרקציות שנמצאות במסלול הקבוע. מחירי כניסה בלבד - בלי טיסות, לינה, השכרת רכב, דלק, חניות וארוחות.</div>
-
-    <div class="costTotalBar">
-      <span class="big">${eur(grand)}</span>
-      <span class="cap">סה״כ לכל הקבוצה · ${heads} נפשות · ${COST_FAMILIES.length} יחידות משפחתיות</span>
-    </div>
 
     ${blocks}
 
@@ -1550,7 +1732,6 @@ function wmPage(name){
   return "https://commons.wikimedia.org/wiki/File:" + encodeURIComponent(name.replace(/ /g,"_"));
 }
 const IMAGES = {
-  overview: [ {f:"Wagrain.JPG", alt:"Wagrain — בסיס הלינה שלנו"} ],
   d2:  [ {f:"Gmunden - Schloss Ort (3).JPG", alt:"Schloss Ort, Gmunden"} ],
   d3:  [ {f:"Hallstatt, Austria (37260661934).jpg", alt:"Hallstatt"},
          {f:"Gosaulacke mit Blick zum Dachstein.jpg", alt:"Gosausee מול רכס Dachstein"} ],
@@ -1580,7 +1761,7 @@ function renderGallery(id){
 
 /* ---------- Map (Google Maps, no key) + Waze navigation ---------- */
 const DAY_ICON = {
-  overview:"🗺️", d1:"✈️", d2:"🏞️", d3:"🏞️", d4:"🎢", d5:"🏰",
+  checklist:"✅", d1:"✈️", d2:"🏞️", d3:"🏞️", d4:"🎢", d5:"🏰",
   d6:"🏔️", d7:"🚂", d8:"🚡", d9:"⛪", d10:"✈️", alt:"📋", costs:"💶", trivia:"🎯",
 };
 const LOC_ICON = {
@@ -2247,7 +2428,7 @@ updateCountdown();
 
 // Top strip: the 10 trip days in a horizontal scroller (see the arrow handlers below).
 // Bottom tab bar: the four reference pages, always one tap away regardless of scroll position.
-const TOP_NAV_IDS = ["overview", "alt", "costs", "trivia"];
+const TOP_NAV_IDS = ["checklist", "alt", "costs", "trivia"];
 DAYS.forEach(d=>{
   const btn = document.createElement("button");
   btn.id = "nav-"+d.id;
@@ -2265,6 +2446,10 @@ DAYS.forEach(d=>{
   btn.addEventListener("click", ()=> selectDay(d.id));
   dayScrollEl.appendChild(btn);
 });
+// The WhatsApp link lives in the markup near the header for no-JS fallback, but belongs
+// at the end of the tab bar — move the existing node rather than duplicating it.
+const waEl = document.querySelector(".waFab");
+if (waEl) tabbarEl.appendChild(waEl);
 
 /* ---------- Day scroller arrows: step to the previous/next day chip ----------
    Tracked with its own index (not tied to which day is currently selected/active),
@@ -2294,11 +2479,11 @@ function selectDay(id){
     dayScrollIdx = DAY_SCROLL_IDS.indexOf(id);
     scrollDayIntoView(id);
   }
-  const isOverview = (id === "overview" || id === "alt");
+  const isOverview = (id === "alt");
   const isTrivia = (id === "trivia");
   // Trivia and the costs table are reference pages, not places — a map, a forecast and a
   // "navigate now" button would all be noise there, so hide the whole strip.
-  const noMap = isTrivia || (id === "costs");
+  const noMap = isTrivia || (id === "costs") || (id === "checklist");
   const segment = day.segment.length ? day.segment : FULL_ROUTE;
 
   const mapCardEl = document.getElementById("mapCard");
@@ -2315,6 +2500,7 @@ function selectDay(id){
     document.getElementById("nowBar").hidden = true;
     document.getElementById("weatherCard").hidden = true;
     if (isTrivia) initTrivia();
+    if (id === "checklist") initChecklist();
   }
 
   updateFunFacts(id);
@@ -2322,7 +2508,7 @@ function selectDay(id){
 }
 
 try { initMap(); } catch(e) { console.error("map init failed", e); }
-selectDay(TODAY_ID || "overview");
+selectDay(TODAY_ID || "d1");
 
 /* ---------- PWA auto-refresh: every time the app is opened/foregrounded, actively
    check for a newer version and, if one takes over, reload automatically so the
