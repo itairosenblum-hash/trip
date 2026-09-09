@@ -763,6 +763,30 @@
   .fcTable td .rn{display:block;font-size:10.5px;color:#3d7a9e;font-weight:600;}
   .fcTable td .rn.wet{color:var(--red);font-weight:800;}
   .fcLegend{margin-top:9px;font-size:11.5px;color:var(--muted);}
+  /* ---------- Restaurant recommendations, appended to each day ---------- */
+  .eats{display:flex;flex-direction:column;gap:9px;margin-bottom:8px;}
+  .eat{
+    display:flex;align-items:flex-start;gap:10px;
+    background:#fff;border:1px solid var(--line);border-inline-start:3px solid var(--gold);
+    border-radius:var(--radius-md);padding:11px 13px;
+  }
+  .eat .body{flex:1;min-width:0;}
+  .eat .nm{font-weight:800;font-size:14.5px;color:var(--red-dark);}
+  .eat .nm .tagline{
+    font-weight:700;font-size:10.5px;color:var(--gold-dark);
+    background:var(--gold-soft);border-radius:99px;padding:1px 7px;margin-inline-start:6px;
+    white-space:nowrap;
+  }
+  .eat .ds{font-size:13.3px;line-height:1.5;margin-top:2px;}
+  .eat .lk{margin-top:5px;font-size:12.5px;}
+  .eat .lk a{color:var(--red-dark);font-weight:700;text-decoration:underline;}
+  .eat .nav{
+    flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;
+    width:30px;height:30px;border-radius:50%;background:var(--gold-soft);
+    font-size:15px;text-decoration:none;line-height:1;
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .eat .nav:hover{box-shadow:var(--shadow-soft);transform:scale(1.1);}
   .footerbar{background:var(--red-dark);color:#fff;padding:13px 16px;border-radius:var(--radius-md);font-size:14px;font-weight:500;margin-top:16px;display:flex;align-items:center;gap:8px;}
 
   ul.altlist{padding-inline-start:20px;margin:0 0 16px;font-size:14.3px;line-height:1.7;}
@@ -1306,6 +1330,41 @@ const DAYS = [
       <div class="box red"><b>המסקנה: לא כדאי לכם</b>מול העלויות בפועל, הכרטיס מכסה בערך 350€ למשפחה של 2+2 - ועולה 310€. חיסכון של כ-20€, ורק אם הרכבל ב-Hallstatt כלול ולא רק המכרה. לזוג מבוגרים החיסכון כ-35€, לבוגר יחיד כ-41€. בכל המקרים זה שולי, ולמשפחות עם ילדים כמעט אפסי - כי כרטיס ילד עולה חצי ממבוגר, בעוד שכרטיסי הכניסה הבודדים לילדים זולים בהרבה מחצי. <b>עדיף לרכוש כרטיסים בודדים אונליין מראש.</b></div>
       <div class="box tan"><b>חשוב: לא חופף לכרטיס האורח מ-Schattauer</b>ה-Salzburger Sportwelt Card שמקבלים חינם במלון (Wasserwelt Wagrain + Shuttleberg Kleinarl + הנחות מקומיות) הוא כרטיס שונה לגמרי מה-SalzburgerLand Card הזה, ולא נכלל בו - שני הכרטיסים משלימים זה את זה, לא מתחרים.</div>
     </div>
+    <div class="sectionLabel">🍽️ ארוחות ערב בוואגריין</div>
+    <div class="meta">אתם ישנים כאן שישה לילות, אז אלה המקומות שתחזרו אליהם.</div>
+    <div class="eats">
+      <div class="eat">
+        <div class="body">
+          <div class="nm">Die Alte Schmiede<span class="tagline">משפחתי</span></div>
+          <div class="ds">מנוהל על ידי משפחה אוסטרית, אווירה חמה ומטבח אוסטרי לצד מנות בינלאומיות. חוזר שוב ושוב בהמלצות של משפחות עם ילדים קטנים. בשעות עומס השירות עלול להיות איטי.</div>
+        </div>
+        <a class="nav" href="${eatsLink("Die Alte Schmiede, Wagrain, Austria")}" target="_blank" rel="noopener" title="נווט ב-Waze">🧭</a>
+      </div>
+      <div class="eat">
+        <div class="body">
+          <div class="nm">Joe's<span class="tagline">פיצה ופאב</span></div>
+          <div class="ds">פאב קטן במרכז וואגריין עם פיצות טובות ואווירה נעימה. הטירמיסו הביתי הוא מה שכולם ממליצים עליו.</div>
+        </div>
+        <a class="nav" href="${eatsLink("Joe's, Wagrain, Austria")}" target="_blank" rel="noopener" title="נווט ב-Waze">🧭</a>
+      </div>
+      <div class="eat">
+        <div class="body">
+          <div class="nm">ALMMONTE 96<span class="tagline">מנות גדולות</span></div>
+          <div class="ds">בית מרזח מודרני בתחנת התחתית של Flying Mozart. פיצות בקוטר 35 ס״מ, המבורגרים ולזניה, מחירים הוגנים ושירות מהיר — מתאים לקבוצה גדולה ורעבה.</div>
+        </div>
+        <a class="nav" href="${eatsLink("Almmonte 96, Wagrain, Austria")}" target="_blank" rel="noopener" title="נווט ב-Waze">🧭</a>
+      </div>
+      <div class="eat">
+        <div class="body">
+          <div class="nm">Starchen Stadl<span class="tagline">מסורתי</span></div>
+          <div class="ds">מסעדה בוואגריין עם מטבח אוסטרי מסורתי לצד מנות בינלאומיות, בסגנון אסם כפרי.</div>
+        </div>
+        <a class="nav" href="${eatsLink("Starchen Stadl, Wagrain, Austria")}" target="_blank" rel="noopener" title="נווט ב-Waze">🧭</a>
+      </div>
+    </div>
+    <div class="box red"><b>חשוב לקבוצה בגודל הזה</b>17 נפשות זה לא שולחן שמתפנה מעצמו. בכל מקום שתרצו לשבת בו כולם יחד — התקשרו יום מראש. באוסטריה מקבלים את זה בטבעיות, וזה ההבדל בין ארוחה נעימה לבין המתנה של שעה בחוץ עם חמישה ילדים.</div>
+    <div class="box yellow"><b>הערה על ההמלצות</b>אספתי אותן ממדריכי תיירות ומאתרי התיירות המקומיים, וכפתורי ה-Waze מחפשים לפי שם ויישוב ולא לפי כתובת מדויקת - כך שגם אם מסעדה עברה מקום, הניווט עדיין יגיע אליה. שעות פתיחה בסוף ספטמבר משתנות, ובכפרים קטנים יש יום סגירה שבועי - שווה בדיקה מהירה לפני שנוסעים במיוחד.</div>
+
     <div class="sectionLabel">🌦️ גמישות לפי מזג האוויר</div>
     <div class="box tan">Grossglockner, Hallstatt, Zell am See ו-Wolfgangsee (הנוף מהרכבת לפסגה) שמורים לימים עם הראות הטובה ביותר. אם יורד גשם באחד מהם, Salzburg היא חלופה טובה ליום מעונן. שימו לב שהרכבל ל-Geisterberg פועל בין 12.9–18.10.2026 רק בימי שישי–שלישי, אז אפשר להזיז את ה-27.9 רק לשבת, ראשון, שני או שלישי.</div>
 
@@ -1422,6 +1481,106 @@ const FUN_FACTS = {
     "אוסטריה חולקת גבולות עם 8 מדינות שונות — יותר משכנות מרוב מדינות אירופה.",
   ],
 };
+
+/* ---------- Restaurant recommendations ----------
+   `q` is a Waze *search* string, not a street address. Waze resolves "name, town, country"
+   reliably, and it avoids the worse failure of navigating the whole family to a street
+   number that turned out to be wrong. Where an address was verifiable it's in the `q`.
+   `w` is only set where an official site was actually confirmed — no guessed URLs. */
+function eatsLink(q){
+  return `https://waze.com/ul?q=${encodeURIComponent(q)}&navigate=yes`;
+}
+
+const EATS = {
+  d1: {note:"נוחתים ב-21:25 ומגיעים למלון מאוחר. ה-MOXY מגיש אוכל ומשקאות בלובי עד השעות הקטנות, וזו האופציה הסבירה היחידה בשעה הזו. שווה לקנות משהו לילדים כבר בשדה."},
+  d2: {
+    title:"בגמונדן ובדרך",
+    list:[
+      {n:"Orther Stub'n", t:"על האגם", d:"בתוך חצר הטירה עצמה, עם מרפסת שיושבת ממש מעל המים. מתמחים בדגים טריים מהטראונזה. המקום הכי מתבקש לצהריים ביום הזה — אתם ממילא שם.", q:"Orther Stub'n, Ort 1, 4810 Gmunden, Austria", w:"https://www.ortherstubn.at/"},
+      {n:"Orther Hütt'n", t:"קליל וזול", d:"דוכן־בקתה של אותם בעלים בטוסקנהפארק, עם עוגות, משקאות חמים ונשנושים. אופציה טובה אם לא בא לכם לשבת לארוחה מלאה עם הילדים אחרי הנסיעה.", q:"Orther Hüttn, Toscanapark, 4810 Gmunden, Austria"},
+    ],
+    note:"בערב אתם בטרמה אמאדה, שיש בה בית קפה ומזנון — אבל אם רוצים ארוחה אמיתית, ראו את ההמלצות לוואגריין בעמוד \"מידע\"."
+  },
+  d3: {
+    title:"בהלשטאט ובגוסאו",
+    list:[
+      {n:"Rudolfsturm", t:"נוף מלמעלה", d:"מגדל שמירה מהמאה ה-13 שהפך לבית קפה ומסעדה, ממש ליד תחנת הרכבל העליונה מעל הכפר. אתם עולים לשם בכל מקרה — והנוף מהמרפסת הוא הטוב ביותר בהלשטאט.", q:"Rudolfsturm, Hallstatt, Austria"},
+      {n:"Restaurant Im Kainz", t:"", d:"מסעדה ותיקה במרכז הכפר, מטבח אוסטרי קלאסי. מהמומלצות באזור לפי אתר התיירות המקומי.", q:"Restaurant Im Kainz, Hallstatt, Austria"},
+      {n:"Seecafe Hallstatt", t:"שקט מהתיירים", d:"מעט מחוץ למרכז, ומשם רואים את כל הכפר מהצד. בית קפה שמגיש גם ארוחות — מקום טוב לברוח מהצפיפות.", q:"Seecafe Hallstatt, Seelände 173, 4830 Hallstatt, Austria"},
+      {n:"Gasthof Brandwirt", t:"בגוסאו", d:"פונדק כפרי בגוסאו עם אוכל ביתי אוסטרי, בדרך לאגם. נוח אם מגיעים לגוסאוזה רעבים.", q:"Brandwirt, Gosau, Austria"},
+    ],
+    note:"הלשטאט יקרה — זה המחיר של כפר תיירותי. יש גם דוכני קבב ופיצה בכיכר אם רוצים לחסוך."
+  },
+  d4: {
+    title:"בהר ובסנט יוהאן",
+    list:[
+      {n:"בקתות ההר ב-Geisterberg", t:"על ההר", d:"יש כמה בקתות ומזנונים לאורך אזור החוויה בפסגה. הנוחות ברורה: לא צריך לרדת ברכבל באמצע היום.", q:"Alpendorf Bergstation, St. Johann im Pongau, Austria"},
+      {n:"Platzl", t:"במרכז", d:"מסעדה מקומית בלב סנט יוהאן, מטבח אוסטרי קלאסי, אווירה נעימה. מומלצת דווקא על ידי מקומיים ולא רק תיירים.", q:"Platzl, St. Johann im Pongau, Austria"},
+      {n:"Cavalli Ristorante", t:"לילדים", d:"איטלקית — פסטה ופיצה. כשהילדים מותשים אחרי יום שלם בהר, זו לרוב הבחירה שמצליחה.", q:"Cavalli Ristorante, St. Johann im Pongau, Austria"},
+      {n:"Café Schiebel", t:"גלידה", d:"בית קפה בסגנון וינאי בהאופטשטראסה, עוגות וקפה. בדיוק לבלוק הגלידה שבלו״ז.", q:"Café Schiebel, Hauptstraße 37, 5600 St. Johann im Pongau, Austria"},
+    ]
+  },
+  d5: {
+    title:"בוורפן ובהליין",
+    list:[
+      {n:"Burgtaverne Hohenwerfen", t:"בתוך הטירה", d:"הפונדק בתוך המצודה עצמה. לא מטבח גורמה, אבל אתם בדיוק שם בשעת הצהריים ואין צורך לרדת ולעלות שוב.", q:"Burg Hohenwerfen, Werfen, Austria"},
+      {n:"Obauer", t:"למבוגרים", d:"מוסד קולינרי מפורסם בכפר וורפן, ברמה גבוהה ובמחיר תואם. לא לחמישה ילדים — אבל אם מישהו מהמבוגרים רוצה ארוחה אחת רצינית בטיול, זו ההזדמנות.", q:"Obauer, Werfen, Austria"},
+      {n:"מסעדת Salzwelten Hallein", t:"במכרה", d:"מסעדה במתחם מכרה המלח בבאד דירנברג. שימושית במיוחד ביום הזה, כי היא איפה שהמלווים והפעוטות ממתינים בזמן הסיור.", q:"Salzwelten Hallein, Ramsaustraße 3, 5422 Bad Dürrnberg, Austria"},
+    ]
+  },
+  d6: {
+    title:"על הכביש האלפיני",
+    list:[
+      {n:"מסעדות לאורך הכביש", t:"", d:"יש מסעדות ומזנונים בנקודות העצירה המרכזיות — פוּשֶר טֶרְל ובקייזר-פרנץ-יוזפס-הההה. האוכל סביר והמחירים גבוהים, כמו בכל מקום שאין לו תחרות בגובה 2,400 מ׳.", q:"Kaiser-Franz-Josefs-Höhe, Grossglockner, Austria"},
+    ],
+    note:"ההמלצה שלי ליום הזה היא פיקניק. קונים ב-BILLA בוואגריין בערב שלפני, ואוכלים באחת נקודות התצפית עם הנוף — זול יותר, גמיש יותר, ולא מבזבזים חצי שעה בתור."
+  },
+  d7: {
+    title:"בסנט וולפגנג",
+    list:[
+      {n:"מסעדת הפסגה, Schafbergalm", t:"בפסגה", d:"בפסגת שפברג, ליד תחנת הרכבת העליונה. הנוף ל-13 אגמים מהמרפסת הוא הסיבה האמיתית לשבת שם, לא התפריט.", q:"Schafbergalm, St. Wolfgang im Salzkammergut, Austria"},
+      {n:"Dorf-Alm", t:"מסורתי", d:"מבנה עץ מקושט עם מרפסת ארוכה, מטבח אוסטרי כבד — גולאש, שניצל, מרק בקר עם כופתאות גבינה. לפעמים יש מוזיקה אוסטרית חיה. חניה חינם.", q:"Dorf-Alm, St. Wolfgang im Salzkammergut, Austria"},
+      {n:"Weisses Rössl", t:"האייקון", d:"המלון ההיסטורי שהכפר מפורסם בזכותו, עם מסעדה ומרפסת על האגם. יקר, אבל אתם עוברים לידו ממילא — לפחות שווה קפה על המרפסת.", q:"Weisses Rössl, St. Wolfgang im Salzkammergut, Austria"},
+    ]
+  },
+  d8: {
+    title:"בקפרון ובצל am See",
+    list:[
+      {n:"מסעדת Mooserboden", t:"בסכר", d:"יש מסעדה למעלה ליד הסכר, בגובה 2,040 מ׳. בהתחשב בכך שהעלייה והירידה לוקחות שעה וחצי, שווה לתכנן לאכול שם או לקחת משהו.", q:"Mooserboden Stausee, Kaprun, Austria"},
+      {n:"Erlhof", t:"נוף לאגם", d:"מסעדה משפחתית באולם מקומר כפרי עם מרפסת שמש ונוף פתוח לצֵלר זֶה. מטבח אוסטרי מסורתי עם נגיעות מודרניות.", q:"Erlhof, Zell am See, Austria"},
+      {n:"Beach Club Thumersbach", t:"קליל עם ילדים", d:"בצד השקט של האגם, מול הנוף לקיצשטיינהורן. המבורגרים, פיצה ושטרודל תפוחים — לא גורמה, אבל המיקום והאווירה מתאימים לסיום יום עם ילדים.", q:"Beach Club Thumersbach, Zell am See, Austria"},
+      {n:"Zum Metzgerwirt", t:"היסטורי", d:"פונדק שמוזכר לראשונה ב-1493 ומנוהל באותה משפחה דורות. מטבח אוסטרי קלאסי במרכז צל am See.", q:"Metzgerwirt, Zell am See, Austria"},
+    ]
+  },
+  d9: {
+    title:"במלק ובדורנשטיין",
+    list:[
+      {n:"Stiftsrestaurant Melk", t:"במנזר", d:"המסעדה בשטח המנזר עצמו, עם גן ישיבה. הנוחות מכרעת ביום עמוס לפני טיסה — לא צריך לחפש חניה שנייה.", q:"Stiftsrestaurant Melk, Melk, Austria"},
+      {n:"Loibnerhof", t:"בעמק היין", d:"פונדק ותיק בעמק וואכאו ליד דורנשטיין, בגן עם עצים. מטבח אזורי ויינות מקומיים — זה בדיוק האזור שמפורסם בהם.", q:"Loibnerhof, Unterloiben, Dürnstein, Austria"},
+      {n:"מרפסות הדנובה בדורנשטיין", t:"נוף", d:"לאורך הרחוב הראשי של דורנשטיין יש כמה בתי קפה ומסעדות עם מרפסות מעל הדנובה. אין צורך להזמין — פשוט בוחרים לפי הנוף.", q:"Dürnstein Hauptstraße, Dürnstein, Austria"},
+    ],
+    note:"היום הזה נגמר ב-MOXY ליד השדה. אם מגיעים מאוחר, יש שם אוכל בלובי — ואל תסמכו על מסעדות באזור התעשייה של השדה."
+  },
+};
+
+function renderEats(id){
+  const e = EATS[id];
+  if (!e) return "";
+  const cards = (e.list || []).map(r => `
+    <div class="eat">
+      <div class="body">
+        <div class="nm">${r.n}${r.t?`<span class="tagline">${r.t}</span>`:""}</div>
+        <div class="ds">${r.d}</div>
+        ${r.w?`<div class="lk"><a href="${r.w}" target="_blank" rel="noopener">האתר הרשמי</a></div>`:""}
+      </div>
+      <a class="nav" href="${eatsLink(r.q)}" target="_blank" rel="noopener" title="נווט ב-Waze ל-${r.n}">🧭</a>
+    </div>`).join("");
+  return `
+    <div class="sectionLabel">🍽️ איפה אוכלים${e.title?` — ${e.title}`:""}</div>
+    ${cards?`<div class="eats">${cards}</div>`:""}
+    ${e.note?`<div class="box tan">${e.note}</div>`:""}
+  `;
+}
 
 /* ---------- Forecast page: today + 5 days for several destinations at once ----------
    One Open-Meteo request covers all of them (the API accepts comma-separated coordinates
@@ -2592,7 +2751,9 @@ document.getElementById("dayScrollNext")?.addEventListener("click", () => stepDa
 function selectDay(id){
   const day = DAYS.find(d=>d.id===id);
   if(!day) return;
-  panelEl.innerHTML = renderGallery(id) + day.render();
+  // Restaurant picks are injected rather than written into each day's template, so all the
+  // food data lives in one place (EATS) instead of scattered across ten render functions.
+  panelEl.innerHTML = renderGallery(id) + day.render() + renderEats(id);
   injectRowWaze(id);
   injectTraffic(id);
   document.querySelectorAll("nav.daynav button, nav.tabbar button").forEach(b=>b.classList.remove("active"));
