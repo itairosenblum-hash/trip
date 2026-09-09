@@ -724,6 +724,45 @@
     background:var(--cream-2);color:var(--ink);
   }
   .ckTools button:hover{background:#f5dfe1;}
+  /* ---------- Forecast page: destinations down the side, days across the top.
+     The table scrolls sideways on a phone rather than shrinking to unreadable columns,
+     and the place column is pinned so you always know which row you're reading. ---------- */
+  .fcLoading{color:var(--muted);font-size:14px;padding:14px 2px;}
+  .fcWrap{overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
+  .fcWrap::-webkit-scrollbar{display:none;}
+  .fcTable{border-collapse:separate;border-spacing:0;width:100%;}
+  .fcTable th,.fcTable td{padding:8px 6px;text-align:center;vertical-align:middle;}
+  .fcTable thead th{
+    border-bottom:2px solid var(--line);
+    min-width:64px;
+  }
+  .fcTable thead th .wd{display:block;font-size:11px;font-weight:800;color:var(--red-dark);}
+  .fcTable thead th .dt{display:block;font-size:10.5px;color:var(--muted);font-weight:600;}
+  .fcTable th.fcPlace .nm{display:block;white-space:nowrap;}
+  .fcTable th.fcPlace .nt{display:block;font-size:10px;color:var(--muted);font-weight:600;}
+  .fcTable thead th .trip{
+    display:block;margin-top:3px;font-size:8.5px;font-weight:800;max-width:60px;
+    margin-inline:auto;
+    color:var(--gold-dark);background:var(--gold-soft);border-radius:99px;
+    padding:1px 4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  }
+  .fcTable th.fcPlace{
+    position:sticky;inset-inline-start:0;z-index:2;
+    background:var(--cream);
+    text-align:start;font-size:12.5px;font-weight:700;color:var(--ink);
+    min-width:92px;max-width:92px;
+    border-bottom:1px solid #F6EDED;
+    box-shadow:6px 0 8px -8px rgba(43,35,32,.35);
+  }
+  .fcTable tbody td{border-bottom:1px solid #F6EDED;}
+  .fcTable tbody tr:last-child td,.fcTable tbody tr:last-child th{border-bottom:none;}
+  .fcTable .fcToday{background:var(--gold-soft);}
+  .fcTable td .ic{display:block;font-size:17px;line-height:1.2;}
+  .fcTable td .tm{display:block;font-size:12px;color:var(--muted);}
+  .fcTable td .tm b{color:var(--red-dark);font-size:13.5px;margin-inline-end:3px;}
+  .fcTable td .rn{display:block;font-size:10.5px;color:#3d7a9e;font-weight:600;}
+  .fcTable td .rn.wet{color:var(--red);font-weight:800;}
+  .fcLegend{margin-top:9px;font-size:11.5px;color:var(--muted);}
   .footerbar{background:var(--red-dark);color:#fff;padding:13px 16px;border-radius:var(--radius-md);font-size:14px;font-weight:500;margin-top:16px;display:flex;align-items:center;gap:8px;}
 
   ul.altlist{padding-inline-start:20px;margin:0 0 16px;font-size:14.3px;line-height:1.7;}
@@ -1127,60 +1166,40 @@ const DAYS = [
   `
 },
 {
-  id:"d8", nav:"1.10", navSub:"Zell am See + Kaprun",
-  segment: ["wagrain","zell","kaprun","zell","wagrain"],
+  id:"d8", nav:"1.10", navSub:"Kaprun + Zell am See",
+  segment: ["wagrain","kaprun","zell","wagrain"],
   render: () => `
-    <div class="tag">יום ה׳, 1.10 · רכבל + פסגה + אגם ושיט</div>
-    <h2 class="title">Zell am See + Schmittenhöhe</h2>
-    <div class="meta">נסיעה: Wagrain → Zell am See כ-1 שעה לכל כיוון</div>
+    <div class="tag">יום ה׳, 1.10 · סכר הררי בגובה 2,040 מ׳ + אגם ושיט</div>
+    <h2 class="title">Kaprun + Zell am See</h2>
+    <div class="meta">נסיעות: Wagrain → קפרון כ-1:10; קפרון → Zell am See כ-15-20 דק׳; חזרה ל-Wagrain כ-1 שעה</div>
     <table class="sched">
-      <tr><td>יציאה</td><td>08:15</td></tr>
-      <tr><td>הגעה ל-Zell am See</td><td>~09:15</td></tr>
-      <tr><td>Schmittenhöhe, פסגה ותצפיות</td><td>09:30-12:30</td></tr>
-      <tr><td>ירידה</td><td>~13:00</td></tr>
-      <tr><td>צהריים</td><td>13:15</td></tr>
-      <tr><td>טיילת האגם</td><td>14:30</td></tr>
-      <tr><td>שיט, אם פועל ומזג האוויר מתאים</td><td>~15:00</td></tr>
-      <tr><td>חזרה ל-Wagrain</td><td>~17:30</td></tr>
+      <tr><td>יציאה מ-Wagrain</td><td>07:00</td></tr>
+      <tr><td>חניה בחניון החינמי ליד קופת Kesselfall, קפרון</td><td>~08:15</td></tr>
+      <tr><td>הסעה + מעלית משופעת Lärchwand ל-Mooserboden (2,040 מ׳)</td><td>08:30-09:15</td></tr>
+      <tr><td>הסכר, נקודות התצפית ושביל החוויה לילדים "Stromi"</td><td>09:15-11:00</td></tr>
+      <tr><td>ירידה חזרה בהסעה לחניון</td><td>11:00-12:00</td></tr>
+      <tr><td>נסיעה ל-Zell am See</td><td>~12:20</td></tr>
+      <tr><td>צהריים</td><td>12:30-13:45</td></tr>
+      <tr><td>טיילת האגם ומגרש המשחקים Kinderland</td><td>13:45-15:00</td></tr>
+      <tr><td>שיט פנורמה באגם, אם מזג האוויר מתאים</td><td>15:00-16:00</td></tr>
+      <tr><td>חזרה ל-Wagrain</td><td>~16:15-17:15</td></tr>
     </table>
     <div class="sectionLabel">📍 מה יש שם</div>
     <div class="places">
+      <div class="p"><b>Kaprun Hochgebirgsstauseen — </b>שני סכרים הרריים ענקיים (Mooserboden ו-Wasserfallboden) בגובה 2,040 מ׳, שנבנו לאחר מלחמת העולם השנייה; מגיעים בהסעה ובמעלית משופעת פתוחה - הגדולה מסוגה באירופה. שילוב לא שגרתי של הנדסה ענקית ונוף אלפיני גבוה.</div>
+      <div class="p"><b>שביל "Stromi" — </b>שביל חוויה קצר לילדים בפסגת הסכר, עם תחנות על מים וחשמל.</div>
       <div class="p"><b>Zell am See — </b>עיירת נופש ציורית על שפת אגם Zeller See, עם טיילת נעימה, חוף רחצה ואפשרויות שיט.</div>
-      <div class="p"><b>Schmittenhöhe — </b>"הר המשפחה" של האזור - רכבל עולה לפסגה עם נוף ל-30 פסגות מעל 3,000 מ׳ (כולל Großglockner) ופינת חוויה לילדים.</div>
+      <div class="p"><b>מגרש משחקים Kinderland — </b>מגרש גדול ומגודר בפארק העירוני, צמוד לאגם וממש ליד הטיילת - מקום טוב לשחרר את הילדים אחרי הבוקר בהר.</div>
     </div>
     <div class="boxes">
-      <div class="box green"><b>יום עשיר</b>הרים, רכבל, עיירת אגם ושיט - שילוב שונה מ-Hallstatt.</div>
-      <div class="box red"><b>חשוב</b>הרכבל והשיט בתשלום. אם הפסגה בעננים - מחליפים יום.</div>
+      <div class="box green"><b>יום רגוע יחסית</b>אטרקציה אחת גדולה בבוקר ואחר צהריים פנוי באמת - שינוי קצב מבורך אחרי גרוסגלוקנר ושפברגבאן, ומתאים יותר לפעוטות ולסבים.</div>
+      <div class="box red"><b>עם הקטנות והסבים</b>גובה 2,040 מ׳ יכול להיות קריר ורוחי - שכבות חמות וכובע. ברגע שעולים, הירידה אורכת כ-45 דקות ואי אפשר "לרדת מהר" כמו ברכבל רגיל.</div>
     </div>
-    <div class="box tan"><b>שעות פעילות</b>ב-1.10.2026: רכבל Schmittenhöhe פועל 09:00–17:00, ושיט הפנורמה פועל שעתי 10:00–17:00.</div>
-    <div class="box tan"><b>מחיר וכרטיסים • Schmittenhöhe</b>כרטיס פסגה הלוך-חזור: מבוגר כ-45€, ילד כ-22.50€ (יש גם כרטיס "הרפתקה" זול יותר לגובה נמוך יותר, כ-33€/16.50€). אפשר וכדאי לרכוש מראש באתר. <a href="https://www.schmitten.at/en/Tickets-Prices/Summertickets" target="_blank" rel="noopener">האתר הרשמי - מחירי קיץ</a>.</div>
-    <div class="sectionLabel">🧒 אופציות לילדים נוספות בסביבה</div>
-    <table class="kids">
-      <tr><td><b>Schmidolins Feuertaufe</b> — שביל חוויה עם 15 תחנות משחק בפסגת Schmittenhöhe עצמה - בדיוק איפה שתהיו, לא דורש נסיעה נוספת.</td><td>פתוח בשעות פעילות הרכבל (09:00-17:00).</td></tr>
-      <tr><td><b>מגרש משחקים Kinderland</b> — מגרש משחקים גדול ומגודר בפארק העירוני, צמוד לאגם וממש ליד הטיילת.</td><td>פתוח חופשי כל היום.</td></tr>
-    </table>
-
-    <div class="sectionLabel">תוספת אפשרית: Kaprun Hochgebirgsstauseen (סכר Mooserboden)</div>
-    <div class="meta">במרחק כ-10-15 דק׳ נסיעה בלבד מ-Zell am See — ניתן להוסיף כתחליף חלקי ליום, או כהרחבה אם יוצאים מוקדם יותר</div>
-    <table class="sched">
-      <tr><td>חניה בחניון החינמי ליד קופת Kesselfall, קפרון</td><td>לפי בחירה</td></tr>
-      <tr><td>הסעה רציפה + מעלית משופעת Lärchwand ל-Mooserboden (2,040 מ׳)</td><td>~45 דק׳ עלייה</td></tr>
-      <tr><td>סיור בסכר, נקודות תצפית, שביל חוויה לילדים "Stromi"</td><td>~1.5-2 שעות</td></tr>
-      <tr><td>ירידה חזרה בהסעה</td><td>~45 דק׳</td></tr>
-    </table>
-    <div class="places">
-      <div class="p"><b>Kaprun Hochgebirgsstauseen — </b>שני סכרים הרריים ענקיים (Mooserboden ו-Wasserfallboden) בגובה 2,040 מ׳, שנבנו לאחר מלחמת העולם השנייה; מגיעים בהסעה ובמעלית משופעת פתוחה - הגדולה מסוגה באירופה.</div>
-    </div>
-    <div class="boxes">
-      <div class="box green"><b>מה זה מוסיף</b>חוויית הנדסה-טבע ייחודית, נוף אלפי בגובה 2,040 מ׳, ושביל חוויה מותאם ילדים.</div>
-      <div class="box yellow"><b>טרייד-אוף</b>זמן ההסעה ארוך יחסית (כ-1.5 שעה הלוך-חזור) — סביר יותר כתחליף לחלק מהיום (לוותר על השיט/הטיילת) ולא כתוספת נטו.</div>
-    </div>
-    <div class="boxes">
-      <div class="box red"><b>עם הקטנה (2.5) והסבים</b>גובה 2,040 מ׳ יכול להיות קריר ורוחי - קחו שכבות חמות וכובע. לברר מראש מדיניות עגלה/מנשא (+43 50 313 23201).</div>
-      <div class="box tan"><b>עונה ולוגיסטיקה</b>פתוח 21.5–11.10.2026, אוטובוסים יומיים 08:10–16:45/17:00. אין גישה ברכב פרטי - חובה לחנות בחניון החינמי. לא ודאי אם נכלל ב-Salzburger Sportwelt Card.</div>
-      <div class="box tan"><b>מחיר וכרטיסים • Kaprun Hochgebirgsstauseen</b>כרטיס הלוך-חזור (2 קווי אוטובוס + מעלית משופעת): מבוגר כ-39.50€, ילד (6-15) כ-22€, עד גיל 5 חינם. <a href="https://www.kaprun-stauseen.com/preise/" target="_blank" rel="noopener">מחירים באתר הרשמי</a>.</div>
-    </div>
-    <div class="footerbar">סוף יום: Wagrain Wasserwelt חינם דרך כרטיס האורח, אם מתאים.</div>
+    <div class="box red"><b>לברר לפני</b>מדיניות עגלה ומנשא באוטובוסי ההסעה ובמעלית Lärchwand - טלפון +43 50 313 23201. עם שלוש פעוטות בקבוצה זו שאלה מהותית.</div>
+    <div class="box tan"><b>עונה ולוגיסטיקה</b>פתוח 21.5–11.10.2026, אוטובוסים יומיים 08:10–16:45/17:00. אין גישה ברכב פרטי מעבר לקופה - חובה לחנות בחניון החינמי ליד Kesselfall. השיט בצל am See פועל שעתי 10:00–17:00.</div>
+    <div class="box tan"><b>מחיר וכרטיסים • Kaprun Hochgebirgsstauseen</b>כרטיס הלוך-חזור (2 קווי אוטובוס + מעלית משופעת): מבוגר כ-39.50€, ילד (6-15) כ-22€, עד גיל 5 חינם. <a href="https://www.kaprun-stauseen.com/preise/" target="_blank" rel="noopener">מחירים באתר הרשמי</a>.</div>
+    <div class="box yellow"><b>מה ויתרנו עליו</b>Schmittenhöhe ירדה מהיום הזה ועברה לבנק החלופות. איתה ירד גם שביל החוויה Schmidolins Feuertaufe שבפסגה - 15 תחנות משחק, אטרקציית ילדים גדולה יותר מ-"Stromi". אם מזג האוויר בקפרון גרוע, שמיטנהה היא ההחלפה הטבעית.</div>
+    <div class="footerbar">סוף יום: Wagrain Wasserwelt חינם דרך כרטיס האורח, אם נשאר כוח.</div>
   `
 },
 {
@@ -1234,7 +1253,7 @@ const DAYS = [
   `
 },
 {
-  id:"alt", nav:"מידע כללי", navSub:"טיסות, מלונות וחלופות",
+  id:"alt", nav:"מידע", navSub:"טיסות, מלונות וחלופות",
   segment: [],
   render: () => `
     <div class="tag">לשמור בטלפון</div>
@@ -1269,7 +1288,9 @@ const DAYS = [
       <li><b>Werfenweng</b> — כפר אלפי שקט עם אגם קטן ונעים (Wengsee) ומגרש משחקים; ירד מהתוכנית הקבועה של 28.9 כדי לפנות זמן ל-Hallein, אבל בהחלט אפשר לשלב במקום Keltenblitz אם יורד גשם או שהילדים עייפים.
         <a class="rowWaze" href="${wazeLink("werfenweng")}" target="_blank" rel="noopener" title="נווט ב-Waze ל-Werfenweng">🧭</a>
       </li>
-      <li><b>Kaprun Hochgebirgsstauseen (Mooserboden)</b> — סכר הררי מרשים בגובה 2,040 מ׳. פירוט מלא ולוז מוצע בעמוד 1.10.</li>
+      <li><b>Schmittenhöhe (Zell am See)</b> — רכבל לפסגה עם נוף ל-30 פסגות מעל 3,000 מ׳, ושביל החוויה Schmidolins Feuertaufe עם 15 תחנות משחק לילדים. ירד מ-1.10 לטובת קאפרון, וזו ההחלפה הטבעית אם מזג האוויר בקאפרון גרוע. מבוגר כ-45€, ילד כ-22.50€. <a href="https://www.schmitten.at/en/Tickets-Prices/Summertickets" target="_blank" rel="noopener">האתר הרשמי</a>.
+        <a class="rowWaze" href="${wazeLink("schmittenhoehe")}" target="_blank" rel="noopener" title="נווט ב-Waze ל-Schmittenhöhe">🧭</a>
+      </li>
       <li>Krimml Waterfalls — מפלים גדולים, רק אם מוכנים לנסיעה ארוכה. מחיר: מבוגר 9€, ילד (6-15) 4.50€. <a href="https://www.wasserfaelle-krimml.at/besuchen/tickets" target="_blank" rel="noopener">מחירים באתר הרשמי</a>.
         <a class="rowWaze" href="${wazeLink("krimml")}" target="_blank" rel="noopener" title="נווט ב-Waze למפלי Krimml">🧭</a>
       </li>
@@ -1310,11 +1331,16 @@ const DAYS = [
       <li>הרכבל ל-Geisterberg פועל רק בימי שישי-שלישי — אם מזיזים ימים, לוודא שה-27.9 נופל באחד מהם.</li>
       <li>לוודא מדיניות עגלה/מנשא באוטובוסי Kaprun ובמעלית Lärchwand מראש טלפונית (+43 50 313 23201).</li>
       <li>להחליט מי נשאר עם שלוש הפעוטות (2:2, 2:8, 3:3) בשני המכרות - הכניסה אסורה מתחת לגיל 4. ב-Hallstatt יש פתרון (רכבל + Skywalk), ב-Hallein אין.</li>
-      <li>לברר טלפונית מאיזה גיל מתחיל התשלום ב-Geisterberg וב-Schmittenhöhe - זו ההנחה היחידה בטבלת העלויות שלא אומתה.</li>
+      <li>לברר טלפונית מאיזה גיל מתחיל התשלום ב-Geisterberg - זו ההנחה היחידה בטבלת העלויות שלא אומתה.</li>
       <li>לוודא מול Schattauer מי מהקבוצה זכאי לכרטיס האורח - מי שלן במקום אחר ישלם על Wasserwelt בנפרד.</li>
     </ol>
     <div class="box tan"><b>בדיקת שעות ומסלול • מקורות רשמיים</b>Geisterberg פועל ב-27.9.2026 09:00-17:00 (בטווח שישי-שלישי). Hohenwerfen פתוח בספטמבר 09:00-17:00, מופעים 11:15/15:15. Salzwelten Hallein פתוח 09:00-17:00 (עד 1.11.2026). Keltenblitz בעונה 14.9-11.10.2026 פועל בימי שני-שישי 11:00-17:00, שבת-ראשון 10:30-17:00, ותלוי בתנאי יובש. Grossglockner פתוח עד תחילת נובמבר 2026, שעות ספטמבר 06:00-19:30. Schafbergbahn פועלת 25.4-1.11.2026. Schmittenhöhe ושיט פועלים ב-1.10.2026 09:00-17:00/10:00-17:00. Kaprun פתוח 21.5-11.10.2026, אוטובוסים 08:10-16:45/17:00. מקורות: grossglockner.at • burg-hohenwerfen.at • salzwelten.at • duerrnberg.at • 5schaetze.at • schmitten.at • skiamade.com • kaprun-stauseen.com</div>
   `
+},
+{
+  id:"forecast", nav:"תחזית", navSub:"עד 16 יום קדימה",
+  segment: [],
+  render: () => renderForecast(),
 },
 {
   id:"costs", nav:"עלויות", navSub:"מי משלם כמה",
@@ -1380,9 +1406,11 @@ const FUN_FACTS = {
     "בסוף היום נשחה ב-Wagrain Wasserwelt — ולנו זה חינם, כי אנחנו אורחים במלון!",
   ],
   d8: [
+    "סכר Mooserboden בקאפרון עומד בגובה 2,040 מטר - גבוה יותר מכל הר בישראל!",
+    "המעלית המשופעת Lärchwand שעולה לסכר היא הגדולה מסוגה באירופה.",
+    "הסכרים נבנו אחרי מלחמת העולם השנייה, והמים שלהם מייצרים חשמל עד היום.",
     "Zell am See נמצאת על שפת אגם כחול-טורקיז מרהיב.",
-    "Schmittenhöhe הוא הר תצפית עם נוף לאגם ולפסגות מושלגות.",
-    "סכר Mooserboden בקאפרון הוא אחד מסכרי ההרים הגדולים באירופה.",
+    "אין דרך להגיע לסכר ברכב פרטי - חייבים אוטובוס ומעלית, וזה חלק מהכיף.",
   ],
   d9: [
     "מנזר Melk הוא אחד המנזרים הבארוקיים המרשימים באירופה, על גבעה מעל נהר הדנובה.",
@@ -1394,6 +1422,95 @@ const FUN_FACTS = {
     "אוסטריה חולקת גבולות עם 8 מדינות שונות — יותר משכנות מרוב מדינות אירופה.",
   ],
 };
+
+/* ---------- Forecast page: today + 5 days for several destinations at once ----------
+   One Open-Meteo request covers all of them (the API accepts comma-separated coordinates
+   and returns an array in the same order). Destinations were picked to be the ones the
+   itinerary is flexible about — Grossglockner and Hallstatt in particular are swapped to
+   the clearest day, so seeing them side by side is the whole point. */
+const FORECAST_LOCS = [
+  {k:"wagrain",    nm:"וואגריין",   note:"הבסיס"},
+  {k:"glockner",   nm:"גרוסגלוקנר", note:"2,369 מ׳"},
+  {k:"hallstatt",  nm:"הלשטאט",     note:""},
+  {k:"stwolfgang", nm:"וולפגנגזה",  note:""},
+  {k:"kaprun",     nm:"קפרון",      note:"2,040 מ׳"},
+];
+const FORECAST_DAYS = 16;   // Open-Meteo's maximum; the window reaches the trip from ~8.9 onward
+
+function renderForecast(){
+  return `
+    <div class="tag">מזג אוויר</div>
+    <h2 class="title">🌦️ תחזית לאזור הטיול</h2>
+    <div class="meta">עד 16 ימים קדימה, בכמה יעדים במקביל — כדי להחליט איזה יום מקדישים לאיזה מקום. גללו לצדדים.</div>
+    <div id="fcRoot"><div class="fcLoading">טוען תחזית…</div></div>
+    <div class="box tan" style="margin-top:16px;"><b>איך להשתמש בזה</b>גרוסגלוקנר, Hallstatt וההרים הגבוהים שווים רק בראות טובה. השוו כאן בין היעדים והזיזו את היום הבהיר ביותר לגרוסגלוקנר. ימים ששייכים לטיול מסומנים בכותרת בשם היעד של אותו יום.</div>
+    <div class="box yellow" style="margin-top:12px;"><b>עד כמה לסמוך על זה</b>התחזית נמתחת 16 יום קדימה, אבל הדיוק יורד ככל שמתרחקים: 1-3 ימים אמינים מאוד, 4-7 ימים סבירים, ומעבר ל-10 ימים זו יותר מגמה מאשר תחזית. אל תקבעו סופית את יום גרוסגלוקנר לפני שהוא נכנס לטווח של 3-4 ימים.</div>
+  `;
+}
+
+async function initForecast(){
+  const root = document.getElementById("fcRoot");
+  if (!root) return;
+  const lats = FORECAST_LOCS.map(o=>LOC[o.k].lat).join(",");
+  const lons = FORECAST_LOCS.map(o=>LOC[o.k].lon).join(",");
+  const url = `https://api.open-meteo.com/v1/forecast?latitude=${lats}&longitude=${lons}`
+    + `&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_probability_max`
+    + `&timezone=Europe%2FVienna&forecast_days=${FORECAST_DAYS}`;
+  try {
+    const resp = await fetch(url);
+    if (!resp.ok) throw new Error("http " + resp.status);
+    let data = await resp.json();
+    if (!Array.isArray(data)) data = [data];   // a single-location query returns a bare object
+    const dates = data[0]?.daily?.time || [];
+    if (!dates.length) throw new Error("no data");
+
+    // Column headers: weekday + date, flagged when the date is one of our trip days.
+    const heads = dates.map((iso,i)=>{
+      const wd = WEEKDAY_HE_SHORT[new Date(iso+"T00:00:00").getDay()];
+      const [ , m, d ] = iso.split("-");
+      const tripId = Object.keys(DAY_DATES).find(k=>DAY_DATES[k]===iso);
+      const tripDay = tripId ? DAYS.find(x=>x.id===tripId) : null;
+      return `<th class="${i===0?"fcToday":""}">
+        <span class="wd">${i===0?"היום":wd}</span>
+        <span class="dt">${+d}.${+m}</span>
+        ${tripDay?`<span class="trip">${tripDay.navSub}</span>`:""}
+      </th>`;
+    }).join("");
+
+    const rows = FORECAST_LOCS.map((o,li)=>{
+      const d = data[li]?.daily;
+      if (!d) return "";
+      const cells = dates.map((_,i)=>{
+        const max = Math.round(d.temperature_2m_max[i]);
+        const min = Math.round(d.temperature_2m_min[i]);
+        const rain = d.precipitation_probability_max[i];
+        const wet = rain >= 50;
+        return `<td class="${i===0?"fcToday":""}">
+          <span class="ic">${weatherEmoji(d.weathercode[i])}</span>
+          <span class="tm"><b>${max}°</b>${min}°</span>
+          <span class="rn${wet?" wet":""}">${rain}%</span>
+        </td>`;
+      }).join("");
+      return `<tr><th scope="row" class="fcPlace">
+        <span class="nm">${LOC_ICON[o.k]||"📍"} ${o.nm}</span>
+        ${o.note?`<span class="nt">${o.note}</span>`:""}
+      </th>${cells}</tr>`;
+    }).join("");
+
+    const covered = dates.filter(d => Object.values(DAY_DATES).includes(d)).length;
+    const coverMsg = covered
+      ? `התחזית כבר מכסה ${covered} מתוך 10 ימי הטיול.`
+      : "התחזית עדיין לא מגיעה לימי הטיול — חזרו לכאן קרוב יותר לתאריך.";
+
+    root.innerHTML = `<div class="fcWrap"><table class="fcTable">
+      <thead><tr><th class="fcPlace"></th>${heads}</tr></thead>
+      <tbody>${rows}</tbody>
+    </table></div>
+    <div class="fcLegend">${coverMsg} גללו לצדדים לימים נוספים · אחוז = סיכוי למשקעים · אדום = מעל 50%</div>`;
+  } catch(e){
+    root.innerHTML = `<div class="fcLoading">התחזית לא נטענה כרגע — נסו שוב מאוחר יותר. שאר האתר פועל כרגיל.</div>`;
+  }
+}
 
 /* ---------- Checklist ---------- */
 const CHECKLIST = [
@@ -1620,7 +1737,7 @@ const COST_ROWS = [
   {day:"28.9", label:"הליין + קלטנבליץ",            adult:47,    child:26},
   {day:"29.9", label:"אגרת Grossglockner",          perCar:46.50},
   {day:"30.9", label:"Schafbergbahn",               adult:61,    child:18.40},
-  {day:"1.10", label:"Schmittenhöhe",               adult:45,    child:22.50},
+  {day:"1.10", label:"Kaprun Hochgebirgsstauseen",  adult:39.50, child:22},
   {day:"2.10", label:"מנזר Melk",                   adult:16,    family:32},
 ];
 
@@ -1684,9 +1801,9 @@ function renderCosts(){
 
     <div class="sectionLabel">⚠️ מה עוד לא סגור</div>
     <div class="boxes">
-      <div class="box yellow"><b>גיל הפטור ב-Geisterberg וב-Schmittenhöhe</b>לא הצלחנו לאמת מאיזה גיל מתחיל התשלום בשני האתרים האלה. החישוב למעלה מניח שהפעוטות (2:2, 2:8, 3:3) פטורות. אם הפטור מתחיל רק מגיל 4 או 6 - התוספת עד כ-120€ לקבוצה. שווה בירור טלפוני לפני הרכישה.</div>
+      <div class="box yellow"><b>גיל הפטור ב-Geisterberg</b>לא הצלחנו לאמת מאיזה גיל מתחיל התשלום שם. החישוב למעלה מניח שהפעוטות (2:2, 2:8, 3:3) פטורות. אם הפטור מתחיל רק מגיל 4 או 6 - התוספת עד כ-60€ לקבוצה. בקאפרון זה מתועד: עד גיל 5 חינם, ולכן שלושתן פטורות בוודאות.</div>
       <div class="box tan"><b>הבת בת ה-6</b>ב-Hohenwerfen הטווח המוזל מתחיל בגיל 6 בדיוק, אז היא משלמת שם ככל ילד אחר ולא פטורה.</div>
-      <div class="box tan"><b>לא נכלל בטבלה</b>שיט באגמים (וולפגנגזה, צל am See), הסכרים בקאפרון (39.50€ למבוגר, 22€ לילד), חצר הטירה בגמונדן (4-5€), Erlebnis-Therme Amadé ב-25.9, ארוחות וחניות.</div>
+      <div class="box tan"><b>לא נכלל בטבלה</b>שיט באגמים (וולפגנגזה, צל am See), חצר הטירה בגמונדן (4-5€), Erlebnis-Therme Amadé ב-25.9, ארוחות וחניות. Schmittenhöhe ירדה מהמסלול (45€ למבוגר, 22.50€ לילד) - רלוונטית רק אם מחליפים אותה בקאפרון.</div>
     </div>
     <div class="footerbar">💡 המחירים נאספו ממקורות רשמיים ונכונים לעונת 2026 - כדאי לאמת מול אתרי האטרקציות סמוך לנסיעה.</div>
   `;
@@ -1741,8 +1858,8 @@ const IMAGES = {
   d6:  [ {f:"20190624.Kaiser-Franz-Joseph-Höhe, Grossglockner.-047.jpg", alt:"Kaiser-Franz-Josefs-Höhe, Grossglockner"} ],
   d7:  [ {f:"Schafbergbahn-Dampflok.jpg", alt:"קרון הקיטור של ה-Schafbergbahn"},
          {f:"St. Gilgen - Nordwestansicht des Wolfgangsees.JPG", alt:"נוף לאגם Wolfgangsee"} ],
-  d8:  [ {f:"Zell am see zeller see.jpg", alt:"Zell am See"},
-         {f:"Stausee Mooserboden Kaprun 01.jpg", alt:"סכר Mooserboden, Kaprun"} ],
+  d8:  [ {f:"Stausee Mooserboden Kaprun 01.jpg", alt:"סכר Mooserboden, Kaprun"},
+         {f:"Zell am see zeller see.jpg", alt:"Zell am See"} ],
   d9:  [ {f:"Melk Abbey (8).jpg", alt:"מנזר Melk"},
          {f:"Stiftskirche Dürnstein 01.JPG", alt:"Dürnstein"} ],
 };
@@ -1761,7 +1878,7 @@ function renderGallery(id){
 
 /* ---------- Map (Google Maps, no key) + Waze navigation ---------- */
 const DAY_ICON = {
-  checklist:"✅", d1:"✈️", d2:"🏞️", d3:"🏞️", d4:"🎢", d5:"🏰",
+  checklist:"✅", forecast:"🌦️", d1:"✈️", d2:"🏞️", d3:"🏞️", d4:"🎢", d5:"🏰",
   d6:"🏔️", d7:"🚂", d8:"🚡", d9:"⛪", d10:"✈️", alt:"📋", costs:"💶", trivia:"🎯",
 };
 const LOC_ICON = {
@@ -1777,7 +1894,7 @@ const LOC_ICON = {
    main destination, shown between the map and the schedule. ---------- */
 const WEATHER_LOC = {
   d1:"airport", d2:"gmunden", d3:"hallstatt", d4:"alpendorf", d5:"werfen",
-  d6:"glockner", d7:"stwolfgang", d8:"zell", d9:"melk", d10:"airport",
+  d6:"glockner", d7:"stwolfgang", d8:"kaprun", d9:"melk", d10:"airport",
 };
 const WEATHER_CACHE = {};
 let weatherSeq = 0;
@@ -2041,7 +2158,7 @@ const ROW_WAZE = {
   d5: [ ["חניה ועלייה במעלית לטירה","werfen"], ["Salzwelten Hallein","hallein_salt"], ["Keltenblitz","keltenblitz"], ["חזרה ל-Wagrain","wagrain"] ],
   d6: [ ["עצירה ב-Fuscher Törl","fuscher_torl"], ["עצירה ב-Hochtor","hochtor"], ["תצפית הקרחון ב-Kaiser Franz Josef Höhe","glockner"], ["Wagrain","wagrain"] ],
   d7: [ ["הגעה ל-St. Wolfgang","stwolfgang"], ["הגעה לוואגריין, מנוחה","wagrain"], ["Wagrain Wasserwelt","wasserwelt"], ["חזרה למלון","wagrain"] ],
-  d8: [ ["הגעה ל-Zell am See","zell"], ["Schmittenhöhe, פסגה ותצפיות","schmittenhoehe"], ["חזרה ל-Wagrain","wagrain"], ["חניה בחניון החינמי ליד קופת Kesselfall","kaprun"] ],
+  d8: [ ["חניה בחניון החינמי ליד קופת Kesselfall","kaprun"], ["נסיעה ל-Zell am See","zell"], ["חזרה ל-Wagrain","wagrain"] ],
   d9: [ ["הגעה ל-Melk","melk"], ["נסיעה לאורך Wachau ל-Dürnstein","durnstein"], ["יציאה לשדה התעופה","airport"], ["MOXY, החזרת רכב ואריזה","airport"] ],
 };
 
@@ -2428,23 +2545,28 @@ updateCountdown();
 
 // Top strip: the 10 trip days in a horizontal scroller (see the arrow handlers below).
 // Bottom tab bar: the four reference pages, always one tap away regardless of scroll position.
-const TOP_NAV_IDS = ["checklist", "alt", "costs", "trivia"];
+const TOP_NAV_IDS = ["checklist", "forecast", "alt", "costs", "trivia"];
 DAYS.forEach(d=>{
+  if (TOP_NAV_IDS.includes(d.id)) return;   // tab-bar pages are built below, in TOP_NAV_IDS order
   const btn = document.createElement("button");
   btn.id = "nav-"+d.id;
   btn.type = "button";
-  if (TOP_NAV_IDS.includes(d.id)){
-    btn.innerHTML = `<span class="icon">${DAY_ICON[d.id]||"📍"}</span><span class="lbl">${d.nav}</span>`;
-    btn.addEventListener("click", ()=> selectDay(d.id));
-    tabbarEl.appendChild(btn);
-    return;
-  }
   const isToday = (d.id === TODAY_ID);
   if (isToday) btn.classList.add("isToday");
   const wd = weekdayShort(d.id);
   btn.innerHTML = `<span class="icon">${DAY_ICON[d.id]||"📍"}</span><span class="label">${wd ? `<span class="wd">${wd}</span>` : ""}<span class="d">${d.nav}</span><span class="t">${d.navSub}</span></span>${isToday ? '<span class="todayDot">היום</span>' : ''}`;
   btn.addEventListener("click", ()=> selectDay(d.id));
   dayScrollEl.appendChild(btn);
+});
+TOP_NAV_IDS.forEach(id=>{
+  const d = DAYS.find(x=>x.id===id);
+  if (!d) return;
+  const btn = document.createElement("button");
+  btn.id = "nav-"+id;
+  btn.type = "button";
+  btn.innerHTML = `<span class="icon">${DAY_ICON[id]||"📍"}</span><span class="lbl">${d.nav}</span>`;
+  btn.addEventListener("click", ()=> selectDay(id));
+  tabbarEl.appendChild(btn);
 });
 // The WhatsApp link lives in the markup near the header for no-JS fallback, but belongs
 // at the end of the tab bar — move the existing node rather than duplicating it.
@@ -2483,7 +2605,7 @@ function selectDay(id){
   const isTrivia = (id === "trivia");
   // Trivia and the costs table are reference pages, not places — a map, a forecast and a
   // "navigate now" button would all be noise there, so hide the whole strip.
-  const noMap = isTrivia || (id === "costs") || (id === "checklist");
+  const noMap = isTrivia || ["costs","checklist","forecast"].includes(id);
   const segment = day.segment.length ? day.segment : FULL_ROUTE;
 
   const mapCardEl = document.getElementById("mapCard");
@@ -2501,6 +2623,7 @@ function selectDay(id){
     document.getElementById("weatherCard").hidden = true;
     if (isTrivia) initTrivia();
     if (id === "checklist") initChecklist();
+    if (id === "forecast") initForecast();
   }
 
   updateFunFacts(id);
