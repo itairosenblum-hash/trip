@@ -67,7 +67,9 @@
   }
   h1,h2,h3{font-family:'Frank Ruhl Libre',serif;margin:0;}
   header.top{
+    position:relative;
     padding:26px 28px 22px;
+    padding-inline-end:80px;
     background:
       radial-gradient(circle at 92% -10%, rgba(200,16,46,.10), transparent 55%),
       radial-gradient(circle at 6% 120%, rgba(200,155,60,.14), transparent 50%),
@@ -90,7 +92,7 @@
     flex-direction:column;
     max-width:1280px;
     margin:0 auto;
-    padding:22px 28px 60px;
+    padding:22px 28px 96px;
     gap:26px;
   }
 
@@ -106,7 +108,7 @@
     display:flex;
     flex-direction:column;
     gap:10px;
-    padding:10px 0 14px;
+    padding:8px 0 12px;
     box-shadow:0 12px 14px -12px rgba(43,35,32,.20);
   }
   nav.daynav::after{
@@ -143,25 +145,49 @@
     padding:1px 6px;border-radius:999px;letter-spacing:.3px;
   }
 
-  .navTop{
+  /* ---------- Bottom tab bar: the four reference pages (overview / info / costs / trivia).
+     Fixed to the bottom of the viewport so it sits in thumb reach and leaves the top of the
+     screen to the day strip and the content. Sits below the fullscreen map (z-index 3000)
+     so expanding the map still covers everything. ---------- */
+  .tabbar{
+    position:fixed;
+    left:0;right:0;bottom:0;
+    z-index:1400;
     display:flex;
-    flex-wrap:wrap;
-    gap:8px;
+    background:rgba(255,255,255,.97);
+    backdrop-filter:saturate(180%) blur(8px);
+    border-top:1px solid var(--line);
+    box-shadow:0 -6px 16px -8px rgba(43,35,32,.28);
+    padding-bottom:env(safe-area-inset-bottom);
   }
-  .navTop button{
+  .tabbar button{
+    all:unset;
     flex:1;
-    justify-content:center;
-    gap:8px;
-    padding:11px 10px;
-    border-radius:14px;
-    background:var(--cream-2);
-    font-size:13.5px;
+    cursor:pointer;
+    position:relative;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:2px;
+    padding:9px 2px 10px;
+    color:var(--muted);
+    font-size:11px;
     font-weight:700;
+    text-align:center;
+    transition:color .15s ease;
   }
-  .navTop button .icon{font-size:17px;}
-  .navTop button:hover{background:#f5dfe1;}
-  .navTop button.active{background:var(--red-dark);border-color:var(--gold);}
-  .navTop button.active,.navTop button.active .icon{color:#fff;}
+  .tabbar button .icon{font-size:19px;line-height:1;transition:transform .15s ease;}
+  .tabbar button .t{display:none;}
+  .tabbar button:active{transform:scale(.96);}
+  .tabbar button.active{color:var(--red-dark);}
+  .tabbar button.active .icon{transform:translateY(-1px) scale(1.08);}
+  .tabbar button.active::before{
+    content:"";
+    position:absolute;top:0;left:50%;transform:translateX(-50%);
+    width:28px;height:3px;
+    border-radius:0 0 3px 3px;
+    background:var(--gold);
+  }
 
   .dayScrollWrap{
     display:flex;
@@ -296,8 +322,8 @@
   .funFactDots span.on{background:#4a5fb0;width:16px;border-radius:4px;}
 
   /* ---------- Trivia game page — brighter, bigger, kid-facing ---------- */
-  nav.daynav button#nav-trivia{position:relative;overflow:visible;}
-  nav.daynav button#nav-trivia .icon{
+  .tabbar button#nav-trivia{overflow:visible;}
+  .tabbar button#nav-trivia .icon{
     animation:kidBounce 2.2s ease-in-out infinite;
   }
   @keyframes kidBounce{
@@ -367,16 +393,19 @@
   }
   .quizAgainBtn:hover{transform:scale(1.05);}
 
+  /* Sits in the header corner rather than floating over the page. With the tab bar now
+     fixed to the bottom, a floating button there covered the content it hovered over —
+     on the costs page it landed straight on the amounts column. */
   .waFab{
-    position:fixed;bottom:22px;left:22px;z-index:500;
-    width:56px;height:56px;border-radius:50%;
+    position:absolute;top:20px;inset-inline-end:24px;z-index:5;
+    width:42px;height:42px;border-radius:50%;
     background:#25D366;
     display:flex;align-items:center;justify-content:center;
-    box-shadow:0 4px 16px rgba(0,0,0,.28);
+    box-shadow:0 3px 10px rgba(0,0,0,.20);
     transition:transform .15s ease;
   }
   .waFab:hover{transform:scale(1.08);}
-  .waFab svg{width:28px;height:28px;fill:#fff;}
+  .waFab svg{width:22px;height:22px;fill:#fff;}
 
   .mapCard{
     background:#fff;
@@ -569,7 +598,7 @@
   .costFam table{width:100%;border-collapse:collapse;font-size:14px;}
   .costFam td{padding:6px 2px;border-bottom:1px solid #F6EDED;}
   .costFam td:last-child{text-align:end;font-weight:700;white-space:nowrap;width:80px;}
-  .costFam td .dnum{color:var(--muted);font-size:11.5px;margin-inline-end:6px;}
+  .costFam td .dnum{display:inline-block;min-width:32px;color:var(--muted);font-size:11.5px;margin-inline-end:6px;}
   .costFam tr.sum td{border-bottom:none;border-top:2px solid var(--gold);padding-top:9px;font-weight:800;color:var(--red-dark);font-size:15.5px;}
   .costFam tr.free td:last-child{color:var(--green-txt);}
   /* ---------- Boarding-pass card for the flight details ----------
@@ -659,13 +688,13 @@
 
   @media (max-width: 860px){
     body{font-size:16px;}
-    header.top{padding:20px 18px 18px;}
+    header.top{padding:20px 18px 18px;padding-inline-end:64px;}
     header.top h1{font-size:27px;}
     .countdown{font-size:12px;padding:5px 12px;}
-    .layout{padding:16px 14px 44px;gap:16px;}
+    .layout{padding:16px 14px 88px;gap:16px;}
     nav.daynav{top:0;padding:8px 0 4px;gap:8px;}
-    .navTop button{flex:1 1 calc(50% - 4px);padding:9px 6px;font-size:12.5px;gap:5px;}
-    .navTop button .t{display:none;}
+    .tabbar button{padding:8px 2px 9px;font-size:10.5px;}
+    .tabbar button .icon{font-size:18px;}
     .costTotalBar .big{font-size:26px;}
     .costFam{padding:12px 13px;}
     .costFam table{font-size:13.5px;}
@@ -677,7 +706,6 @@
     .bpass-bars{margin:0 13px 12px;height:22px;}
     .bpass-tear::before{left:-19px;}
     .bpass-tear::after{right:-19px;}
-    .navTop button .icon{font-size:16px;}
     .dayScroll button{min-width:60px;padding:8px 6px;}
     .dayScroll button .icon{font-size:17px;}
     .dayScroll button .d{font-size:12.5px;}
@@ -696,8 +724,8 @@
     .quizOptions{grid-template-columns:1fr;}
     .kidTitle{font-size:22px !important;}
     .weatherLoc{font-size:12px;}
-    .waFab{width:50px;height:50px;bottom:16px;left:16px;}
-    .waFab svg{width:24px;height:24px;}
+    .waFab{width:38px;height:38px;top:16px;inset-inline-end:14px;}
+    .waFab svg{width:20px;height:20px;}
     .panel{padding:18px 16px 20px;}
     .panel h2.title{font-size:23px;}
     #mapDiv{height:260px;}
@@ -715,6 +743,9 @@
   <div class="eyebrow">החופשה המשפחתית שלנו • ספטמבר–אוקטובר 2026</div>
   <h1>🏔️ אוסטריה למשפחה</h1>
   <span class="countdown" id="countdown" hidden></span>
+  <a class="waFab" href="https://chat.whatsapp.com/FvTOR3qNp8tCQPNzDZPXvS?s=sw&amp;p=a&amp;mlu=4&amp;ilr=4" target="_blank" rel="noopener" title="קבוצת הוואטסאפ שלנו" aria-label="קבוצת הוואטסאפ שלנו">
+  <svg viewBox="0 0 448 512" aria-hidden="true"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.7z"/></svg>
+</a>
 </header>
 
 <div class="installBanner" id="installBanner" hidden>
@@ -726,7 +757,6 @@
 
 <div class="layout">
   <nav class="daynav" id="daynav">
-    <div class="navTop" id="navTop"></div>
     <div class="dayScrollWrap">
       <button type="button" class="dayScrollArrow" id="dayScrollPrev" aria-label="היום הקודם">‹</button>
       <div class="dayScroll" id="dayScroll"></div>
@@ -769,9 +799,8 @@
   </main>
 </div>
 
-<a class="waFab" href="https://chat.whatsapp.com/FvTOR3qNp8tCQPNzDZPXvS?s=sw&amp;p=a&amp;mlu=4&amp;ilr=4" target="_blank" rel="noopener" title="קבוצת הוואטסאפ שלנו" aria-label="קבוצת הוואטסאפ שלנו">
-  <svg viewBox="0 0 448 512" aria-hidden="true"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.7z"/></svg>
-</a>
+<nav class="tabbar" id="tabbar" aria-label="עמודי האתר"></nav>
+
 
 <script>
 /* ---------- Coordinates ---------- */
@@ -1440,7 +1469,7 @@ function renderCosts(){
         ${COST_ROWS.map(r => {
           const v = famRowCost(r, f);
           return `<tr${v === 0 ? ' class="free"' : ""}>
-            <td><span class="dnum">${r.day}</span>${r.label}</td>
+            <td><span class="dnum">${r.day}</span><bdi>${r.label}</bdi></td>
             <td>${v === 0 ? "—" : eur(v)}</td>
           </tr>`;
         }).join("")}
@@ -2149,7 +2178,7 @@ function renderQuizSummary(){
 }
 
 /* ---------- Nav + panel rendering ---------- */
-const navTopEl = document.getElementById("navTop");
+const tabbarEl = document.getElementById("tabbar");
 const dayScrollEl = document.getElementById("dayScroll");
 const panelEl = document.getElementById("panel");
 const mapTitleEl = document.getElementById("mapTitle");
@@ -2216,18 +2245,25 @@ function updateCountdown(){
 }
 updateCountdown();
 
-// Row 1: overview / general-info / trivia — always-visible, non-scrolling pills.
-// Row 2: the 10 trip days, in a horizontal scroller (see the arrow handlers below).
+// Top strip: the 10 trip days in a horizontal scroller (see the arrow handlers below).
+// Bottom tab bar: the four reference pages, always one tap away regardless of scroll position.
 const TOP_NAV_IDS = ["overview", "alt", "costs", "trivia"];
-DAYS.forEach((d,i)=>{
+DAYS.forEach(d=>{
   const btn = document.createElement("button");
   btn.id = "nav-"+d.id;
+  btn.type = "button";
+  if (TOP_NAV_IDS.includes(d.id)){
+    btn.innerHTML = `<span class="icon">${DAY_ICON[d.id]||"📍"}</span><span class="lbl">${d.nav}</span>`;
+    btn.addEventListener("click", ()=> selectDay(d.id));
+    tabbarEl.appendChild(btn);
+    return;
+  }
   const isToday = (d.id === TODAY_ID);
   if (isToday) btn.classList.add("isToday");
   const wd = weekdayShort(d.id);
   btn.innerHTML = `<span class="icon">${DAY_ICON[d.id]||"📍"}</span><span class="label">${wd ? `<span class="wd">${wd}</span>` : ""}<span class="d">${d.nav}</span><span class="t">${d.navSub}</span></span>${isToday ? '<span class="todayDot">היום</span>' : ''}`;
   btn.addEventListener("click", ()=> selectDay(d.id));
-  (TOP_NAV_IDS.includes(d.id) ? navTopEl : dayScrollEl).appendChild(btn);
+  dayScrollEl.appendChild(btn);
 });
 
 /* ---------- Day scroller arrows: step to the previous/next day chip ----------
@@ -2252,7 +2288,7 @@ function selectDay(id){
   panelEl.innerHTML = renderGallery(id) + day.render();
   injectRowWaze(id);
   injectTraffic(id);
-  document.querySelectorAll("nav.daynav button").forEach(b=>b.classList.remove("active"));
+  document.querySelectorAll("nav.daynav button, nav.tabbar button").forEach(b=>b.classList.remove("active"));
   document.getElementById("nav-"+id).classList.add("active");
   if (DAY_SCROLL_IDS.includes(id)){
     dayScrollIdx = DAY_SCROLL_IDS.indexOf(id);
