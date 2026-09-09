@@ -145,6 +145,7 @@
 
   .navTop{
     display:flex;
+    flex-wrap:wrap;
     gap:8px;
   }
   .navTop button{
@@ -471,6 +472,30 @@
   }
   .rowWaze:hover{box-shadow:var(--shadow-soft);transform:scale(1.12);}
 
+  /* Traffic-congestion badge: same pill shape as the Waze button so schedule rows stay
+     visually even, but tinted red so a jam warning reads differently from a nav action.
+     It's a <button> (not a link) — tapping toggles the detail line underneath the row. */
+  .rowTraffic{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:24px;height:24px;margin-inline-start:6px;padding:0;
+    border:none;border-radius:50%;background:var(--red-soft);
+    font-size:13px;line-height:1;vertical-align:middle;cursor:pointer;
+    font-family:inherit;
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .rowTraffic:hover{box-shadow:var(--shadow-soft);transform:scale(1.12);}
+  .rowTraffic[aria-expanded="true"]{background:var(--red);}
+  .trafficNote{
+    margin-top:6px;font-size:12.8px;line-height:1.5;
+    color:var(--red-dark);background:var(--red-soft);
+    border-radius:10px;padding:8px 11px;text-align:start;
+  }
+  .trafficNote[hidden]{display:none;}
+  .trafficNote b{font-weight:800;}
+  .trafficList{padding-inline-start:20px;margin:0 0 16px;font-size:14.3px;line-height:1.7;}
+  .trafficList li{margin-bottom:7px;}
+  .trafficList .when{color:var(--red-dark);font-weight:700;}
+
   .photoGallery{display:flex;gap:12px;margin-bottom:18px;flex-wrap:wrap;}
   .photoGallery figure{
     margin:0;flex:1 1 260px;position:relative;
@@ -523,6 +548,110 @@
   table.kids td{padding:8px 10px;border-bottom:1px solid #F3E7E7;vertical-align:top;}
   table.kids td:last-child{width:150px;background:var(--cream-2);border-radius:8px;font-size:12.8px;color:var(--muted);}
 
+  /* ---------- Costs page: one block per family rather than a wide matrix, because a
+     6-column table is unreadable on a phone and this site is used mostly on mobile. ---------- */
+  .costTotalBar{
+    background:linear-gradient(135deg, var(--red-dark), var(--red));
+    color:#fff;border-radius:var(--radius-lg);
+    padding:16px 20px;margin-bottom:20px;box-shadow:var(--shadow-pop);
+  }
+  .costTotalBar .big{
+    font-family:'Frank Ruhl Libre',serif;font-size:30px;font-weight:800;display:block;line-height:1.2;
+  }
+  .costTotalBar .cap{font-size:13px;opacity:.9;}
+  .costFam{
+    background:#fff;border:1px solid var(--line);border-inline-start:4px solid var(--gold);
+    border-radius:var(--radius-md);padding:14px 16px;margin-bottom:14px;
+    box-shadow:var(--shadow-soft);
+  }
+  .costFam h3{font-size:17px;color:var(--red-dark);margin-bottom:2px;}
+  .costFam .who{color:var(--muted);font-size:12.8px;margin-bottom:10px;}
+  .costFam table{width:100%;border-collapse:collapse;font-size:14px;}
+  .costFam td{padding:6px 2px;border-bottom:1px solid #F6EDED;}
+  .costFam td:last-child{text-align:end;font-weight:700;white-space:nowrap;width:80px;}
+  .costFam td .dnum{color:var(--muted);font-size:11.5px;margin-inline-end:6px;}
+  .costFam tr.sum td{border-bottom:none;border-top:2px solid var(--gold);padding-top:9px;font-weight:800;color:var(--red-dark);font-size:15.5px;}
+  .costFam tr.free td:last-child{color:var(--green-txt);}
+  /* ---------- Boarding-pass card for the flight details ----------
+     Laid out LTR because the whole content is airline data (codes, times, flight numbers)
+     that reads left-to-right even on a Hebrew page. The dashed rule plus the two notches
+     cut into the sides are the tear-off perforation. */
+  .bpass{
+    direction:ltr;
+    background:linear-gradient(160deg,#fff 0%,#FFFBFB 55%,var(--cream-2) 100%);
+    border:1px solid var(--line);
+    border-radius:var(--radius-md);
+    margin-bottom:14px;
+    box-shadow:var(--shadow-soft);
+    overflow:hidden;
+  }
+  .bpass-head{
+    display:flex;align-items:center;justify-content:space-between;
+    background:var(--red-dark);color:#fff;
+    padding:9px 16px;
+  }
+  .bpass-airline{font-size:12.5px;font-weight:700;letter-spacing:.4px;}
+  .bpass-no{
+    font-family:'Frank Ruhl Libre',serif;
+    font-size:17px;font-weight:800;color:var(--gold-soft);
+  }
+  .bpass-route{
+    display:flex;align-items:center;justify-content:space-between;gap:10px;
+    padding:16px 16px 12px;
+  }
+  .bpass-end{display:flex;flex-direction:column;gap:1px;min-width:0;}
+  .bpass-end.arr{text-align:right;align-items:flex-end;}
+  .bpass-code{
+    font-family:'Frank Ruhl Libre',serif;
+    font-size:30px;font-weight:900;color:var(--red-dark);line-height:1;
+  }
+  .bpass-city{font-size:11.5px;color:var(--muted);}
+  .bpass-time{font-size:19px;font-weight:800;color:var(--ink);margin-top:5px;}
+  .bpass-mid{
+    flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;
+    color:var(--gold-dark);min-width:70px;
+  }
+  .bpass-dur{font-size:11.5px;font-weight:700;}
+  .bpass-path{
+    position:relative;width:100%;height:14px;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .bpass-path::before{
+    content:"";position:absolute;left:0;right:0;top:50%;
+    border-top:2px dotted var(--gold);
+  }
+  .bpass-plane{
+    position:relative;background:var(--cream-2);
+    padding:0 5px;font-size:14px;line-height:1;
+  }
+  .bpass-tear{
+    position:relative;
+    border-top:2px dashed var(--line);
+    margin:0 12px;
+  }
+  .bpass-tear::before,.bpass-tear::after{
+    content:"";position:absolute;top:-9px;
+    width:16px;height:16px;border-radius:50%;
+    background:var(--cream);
+    border:1px solid var(--line);
+  }
+  .bpass-tear::before{left:-20px;}
+  .bpass-tear::after{right:-20px;}
+  .bpass-meta{
+    display:flex;flex-wrap:wrap;gap:12px 22px;
+    padding:12px 16px 14px;
+  }
+  .bpass-meta div{display:flex;flex-direction:column;gap:1px;}
+  .bpass-meta .k{font-size:10.5px;color:var(--muted);font-weight:600;}
+  .bpass-meta .v{font-size:13.5px;font-weight:700;color:var(--ink);}
+  .bpass-bars{
+    height:26px;margin:0 16px 14px;border-radius:3px;
+    background-image:repeating-linear-gradient(90deg,
+      var(--ink) 0 2px, transparent 2px 4px,
+      var(--ink) 4px 5px, transparent 5px 9px,
+      var(--ink) 9px 12px, transparent 12px 14px);
+    opacity:.55;
+  }
   .footerbar{background:var(--red-dark);color:#fff;padding:13px 16px;border-radius:var(--radius-md);font-size:14px;font-weight:500;margin-top:16px;display:flex;align-items:center;gap:8px;}
 
   ul.altlist{padding-inline-start:20px;margin:0 0 16px;font-size:14.3px;line-height:1.7;}
@@ -535,7 +664,19 @@
     .countdown{font-size:12px;padding:5px 12px;}
     .layout{padding:16px 14px 44px;gap:16px;}
     nav.daynav{top:0;padding:8px 0 4px;gap:8px;}
-    .navTop button{padding:9px 6px;font-size:12.5px;gap:5px;}
+    .navTop button{flex:1 1 calc(50% - 4px);padding:9px 6px;font-size:12.5px;gap:5px;}
+    .navTop button .t{display:none;}
+    .costTotalBar .big{font-size:26px;}
+    .costFam{padding:12px 13px;}
+    .costFam table{font-size:13.5px;}
+    .bpass-code{font-size:26px;}
+    .bpass-time{font-size:17px;}
+    .bpass-route{padding:14px 13px 10px;gap:6px;}
+    .bpass-mid{min-width:56px;}
+    .bpass-meta{padding:11px 13px 12px;gap:10px 16px;}
+    .bpass-bars{margin:0 13px 12px;height:22px;}
+    .bpass-tear::before{left:-19px;}
+    .bpass-tear::after{right:-19px;}
     .navTop button .icon{font-size:16px;}
     .dayScroll button{min-width:60px;padding:8px 6px;}
     .dayScroll button .icon{font-size:17px;}
@@ -667,7 +808,7 @@ const LOC = {
   hausdernatur:  {lat:47.7989, lon:13.0431, label:"Haus der Natur", address:"Museumsplatz 5, 5020 Salzburg, אוסטריה"},
   werfenweng:{lat:47.4333, lon:13.2167, label:"Werfenweng"},
 };
-const FULL_ROUTE = ["airport","gmunden","wagrain","hallstatt","gosausee","wagrain","alpendorf","wagrain",
+const FULL_ROUTE = ["airport","gmunden","amade","wagrain","hallstatt","gosausee","wagrain","alpendorf","wagrain",
   "werfen","hallein_salt","keltenblitz","wagrain","glockner","wagrain","stwolfgang","wagrain",
   "zell","kaprun","zell","wagrain","melk","durnstein","airport"];
 
@@ -682,7 +823,7 @@ const DAYS = [
     <table class="sched">
       ${[
         ["24.9 — טיסה לוינה","קל"],
-        ["25.9 — Gmunden + Traunsee","קל"],
+        ["25.9 — Gmunden + Traunsee (+ טרמה בערב)","בינוני"],
         ["26.9 — Hallstatt + Gosausee","בינוני"],
         ["27.9 (הורחב) — Geisterberg + St. Johann","בינוני"],
         ["28.9 (הורחב) — Hohenwerfen + Hallein","בינוני"],
@@ -721,11 +862,11 @@ const DAYS = [
 },
 {
   id:"d2", nav:"25.9", navSub:"Gmunden + Traunsee",
-  segment: ["airport","gmunden","schlossort","wagrain_billa","wagrain"],
+  segment: ["airport","gmunden","schlossort","wagrain_billa","wagrain","amade","wagrain"],
   render: () => `
-    <div class="tag">יום ו׳, 25.9 · עצירה רגועה באגם + מעבר להרים</div>
+    <div class="tag">יום ו׳, 25.9 · עצירה רגועה באגם + מעבר להרים + מרחצאות</div>
     <h2 class="title">Gmunden + Traunsee</h2>
-    <div class="meta">נסיעות: MOXY → Gmunden כ-2:30 שעות; Gmunden → Wagrain כ-1:30-1:40</div>
+    <div class="meta">נסיעות: MOXY → Gmunden כ-2:30 שעות; Gmunden → Wagrain כ-1:30-1:40; Wagrain → Erlebnis-Therme Amadé כ-10-13 דק׳</div>
     <table class="sched">
       <tr><td>יציאה מ-MOXY (איסוף רכבים מההשכרה, העמסת מזוודות)</td><td>10:00</td></tr>
       <tr><td>הגעה ל-Gmunden, חניה חינמית ליד Schloss Ort (Toscanapark)</td><td>~12:30</td></tr>
@@ -733,12 +874,16 @@ const DAYS = [
       <tr><td>המשך נסיעה ל-Wagrain</td><td>15:00</td></tr>
       <tr><td>עצירה בסופרמרקט BILLA Wagrain (ליד המלון)</td><td>~16:30-17:00</td></tr>
       <tr><td>צ׳ק-אין והתארגנות — Appartements Schattauer, Markt 164, Wagrain</td><td>~17:00-17:30</td></tr>
+      <tr><td>נסיעה ל-Erlebnis-Therme Amadé (Altenmarkt im Pongau)</td><td>~18:00</td></tr>
+      <tr><td>מרחצאות חמים ומגלשות מים ב-Erlebnis-Therme Amadé</td><td>18:15-20:30</td></tr>
+      <tr><td>חזרה למלון בוואגריין</td><td>~20:45</td></tr>
     </table>
     <div class="sectionLabel">📍 מה יש שם</div>
     <div class="places">
       <div class="p"><b>Gmunden — </b>עיירה ציורית על קצה הצפוני של אגם Traunsee בלב הזלצקאמרגוט, עם טיילת מישורית ונוחה לעגלות לאורך שפת האגם, בתי קפה ומזרקות.</div>
       <div class="p"><b>Schloss Ort — </b>טירה עתיקה שיושבת ממש בתוך המים על אי קטן, ומחוברת ליבשה בגשר עץ ציורי; ההליכה סביבה וגשר העץ חינמיים לגמרי, וכניסה פנימית לחצר/מגדל היא תוספת קטנה ואופציונלית.</div>
       <div class="p"><b>טיילת ומרחב לילדים — </b>שבילי הליכה מישוריים לאורך האגם, מקומות נוחים להאכיל ברווזים, ומגרשי משחקים קרובים (כמו Freizeitanlage Seebahnhof) - מקום טוב לילדים לרוץ אחרי נסיעה ארוכה.</div>
+      <div class="p"><b>Erlebnis-Therme Amadé — </b>מתחם מרחצאות חמים ומגלשות מים באלטנמרקט-אים-פונגאו, כ-10 דקות נסיעה מהמלון; בריכות פנים וחוץ, אזור ג׳קוזי ומגלשות לילדים. סיום מפנק ליום נסיעה ארוך, ודרך טובה לשחרר את הילדים אחרי שעות ברכב. <a href="https://www.thermeamade.at/" target="_blank" rel="noopener">האתר הרשמי</a>.</div>
     </div>
     <div class="boxes">
       <div class="box green"><b>למה זה עובד</b>עצירה בטבע במקום יום עירוני שלם - פחות הליכה מאומצת, יותר מרגוע, ומתאים גם לסבים ולילדים קטנים. וגם בול באמצע הדרך בין וינה ל-Wagrain.</div>
@@ -750,6 +895,7 @@ const DAYS = [
     <table class="kids">
       <tr><td><b>שיט קצר באגם Traunsee</b> — יש ספינות נוסעים (כולל ספינת קיטור היסטורית) שיוצאות מהטיילת בגמונדן; תוספת נעימה אם נשאר זמן, לא חלק מהתוכנית הקבועה.</td><td>עונת קיץ; לבדוק שעות מראש בטיילת.</td></tr>
     </table>
+    <div class="box tan"><b>הטרמה בערב — גמיש</b>Erlebnis-Therme Amadé פתוחה עד 20:30 והנסיעה מהמלון היא כ-10 דקות בלבד. אם הנסיעה מווינה מתישה או שהילדים גמורים, מוותרים בלי להרוס כלום - אפשר להעביר את זה לערב אחר בשבוע.</div>
     <div class="footerbar">מהיום: מקבלים ב-Schattauer את Salzburger Sportwelt Card.</div>
   `
 },
@@ -779,6 +925,7 @@ const DAYS = [
       <div class="box red"><b>חשוב</b>להגיע מוקדם בגלל החניה. המכרה אופציונלי. לבחור יום עם ראות טובה. לוודא שעות עלייה אחרונות ל-Skywalk/מכרה המלח (בד״כ ~16:00-16:30).</div>
     </div>
     <div class="box tan"><b>מחיר וכרטיסים • Skywalk + מכרה המלח (Salzwelten Hallstatt)</b>כרטיס משולב (רכבל + מכרה): מבוגר כ-49€, ילד (4-15) כ-23€. עונה 29.8-24.10.2026: מכרה 09:30-16:30, רכבל 09:00-18:00 (כניסה אחרונה חצי שעה לפני). מומלץ לרכוש מראש באתר הרשמי כדי לדלג על התור. <a href="https://www.salzwelten.at/en/hallstatt" target="_blank" rel="noopener">האתר הרשמי</a> · <a href="https://tickets.salzwelten.at/en/2/date" target="_blank" rel="noopener">הזמנת כרטיסים</a>.</div>
+    <div class="box red"><b>⚠️ גיל מינימום 4 למכרה</b>הכניסה למכרה אסורה מתחת לגיל 4 - מגבלה חוקית שנאכפת ללא יוצא מן הכלל. שלוש הפעוטות בקבוצה (2:2, 2:8, 3:3) לא ייכנסו. <b>אבל יש פתרון:</b> ילדים מתחת ל-4 כן מורשים ברכבל לשני הכיוונים וב-Skywalk, אז מבוגר אחד יכול להישאר איתן למעלה בתצפית. כרטיס רכבל בלבד: מבוגר 29€, ילד (4-15) 14€ - במקום 49€/23€ לכרטיס המשולב.</div>
     <div class="footerbar">סוף יום: Wagrain Wasserwelt חינם דרך כרטיס האורח, אם נשאר כוח.</div>
   `
 },
@@ -814,11 +961,11 @@ const DAYS = [
 },
 {
   id:"d5", nav:"28.9", navSub:"Hohenwerfen + Hallein",
-  segment: ["wagrain","werfen","hallein_salt","keltenblitz","amade","wagrain"],
+  segment: ["wagrain","werfen","hallein_salt","keltenblitz","wagrain"],
   render: () => `
-    <div class="tag">יום ב׳, 28.9 (הורחב) · טירה, מופע נשרים, מכרה מלח, מגלשה אלפינית ומרחצאות חמים</div>
+    <div class="tag">יום ב׳, 28.9 (הורחב) · טירה, מופע נשרים, מכרה מלח ומגלשה אלפינית</div>
     <h2 class="title">Hohenwerfen + Hallein</h2>
-    <div class="meta">נסיעות: Wagrain → Hohenwerfen כ-35-45 דק׳; ל-Bad Dürrnberg/Hallein כ-20-25 דק׳; ל-Erlebnis-Therme Amadé כ-40 דק׳; חזרה ל-Wagrain כ-10 דק׳</div>
+    <div class="meta">נסיעות: Wagrain → Hohenwerfen כ-35-45 דק׳; ל-Bad Dürrnberg/Hallein כ-20-25 דק׳; חזרה ל-Wagrain כ-50-60 דק׳</div>
     <table class="sched">
       <tr><td>יציאה מ-Wagrain</td><td>08:30</td></tr>
       <tr><td>חניה ועלייה במעלית לטירה</td><td>~09:15</td></tr>
@@ -829,29 +976,27 @@ const DAYS = [
       <tr><td>נסיעה ל-Bad Dürrnberg (Hallein)</td><td>~14:00-14:25</td></tr>
       <tr><td>Salzwelten Hallein: סיור במכרה מלח עם רכבת תת-קרקעית, מגלשות עץ ושיט על אגם מלח</td><td>14:30-16:00</td></tr>
       <tr><td>Keltenblitz: מגלשת קיץ אלפינית (2.2 ק״מ) ממש לידה, עלייה ברכבל</td><td>16:00-17:00</td></tr>
-      <tr><td>נסיעה ל-Erlebnis-Therme Amadé (Altenmarkt im Pongau)</td><td>~17:00-17:40</td></tr>
-      <tr><td>מרחצאות חמים ומגלשות מים ב-Erlebnis-Therme Amadé (עד הסגירה)</td><td>17:45-20:30</td></tr>
-      <tr><td>חזרה ל-Wagrain</td><td>~20:45</td></tr>
+      <tr><td>חזרה ל-Wagrain</td><td>~17:00-18:00</td></tr>
     </table>
     <div class="sectionLabel">📍 מה יש שם</div>
     <div class="places">
       <div class="p"><b>Burg Hohenwerfen — </b>מצודה מימי הביניים על צוק סלעי מעל עמק ה-Salzach, בת כ-900 שנה; סיור מודרך, תא עינויים, מגדל פעמונים עם נוף פנורמי, ומופעי ציפורי טרף בחצר.</div>
       <div class="p"><b>Salzwelten Hallein — </b>מכרה מלח היסטורי בהר Dürrnberg מעל העיירה Hallein, ממש דרומית לזלצבורג; הכרייה כאן קדומה אף יותר מזו של Hallstatt. הסיור כולל רכבת מכרות תת-קרקעית, מגלשות עץ ארוכות בין המפלסים, ושיט קטן על אגם מלח תת-קרקעי מואר.</div>
       <div class="p"><b>Keltenblitz — </b>מגלשת קיץ אלפינית (Sommerrodelbahn) באורך 2.2 ק״מ, ממש ליד מכרה המלח על אותו ההר; עולים ברכבל-כיסא ויורדים במזחלת מהירה בין העצים - כיף גדול לילדים ולהורים כאחד.</div>
-      <div class="p"><b>Erlebnis-Therme Amadé — </b>מתחם מרחצאות חמים ומגלשות מים באלטנמרקט-אים-פונגאו, ממש ליד וגריין; בריכות פנים וחוץ, אזור ג׳קוזי ומגלשות לילדים — סיום מפנק ורגוע ליום עמוס. <a href="https://www.thermeamade.at/" target="_blank" rel="noopener">האתר הרשמי</a>.</div>
     </div>
     <div class="boxes">
       <div class="box green"><b>המופע בטירה</b>ב-11:15 וב-15:15, כ-25 דקות וכלול במחיר הכניסה.</div>
       <div class="box red"><b>עם הקטנה והסבים</b>יש מעלית לטירה, אך למופע מעל 100 מדרגות וירידה תלולה. לקחת מנשא; אין עגלה.</div>
       <div class="box red"><b>תלוי מזג אוויר</b>מגלשת הקיץ Keltenblitz פועלת רק בתנאי יובש טובים - נסגרת בגשם. אם יורד גשם, אפשר להישאר רק במכרה המלח (מקורה לגמרי) ולוותר על המגלשה.</div>
     </div>
-    <div class="box tan"><b>שעות ומחירים • 28.9.2026</b>הטירה פתוחה 09:00–17:00, מופעי הנשרים ב-11:15 וב-15:15. Salzwelten Hallein פתוח 09:00-17:00 (סיור אחרון). Keltenblitz בעונה הזו (עד 11.10) פתוח בימי שני-שישי 11:00-17:00 - 28.9 הוא יום שני, מתאים. מחיר משולב (מכרה+מגלשה, "Adventure Card"): מבוגר כ-47€, ילד (4-14) כ-26€ - זול יותר מרכישה נפרדת. Erlebnis-Therme Amadé פתוחה עד 20:30.</div>
+    <div class="box tan"><b>שעות ומחירים • 28.9.2026</b>הטירה פתוחה 09:00–17:00, מופעי הנשרים ב-11:15 וב-15:15. Salzwelten Hallein פתוח 09:00-17:00 (סיור אחרון). Keltenblitz בעונה הזו (עד 11.10) פתוח בימי שני-שישי 11:00-17:00 - 28.9 הוא יום שני, מתאים. מחיר משולב (מכרה+מגלשה, "Adventure Card"): מבוגר כ-47€, ילד (4-14) כ-26€ - זול יותר מרכישה נפרדת.</div>
+    <div class="box red"><b>⚠️ גיל מינימום 4 למכרה</b>הכניסה למכרה המלח אסורה מתחת לגיל 4 - זו מגבלה חוקית שנאכפת ללא יוצא מן הכלל, לא עניין של מחיר או גובה. שלוש הפעוטות בקבוצה (2:2, 2:8, 3:3) לא ייכנסו. בניגוד ל-Hallstatt, כאן אין רכבל או תצפית כתחליף - צריך להחליט מראש מי נשאר בחוץ. אפשרות טובה: המלווים והפעוטות נוסעים ישירות ל-Keltenblitz או נשארים בכפר Hallein.</div>
     <div class="box tan"><b>כרטיסים - איפה להזמין מראש</b>
       <b>Burg Hohenwerfen:</b> כרטיס All-Inclusive עם מעלית - מבוגר מ-20.90€, ילד (6-14) מ-8.60€ (כולל מופע הנשרים). <a href="https://www.burg-hohenwerfen.at/en/your-visit/tickets" target="_blank" rel="noopener">האתר הרשמי</a>.<br>
       <b>Salzwelten Hallein:</b> מבוגר כ-35€, ילד (4-15) כ-16€ (או במחיר המשולב עם Keltenblitz שמוזכר למעלה). <a href="https://www.salzwelten.at/en/hallein" target="_blank" rel="noopener">האתר הרשמי</a>.<br>
       <b>Keltenblitz (Dürrnberg):</b> נסיעה בודדת - מבוגר 19.50€, ילד 13.20€. <a href="https://duerrnberg.at/en/prices/" target="_blank" rel="noopener">מחירים באתר הרשמי</a>.
     </div>
-    <div class="footerbar">הנסיעות הגיוניות: Hallein נמצאת בהמשך אותו כביש מ-Werfen לכיוון זלצבורג, ומ-Erlebnis-Therme Amadé החזרה ל-Wagrain אורכת רק כ-10 דקות - סיום קליל ליום עמוס.</div>
+    <div class="footerbar">הנסיעות הגיוניות: Hallein נמצאת בהמשך אותו כביש מ-Werfen לכיוון זלצבורג. היום מסתיים מוקדם יחסית - אם נשאר כוח, Wagrain Wasserwelt חינם עם כרטיס האורח.</div>
   `
 },
 {
@@ -896,9 +1041,9 @@ const DAYS = [
   render: () => `
     <div class="tag">יום ד׳, 30.9 · אגם אלפיני • רכבת קיטור לפסגה • מרחצאות חמים</div>
     <h2 class="title">Wolfgangsee + Schafbergbahn</h2>
-    <div class="meta">נסיעה: Wagrain → St. Wolfgang כ-1:25-1:40 לכל כיוון; Wagrain Wasserwelt בתוך Wagrain עצמה</div>
+    <div class="meta">נסיעה: Wagrain → St. Wolfgang כ-1:40-1:50 לכל כיוון (כ-125 ק״מ דרך זלצבורג); Wagrain Wasserwelt בתוך Wagrain עצמה</div>
     <table class="sched">
-      <tr><td>יציאה מ-Wagrain</td><td>08:00</td></tr>
+      <tr><td>יציאה מ-Wagrain</td><td>07:45</td></tr>
       <tr><td>הגעה ל-St. Wolfgang, חניה ליד תחנת הרכבת</td><td>~09:30</td></tr>
       <tr><td>טיילת האגם וכיכר הכפר (מול מלון Weißes Rössl)</td><td>09:45-10:15</td></tr>
       <tr><td>עלייה ברכבת השיניים ההיסטורית Schafbergbahn לפסגה</td><td>~10:30</td></tr>
@@ -906,7 +1051,8 @@ const DAYS = [
       <tr><td>ירידה חזרה ברכבת לתחנה התחתונה</td><td>13:00-13:45</td></tr>
       <tr><td>שיט קצר באגם Wolfgangsee, אם פועל ומזג האוויר מתאים</td><td>אופציונלי</td></tr>
       <tr><td>יציאה בחזרה ל-Wagrain</td><td>~15:15</td></tr>
-      <tr><td>Wagrain Wasserwelt: מרחצאות חמים ומגלשות מים (חינם לאורחי המלון)</td><td>18:15-20:00</td></tr>
+      <tr><td>הגעה לוואגריין, מנוחה והתארגנות במלון</td><td>17:00-17:45</td></tr>
+      <tr><td>Wagrain Wasserwelt: מרחצאות חמים ומגלשות מים (חינם לאורחי המלון)</td><td>18:00-20:00</td></tr>
       <tr><td>חזרה למלון</td><td>~20:10</td></tr>
     </table>
     <div class="sectionLabel">📍 מה יש שם</div>
@@ -1044,16 +1190,7 @@ const DAYS = [
     <div class="tag">לשמור בטלפון</div>
     <h2 class="title">מידע כללי לטיול</h2>
     <div class="sectionLabel">✈️ הטיסות שלנו</div>
-    <table class="kids" style="margin-bottom:18px;">
-      <tr>
-        <td><b>OS82</b> — <span dir="ltr">Tel Aviv → Vienna</span><br><span dir="ltr">24 Sep 26 · 18:40 → 21:25</span></td>
-        <td>Austrian · Q (OK)<br>1 PC</td>
-      </tr>
-      <tr>
-        <td><b>OS79</b> — <span dir="ltr">Vienna → Tel Aviv</span><br><span dir="ltr">03 Oct 26 · 10:10 → 14:35</span></td>
-        <td>Austrian · Q (OK)<br>1 PC</td>
-      </tr>
-    </table>
+    ${renderFlights()}
     <div class="sectionLabel">🏨 המלונות שלנו</div>
     <table class="kids" style="margin-bottom:18px;">
       <tr>
@@ -1090,14 +1227,24 @@ const DAYS = [
         <a class="rowWaze" href="${wazeLink("shuttleberg")}" target="_blank" rel="noopener" title="נווט ב-Waze ל-Shuttleberg Kleinarl">🧭</a>
       </li>
     </ul>
-    <div class="sectionLabel">🎫 כרטיס SalzburgerLand Card - כדאי?</div>
+    <div class="sectionLabel">🎫 כרטיס SalzburgerLand Card - נבדק, לא משתלם</div>
     <div class="boxes">
       <div class="box tan"><b>מחיר 2026</b>כרטיס 6 ימים: מבוגר 103€, ילד (4-15.9) 52€. כרטיס 12 ימים: מבוגר 129€, ילד 65€. הימים לא חייבים להיות רצופים בתוך תקופת התוקף (1.5-1.11.2026 - מכסה את כל הטיול שלנו). <b>ילד שלישי ומעלה במשפחה מקבל כרטיס חינם.</b> <a href="https://www.salzburgerland.com/en/salzburgerland-card/" target="_blank" rel="noopener">האתר הרשמי</a> · <a href="https://www.salzburgerland.com/en/buy-salzburgerland-card/" target="_blank" rel="noopener">רכישה</a>.</div>
-      <div class="box green"><b>נראה כלול (רמת ביטחון גבוהה)</b>Grossglockner Hochalpenstraße - נסיעה חינמית אחת בכביש (חלופה לכרטיס יום בעיר זלצבורג - בוחרים באחת מהשתיים); Liechtensteinklamm - כניסה חינם; Erlebnisburg Hohenwerfen - מופיעה ברשימה הרשמית תחת "טירות וארמונות"; מותג Salzwelten (מכרות מלח) מופיע ברשימה הרשמית, כנראה כולל גם Hallein וגם Hallstatt - לא מאומת לגמרי לכל אתר בנפרד.</div>
-      <div class="box red"><b>בוודאות לא כלול</b>הרכבל Geisterberg/Alpendorf מסומן רשמית "לא שותף ב-2026" (Kein Partner 2026) - צריך לשלם עליו בנפרד בכל מקרה. מנזר Melk לא כלול - הוא באוסטריה התחתונה, מחוץ למדינת זלצבורג שהכרטיס מכסה.</div>
-      <div class="box yellow"><b>לא ודאי - לבדוק לפני שקונים</b>המקורות שמצאתי סתרו זה את זה לגבי Schafbergbahn, Schmittenhöhe, Kaprun Hochgebirgsstauseen, Zwölferhorn ו-Keltenblitz. לפני רכישה כדאי לבדוק ישירות ברשימת ה-190 האתרים באתר הרשמי (או בטלפון לתיירות המקומית) אם אלה כלולים - כי הם חלק ניכר מהעלות הכוללת של הטיול.</div>
+      <div class="box green"><b>כלול מהמסלול שלנו</b>Erlebnisburg Hohenwerfen; מכרות Salzwelten (Hallein ו-Hallstatt); נסיעה אחת ב-Grossglockner Hochalpenstraße (חלופה לכרטיס יום בעיר זלצבורג - בוחרים באחת מהשתיים); Liechtensteinklamm, שנמצא אצלנו בבנק החלופות.</div>
+      <div class="box red"><b>לא כלול — אומת מול הרשימה הרשמית ל-2026</b>הרשימה הרשמית של אתרים שהוסרו מהשותפות ב-2026 כוללת את Schafbergbahn, Schmittenhöhe, Geisterberg/Alpendorf, מגלשת הקיץ ב-Dürrnberg (קלטנבליץ), הסכרים בקאפרון, Zwölferhorn, והשיט בוולפגנגזה ובצל am See. מנזר Melk גם הוא בחוץ - הוא באוסטריה התחתונה, מחוץ למדינת זלצבורג. כלומר: כל אטרקציות הרכבלים והשיט במסלול נשארות בתשלום מלא.</div>
+      <div class="box red"><b>המסקנה: לא כדאי לכם</b>מול העלויות בפועל, הכרטיס מכסה בערך 350€ למשפחה של 2+2 - ועולה 310€. חיסכון של כ-20€, ורק אם הרכבל ב-Hallstatt כלול ולא רק המכרה. לזוג מבוגרים החיסכון כ-35€, לבוגר יחיד כ-41€. בכל המקרים זה שולי, ולמשפחות עם ילדים כמעט אפסי - כי כרטיס ילד עולה חצי ממבוגר, בעוד שכרטיסי הכניסה הבודדים לילדים זולים בהרבה מחצי. <b>עדיף לרכוש כרטיסים בודדים אונליין מראש.</b></div>
       <div class="box tan"><b>חשוב: לא חופף לכרטיס האורח מ-Schattauer</b>ה-Salzburger Sportwelt Card שמקבלים חינם במלון (Wasserwelt Wagrain + Shuttleberg Kleinarl + הנחות מקומיות) הוא כרטיס שונה לגמרי מה-SalzburgerLand Card הזה, ולא נכלל בו - שני הכרטיסים משלימים זה את זה, לא מתחרים.</div>
     </div>
+    <div class="sectionLabel">🚦 מוקדי עומס ושעות שיא</div>
+    <div class="meta">בלו״ז של כל יום, שורות שצפוי בהן עומס מסומנות בכפתור 🚦 - הקשה עליו פותחת את הפרטים.</div>
+    <ul class="trafficList">
+      <li><b>מעבר זלצבורג (A10 ↔ B158)</b> — <span class="when">07:00-09:00 ו-16:00-18:00 בימי חול.</span> הצוואר המרכזי של הטיול. משפיע על החזרה מוולפגנגזה ב-30.9 ועל החזרה מהליין ב-28.9. מוסיף 15-25 דק׳.</li>
+      <li><b>A10 דרומה לכיוון מנהרת Tauern</b> — <span class="when">שישי אחה״צ ושבת בבוקר.</span> רלוונטי בעיקר ל-25.9, שהוא יום שישי. בסוף ספטמבר, אחרי עונת הקיץ, זה מתון יחסית.</li>
+      <li><b>חניוני Hallstatt</b> — <span class="when">מתמלאים 10:00-15:00.</span> לא פקק בכביש אלא תור לחניה. זו הסיבה ליציאה ב-07:45 ב-26.9.</li>
+      <li><b>חניון Kaiser-Franz-Josefs-Höhe</b> — <span class="when">10:00-14:00.</span> הכביש עצמו זורם; החניון בתצפית מתמלא ולפעמים נסגר זמנית.</li>
+      <li><b>B158 לאורך האגמים</b> — <span class="when">לאורך כל היום בעונה.</span> כביש דו-נתיבי צר; אוטובוס תיירים אחד מאט את כל השיירה. זו הסיבה שזמן הנסיעה ל-St. Wolfgang עודכן ל-1:40-1:50.</li>
+      <li><b>A1 מזרחה לכיוון וינה</b> — <span class="when">שישי 15:00-18:00.</span> רלוונטי ל-2.10 בדרך לשדה. היציאה ב-16:30 מדורנשטיין מספיקה, אבל בלי למתוח.</li>
+    </ul>
     <div class="sectionLabel">✅ בדיקות אחרונות</div>
     <ol class="checklist">
       <li>לבדוק תחזית 5-7 ימים לפני ולקבע את Grossglockner ליום הבהיר ביותר.</li>
@@ -1109,9 +1256,17 @@ const DAYS = [
       <li>Keltenblitz (מגלשת הקיץ ב-Hallein) פועלת רק בתנאי יובש - לבדוק תחזית ל-28.9 ולהיות מוכנים לוותר עליה אם יורד גשם (המכרה עצמו מקורה ופועל בכל מזג אוויר).</li>
       <li>הרכבל ל-Geisterberg פועל רק בימי שישי-שלישי — אם מזיזים ימים, לוודא שה-27.9 נופל באחד מהם.</li>
       <li>לוודא מדיניות עגלה/מנשא באוטובוסי Kaprun ובמעלית Lärchwand מראש טלפונית (+43 50 313 23201).</li>
+      <li>להחליט מי נשאר עם שלוש הפעוטות (2:2, 2:8, 3:3) בשני המכרות - הכניסה אסורה מתחת לגיל 4. ב-Hallstatt יש פתרון (רכבל + Skywalk), ב-Hallein אין.</li>
+      <li>לברר טלפונית מאיזה גיל מתחיל התשלום ב-Geisterberg וב-Schmittenhöhe - זו ההנחה היחידה בטבלת העלויות שלא אומתה.</li>
+      <li>לוודא מול Schattauer מי מהקבוצה זכאי לכרטיס האורח - מי שלן במקום אחר ישלם על Wasserwelt בנפרד.</li>
     </ol>
     <div class="box tan"><b>בדיקת שעות ומסלול • מקורות רשמיים</b>Geisterberg פועל ב-27.9.2026 09:00-17:00 (בטווח שישי-שלישי). Hohenwerfen פתוח בספטמבר 09:00-17:00, מופעים 11:15/15:15. Salzwelten Hallein פתוח 09:00-17:00 (עד 1.11.2026). Keltenblitz בעונה 14.9-11.10.2026 פועל בימי שני-שישי 11:00-17:00, שבת-ראשון 10:30-17:00, ותלוי בתנאי יובש. Grossglockner פתוח עד תחילת נובמבר 2026, שעות ספטמבר 06:00-19:30. Schafbergbahn פועלת 25.4-1.11.2026. Schmittenhöhe ושיט פועלים ב-1.10.2026 09:00-17:00/10:00-17:00. Kaprun פתוח 21.5-11.10.2026, אוטובוסים 08:10-16:45/17:00. מקורות: grossglockner.at • burg-hohenwerfen.at • salzwelten.at • duerrnberg.at • 5schaetze.at • schmitten.at • skiamade.com • kaprun-stauseen.com</div>
   `
+},
+{
+  id:"costs", nav:"עלויות", navSub:"מי משלם כמה",
+  segment: [],
+  render: () => renderCosts(),
 },
 {
   id:"trivia", nav:"טריוויה", navSub:"בואו לשחק!",
@@ -1138,6 +1293,7 @@ const FUN_FACTS = {
     "הטירה שימשה מיקום צילום לסדרת הטלוויזיה הגרמנית הפופולרית \"Schlosshotel Orth\".",
     "אגם Traunsee הוא האגם העמוק והגדול ביותר שנמצא כולו בתוך אוסטריה - 191 מטר עומק!",
     "Wagrain, הכפר שבו נגור, נמצא בלב האלפים באזור זלצבורגרלנד.",
+    "בערב נצלול ב-Erlebnis-Therme Amadé — מרחצאות חמים ומגלשות מים, רק 10 דקות מהמלון!",
   ],
   d3: [
     "Hallstatt כל כך יפה שבסין בנו עיר תאומה שנראית בדיוק כמוה!",
@@ -1156,7 +1312,6 @@ const FUN_FACTS = {
     "מכרה המלח ב-Hallein פעיל כבר יותר מ-2,600 שנה — עוד מתקופת הקלטים!",
     "במכרה המלח יורדים בין המפלסים על מגלשות עץ ארוכות ושטים בסירה על אגם מלח תת-קרקעי.",
     "מגלשת הקיץ Keltenblitz ליד המכרה אורכת 2.2 ק״מ — אחת הארוכות באוסטריה!",
-    "בסוף היום נבקר ב-Erlebnis-Therme Amadé — מרחצאות חמים עם מגלשות מים, ממש ליד וגריין!",
   ],
   d6: [
     "Grossglockner הוא ההר הכי גבוה באוסטריה — 3,798 מטר!",
@@ -1186,6 +1341,145 @@ const FUN_FACTS = {
     "אוסטריה חולקת גבולות עם 8 מדינות שונות — יותר משכנות מרוב מדינות אירופה.",
   ],
 };
+
+/* ---------- Flights, rendered as boarding-pass cards ----------
+   Durations account for the one-hour offset between Israel (UTC+3 in September) and
+   Vienna (UTC+2), so they don't match a naive subtraction of the printed clock times. */
+const FLIGHTS = [
+  {no:"OS 82", airline:"AUSTRIAN AIRLINES", dur:"3ש׳ 45ד׳",
+   from:{code:"TLV", city:"Tel Aviv", time:"18:40"},
+   to:  {code:"VIE", city:"Vienna",   time:"21:25"},
+   date:"24 Sep 2026", weekday:"יום ה׳", cls:"Q · OK", bag:"1 PC"},
+  {no:"OS 79", airline:"AUSTRIAN AIRLINES", dur:"3ש׳ 25ד׳",
+   from:{code:"VIE", city:"Vienna",   time:"10:10"},
+   to:  {code:"TLV", city:"Tel Aviv", time:"14:35"},
+   date:"03 Oct 2026", weekday:"שבת", cls:"Q · OK", bag:"1 PC"},
+];
+
+function renderFlights(){
+  return FLIGHTS.map(f => `
+    <div class="bpass">
+      <div class="bpass-head">
+        <span class="bpass-airline">${f.airline}</span>
+        <span class="bpass-no">${f.no}</span>
+      </div>
+      <div class="bpass-route">
+        <div class="bpass-end">
+          <span class="bpass-code">${f.from.code}</span>
+          <span class="bpass-city">${f.from.city}</span>
+          <span class="bpass-time">${f.from.time}</span>
+        </div>
+        <div class="bpass-mid">
+          <span class="bpass-dur">${f.dur}</span>
+          <span class="bpass-path"><span class="bpass-plane">✈</span></span>
+        </div>
+        <div class="bpass-end arr">
+          <span class="bpass-code">${f.to.code}</span>
+          <span class="bpass-city">${f.to.city}</span>
+          <span class="bpass-time">${f.to.time}</span>
+        </div>
+      </div>
+      <div class="bpass-tear"></div>
+      <div class="bpass-meta">
+        <div><span class="k">תאריך</span><span class="v">${f.date}</span></div>
+        <div><span class="k">יום</span><span class="v">${f.weekday}</span></div>
+        <div><span class="k">מחלקה</span><span class="v">${f.cls}</span></div>
+        <div><span class="k">כבודה</span><span class="v">${f.bag}</span></div>
+      </div>
+      <div class="bpass-bars" aria-hidden="true"></div>
+    </div>`).join("");
+}
+
+/* ---------- Cost model ----------
+   Only paid attractions that are actually on the fixed itinerary. Prices are the per-person
+   gate/online rates already documented on each day's page. "child" = each attraction's own
+   discounted bracket (roughly 4-15); under-4s are free everywhere here, so they're counted
+   separately and cost nothing. Grossglockner is a per-vehicle toll, not per person. */
+const COST_ROWS = [
+  {day:"26.9", label:"Salzwelten Hallstatt",        adult:49,    child:23},
+  {day:"27.9", label:"Geisterberg (מחיר אונליין)",  adult:32.50, child:19.50},
+  {day:"28.9", label:"Burg Hohenwerfen",            adult:20.90, child:8.60},
+  {day:"28.9", label:"הליין + קלטנבליץ",            adult:47,    child:26},
+  {day:"29.9", label:"אגרת Grossglockner",          perCar:46.50},
+  {day:"30.9", label:"Schafbergbahn",               adult:61,    child:18.40},
+  {day:"1.10", label:"Schmittenhöhe",               adult:45,    child:22.50},
+  {day:"2.10", label:"מנזר Melk",                   adult:16,    family:32},
+];
+
+const COST_FAMILIES = [
+  {name:"רון ונטלי",   who:"2 מבוגרים · בת 6 · בת 3:3",          adults:2, kids:1, tots:1, car:true},
+  {name:"ליגל ואבירן", who:"2 מבוגרים · בן 11 · בן 7 · בן 2:2",  adults:2, kids:2, tots:1, car:true},
+  {name:"ימית ואיתי",  who:"2 מבוגרים · בן 10 · בן 7 · בת 2:8",  adults:2, kids:2, tots:1, car:true},
+  {name:"מוטי ואדרת",  who:"זוג מבוגרים (70 ו-63)",              adults:2, kids:0, tots:0, car:true},
+  {name:"סילביה",      who:"בודדת (70) · נוסעת עם אחת המשפחות",  adults:1, kids:0, tots:0, car:false},
+];
+
+function eur(n){
+  return "€" + n.toLocaleString("en-US", {minimumFractionDigits:2, maximumFractionDigits:2});
+}
+
+function famRowCost(row, fam){
+  if (row.perCar) return fam.car ? row.perCar : 0;
+  // Melk sells a family ticket covering both parents and all their children — cheaper than
+  // per-head once there are two adults, so use whichever is lower.
+  const perHead = fam.adults*row.adult + fam.kids*(row.child || 0);
+  if (row.family && fam.adults >= 2) return Math.min(row.family, perHead);
+  return perHead;
+}
+
+function renderCosts(){
+  const famTotals = COST_FAMILIES.map(f => COST_ROWS.reduce((s,r)=> s + famRowCost(r,f), 0));
+  const grand = famTotals.reduce((a,b)=>a+b, 0);
+  const heads = COST_FAMILIES.reduce((s,f)=> s + f.adults + f.kids + f.tots, 0);
+
+  const blocks = COST_FAMILIES.map((f, i) => `
+    <div class="costFam">
+      <h3>${f.name}</h3>
+      <div class="who">${f.who}</div>
+      <table>
+        ${COST_ROWS.map(r => {
+          const v = famRowCost(r, f);
+          return `<tr${v === 0 ? ' class="free"' : ""}>
+            <td><span class="dnum">${r.day}</span>${r.label}</td>
+            <td>${v === 0 ? "—" : eur(v)}</td>
+          </tr>`;
+        }).join("")}
+        <tr class="sum"><td>סה״כ</td><td>${eur(famTotals[i])}</td></tr>
+      </table>
+    </div>`).join("");
+
+  return `
+    <div class="tag">תכנון תקציב</div>
+    <h2 class="title">עלויות האטרקציות</h2>
+    <div class="meta">רק אטרקציות שנמצאות במסלול הקבוע. מחירי כניסה בלבד - בלי טיסות, לינה, השכרת רכב, דלק, חניות וארוחות.</div>
+
+    <div class="costTotalBar">
+      <span class="big">${eur(grand)}</span>
+      <span class="cap">סה״כ לכל הקבוצה · ${heads} נפשות · ${COST_FAMILIES.length} יחידות משפחתיות</span>
+    </div>
+
+    ${blocks}
+
+    <div class="sectionLabel">🎁 מה מקבלים בחינם</div>
+    <div class="boxes">
+      <div class="box green"><b>כרטיס האורח מ-Schattauer</b>ה-Salzburger Sportwelt Card ניתן חינם לאורחי המלון וכולל כניסה חינם ל-Wagrain Wasserwelt, את Shuttleberg Kleinarl (טעון אישור ל-2026) והנחות מקומיות. מי שלן במקום אחר ישלם על Wasserwelt בנפרד.</div>
+    </div>
+
+    <div class="sectionLabel">💰 איפה אפשר לחסוך</div>
+    <div class="boxes">
+      <div class="box tan"><b>הפעוטות לא נכנסות למכרות — נצלו את זה</b>ב-Hallstatt מבוגר שנשאר עם הקטנות למעלה צריך רק כרטיס רכבל (29€) במקום המשולב (49€) - חיסכון של 20€ לכל מלווה. ב-Hallein, מבוגר שמוותר על המכרה ועושה רק את קלטנבליץ משלם 19.50€ במקום 47€ - חיסכון של 27.50€. בסך הכל אפשר להוריד כ-95€ מהסכום הכולל.</div>
+      <div class="box tan"><b>הזמנה מראש אונליין</b>Geisterberg לבדו חוסך עד 15% בהזמנה מוקדמת (כ-6€ למבוגר). ב-Hallstatt, Hohenwerfen ו-Melk ההזמנה מראש לא בהכרח זולה יותר, אבל חוסכת תור - ובימים הצפופים זה שווה יותר מכסף.</div>
+    </div>
+
+    <div class="sectionLabel">⚠️ מה עוד לא סגור</div>
+    <div class="boxes">
+      <div class="box yellow"><b>גיל הפטור ב-Geisterberg וב-Schmittenhöhe</b>לא הצלחנו לאמת מאיזה גיל מתחיל התשלום בשני האתרים האלה. החישוב למעלה מניח שהפעוטות (2:2, 2:8, 3:3) פטורות. אם הפטור מתחיל רק מגיל 4 או 6 - התוספת עד כ-120€ לקבוצה. שווה בירור טלפוני לפני הרכישה.</div>
+      <div class="box tan"><b>הבת בת ה-6</b>ב-Hohenwerfen הטווח המוזל מתחיל בגיל 6 בדיוק, אז היא משלמת שם ככל ילד אחר ולא פטורה.</div>
+      <div class="box tan"><b>לא נכלל בטבלה</b>שיט באגמים (וולפגנגזה, צל am See), הסכרים בקאפרון (39.50€ למבוגר, 22€ לילד), חצר הטירה בגמונדן (4-5€), Erlebnis-Therme Amadé ב-25.9, ארוחות וחניות.</div>
+    </div>
+    <div class="footerbar">💡 המחירים נאספו ממקורות רשמיים ונכונים לעונת 2026 - כדאי לאמת מול אתרי האטרקציות סמוך לנסיעה.</div>
+  `;
+}
 
 /* ---------- Trivia quiz: multiple-choice questions about Austria + this trip ---------- */
 const TRIVIA = [
@@ -1258,7 +1552,7 @@ function renderGallery(id){
 /* ---------- Map (Google Maps, no key) + Waze navigation ---------- */
 const DAY_ICON = {
   overview:"🗺️", d1:"✈️", d2:"🏞️", d3:"🏞️", d4:"🎢", d5:"🏰",
-  d6:"🏔️", d7:"🚂", d8:"🚡", d9:"⛪", d10:"✈️", alt:"📋", trivia:"🎯",
+  d6:"🏔️", d7:"🚂", d8:"🚡", d9:"⛪", d10:"✈️", alt:"📋", costs:"💶", trivia:"🎯",
 };
 const LOC_ICON = {
   airport:"✈️", vienna:"🏛️", gmunden:"🏞️", schlossort:"🏰", wagrain:"🏡", wagrain_billa:"🛒", hallstatt:"🏘️", hallstatt_salt:"⛏️", gosausee:"🏞️",
@@ -1531,12 +1825,12 @@ function wazeLink(k){
    at that destination. Substrings are exact fragments of the existing row text. */
 const ROW_WAZE = {
   d1: [ ["נחיתה ואיסוף מזוודות","airport"], ["לילה: MOXY Vienna Airport","airport"] ],
-  d2: [ ["הגעה ל-Gmunden","gmunden"], ["גשר העץ ל-Schloss Ort","schlossort"], ["עצירה בסופרמרקט BILLA","wagrain_billa"], ["צ׳ק-אין והתארגנות","wagrain"] ],
+  d2: [ ["הגעה ל-Gmunden","gmunden"], ["גשר העץ ל-Schloss Ort","schlossort"], ["עצירה בסופרמרקט BILLA","wagrain_billa"], ["צ׳ק-אין והתארגנות","wagrain"], ["נסיעה ל-Erlebnis-Therme Amadé","amade"], ["חזרה למלון בוואגריין","wagrain"] ],
   d3: [ ["Hallstatt: כפר","hallstatt"], ["Skywalk או מכרה המלח","hallstatt_salt"], ["Gosausee והליכה קלה","gosausee"], ["חזרה ל-Wagrain","wagrain"] ],
   d4: [ ["הגעה ל-Alpendorf","alpendorf"], ["St. Johann: מרכז עתיק","alpendorf"], ["חזרה ל-Wagrain","wagrain"] ],
-  d5: [ ["חניה ועלייה במעלית לטירה","werfen"], ["Salzwelten Hallein","hallein_salt"], ["Keltenblitz","keltenblitz"], ["מרחצאות חמים ומגלשות מים","amade"], ["חזרה ל-Wagrain","wagrain"] ],
+  d5: [ ["חניה ועלייה במעלית לטירה","werfen"], ["Salzwelten Hallein","hallein_salt"], ["Keltenblitz","keltenblitz"], ["חזרה ל-Wagrain","wagrain"] ],
   d6: [ ["עצירה ב-Fuscher Törl","fuscher_torl"], ["עצירה ב-Hochtor","hochtor"], ["תצפית הקרחון ב-Kaiser Franz Josef Höhe","glockner"], ["Wagrain","wagrain"] ],
-  d7: [ ["הגעה ל-St. Wolfgang","stwolfgang"], ["Wagrain Wasserwelt","wasserwelt"], ["חזרה למלון","wagrain"] ],
+  d7: [ ["הגעה ל-St. Wolfgang","stwolfgang"], ["הגעה לוואגריין, מנוחה","wagrain"], ["Wagrain Wasserwelt","wasserwelt"], ["חזרה למלון","wagrain"] ],
   d8: [ ["הגעה ל-Zell am See","zell"], ["Schmittenhöhe, פסגה ותצפיות","schmittenhoehe"], ["חזרה ל-Wagrain","wagrain"], ["חניה בחניון החינמי ליד קופת Kesselfall","kaprun"] ],
   d9: [ ["הגעה ל-Melk","melk"], ["נסיעה לאורך Wachau ל-Dürnstein","durnstein"], ["יציאה לשדה התעופה","airport"], ["MOXY, החזרת רכב ואריזה","airport"] ],
 };
@@ -1557,6 +1851,72 @@ function injectRowWaze(id){
     a.title = "נווט ב-Waze ל-" + LOC[locKey].label;
     a.textContent = "🧭";
     td.appendChild(a);
+  });
+}
+
+/* Per-day map of [substring in a schedule row -> congestion warning], mirroring ROW_WAZE.
+   Each flagged row gets a 🚦 badge; tapping it opens a short note with the peak window and
+   what to do about it. Only genuine choke points are listed — badging every drive would
+   make the schedule unreadable and train people to ignore the icon. */
+const TRAFFIC = {
+  d2: [ ["המשך נסיעה ל-Wagrain", {
+    peak:"שישי 14:00-18:00",
+    text:"ה-25.9 הוא יום שישי, וה-A10 דרומה מזלצבורג לכיוון מנהרת Tauern היא עורק תנועת הנופש המרכזי של אוסטריה - זה החלון העמוס בשבוע. אפשר להוסיף 20-40 דק׳. אם אתם מאחרים מגמונדן, עדיף דווקא לצאת מאוחר יותר (אחרי 18:00) מאשר להיתקע בשיא."
+  }] ],
+  d3: [ ["יציאה מוקדמת", {
+    peak:"חניוני Hallstatt מתמלאים 10:00-15:00",
+    text:"הבעיה ב-Hallstatt היא לא הכביש אלא החניה - החניונים מתמלאים בשעות הבוקר המאוחרות ואז נוצר תור ארוך בכניסה לכפר. יציאה ב-07:45 היא בדיוק מה שמונע את זה. אל תאחרו."
+  }] ],
+  d5: [ ["נסיעה ל-Bad Dürrnberg (Hallein)", {
+    peak:"אמצע היום - זורם בדרך כלל",
+    text:"הקטע מ-Werfen להליין עובר בפאתי זלצבורג, אבל בשעה 14:00 זה עדיין לפני שיא אחר הצהריים. לרוב נסיעה חלקה."
+  }], ["חזרה ל-Wagrain", {
+    peak:"16:00-18:00 סביב זלצבורג",
+    text:"החזרה מהליין חוצה שוב את אזור זלצבורג בדיוק בשעת השיא של יוצאי העיר. תוסיפו 15-25 דק׳ להערכה. יציאה מוקדמת יותר מקלטנבליץ חוסכת את זה."
+  }] ],
+  d6: [ ["תצפית הקרחון ב-Kaiser Franz Josef Höhe", {
+    peak:"חניון התצפית 10:00-14:00",
+    text:"הכביש עצמו כמעט אף פעם לא נתקע, אבל החניון בקייזר-פרנץ-יוזפס-הֶהֶה מתמלא בצהריים ולפעמים סוגרים אותו זמנית. היציאה ב-07:30 מביאה אתכם לפני הגל."
+  }] ],
+  d7: [ ["יציאה מ-Wagrain", {
+    peak:"07:00-09:00 בכניסה לזלצבורג",
+    text:"הנסיעה חוצה את אזור זלצבורג בין ה-A10 ל-B158, ובבוקר יש שם תנועת נכנסים לעיר. זו אחת הסיבות שהערכת הנסיעה עודכנה ל-1:40-1:50 ולא 1:30."
+  }], ["יציאה בחזרה ל-Wagrain", {
+    peak:"16:00-18:00 סביב זלצבורג",
+    text:"זה הקטע הבעייתי ביותר בטיול. יציאה ב-15:15 מקדימה את השיא בקושי; כל עיכוב מעבר ל-16:00 נכנס בול לפקק ויכול להוסיף 25 דק׳. גם ה-B158 לאורך האגמים היא דו-נתיבית וצרה - אוטובוס תיירים אחד מאט את כל השיירה."
+  }] ],
+  d9: [ ["יציאה לשדה התעופה", {
+    peak:"שישי 15:00-18:00 בכניסה לווינה",
+    text:"ה-2.10 הוא יום שישי, וה-A1 מזרחה לכיוון וינה עמוסה אחר הצהריים. יציאה ב-16:30 מדורנשטיין אמורה להספיק בנוחות ל-MOXY, אבל אל תמתחו את זה - הטיסה למחרת בבוקר, אז העיכוב עולה רק בעצבים ולא בפספוס."
+  }] ],
+};
+
+function injectTraffic(id){
+  const rules = TRAFFIC[id];
+  if(!rules) return;
+  panelEl.querySelectorAll("table.sched td:first-child").forEach(td=>{
+    const text = td.textContent;
+    const rule = rules.find(([sub])=> text.includes(sub));
+    if(!rule) return;
+    const [, info] = rule;
+    const note = document.createElement("div");
+    note.className = "trafficNote";
+    note.hidden = true;
+    note.innerHTML = `<b>🚦 שעת שיא: ${info.peak}</b><br>${info.text}`;
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "rowTraffic";
+    btn.textContent = "🚦";
+    btn.title = "צפוי עומס - " + info.peak;
+    btn.setAttribute("aria-label", "פרטי עומס תנועה");
+    btn.setAttribute("aria-expanded", "false");
+    btn.addEventListener("click", ()=>{
+      const open = note.hidden;
+      note.hidden = !open;
+      btn.setAttribute("aria-expanded", String(open));
+    });
+    td.appendChild(btn);
+    td.appendChild(note);
   });
 }
 
@@ -1858,7 +2218,7 @@ updateCountdown();
 
 // Row 1: overview / general-info / trivia — always-visible, non-scrolling pills.
 // Row 2: the 10 trip days, in a horizontal scroller (see the arrow handlers below).
-const TOP_NAV_IDS = ["overview", "alt", "trivia"];
+const TOP_NAV_IDS = ["overview", "alt", "costs", "trivia"];
 DAYS.forEach((d,i)=>{
   const btn = document.createElement("button");
   btn.id = "nav-"+d.id;
@@ -1891,6 +2251,7 @@ function selectDay(id){
   if(!day) return;
   panelEl.innerHTML = renderGallery(id) + day.render();
   injectRowWaze(id);
+  injectTraffic(id);
   document.querySelectorAll("nav.daynav button").forEach(b=>b.classList.remove("active"));
   document.getElementById("nav-"+id).classList.add("active");
   if (DAY_SCROLL_IDS.includes(id)){
@@ -1899,14 +2260,15 @@ function selectDay(id){
   }
   const isOverview = (id === "overview" || id === "alt");
   const isTrivia = (id === "trivia");
+  // Trivia and the costs table are reference pages, not places — a map, a forecast and a
+  // "navigate now" button would all be noise there, so hide the whole strip.
+  const noMap = isTrivia || (id === "costs");
   const segment = day.segment.length ? day.segment : FULL_ROUTE;
 
-  // The trivia game page has nothing to do with the map/weather/now-bar — hide them
-  // entirely instead of drawing an irrelevant route.
   const mapCardEl = document.getElementById("mapCard");
-  if (mapCardEl) mapCardEl.hidden = isTrivia;
+  if (mapCardEl) mapCardEl.hidden = noMap;
 
-  if (!isTrivia){
+  if (!noMap){
     try { updateMap(segment, isOverview); } catch(e) { console.error("map update failed", e); }
     updateNowBar(id);
     injectWeather(id);
@@ -1916,7 +2278,7 @@ function selectDay(id){
   } else {
     document.getElementById("nowBar").hidden = true;
     document.getElementById("weatherCard").hidden = true;
-    initTrivia();
+    if (isTrivia) initTrivia();
   }
 
   updateFunFacts(id);
