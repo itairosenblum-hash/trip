@@ -278,12 +278,28 @@
   .installBanner-close:hover{opacity:1;}
 
   .weatherCard{
-    display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+    display:block;
     background:#fff;border:1px solid var(--line);border-radius:var(--radius-md);
     padding:12px 16px;margin-bottom:20px;box-shadow:var(--shadow-soft);
     font-size:14px;
   }
   .weatherCard[hidden]{display:none;}
+  .wxTop{display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+  /* Hourly strip. The hours the day's schedule actually covers are tinted gold, so the
+     forecast reads against the plan rather than as a standalone weather widget. */
+  .wxHours{
+    display:flex;gap:5px;overflow-x:auto;scrollbar-width:none;
+    padding:10px 0 2px;margin-top:9px;border-top:1px solid #F6EDED;
+  }
+  .wxHours::-webkit-scrollbar{display:none;}
+  .wxHour{flex:0 0 auto;width:50px;text-align:center;padding:5px 2px;border-radius:10px;}
+  .wxHour.out{background:var(--gold-soft);}
+  .wxHour .hr{font-size:11px;color:var(--muted);font-weight:700;}
+  .wxHour .ic{font-size:16px;line-height:1.3;}
+  .wxHour .tp{font-size:13.5px;font-weight:800;color:var(--red-dark);}
+  .wxHour .rn{font-size:10.5px;color:#3d7a9e;font-weight:600;}
+  .wxHour .rn.wet{color:var(--red);font-weight:800;}
+  .wxNote{font-size:11px;color:var(--muted);margin-top:7px;}
   .weatherIcon{font-size:26px;line-height:1;}
   .weatherTemps{font-weight:700;color:var(--ink);}
   .weatherTemps b{color:var(--red-dark);font-size:16.5px;}
@@ -2104,6 +2120,50 @@ function weatherEmoji(code){
   return "🌡️";
 }
 
+/* Which clock hours a given day's schedule actually spans, read straight from that day's
+   table so it can never drift out of sync when times are edited. Used to tint the hours
+   the family is out of the hotel. */
+function dayHourRange(id){
+  const day = DAYS.find(d=>d.id===id);
+  if (!day) return null;
+  const tmp = document.createElement("div");
+  tmp.innerHTML = day.render();
+  const hours = [];
+  tmp.querySelectorAll("table.sched tr").forEach(tr=>{
+    const tds = tr.querySelectorAll("td");
+    if (tds.length < 2) return;
+    for (const m of tds[1].textContent.matchAll(/(\d{1,2}):(\d{2})/g)){
+      hours.push(parseInt(m[1],10));
+    }
+  });
+  if (!hours.length) return null;
+  return [Math.min(...hours), Math.max(...hours)];
+}
+
+const HOUR_FROM = 6, HOUR_TO = 22;   // outside this the strip is just padding
+
+function renderHourly(hourly, id){
+  if (!hourly || !hourly.time || !hourly.time.length) return "";
+  const range = dayHourRange(id);
+  const cells = [];
+  hourly.time.forEach((iso, i) => {
+    const h = parseInt(iso.slice(11,13), 10);
+    if (h < HOUR_FROM || h > HOUR_TO) return;
+    const t = Math.round(hourly.temperature_2m[i]);
+    const r = hourly.precipitation_probability?.[i];
+    const out = range && h >= range[0] && h <= range[1];
+    cells.push(`<div class="wxHour${out?" out":""}">
+      <div class="hr">${String(h).padStart(2,"0")}</div>
+      <div class="ic">${weatherEmoji(hourly.weathercode[i])}</div>
+      <div class="tp">${t}°</div>
+      <div class="rn${r>=50?" wet":""}">${r==null?"–":r+"%"}</div>
+    </div>`);
+  });
+  if (!cells.length) return "";
+  return `<div class="wxHours">${cells.join("")}</div>
+    <div class="wxNote">${range?"מודגש בזהב: השעות שאתם בחוץ לפי הלו״ז של היום. ":""}גללו לצדדים לשעות נוספות.</div>`;
+}
+
 async function injectWeather(id){
   const card = document.getElementById("weatherCard");
   const locKey = WEATHER_LOC[id];
@@ -2114,14 +2174,17 @@ async function injectWeather(id){
   }
   const mySeq = ++weatherSeq;
   card.hidden = false;
-  card.innerHTML = `<span class="weatherLoading">🌦️ טוען תחזית ל-${LOC[locKey].label}…</span>`;
+  card.innerHTML = `<div class="wxTop"><span class="weatherLoading">🌦️ טוען תחזית ל-${LOC[locKey].label}…</span></div>`;
 
   const cacheKey = locKey + "_" + date;
   try {
     let data = WEATHER_CACHE[cacheKey];
     if (!data){
       const loc = LOC[locKey];
-      const url = `https://api.open-meteo.com/v1/forecast?latitude=${loc.lat}&longitude=${loc.lon}&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=Europe%2FVienna&start_date=${date}&end_date=${date}`;
+      const url = `https://api.open-meteo.com/v1/forecast?latitude=${loc.lat}&longitude=${loc.lon}`
+        + `&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_probability_max`
+        + `&hourly=temperature_2m,precipitation_probability,weathercode`
+        + `&timezone=Europe%2FVienna&start_date=${date}&end_date=${date}`;
       const resp = await fetch(url);
       if (!resp.ok) throw new Error("weather http " + resp.status);
       data = await resp.json();
@@ -2130,7 +2193,7 @@ async function injectWeather(id){
     if (mySeq !== weatherSeq) return; // a newer day was selected meanwhile — drop this result
     const d = data.daily;
     if (!d || !d.time || !d.time.length){
-      card.innerHTML = `<span class="weatherNA">📅 התחזית ל-${LOC[locKey].label} עדיין לא זמינה — תופיע כאן כשבועיים-שלושה לפני התאריך.</span>`;
+      card.innerHTML = `<div class="wxTop"><span class="weatherNA">📅 התחזית ל-${LOC[locKey].label} עדיין לא זמינה — תופיע כאן כשבועיים-שלושה לפני התאריך.</span></div>`;
       return;
     }
     const code = d.weathercode[0];
@@ -2138,15 +2201,29 @@ async function injectWeather(id){
     const min = Math.round(d.temperature_2m_min[0]);
     const rain = d.precipitation_probability_max[0];
     card.innerHTML = `
-      <span class="weatherIcon">${weatherEmoji(code)}</span>
-      <span class="weatherTemps"><b>${max}°</b> / ${min}°</span>
-      <span class="weatherRain">🌧️ ${rain}%</span>
-      <span class="weatherLoc">${LOC[locKey].label}</span>
+      <div class="wxTop">
+        <span class="weatherIcon">${weatherEmoji(code)}</span>
+        <span class="weatherTemps"><b>${max}°</b> / ${min}°</span>
+        <span class="weatherRain">🌧️ ${rain}%</span>
+        <span class="weatherLoc">${LOC[locKey].label}</span>
+      </div>
+      ${renderHourly(data.hourly, id)}
     `;
+    scrollHoursIntoView(card);
   } catch(e){
     if (mySeq !== weatherSeq) return;
-    card.innerHTML = `<span class="weatherNA">מזג האוויר לא נטען כרגע — שאר האתר פועל כרגיל.</span>`;
+    card.innerHTML = `<div class="wxTop"><span class="weatherNA">מזג האוויר לא נטען כרגע — שאר האתר פועל כרגיל.</span></div>`;
   }
+}
+
+// The strip starts at 06:00, but the hours worth looking at are the ones on the schedule —
+// so nudge it to the first gold cell instead of leaving the user on an empty dawn.
+// scrollIntoView is used rather than setting scrollLeft: horizontal scroll offsets are
+// mirrored (and inconsistently signed) in RTL, and this sidesteps that entirely.
+// block:"nearest" keeps it from scrolling the page vertically as a side effect.
+function scrollHoursIntoView(card){
+  const first = card.querySelector(".wxHour.out");
+  if (first) first.scrollIntoView({inline:"start", block:"nearest"});
 }
 
 /* ---------- Leaflet map: full route (muted) + today's highlighted segment,
