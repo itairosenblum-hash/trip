@@ -535,6 +535,34 @@
   }
   .trafficNote[hidden]{display:none;}
   .trafficNote b{font-weight:800;}
+  /* Toll / parking-cost badge: same pill as the Waze and traffic buttons, tinted gold so
+     "this costs money" reads differently from "this is a jam" and from "navigate here". */
+  .rowToll{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:24px;height:24px;margin-inline-start:6px;padding:0;
+    border:none;border-radius:50%;background:var(--gold-soft);
+    font-size:13px;line-height:1;vertical-align:middle;cursor:pointer;
+    font-family:inherit;
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .rowToll:hover{box-shadow:var(--shadow-soft);transform:scale(1.12);}
+  .rowToll[aria-expanded="true"]{background:var(--gold);}
+  .tollNote{
+    margin-top:6px;font-size:12.8px;line-height:1.5;
+    color:var(--gold-dark);background:var(--gold-soft);
+    border-radius:10px;padding:8px 11px;text-align:start;
+  }
+  .tollNote[hidden]{display:none;}
+  .tollNote b{font-weight:800;}
+  .tollBox{
+    background:var(--gold-soft);border:1px solid var(--gold);
+    border-radius:var(--radius-md);padding:13px 16px 11px;margin:16px 0;
+    font-size:14px;
+  }
+  .tollBox > b{display:block;color:var(--gold-dark);font-size:14.5px;margin-bottom:6px;}
+  .tollBox ul{margin:0;padding-inline-start:20px;line-height:1.65;}
+  .tollBox li{margin-bottom:4px;}
+  .tollBox .none{color:var(--green-txt);font-weight:700;}
   .trafficList{padding-inline-start:20px;margin:0 0 16px;font-size:14.3px;line-height:1.7;}
   .trafficList li{margin-bottom:7px;}
   .trafficList .when{color:var(--red-dark);font-weight:700;}
@@ -808,6 +836,66 @@
   ul.altlist{padding-inline-start:20px;margin:0 0 16px;font-size:14.3px;line-height:1.7;}
   ol.checklist{padding-inline-start:20px;margin:0 0 16px;font-size:14.3px;line-height:1.75;}
 
+  /* ---------- Site-wide search: a 🔍 tab opens a full-screen search sheet.
+     The index is built once, lazily, by rendering every day into a detached element. ---------- */
+  .searchSheet{
+    position:fixed;inset:0;z-index:4000;
+    background:var(--cream);
+    display:flex;flex-direction:column;
+  }
+  .searchSheet[hidden]{display:none;}
+  body.searchOpen{overflow:hidden;}
+  .searchBar{
+    display:flex;align-items:center;gap:8px;
+    padding:14px 16px;
+    background:linear-gradient(180deg,#fff,#FFFAF9);
+    border-bottom:3px solid var(--red);
+  }
+  .searchBar input{
+    flex:1;min-width:0;
+    font-family:'Heebo',sans-serif;font-size:16px;
+    padding:11px 16px;border-radius:999px;
+    border:2px solid var(--line);background:#fff;color:var(--ink);
+  }
+  .searchBar input:focus{outline:none;border-color:var(--gold);}
+  .searchClose{
+    all:unset;cursor:pointer;flex:0 0 auto;
+    width:40px;height:40px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:17px;color:var(--red-dark);background:var(--cream-2);
+  }
+  .searchClose:active{transform:scale(.94);}
+  .searchResults{flex:1;overflow-y:auto;padding:14px 16px 50px;}
+  .searchHint,.searchEmpty{color:var(--muted);font-size:14px;line-height:1.7;padding:10px 2px;}
+  .searchGroup{margin-bottom:20px;}
+  .searchGroupHead{
+    font-family:'Frank Ruhl Libre',serif;font-weight:700;
+    color:var(--red-dark);font-size:16px;margin:0 0 8px;
+  }
+  .searchItem{
+    display:block;width:100%;text-align:start;
+    background:#fff;border:1px solid var(--line);border-radius:var(--radius-md);
+    padding:11px 13px;margin-bottom:8px;cursor:pointer;
+    font-family:inherit;font-size:14px;color:var(--ink);line-height:1.55;
+  }
+  .searchItem:hover{background:var(--cream-2);}
+  .searchItem .kind{display:block;font-size:11.5px;font-weight:700;color:var(--gold-dark);margin-bottom:3px;}
+  .searchItem mark,.searchPlaceRow mark{background:var(--gold-soft);color:var(--red-dark);font-weight:700;border-radius:3px;padding:0 2px;}
+  .searchPlaceRow{
+    display:flex;align-items:center;gap:6px;
+    background:#fff;border:1px solid var(--line);border-radius:var(--radius-md);
+    padding:11px 13px;margin-bottom:8px;font-size:14px;
+  }
+  .searchPlaceRow .nm{flex:1;min-width:0;}
+  .searchHit{animation:searchFlash 2.2s ease;scroll-margin-top:120px;}
+  @keyframes searchFlash{
+    0%,55%{background:var(--gold-soft);}
+    100%{background:transparent;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .searchHit{animation:none;outline:2px solid var(--gold);outline-offset:2px;}
+  }
+
   @media (max-width: 860px){
     body{font-size:16px;}
     header.top{padding:20px 18px 18px;}
@@ -920,6 +1008,15 @@
   </main>
 </div>
 
+<div class="searchSheet" id="searchSheet" hidden>
+  <div class="searchBar">
+    <input type="search" id="searchInput" enterkeyhint="search" autocomplete="off"
+           placeholder="חיפוש באתר — מקום, מלון, שעה…" aria-label="חיפוש באתר">
+    <button type="button" class="searchClose" id="searchClose" aria-label="סגירת החיפוש" title="סגירת החיפוש">✕</button>
+  </div>
+  <div class="searchResults" id="searchResults"></div>
+</div>
+
 <nav class="tabbar" id="tabbar" aria-label="עמודי האתר"></nav>
 
 
@@ -932,6 +1029,10 @@ const LOC = {
   schlossort: {lat:47.9059, lon:13.7936, label:"Schloss Ort", address:"Toscanapark, 4810 Gmunden, אוסטריה"},
   wagrain:   {lat:47.3400, lon:13.3000, label:"Wagrain (בסיס)", address:"Appartements Schattauer, Markt 164, 5602 Wagrain, אוסטריה"},
   wagrain_billa: {lat:47.3341, lon:13.2935, label:"BILLA Wagrain (סופרמרקט)", address:"Markt 169, 5602 Wagrain, אוסטריה"},
+  wagrain_spar: {lat:47.3312, lon:13.2984, label:"SPAR Landmarkt Wagrain (סופרמרקט)", address:"Markt 39B, 5602 Wagrain, אוסטריה"},
+  altenmarkt_mpreis: {lat:47.3804, lon:13.4115, label:"MPREIS Altenmarkt (סופרמרקט)", address:"Obere Marktstraße 79, 5541 Altenmarkt im Pongau, אוסטריה"},
+  altenmarkt_billa: {lat:47.3818, lon:13.4181, label:"BILLA Altenmarkt (סופרמרקט)", address:"Oberndorferstraße 2, 5541 Altenmarkt im Pongau, אוסטריה"},
+  gmunden_eurospar: {lat:47.9238, lon:13.8083, label:"EUROSPAR Gmunden (סופרמרקט)", address:"Scharnsteiner Straße 1, 4810 Gmunden, אוסטריה"},
   hallstatt: {lat:47.5622, lon:13.6493, label:"Hallstatt"},
   hallstatt_salt: {lat:47.5567, lon:13.6413, label:"Skywalk / מכרה המלח (Salzwelten Hallstatt)", address:"Salzbergstraße 21, 4830 Hallstatt, אוסטריה"},
   gosausee:  {lat:47.5386, lon:13.5461, label:"Gosausee"},
@@ -941,6 +1042,7 @@ const LOC = {
   keltenblitz: {lat:47.6810, lon:13.0920, label:"Keltenblitz — מגלשת קיץ אלפינית", address:"Weissenwäschweg 19, 5422 Bad Dürrnberg, אוסטריה"},
   amade:     {lat:47.3811, lon:13.2508, label:"Erlebnis-Therme Amadé", address:"Thermenplatz 1, 5541 Altenmarkt im Pongau, אוסטריה"},
   wasserwelt:{lat:47.3385, lon:13.3040, label:"Wagrain Wasserwelt", address:"Kirchboden 25A, 5602 Wagrain, אוסטריה"},
+  ferleiten: {lat:47.1686, lon:12.8147, label:"Wild- & Erlebnispark Ferleiten", address:"Ferleiten 2, 5672 Fusch an der Großglocknerstraße, אוסטריה"},
   fuscher_torl: {lat:47.1128, lon:12.8422, label:"Fuscher Törl"},
   hochtor:   {lat:47.0982, lon:12.8354, label:"Hochtor"},
   glockner:  {lat:47.0725, lon:12.8319, label:"Kaiser-Franz-Josefs-Höhe"},
@@ -959,7 +1061,7 @@ const LOC = {
   werfenweng:{lat:47.4333, lon:13.2167, label:"Werfenweng"},
 };
 const FULL_ROUTE = ["airport","gmunden","amade","wagrain","hallstatt","gosausee","wagrain","alpendorf","wagrain",
-  "werfen","hallein_salt","keltenblitz","wagrain","glockner","wagrain","stwolfgang","wagrain",
+  "werfen","hallein_salt","keltenblitz","wagrain","glockner","ferleiten","wagrain","stwolfgang","wagrain",
   "zell","kaprun","zell","wagrain","melk","durnstein","airport"];
 
 /* ---------- Day content ---------- */
@@ -991,7 +1093,7 @@ const DAYS = [
 },
 {
   id:"d2", nav:"25.9", navSub:"Gmunden + Traunsee",
-  segment: ["airport","gmunden","schlossort","wagrain_billa","wagrain","amade","wagrain"],
+  segment: ["airport","gmunden","schlossort","altenmarkt_mpreis","wagrain_billa","wagrain","amade","wagrain"],
   render: () => `
     <div class="tag">יום ו׳, 25.9 · עצירה רגועה באגם + מעבר להרים + מרחצאות</div>
     <h2 class="title">Gmunden + Traunsee</h2>
@@ -1001,6 +1103,7 @@ const DAYS = [
       <tr><td>הגעה ל-Gmunden, חניה חינמית ליד Schloss Ort (Toscanapark)</td><td>~12:30</td></tr>
       <tr><td>גשר העץ ל-Schloss Ort, טיילת האגם, פיקניק/צהריים וקפה מול הנוף</td><td>12:30-15:00</td></tr>
       <tr><td>המשך נסיעה ל-Wagrain</td><td>15:00</td></tr>
+      <tr><td>אופציונלי: קנייה גדולה באלטנמרקט (MPREIS / BILLA), כ-12 דק׳ לפני וגריין</td><td>~16:15-16:45</td></tr>
       <tr><td>עצירה בסופרמרקט BILLA Wagrain (ליד המלון)</td><td>~16:30-17:00</td></tr>
       <tr><td>צ׳ק-אין והתארגנות — Appartements Schattauer, Markt 164, Wagrain</td><td>~17:00-17:30</td></tr>
       <tr><td>נסיעה ל-Erlebnis-Therme Amadé (Altenmarkt im Pongau)</td><td>~18:00</td></tr>
@@ -1018,6 +1121,24 @@ const DAYS = [
       <div class="box green"><b>למה זה עובד</b>עצירה בטבע במקום יום עירוני שלם - פחות הליכה מאומצת, יותר מרגוע, ומתאים גם לסבים ולילדים קטנים. וגם בול באמצע הדרך בין וינה ל-Wagrain.</div>
       <div class="box tan"><b>חניה וכניסה</b>חניון Toscanapark ליד הטירה חינמי. הליכה סביב הטירה וגשר העץ - חינם. כניסה לחצר הפנימית/מגדל: מבוגר כ-4-5€ (בלבד למי שרוצה, לא חובה).</div>
       <div class="box tan"><b>מקומות לצהריים</b>Orther Stubn - מסעדה ממש ליד הטירה על האי; ולאורך הטיילת יש עוד כמה בתי קפה ומסעדות עם נוף לאגם - קל למצוא מקום מול הנוף בלי הזמנה מראש.</div>
+    </div>
+    <div class="boxes">
+      <div class="box tan"><b>איפה עושים את הקניות</b>
+        <b>אלטנמרקט — הכי מומלץ</b>על ציר היציאה מה-A10 לכיוון וגריין, כ-12 דק׳ לפני המלון (אותה עיירה שבה נמצאת Erlebnis-Therme Amadé). שלושה סופרים גדולים צמודים והמבחר רחב יותר מאשר בוגריין: MPREIS עד 19:00
+        <a class="rowWaze" href="${wazeLink("altenmarkt_mpreis")}" target="_blank" rel="noopener" title="נווט ב-Waze ל-MPREIS Altenmarkt">🧭</a>,
+        BILLA עד 19:15
+        <a class="rowWaze" href="${wazeLink("altenmarkt_billa")}" target="_blank" rel="noopener" title="נווט ב-Waze ל-BILLA Altenmarkt">🧭</a>,
+        ו-SPAR Landmarkt עד 19:00.
+        <b>בוגריין עצמה</b>BILLA עד 19:15
+        <a class="rowWaze" href="${wazeLink("wagrain_billa")}" target="_blank" rel="noopener" title="נווט ב-Waze ל-BILLA Wagrain">🧭</a>
+        ו-SPAR Landmarkt עד 19:00
+        <a class="rowWaze" href="${wazeLink("wagrain_spar")}" target="_blank" rel="noopener" title="נווט ב-Waze ל-SPAR Wagrain">🧭</a>
+        — שניהם דקות ספורות מהמלון.
+        <b>גיבוי בגמונדן</b>EUROSPAR עד 19:00
+        <a class="rowWaze" href="${wazeLink("gmunden_eurospar")}" target="_blank" rel="noopener" title="נווט ב-Waze ל-EUROSPAR Gmunden">🧭</a>
+        — אם רוצים לסגור את הקנייה לפני היציאה מגמונדן.
+      </div>
+      <div class="box yellow"><b>קנייה שצריכה להחזיק את סוף השבוע</b>25.9 הוא יום שישי, ובאוסטריה זה יום מסחר רגיל - הסופרים פתוחים עד 19:00-19:15. לעומת זאת בשבת 26.9 BILLA נסגר כבר ב-14:00 ו-SPAR ב-18:00, וביום ראשון 27.9 הכל סגור. כדאי שהקנייה של שישי תכסה את כל סוף השבוע. שימו לב שהערב מוקדש לטרמה - הסופרים כבר יהיו סגורים כשנחזור.</div>
     </div>
     <div class="box red"><b>חשוב</b>יוצאים ב-10:00 כדי לתת מרווח לאיסוף הרכבים והמזוודות. חלון הזמן בגמונדן גמיש - אפשר לקצר אם מתעכבים בבוקר, כדי לא לפספס את הסופרמרקט בוגריין.</div>
     <div class="sectionLabel">🧒 אופציות לילדים נוספות בסביבה</div>
@@ -1130,11 +1251,11 @@ const DAYS = [
 },
 {
   id:"d6", nav:"29.9", navSub:"Grossglockner",
-  segment: ["wagrain","fuscher_torl","hochtor","glockner","wagrain"],
+  segment: ["wagrain","fuscher_torl","hochtor","glockner","ferleiten","wagrain"],
   render: () => `
-    <div class="tag">יום ג׳, 29.9 · יום WOW • כביש אלפיני וקרחון</div>
+    <div class="tag">יום ג׳, 29.9 · יום WOW • כביש אלפיני, קרחון וחיות אלפיניות</div>
     <h2 class="title">Grossglockner</h2>
-    <div class="meta">נהיגה: עד תחילת הכביש כ-1:15-1:30; סה״כ כ-5-6 שעות כולל עצירות</div>
+    <div class="meta">נהיגה: עד תחילת הכביש כ-1:15-1:30; מהקרחון חזרה ל-Ferleiten כ-1:00, ומשם ל-Wagrain כ-1:15</div>
     <table class="sched">
       <tr><td>יציאה</td><td>07:30</td></tr>
       <tr><td>תחילת אזור הכביש האלפיני</td><td>~09:00</td></tr>
@@ -1142,23 +1263,28 @@ const DAYS = [
       <tr><td>עצירה ב-Hochtor: פסגת הכביש ומנהרת הגבול</td><td>~10:00</td></tr>
       <tr><td>ארוחה בדרך לפי הקצב</td><td>צהריים</td></tr>
       <tr><td>תצפית הקרחון ב-Kaiser Franz Josef Höhe</td><td>שיא היום</td></tr>
-      <tr><td>התחלת חזרה</td><td>~16:00</td></tr>
-      <tr><td>Wagrain</td><td>~18:30</td></tr>
+      <tr><td>התחלת חזרה מהקרחון</td><td>~15:15</td></tr>
+      <tr><td>Wild- &amp; Erlebnispark Ferleiten: חיות אלפיניות ופארק שעשועים (לפני תחנת האגרה)</td><td>16:15-18:00</td></tr>
+      <tr><td>Wagrain</td><td>~19:15</td></tr>
     </table>
     <div class="sectionLabel">📍 מה יש שם</div>
     <div class="places">
       <div class="p"><b>Großglockner Hochalpenstraße — </b>הכביש הפנורמי המפורסם באוסטריה - 48 ק״מ עם 36 עיקולים, חוצה את פארק הלאום Hohe Tauern ומוביל לרגלי ההר הגבוה באוסטריה (3,798 מ׳).</div>
       <div class="p"><b>Hochtor / Fuscher Törl — </b>נקודות תצפית ומעברי הרים לאורך הדרך, עם נופים פתוחים לפסגות המושלגות.</div>
-      <div class="p"><b>Kaiser Franz Josef Höhe — </b>התצפית המרשימה ביותר בכביש - מבט ישיר על הפסטרצה, הקרחון הגדול באוסטריה, ועל פסגת Großglockner עצמה.</div>
+      <div class="p"><b>Kaiser Franz Josef Höhe — </b>התצפית המרשימה ביותר בכביש - מבט ישיר על הפסטרצה, הקרחון הגדול באוסטריה, ועל פסגת Großglockner עצמה. סביב התצפית חיות מרמיטות (Murmeltiere) בטבע, ולפעמים רואים גם יעלים - שווה לחפש אותן עם הילדים.</div>
+      <div class="p"><b>Wild- &amp; Erlebnispark Ferleiten — </b>פארק חיות אלפיניות ופארק שעשועים בתחילת הכביש, ממש לפני תחנת האגרה (1,145 מ׳). למעלה מ-200 חיות מכ-40 מינים - דובים חומים, זאבים, לינקס, ביזונים, יעלים ומרמיטות - וגם פינת ליטוף עם עזים ננסיות, פונים ואלפקות. לצידו פארק שעשועים עם יותר מ-40 מתקנים (מכוניות, סירות, טרמפולינה, קארטינג דיווש) ואולם משחקים מקורה לימי גשם. סיבוב שלם בפארק החיות אורך כשעה, והשבילים מתאימים לעגלות. <a href="https://www.wildpark-ferleiten.at/" target="_blank" rel="noopener">האתר הרשמי</a>.</div>
     </div>
     <div class="boxes">
       <div class="box green"><b>למה כן</b>פסגות ותצפיות של האלפים הגבוהים בלי טרק.</div>
       <div class="box red"><b>כלל ברזל</b>לא נוסעים אם הראות גרועה; מעבירים ליום הבהיר ביותר.</div>
+      <div class="box green"><b>הפרס בסוף היום</b>Ferleiten יושב על הדרך חזרה, לפני תחנת האגרה - לא צריך לצאת מהמסלול. יורדים מהקרחון ב-15:15, מגיעים ~16:15 ונשארים עד הסגירה ב-18:00 - כמעט שעתיים של חיות ומתקנים אחרי יום של נסיעות ותצפיות.</div>
     </div>
     <div class="box tan"><b>שעות פעילות</b>הכביש פתוח מאפריל ועד תחילת נובמבר 2026 (תלוי מזג אוויר); בספטמבר 06:00–19:30.</div>
+    <div class="box tan"><b>שעות ומחיר • Wild- &amp; Erlebnispark Ferleiten</b>פתוח כל יום 09:00-18:00, מתחילת מאי עד תחילת נובמבר (העונה נסגרת יחד עם הכביש). כניסה מגיל 4: כ-15€ לאדם, קשישים עם תעודה כ-13.50€; שקית מזון לחיות 2€. <b>פארק השעשועים והחניה חינם</b> - משלמים רק על פארק החיות. טלפון: +43 6546 220. <a href="https://www.wildpark-ferleiten.at/preise" target="_blank" rel="noopener">מחירים באתר הרשמי</a>.</div>
     <div class="box tan"><b>מחיר • אגרת כביש</b>משולם במזומן/כרטיס בקופה בכניסה (אין צורך בהזמנה מראש) - כרטיס יום לרכב: כ-46.50€ (כ-36.50€ לנסיעות אחרי 18:00, כ-40€ לרכב חשמלי). <a href="https://www.grossglockner.at/en/for-your-visit/prices-opening-times" target="_blank" rel="noopener">מחירים מעודכנים באתר הרשמי</a>.</div>
     <div class="sectionLabel">🧒 אופציות לילדים נוספות בסביבה</div>
     <table class="kids">
+      <tr><td><b>ציד מרמיטות בתצפית הקרחון</b> — סביב Kaiser-Franz-Josefs-Höhe מסתובבות מרמיטות בטבע. הן שורקות לפני שהן נעלמות למחילה, אז כדאי קודם להקשיב ורק אחר כך לחפש.</td><td>הכי פעילות בבוקר ולפנות ערב.</td></tr>
       <tr><td><b>מגרשי משחקים ותערוכות לאורך הכביש</b> — כמה מנקודות העצירה כוללות מגרש משחקים קטן ותערוכות חינמיות (כמו Haus Alpine Naturschau) — נעים להפסקה קצרה.</td><td>תערוכות פתוחות יומי כ-10:00-17:00.</td></tr>
     </table>
     <div class="footerbar">נוחות: מתאים יחסית גם לסבים ולילדה קטנה - נסיעה ועצירות קצרות.</div>
@@ -1431,9 +1557,11 @@ const DAYS = [
     <div class="sectionLabel">✅ בדיקות אחרונות</div>
     <ol class="checklist">
       <li>לבדוק תחזית 5-7 ימים לפני ולקבע את Grossglockner ליום הבהיר ביותר.</li>
+      <li>ב-29.9 לצאת מהקרחון ב-15:15 כדי להספיק את Wildpark Ferleiten לפני הסגירה ב-18:00 (אין צורך בהזמנה מראש, משלמים בכניסה).</li>
       <li>להזמין מראש כרטיסים ל-Schafbergbahn (30.9) - אטרקציה פופולרית שנגמרים בה מקומות בעונה.</li>
       <li>כדאי לרכוש מראש גם ל-Hallstatt Salzwelten (26.9), Geisterberg (27.9 - חוסך עד 15%), ו-Hohenwerfen (28.9); הקישורים והמחירים המעודכנים נמצאים בעמוד של כל יום.</li>
       <li>לאשר מול Schattauer את תנאי Wasserwelt, את Shuttleberg ל-2026, ואת הכללת/עלות Kaprun במסגרת Salzburger Sportwelt Card.</li>
+      <li>קניות: 25.9 (שישי) הוא ההזדמנות הנוחה לקנייה גדולה - הסופרים פתוחים עד 19:00-19:15. בשבת הם נסגרים מוקדם (BILLA כבר ב-14:00) וביום ראשון סגורים לגמרי.</li>
       <li>לבדוק סמוך לנסיעה את פעילות הרכבלים והשיט ב-Zell am See.</li>
       <li>ל-Hohenwerfen לקחת מנשא ולהגיע בזמן למופע 11:15.</li>
       <li>Keltenblitz (מגלשת הקיץ ב-Hallein) פועלת רק בתנאי יובש - לבדוק תחזית ל-28.9 ולהיות מוכנים לוותר עליה אם יורד גשם (המכרה עצמו מקורה ופועל בכל מזג אוויר).</li>
@@ -1506,6 +1634,8 @@ const FUN_FACTS = {
     "הכביש ההררי Grossglockner Hochalpenstraße הוא אחד הכבישים ההרריים היפים באירופה.",
     "מנקודת התצפית Kaiser-Franz-Josefs-Höhe רואים את הקרחון Pasterze — הקרחון הגדול באוסטריה.",
     "בגלל השלג, הכביש הזה סגור בחורף ופתוח רק חלק מהשנה.",
+    "בפארק החיות Ferleiten שבתחילת הכביש חיים יותר מ-200 בעלי חיים - כולל דובים חומים, זאבים ולינקס!",
+    "המרמיטה ישנה בתרדמת חורף כמעט חצי שנה, ומזהירה את החברות שלה בשריקה חדה כשמתקרבת סכנה.",
   ],
   d7: [
     "הרכבת Schafbergbahn פועלת כבר מאז שנת 1893 — היא אחת מרכבות ההרים העתיקות באירופה!",
@@ -1945,6 +2075,7 @@ const COST_ROWS = [
   {day:"28.9", label:"Burg Hohenwerfen",            adult:20.90, child:8.60},
   {day:"28.9", label:"הליין + קלטנבליץ",            adult:47,    child:26},
   {day:"29.9", label:"אגרת Grossglockner",          perCar:46.50},
+  {day:"29.9", label:"Wildpark Ferleiten",           adult:15,    child:15},
   {day:"30.9", label:"Schafbergbahn",               adult:61,    child:18.40},
   {day:"1.10", label:"Kaprun Hochgebirgsstauseen",  adult:39.50, child:22},
   {day:"2.10", label:"מנזר Melk",                   adult:16,    family:32},
@@ -2046,6 +2177,8 @@ const TRIVIA = [
     fact:"מילה שימושית לכל הטיול — Danke schön אומר 'תודה רבה'." },
   { q:"מה שם האגם השקט שנלך לידו ברגל קלה ליד Hallstatt?", options:["Gosausee","Wolfgangsee","Zeller See","Wörthersee"], correct:0,
     fact:"Gosausee מציע נוף ישיר להר הקרחון Dachstein." },
+  { q:"איזו חיה קטנה שורקת בקול חד כשהיא מזהה סכנה בהרי האלפים?", options:["מרמיטה","דולפין","ג׳ירפה","תוכי"], correct:0,
+    fact:"המרמיטה (Murmeltier) חיה במחילות ומזהירה את החברות שלה בשריקה - אפשר לראות אותן בתצפית הקרחון וגם בפארק Ferleiten." },
   { q:"איזו עוגה מפורסמת מגיעה מווינה, עם שוקולד ומשמש?", options:["עוגת זאכר (Sachertorte)","עוגת גבינה","טירמיסו","בקלאווה"], correct:0,
     fact:"עוגת הזאכר הומצאה בווינה ב-1832 ונחשבת לאחת העוגות המפורסמות בעולם." },
 ];
@@ -2091,9 +2224,9 @@ const DAY_ICON = {
   d6:"🏔️", d7:"🚂", d8:"🚡", d9:"⛪", d10:"✈️", alt:"📋", costs:"💶", trivia:"🎯",
 };
 const LOC_ICON = {
-  airport:"✈️", vienna:"🏛️", gmunden:"🏞️", schlossort:"🏰", wagrain:"🏡", wagrain_billa:"🛒", hallstatt:"🏘️", hallstatt_salt:"⛏️", gosausee:"🏞️",
+  airport:"✈️", vienna:"🏛️", gmunden:"🏞️", schlossort:"🏰", wagrain:"🏡", wagrain_billa:"🛒", wagrain_spar:"🛒", altenmarkt_mpreis:"🛒", altenmarkt_billa:"🛒", gmunden_eurospar:"🛒", hallstatt:"🏘️", hallstatt_salt:"⛏️", gosausee:"🏞️",
   alpendorf:"🎢", werfen:"🏰", hallein_salt:"⛏️", keltenblitz:"🛝", amade:"♨️",
-  fuscher_torl:"🌄", hochtor:"🏔️", glockner:"🏔️",
+  ferleiten:"🦌", fuscher_torl:"🌄", hochtor:"🏔️", glockner:"🏔️",
   stwolfgang:"🚂", wasserwelt:"🌊", zell:"🚡", schmittenhoehe:"🚠", kaprun:"💧", melk:"⛪", durnstein:"⛪",
   zwoelferhorn:"🚡", liechtensteinklamm:"🏞️", krimml:"💦", shuttleberg:"🚡",
   hohensalzburg:"🏰", hausdernatur:"🏛️", werfenweng:"🏞️",
@@ -2422,11 +2555,11 @@ function wazeLink(k){
    at that destination. Substrings are exact fragments of the existing row text. */
 const ROW_WAZE = {
   d1: [ ["נחיתה ואיסוף מזוודות","airport"], ["לילה: MOXY Vienna Airport","airport"] ],
-  d2: [ ["הגעה ל-Gmunden","gmunden"], ["גשר העץ ל-Schloss Ort","schlossort"], ["עצירה בסופרמרקט BILLA","wagrain_billa"], ["צ׳ק-אין והתארגנות","wagrain"], ["נסיעה ל-Erlebnis-Therme Amadé","amade"], ["חזרה למלון בוואגריין","wagrain"] ],
+  d2: [ ["הגעה ל-Gmunden","gmunden"], ["גשר העץ ל-Schloss Ort","schlossort"], ["קנייה גדולה באלטנמרקט","altenmarkt_mpreis"], ["עצירה בסופרמרקט BILLA","wagrain_billa"], ["צ׳ק-אין והתארגנות","wagrain"], ["נסיעה ל-Erlebnis-Therme Amadé","amade"], ["חזרה למלון בוואגריין","wagrain"] ],
   d3: [ ["Hallstatt: כפר","hallstatt"], ["Skywalk או מכרה המלח","hallstatt_salt"], ["Gosausee והליכה קלה","gosausee"], ["חזרה ל-Wagrain","wagrain"] ],
   d4: [ ["הגעה ל-Alpendorf","alpendorf"], ["St. Johann: מרכז עתיק","alpendorf"], ["חזרה ל-Wagrain","wagrain"] ],
   d5: [ ["חניה ועלייה במעלית לטירה","werfen"], ["Salzwelten Hallein","hallein_salt"], ["Keltenblitz","keltenblitz"], ["חזרה ל-Wagrain","wagrain"] ],
-  d6: [ ["עצירה ב-Fuscher Törl","fuscher_torl"], ["עצירה ב-Hochtor","hochtor"], ["תצפית הקרחון ב-Kaiser Franz Josef Höhe","glockner"], ["Wagrain","wagrain"] ],
+  d6: [ ["עצירה ב-Fuscher Törl","fuscher_torl"], ["עצירה ב-Hochtor","hochtor"], ["תצפית הקרחון ב-Kaiser Franz Josef Höhe","glockner"], ["Erlebnispark Ferleiten","ferleiten"], ["Wagrain","wagrain"] ],
   d7: [ ["הגעה ל-St. Wolfgang","stwolfgang"], ["הגעה לוואגריין, מנוחה","wagrain"], ["Wagrain Wasserwelt","wasserwelt"], ["חזרה למלון","wagrain"] ],
   d8: [ ["חניה בחניון החינמי ליד קופת Kesselfall","kaprun"], ["נסיעה ל-Zell am See","zell"], ["חזרה ל-Wagrain","wagrain"] ],
   d9: [ ["הגעה ל-Melk","melk"], ["נסיעה לאורך Wachau ל-Dürnstein","durnstein"], ["יציאה לשדה התעופה","airport"], ["MOXY, החזרת רכב ואריזה","airport"] ],
@@ -2515,6 +2648,129 @@ function injectTraffic(id){
     td.appendChild(btn);
     td.appendChild(note);
   });
+}
+
+/* Per-day road money: Vignette, point tolls (Sondermaut) and paid parking at the stops,
+   mirroring the TRAFFIC structure. Each flagged row gets a 💶 badge that opens the detail,
+   and renderToll() prints the day's summary at the bottom of the page. Only real payments
+   are listed; days that cost nothing say so explicitly, so silence is never ambiguous. */
+const TOLL = {
+  d1: {
+    rows: [
+      ["נחיתה ואיסוף מזוודות", {t:"Vignette", c:"12.80€ ל-10 ימים", x:"הנסיעה מהטרמינל ל-MOXY עוברת על ה-A4, ובאוסטריה כל אוטוסטרדה דורשת מדבקת Vignette. ברוב חברות ההשכרה המקומיות הרכב מגיע עם מדבקה שנתית - חשוב לוודא את זה בקבלת הרכב. אם אין: 12.80€ ל-10 ימים או 9.60€ ליום בודד, נרכשת דיגיטלית באתר/אפליקציית ASFINAG (תקפה מיד) או בכל תחנת דלק."}],
+      ["לילה: MOXY Vienna Airport", {t:"חניית מלון", c:"בתשלום", x:"החניון של MOXY הוא בתשלום ולא כלול בחדר - כדאי לאמת את התעריף מול המלון או בהזמנה."}],
+    ],
+    sum: ["<b>Vignette</b> — חד-פעמי לכל הטיול: 12.80€ ל-10 ימים. לבדוק בקבלת הרכב אם כבר יש מדבקה.",
+          "<b>חניית MOXY</b> — בתשלום, לאמת מול המלון.",
+          "אין אגרות נקודתיות היום."],
+  },
+  d2: {
+    rows: [
+      ["המשך נסיעה ל-Wagrain", {t:"Vignette", c:"נדרשת", x:"היום הזה כמעט כולו על אוטוסטרדות: A1 מווינה לכיוון גמונדן ואז A10 דרומה. חובה Vignette. אגרת מנהרה אין - מנהרת Tauern בתשלום (14.50€) נמצאת דרומית ליציאת Eben/Altenmarkt, ואנחנו יורדים מהאוטוסטרדה לפניה."}],
+      ["הגעה ל-Gmunden, חניה חינמית", {t:"חניה", c:"חינם", x:"חניון Toscanapark ליד Schloss Ort חינמי, וכך גם החניות בסופרים ובטרמה."}],
+    ],
+    sum: ["<b>A1 + A10</b> — נדרשת Vignette (אותה מדבקה של כל הטיול).",
+          "<b>אגרת מנהרה</b> — לא נדרשת: מנהרת Tauern נמצאת דרומית ליציאה שלנו.",
+          "<span class=\"none\">חניה: חינם</span> — Toscanapark בגמונדן, הסופרים, המלון והטרמה."],
+  },
+  d3: {
+    rows: [
+      ["Hallstatt: כפר", {t:"חניה בתשלום", c:"~10-20€", x:"החניונים P1-P4 בהלשטט הם המחיר האמיתי של היום: 15 דק׳ ראשונות חינם, שעה 5€, 3-4 שעות כ-10€, 5-6 שעות כ-12€, 7-12 שעות כ-15€, כרטיס יום עד 20€. משלמים באוטומט (כרטיס או מזומן). P2 הוא הקרוב לרכבל ולמכרה, P1 לכפר. אי אפשר להזמין מקום מראש."}],
+      ["Gosausee והליכה קלה", {t:"חניה", c:"תשלום קטן", x:"בחניון Gosausee יש אוטומט תשלום בסכום נמוך לכמה שעות. שווה להחזיק מטבעות ברכב למקרה שהאוטומט לא מקבל כרטיס."}],
+    ],
+    sum: ["<b>חניה בהלשטט</b> — ~10-20€ לרכב, לפי מספר השעות. זו העלות המשמעותית של היום.",
+          "<b>חניה ב-Gosausee</b> — תשלום קטן באוטומט.",
+          "<span class=\"none\">אין אגרות ואין צורך ב-Vignette</span> — כל המסלול על כבישים בין-עירוניים (B166/B162)."],
+  },
+  d4: {
+    sum: ["<span class=\"none\">היום הזה לא עולה כסף בדרך</span> — הנסיעה כולה מקומית, בלי אוטוסטרדה ובלי אגרה.",
+          "<b>חניה</b> — חניון הרכבל באלפנדורף חינם; במרכז St. Johann יש אזורי חניה מוסדרים לזמן קצוב, כדאי להחנות בחניון ולא ברחוב."],
+  },
+  d5: {
+    rows: [
+      ["נסיעה ל-Bad Dürrnberg (Hallein)", {t:"Vignette", c:"אפשר גם בלי", x:"הקטע מ-Werfen לכיוון הליין נוח דרך ה-A10 (דורשת Vignette), אבל אפשר לנסוע במקביל גם על ה-B159 בלי אוטוסטרדה - תוספת של כמה דקות בלבד. אין כאן אגרת מנהרה."}],
+      ["חניה ועלייה במעלית לטירה", {t:"חניה + מעלית", c:"חניה חינם", x:"החניון מתחת למצודת Hohenwerfen חינמי. המעלית לחצר הטירה עולה כ-4€ לאדם הלוך-חזור, וכבר כלולה בכרטיס ה-All-Inclusive שאנחנו קונים."}],
+    ],
+    sum: ["<b>Vignette</b> — רק אם נוסעים על ה-A10; יש חלופה מלאה ב-B159.",
+          "<span class=\"none\">חניה בהוהנוורפן: חינם</span> — המעלית (~4€) כלולה בכרטיס.",
+          "<b>חניה בהליין ובקלטנבליץ</b> — חניון גדול למבקרים בבאד דירנברג, לפי הדיווחים ללא תשלום. לאמת בהגעה."],
+  },
+  d6: {
+    rows: [
+      ["תחילת אזור הכביש האלפיני", {t:"אגרת כביש", c:"46.50€ לרכב", x:"Großglockner Hochalpenstraße היא Sondermaut - אגרה נפרדת שלא מכוסה ב-Vignette. כרטיס יום לרכב כ-46.50€ (כ-40€ לרכב חשמלי, כ-36.50€ לנסיעות אחרי 18:00). משלמים בקופה בכניסה במזומן או בכרטיס, בלי הזמנה מראש. החניה בכל נקודות התצפית לאורך הכביש כלולה במחיר."}],
+      ["Wild- & Erlebnispark Ferleiten", {t:"כניסה", c:"15€ לאדם", x:"פארק החיות: כ-15€ מגיל 4, קשישים עם תעודה כ-13.50€, ילדים עד גיל 4 חינם. פארק השעשועים והחניה - חינם. הפארק נמצא לפני תחנת האגרה, כך שאפשר לעצור בו גם בלי לשלם על הכביש."}],
+    ],
+    sum: ["<b>אגרת Grossglockner</b> — 46.50€ לרכב ליום (40€ חשמלי, 36.50€ אחרי 18:00). לא כלולה ב-Vignette.",
+          "<b>Wildpark Ferleiten</b> — ~15€ לאדם מגיל 4; החניה ופארק השעשועים חינם.",
+          "<span class=\"none\">חניה לאורך הכביש: כלולה באגרה</span> — כולל החניון בתצפית הקרחון.",
+          "אין צורך ב-Vignette במסלול היום (B163/B311)."],
+  },
+  d7: {
+    rows: [
+      ["יציאה מ-Wagrain", {t:"Vignette", c:"נדרשת", x:"הנסיעה עולה על ה-A10 צפונה לכיוון זלצבורג ומשם ב-B158 לאגמים - קטע האוטוסטרדה דורש Vignette. אין אגרת מנהרה בכיוון הזה."}],
+      ["הגעה ל-St. Wolfgang, חניה ליד תחנת הרכבת", {t:"חניה בתשלום", c:"עד 14.50€", x:"חניון P7 צמוד לתחנת ה-Schafbergbahn: 20 דקות ראשונות חינם, 2.10€ לכל שעה, ותעריף יום 14.50€. מי שמציג כרטיס הלוך-חזור של הרכבת מקבל 4€ הנחה על תעריף הרכב - שווה לשמור את הכרטיס ליציאה."}],
+    ],
+    sum: ["<b>A10</b> — נדרשת Vignette.",
+          "<b>חניון P7 בסנט וולפגנג</b> — 2.10€ לשעה, יום 14.50€, פחות 4€ עם כרטיס Schafbergbahn.",
+          "<span class=\"none\">Wagrain Wasserwelt: חניה חינם</span>."],
+  },
+  d8: {
+    rows: [
+      ["חניה בחניון החינמי ליד קופת Kesselfall", {t:"חניה", c:"חינם", x:"החניון בקסלפאל חינמי, וזו גם הדרך היחידה להגיע לסכר - אין גישה ברכב פרטי מעבר לנקודה הזו. ההסעה והמעלית המשופעת הן בכרטיס הנפרד (39.50€ למבוגר)."}],
+      ["נסיעה ל-Zell am See", {t:"חניה בתשלום", c:"~2€ לשעה", x:"בצל אם זה עצמה החניה סביב הטיילת והמרכז היא בתשלום (חניון תת-קרקעי ואזורים מוסדרים). חלופה חינמית: חניוני תחנת העמק של Schmittenhöhe (חניונים 2-6 חינם, 08:00-19:00) והליכה קצרה או אוטובוס מקומי."}],
+    ],
+    sum: ["<span class=\"none\">אין אגרות היום</span> — כל המסלול על B163/B311, בלי אוטוסטרדה.",
+          "<b>חניה בקפרון</b> — חינם בקסלפאל.",
+          "<b>חניה בצל אם זה</b> — בתשלום במרכז (~2€ לשעה); חינם בחניוני Schmittenhöhe."],
+  },
+  d9: {
+    rows: [
+      ["הגעה ל-Melk", {t:"חניה", c:"חינם עם כרטיס", x:"חניון המנזר חינמי למבקרים - צריך רק להחתים את כרטיס החניה בקופה בחצר הראשונה בזמן קניית הכרטיסים. יציאה תוך 15 דקות בלי החתמה גם היא חינם."}],
+      ["סמטאות העיר העתיקה", {t:"חניה בתשלום", c:"~4-6€", x:"העיר העתיקה של דירנשטיין סגורה לרכבים; חונים באחד החניונים שמחוץ למרכז (P1/P2/P3), כ-4€ לשעתיים וכ-6€ ליום, והליכה של 7-10 דקות פנימה."}],
+      ["יציאה לשדה התעופה", {t:"Vignette", c:"נדרשת", x:"היום הזה עובר על A10 ואז A1 מזרחה לווינה - שני קטעי אוטוסטרדה שדורשים Vignette. שוב, אין אגרת מנהרה בכיוון הזה."}],
+    ],
+    sum: ["<b>A10 + A1</b> — נדרשת Vignette.",
+          "<span class=\"none\">חניה במנזר Melk: חינם</span> — בתנאי שמחתימים את הכרטיס בקופה.",
+          "<b>חניה בדירנשטיין</b> — כ-4€ לשעתיים, כ-6€ ליום."],
+  },
+};
+
+function injectToll(id){
+  const data = TOLL[id];
+  if(!data || !data.rows) return;
+  panelEl.querySelectorAll("table.sched td:first-child").forEach(td=>{
+    const text = td.textContent;
+    const rule = data.rows.find(([sub])=> text.includes(sub));
+    if(!rule) return;
+    const [, info] = rule;
+    const note = document.createElement("div");
+    note.className = "tollNote";
+    note.hidden = true;
+    note.innerHTML = `<b>💶 ${info.t}: ${info.c}</b><br>${info.x}`;
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "rowToll";
+    btn.textContent = "💶";
+    btn.title = info.t + " - " + info.c;
+    btn.setAttribute("aria-label", "פרטי עלות בשורה זו");
+    btn.setAttribute("aria-expanded", "false");
+    btn.addEventListener("click", ()=>{
+      const open = note.hidden;
+      note.hidden = !open;
+      btn.setAttribute("aria-expanded", String(open));
+    });
+    td.appendChild(btn);
+    td.appendChild(note);
+  });
+}
+
+// The day's road-money summary, printed at the bottom of the day page.
+function renderToll(id){
+  const data = TOLL[id];
+  if(!data || !data.sum) return "";
+  return `<div class="tollBox"><b>💶 עלויות דרך ביום הזה</b><ul>${
+    data.sum.map(li => `<li>${li}</li>`).join("")
+  }</ul></div>`;
 }
 
 /* ---------- Smart Waze target: reads today's schedule + the clock, and figures out
@@ -2838,6 +3094,17 @@ TOP_NAV_IDS.forEach(id=>{
   btn.addEventListener("click", ()=> selectDay(id));
   tabbarEl.appendChild(btn);
 });
+// Search sits in the tab bar like any other page button — same size, same icon+label shape —
+// except that it opens the search sheet instead of switching pages.
+const searchTabBtn = document.createElement("button");
+searchTabBtn.id = "nav-search";
+searchTabBtn.type = "button";
+searchTabBtn.title = "חיפוש באתר";
+searchTabBtn.setAttribute("aria-label", "חיפוש באתר");
+searchTabBtn.innerHTML = `<span class="icon">🔍</span><span class="lbl">חיפוש</span>`;
+searchTabBtn.addEventListener("click", () => openSearch());
+tabbarEl.appendChild(searchTabBtn);
+
 // The WhatsApp link lives in the markup near the header for no-JS fallback, but belongs
 // at the end of the tab bar — move the existing node rather than duplicating it.
 const waEl = document.querySelector(".waFab");
@@ -2864,9 +3131,10 @@ function selectDay(id){
   if(!day) return;
   // Restaurant picks are injected rather than written into each day's template, so all the
   // food data lives in one place (EATS) instead of scattered across ten render functions.
-  panelEl.innerHTML = renderGallery(id) + day.render() + renderEats(id);
+  panelEl.innerHTML = renderGallery(id) + day.render() + renderToll(id) + renderEats(id);
   injectRowWaze(id);
   injectTraffic(id);
+  injectToll(id);
   document.querySelectorAll("nav.daynav button, nav.tabbar button").forEach(b=>b.classList.remove("active"));
   document.getElementById("nav-"+id).classList.add("active");
   if (DAY_SCROLL_IDS.includes(id)){
@@ -2904,6 +3172,212 @@ function selectDay(id){
 
 try { initMap(); } catch(e) { console.error("map init failed", e); }
 selectDay(TODAY_ID || "d1");
+
+/* ---------- Site-wide search ----------
+   Only one day's panel exists in the DOM at a time, so the index is built by rendering
+   every day into a detached element (same trick as getRowTimes) the first time the search
+   is opened. Each entry remembers {day, selector, index-within-selector}, so a result can
+   be re-found in the live panel after selectDay() re-renders it. The rendered string must
+   match what selectDay() builds, or the indexes would point at the wrong element. */
+const SEARCH_SECTIONS = [
+  {sel:".tag",                       kind:"תאריך וכותרת"},
+  {sel:"h2.title",                   kind:"כותרת היום"},
+  {sel:"table.sched td:first-child", kind:"לו״ז"},
+  {sel:".places .p",                 kind:"מה יש שם"},
+  {sel:".box",                       kind:"מידע"},
+  {sel:".tollBox li",                kind:"עלויות דרך"},
+  {sel:".eat .body",                 kind:"מסעדה"},
+  {sel:"table.kids td:first-child",  kind:"פרטים"},
+  {sel:"ul.altlist li",              kind:"חלופה"},
+  {sel:"ol.checklist li",            kind:"בדיקות לפני הנסיעה"},
+];
+// Pages built by their own JS (checklist state, live forecast, quiz) aren't indexable from
+// a detached render, so they stay out.
+const SEARCH_SKIP_DAYS = ["trivia", "forecast", "checklist", "costs"];
+
+// Hebrew transliterations, so "הלשטט" finds Hallstatt and "vienna" finds וינה.
+const SEARCH_SYNONYMS = [
+  ["hallstatt","הלשטט האלשטט"], ["wagrain","וגריין ואגריין"], ["salzburg","זלצבורג"],
+  ["gmunden","גמונדן"], ["traunsee","טראונזה"], ["gosausee","גוזאוזה"],
+  ["melk","מלק"], ["durnstein","דירנשטיין"], ["wien","וינה"], ["vienna","וינה"],
+  ["moxy","מוקסי"], ["schattauer","שאטאואר"], ["zell","צל אם זה"],
+  ["kaprun","קפרון"], ["schmitten","שמיטנהוהה"], ["grossglockner","גרוסגלוקנר גלוקנר"],
+  ["hohenwerfen","הוהנוורפן"], ["werfen","וורפן"], ["hallein","הליין"],
+  ["keltenblitz","קלטנבליץ מגלשה"], ["salzwelten","מכרה מלח"],
+  ["schafberg","שפברג"], ["wolfgang","וולפגנג ולפגנגזה"], ["geisterberg","גייסטרברג"],
+  ["alpendorf","אלפנדורף"], ["therme","תרמה"], ["wasserwelt","וסרוולט"],
+  ["ferleiten","פרלייטן"], ["wildpark","ווילדפארק פארק חיות"],
+  ["murmeltier","מרמיטה מרמיטות"], ["vignette","ויניט מדבקה אגרה"],
+  ["billa","בילה"], ["spar","ספאר שפאר"], ["mpreis","אמפרייס"],
+  ["altenmarkt","אלטנמרקט"], ["waze","וייז"],
+];
+
+function normText(s){
+  return (s||"")
+    .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+    .replace(/ß/g,"ss")
+    .toLowerCase()
+    .replace(/[״׳'"`]/g,"")
+    .replace(/\s+/g," ")
+    .trim();
+}
+function synonymExtra(hay){
+  let extra = "";
+  SEARCH_SYNONYMS.forEach(([lat, heb]) => {
+    if (hay.includes(lat)) extra += " " + heb;
+    else if (heb.split(" ").some(w => hay.includes(w))) extra += " " + lat;
+  });
+  return extra;
+}
+function escHtml(s){
+  return String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+}
+
+let SEARCH_INDEX = null;
+function buildSearchIndex(){
+  if (SEARCH_INDEX) return SEARCH_INDEX;
+  const idx = [];
+  const tmp = document.createElement("div");
+  DAYS.forEach(day => {
+    if (SEARCH_SKIP_DAYS.includes(day.id)) return;
+    tmp.innerHTML = day.render() + renderToll(day.id) + renderEats(day.id);
+    SEARCH_SECTIONS.forEach(sec => {
+      tmp.querySelectorAll(sec.sel).forEach((el, i) => {
+        const text = el.textContent.replace(/\s+/g," ").trim();
+        if (text.length < 3) return;
+        const base = normText(text);
+        idx.push({dayId:day.id, sel:sec.sel, i, kind:sec.kind, text,
+                  hay: base + " " + normText(sec.kind) + synonymExtra(base)});
+      });
+    });
+  });
+  Object.keys(LOC).forEach(k => {
+    const loc = LOC[k];
+    const text = loc.label + (loc.address ? " — " + loc.address : "");
+    const base = normText(text);
+    idx.push({place:k, kind:"מקום", text, hay: base + synonymExtra(base)});
+  });
+  SEARCH_INDEX = idx;
+  return idx;
+}
+
+function runSearch(q){
+  const nq = normText(q);
+  if (nq.length < 2) return null;
+  const tokens = nq.split(" ").filter(Boolean);
+  const out = [];
+  buildSearchIndex().forEach(e => {
+    if (!tokens.every(t => e.hay.includes(t))) return;
+    let score = e.hay.indexOf(tokens[0]);
+    if (e.place) score -= 400;
+    if (e.sel === "h2.title" || e.sel === ".tag") score -= 300;
+    if (e.kind === "לו״ז") score -= 60;
+    out.push({e, score});
+  });
+  out.sort((a,b) => a.score - b.score);
+  return out;
+}
+
+// Highlights the matched term inside a trimmed excerpt, so long info boxes stay scannable.
+function markSnippet(text, rawToken){
+  const MAX = 140;
+  const i = rawToken ? text.toLowerCase().indexOf(rawToken.toLowerCase()) : -1;
+  const start = i > 60 ? i - 50 : 0;
+  const piece = text.slice(start, start + MAX);
+  const pre = start > 0 ? "…" : "";
+  const post = (start + MAX) < text.length ? "…" : "";
+  const rel = i - start;
+  if (i >= 0 && rel >= 0 && rel + rawToken.length <= piece.length){
+    return pre + escHtml(piece.slice(0, rel)) +
+           "<mark>" + escHtml(piece.slice(rel, rel + rawToken.length)) + "</mark>" +
+           escHtml(piece.slice(rel + rawToken.length)) + post;
+  }
+  return pre + escHtml(piece) + post;
+}
+
+function renderSearchResults(q){
+  const box = document.getElementById("searchResults");
+  const results = runSearch(q);
+  if (results === null){
+    box.innerHTML = `<div class="searchHint">הקלידו שתי אותיות ומעלה. אפשר לחפש שם מקום (Hallstatt, מכרה מלח, סופר), מסעדה, שם מלון, שעה מהלו״ז או כל טקסט מהאתר.</div>`;
+    return;
+  }
+  if (!results.length){
+    box.innerHTML = `<div class="searchEmpty">אין תוצאות ל"${escHtml(q.trim())}". נסו מילה אחת קצרה יותר.</div>`;
+    return;
+  }
+  const token = q.trim().split(/\s+/)[0];
+  const places = results.filter(r => r.e.place).slice(0, 6);
+  const byDay = {};
+  results.filter(r => !r.e.place).forEach(r => {
+    (byDay[r.e.dayId] = byDay[r.e.dayId] || []).push(r);
+  });
+
+  let html = "";
+  if (places.length){
+    html += `<div class="searchGroup"><h3 class="searchGroupHead">📍 מקומות וניווט</h3>` +
+      places.map(r => `<div class="searchPlaceRow">
+        <span class="nm">${LOC_ICON[r.e.place] || "📍"} ${markSnippet(r.e.text, token)}</span>
+        <a class="rowWaze" href="${wazeLink(r.e.place)}" target="_blank" rel="noopener" title="נווט ב-Waze">🧭</a>
+      </div>`).join("") + `</div>`;
+  }
+  DAYS.forEach(d => {
+    const list = byDay[d.id];
+    if (!list) return;
+    html += `<div class="searchGroup"><h3 class="searchGroupHead">${DAY_ICON[d.id] || "📍"} ${d.nav} · ${d.navSub}</h3>` +
+      list.slice(0, 8).map(r => `<button type="button" class="searchItem"
+        data-day="${d.id}" data-sel="${escHtml(r.e.sel)}" data-i="${r.e.i}">
+        <span class="kind">${r.e.kind}</span>${markSnippet(r.e.text, token)}</button>`).join("") + `</div>`;
+  });
+  box.innerHTML = html;
+}
+
+function openSearch(){
+  const sheet = document.getElementById("searchSheet");
+  const input = document.getElementById("searchInput");
+  if (!sheet || !input) return;
+  sheet.hidden = false;
+  document.body.classList.add("searchOpen");
+  renderSearchResults(input.value);
+  setTimeout(() => input.focus(), 60);
+}
+function closeSearch(){
+  const sheet = document.getElementById("searchSheet");
+  if (!sheet) return;
+  sheet.hidden = true;
+  document.body.classList.remove("searchOpen");
+}
+
+// Re-finds the matched element in the freshly rendered panel and flashes it.
+function jumpToResult(dayId, sel, i){
+  closeSearch();
+  selectDay(dayId);
+  setTimeout(() => {
+    const el = panelEl.querySelectorAll(sel)[Number(i)];
+    if (!el) return;
+    const target = el.closest("tr") || el;
+    target.classList.add("searchHit");
+    target.scrollIntoView({behavior:"smooth", block:"center"});
+    setTimeout(() => target.classList.remove("searchHit"), 2400);
+  }, 240);
+}
+
+(function initSearch(){
+  const input = document.getElementById("searchInput");
+  let debounce = null;
+  input?.addEventListener("input", () => {
+    clearTimeout(debounce);
+    debounce = setTimeout(() => renderSearchResults(input.value), 120);
+  });
+  input?.addEventListener("keydown", e => { if (e.key === "Escape") closeSearch(); });
+  document.getElementById("searchClose")?.addEventListener("click", closeSearch);
+  document.addEventListener("keydown", e => { if (e.key === "Escape") closeSearch(); });
+  document.getElementById("searchResults")?.addEventListener("click", e => {
+    const btn = e.target.closest(".searchItem");
+    if (!btn) return;
+    jumpToResult(btn.dataset.day, btn.dataset.sel, btn.dataset.i);
+  });
+})();
 
 /* ---------- PWA auto-refresh: every time the app is opened/foregrounded, actively
    check for a newer version and, if one takes over, reload automatically so the
