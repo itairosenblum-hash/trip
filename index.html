@@ -3138,10 +3138,6 @@ document.getElementById("dayScrollPrev")?.addEventListener("click", () => stepDa
 document.getElementById("dayScrollNext")?.addEventListener("click", () => stepDayScroll(1));
 
 /* ---------- Live webcams per day ---------- */
-  const CAM_BASE = { t:"🏡 Wagrain (הבסיס שלנו)", cams:[
-    { n:"Grafenberg / Wagrain — נוף מההר", u:"https://www.bergfex.com/sommer/wagrain/webcams/c68/" },
-    { n:"מרכז Wagrain", u:"https://www.wagrain24.at/webcam-wagrain-zentrum/" },
-  ]};
   const WEBCAMS = {
     d1: [ { t:"✈️ שדה התעופה של וינה", cams:[
       { n:"Vienna Airport — פנורמה 360°", u:"https://viennaairport.panomax.com/" },
@@ -3149,28 +3145,28 @@ document.getElementById("dayScrollNext")?.addEventListener("click", () => stepDa
     d2: [ { t:"🏞️ Gmunden / Traunsee", cams:[
       { n:"כל המצלמות בגמונדן (bergfex)", u:"https://www.bergfex.com/sommer/gmunden/webcams/" },
       { n:"Gmunden — Bergstation Grünberg", u:"https://www.feratel.com/en/webcams/austria/upper-austria/gmunden-bergstation-gruenberg" },
-      { n:"Traunstein — נוף מערבה", u:"https://www.foto-webcam.eu/webcam/traunstein/" } ]}, CAM_BASE ],
+      { n:"Traunstein — נוף מערבה", u:"https://www.foto-webcam.eu/webcam/traunstein/" } ]} ],
     d3: [ { t:"🏘️ Hallstatt + Gosau", cams:[
       { n:"כיכר השוק של Hallstatt", u:"https://dachstein.salzkammergut.at/en/oesterreich-poi/detail/430019315/hallstatt-markt-webcam.html" },
       { n:"מצלמות Hallstatt (hallstatt.net)", u:"https://www.hallstatt.net/webcams/" },
       { n:"Gosautal — אזור Gosausee", u:"https://www.gosautal.net/webcam/" },
-      { n:"Hallstatt (bergfex)", u:"https://www.bergfex.com/sommer/hallstatt/webcams/" } ]}, CAM_BASE ],
+      { n:"Hallstatt (bergfex)", u:"https://www.bergfex.com/sommer/hallstatt/webcams/" } ]} ],
     d4: [ { t:"🎢 Alpendorf / St. Johann", cams:[
       { n:"Alpendorf — נוף (bergfex)", u:"https://www.bergfex.at/sankt-johann-alpendorf/webcams/c1960/" },
       { n:"Gernkogel — 1,780 מ׳", u:"https://www.bergfex.com/sankt-johann-alpendorf/webcams/c55/" },
-      { n:"Snow Space — St. Johann", u:"https://www.snow-space.com/en/winter/information-ski-resort/live/webcams/st.-johann" } ]}, CAM_BASE ],
+      { n:"Snow Space — St. Johann", u:"https://www.snow-space.com/en/winter/information-ski-resort/live/webcams/st.-johann" } ]} ],
     d5: [ { t:"🏰 Hohenwerfen + Hallein", cams:[
       { n:"Festung Hohenwerfen (wetter.com)", u:"https://www.wetter.com/hd-live-webcams/oesterreich/pfarrwerfen-salzachtal-festung-hohenwerfen/55141242e9cb3/" },
-      { n:"Hallein / Bad Dürrnberg (bergfex)", u:"https://www.bergfex.com/sommer/hallein-duerrnberg/webcams/" } ]}, CAM_BASE ],
+      { n:"Hallein / Bad Dürrnberg (bergfex)", u:"https://www.bergfex.com/sommer/hallein-duerrnberg/webcams/" } ]} ],
     d6: [ { t:"🏔️ Grossglockner — לבדוק לפני שיוצאים!", cams:[
       { n:"Kaiser-Franz-Josefs-Höhe — פנורמה 360°", u:"https://grossglockner.panomax.com/" },
       { n:"Fuscher Törl — פנורמה 360°", u:"https://fuschertoerl.panomax.com/" },
       { n:"Edelweiss-Spitze — פנורמה 360°", u:"https://edelweissspitze.panomax.com/" },
-      { n:"Freiwandeck — מבט על ה-Grossglockner", u:"https://www.foto-webcam.eu/webcam/freiwandeck/" } ]}, CAM_BASE ],
+      { n:"Freiwandeck — מבט על ה-Grossglockner", u:"https://www.foto-webcam.eu/webcam/freiwandeck/" } ]} ],
     d7: [ { t:"🚂 St. Wolfgang + Schafberg", cams:[
       { n:"פסגת Schafberg — פנורמה 360°", u:"https://schafberg.panomax.com/" },
       { n:"תחנת הרכבת התחתונה + מזח השיט", u:"https://www.bergfex.com/sommer/sankt-wolfgang-am-wolfgangsee/webcams/c12568/" },
-      { n:"מצלמת Schafberg (אתר הרכבת)", u:"https://www.5schaetze.at/en/schafbergbahn/webcam.html" } ]}, CAM_BASE ],
+      { n:"מצלמת Schafberg (אתר הרכבת)", u:"https://www.5schaetze.at/en/schafbergbahn/webcam.html" } ]} ],
     d8: [ { t:"🚡 Zell am See + Kaprun", cams:[
       { n:"פסגת Schmittenhöhe", u:"https://webtv.feratel.com/webtv/?design=v5&cam=5298&c4=1&c3=0&c8=0" },
       { n:"zellamseeXpress — תחנה עליונה", u:"https://webtv.feratel.com/webtv/?design=v5&cam=5295&c4=1&c3=0&c8=0" },
@@ -3178,7 +3174,7 @@ document.getElementById("dayScrollNext")?.addEventListener("click", () => stepDa
       { n:"סכר Mooserboden (אתר הסכרים הרשמי)", u:"https://www.kaprun-stauseen.com/webcam-mooserboden/" },
       { n:"סכר Mooserboden — מבט אל ה-Wiesbachhorn", u:"https://www.foto-webcam.eu/webcam/mooserboden/" },
       { n:"סכר Wasserfallboden — מבט מזרחה", u:"https://www.foto-webcam.eu/webcam/wasserfallboden/" },
-      { n:"כל מצלמות Zell am See–Kaprun", u:"https://www.zellamsee-kaprun.com/en/service/live/webcams" } ]}, CAM_BASE ],
+      { n:"כל מצלמות Zell am See–Kaprun", u:"https://www.zellamsee-kaprun.com/en/service/live/webcams" } ]} ],
     d9: [ { t:"⛪ Wachau — Melk + Dürnstein", cams:[
       { n:"Dürnstein — מצלמות העיירה", u:"https://www.duernstein.at/en/news/webcams" },
       { n:"Schloss Dürnstein (bergfex)", u:"https://www.bergfex.com/sommer/duernstein-in-der-wachau/webcams/c7510/" },
