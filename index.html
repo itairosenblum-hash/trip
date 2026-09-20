@@ -944,6 +944,21 @@
     .photoGallery figure{height:150px;flex:1 1 45%;}
     table.sched td{padding:12px 10px;font-size:14.5px;}
   }
+
+  .camCard{background:#fff;border:1px solid var(--line,#EFE1E1);border-radius:var(--radius-md,14px);
+    padding:14px 16px 12px;margin-bottom:20px;box-shadow:var(--shadow-soft,0 4px 16px rgba(43,35,32,.09));}
+  .camCard[hidden]{display:none;}
+  .camHead{display:flex;align-items:center;gap:8px;font-weight:800;color:var(--red-dark,#8A0E22);font-size:15px;margin-bottom:8px;}
+  .camHead .live{background:#e53935;color:#fff;font-size:10.5px;font-weight:800;padding:2px 8px;border-radius:999px;letter-spacing:.4px;}
+  .camGroup{margin:10px 0 2px;font-size:13px;font-weight:700;color:var(--muted,#78706c);}
+  .camList{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;}
+  .camBtn{display:inline-flex;align-items:center;gap:6px;text-decoration:none;
+    background:var(--cream-2,#FBEEEF);color:var(--ink,#2B2320);border:1px solid var(--line,#EFE1E1);
+    border-radius:999px;padding:8px 14px;font-size:13.5px;font-weight:600;transition:transform .12s ease,background .12s ease;}
+  .camBtn:hover{background:#f5dfe1;transform:translateY(-1px);}
+  .camBtn:active{transform:scale(.97);}
+  .camNote{margin-top:10px;font-size:12px;color:var(--muted,#78706c);line-height:1.5;}
+  @media (max-width:860px){.camBtn{padding:9px 13px;font-size:13.5px;}}
 </style>
 </head>
 <body>
@@ -995,6 +1010,7 @@
       <div class="mapRouteInfo" id="mapRouteInfo" hidden></div>
     </div>
     <div class="weatherCard" id="weatherCard" hidden></div>
+    <div class="camCard" id="camCard" hidden></div>
     <div class="funFactCard" id="funFactCard" hidden>
       <div class="funFact-head">🎈 הידעת?</div>
       <div class="funFact-body">
@@ -3121,6 +3137,69 @@ function stepDayScroll(dir){
 document.getElementById("dayScrollPrev")?.addEventListener("click", () => stepDayScroll(-1));
 document.getElementById("dayScrollNext")?.addEventListener("click", () => stepDayScroll(1));
 
+/* ---------- Live webcams per day ---------- */
+  const CAM_BASE = { t:"🏡 Wagrain (הבסיס שלנו)", cams:[
+    { n:"Grafenberg / Wagrain — נוף מההר", u:"https://www.bergfex.com/sommer/wagrain/webcams/c68/" },
+    { n:"מרכז Wagrain", u:"https://www.wagrain24.at/webcam-wagrain-zentrum/" },
+  ]};
+  const WEBCAMS = {
+    d1: [ { t:"✈️ שדה התעופה של וינה", cams:[
+      { n:"Vienna Airport — פנורמה 360°", u:"https://viennaairport.panomax.com/" },
+      { n:"Schwechat — שדה התעופה (bergfex)", u:"https://www.bergfex.com/sommer/schwechat/webcams/c19269/" } ]} ],
+    d2: [ { t:"🏞️ Gmunden / Traunsee", cams:[
+      { n:"כל המצלמות בגמונדן (bergfex)", u:"https://www.bergfex.com/sommer/gmunden/webcams/" },
+      { n:"Gmunden — Bergstation Grünberg", u:"https://www.feratel.com/en/webcams/austria/upper-austria/gmunden-bergstation-gruenberg" },
+      { n:"Traunstein — נוף מערבה", u:"https://www.foto-webcam.eu/webcam/traunstein/" } ]}, CAM_BASE ],
+    d3: [ { t:"🏘️ Hallstatt + Gosau", cams:[
+      { n:"כיכר השוק של Hallstatt", u:"https://dachstein.salzkammergut.at/en/oesterreich-poi/detail/430019315/hallstatt-markt-webcam.html" },
+      { n:"מצלמות Hallstatt (hallstatt.net)", u:"https://www.hallstatt.net/webcams/" },
+      { n:"Gosautal — אזור Gosausee", u:"https://www.gosautal.net/webcam/" },
+      { n:"Hallstatt (bergfex)", u:"https://www.bergfex.com/sommer/hallstatt/webcams/" } ]}, CAM_BASE ],
+    d4: [ { t:"🎢 Alpendorf / St. Johann", cams:[
+      { n:"Alpendorf — נוף (bergfex)", u:"https://www.bergfex.at/sankt-johann-alpendorf/webcams/c1960/" },
+      { n:"Gernkogel — 1,780 מ׳", u:"https://www.bergfex.com/sankt-johann-alpendorf/webcams/c55/" },
+      { n:"Snow Space — St. Johann", u:"https://www.snow-space.com/en/winter/information-ski-resort/live/webcams/st.-johann" } ]}, CAM_BASE ],
+    d5: [ { t:"🏰 Hohenwerfen + Hallein", cams:[
+      { n:"Festung Hohenwerfen (wetter.com)", u:"https://www.wetter.com/hd-live-webcams/oesterreich/pfarrwerfen-salzachtal-festung-hohenwerfen/55141242e9cb3/" },
+      { n:"Hallein / Bad Dürrnberg (bergfex)", u:"https://www.bergfex.com/sommer/hallein-duerrnberg/webcams/" } ]}, CAM_BASE ],
+    d6: [ { t:"🏔️ Grossglockner — לבדוק לפני שיוצאים!", cams:[
+      { n:"Kaiser-Franz-Josefs-Höhe — פנורמה 360°", u:"https://grossglockner.panomax.com/" },
+      { n:"Fuscher Törl — פנורמה 360°", u:"https://fuschertoerl.panomax.com/" },
+      { n:"Edelweiss-Spitze — פנורמה 360°", u:"https://edelweissspitze.panomax.com/" },
+      { n:"Freiwandeck — מבט על ה-Grossglockner", u:"https://www.foto-webcam.eu/webcam/freiwandeck/" } ]}, CAM_BASE ],
+    d7: [ { t:"🚂 St. Wolfgang + Schafberg", cams:[
+      { n:"פסגת Schafberg — פנורמה 360°", u:"https://schafberg.panomax.com/" },
+      { n:"תחנת הרכבת התחתונה + מזח השיט", u:"https://www.bergfex.com/sommer/sankt-wolfgang-am-wolfgangsee/webcams/c12568/" },
+      { n:"מצלמת Schafberg (אתר הרכבת)", u:"https://www.5schaetze.at/en/schafbergbahn/webcam.html" } ]}, CAM_BASE ],
+    d8: [ { t:"🚡 Zell am See + Kaprun", cams:[
+      { n:"פסגת Schmittenhöhe", u:"https://webtv.feratel.com/webtv/?design=v5&cam=5298&c4=1&c3=0&c8=0" },
+      { n:"zellamseeXpress — תחנה עליונה", u:"https://webtv.feratel.com/webtv/?design=v5&cam=5295&c4=1&c3=0&c8=0" },
+      { n:"Zell am See — נוף לאגם ול-Kitzsteinhorn", u:"https://www.foto-webcam.eu/webcam/zellamsee/" },
+      { n:"כל מצלמות Zell am See–Kaprun", u:"https://www.zellamsee-kaprun.com/en/service/live/webcams" } ]}, CAM_BASE ],
+    d9: [ { t:"⛪ Wachau — Melk + Dürnstein", cams:[
+      { n:"Dürnstein — מצלמות העיירה", u:"https://www.duernstein.at/en/news/webcams" },
+      { n:"Schloss Dürnstein (bergfex)", u:"https://www.bergfex.com/sommer/duernstein-in-der-wachau/webcams/c7510/" },
+      { n:"מצלמות ב-Melk (Outdooractive)", u:"https://www.outdooractive.com/en/webcams/melk/webcams-in-melk/227974579/" } ]} ],
+    d10: [ { t:"✈️ שדה התעופה של וינה", cams:[
+      { n:"Vienna Airport — פנורמה 360°", u:"https://viennaairport.panomax.com/" } ]} ],
+  };
+
+
+function renderWebcams(id){
+  const card = document.getElementById("camCard");
+  if (!card) return;
+  const groups = WEBCAMS[id];
+  if (!groups){ card.hidden = true; return; }
+  const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"&quot;");
+  card.hidden = false;
+  card.innerHTML =
+    `<div class="camHead"><span class="live">LIVE</span>📹 מצלמות חיות באזור</div>` +
+    groups.map(g => `<div class="camGroup">${esc(g.t)}</div><div class="camList">` +
+      g.cams.map(c => `<a class="camBtn" href="${esc(c.u)}" target="_blank" rel="noopener">📷 ${esc(c.n)}</a>`).join("") +
+      `</div>`).join("") +
+    `<div class="camNote">הקישורים נפתחים בחלון חדש באתרי צד שלישי (תיירות מקומית, bergfex, Panomax ועוד). בלילה המצלמות חשוכות, ולפעמים מצלמה בודדת מושבתת — לכן יש כמה לכל אזור.</div>`;
+}
+
 function selectDay(id){
   const day = DAYS.find(d=>d.id===id);
   if(!day) return;
@@ -3161,6 +3240,7 @@ function selectDay(id){
     if (id === "forecast") initForecast();
   }
 
+  renderWebcams(id);
   updateFunFacts(id);
   window.scrollTo({top:0, behavior:"smooth"});
 }
