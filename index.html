@@ -1077,7 +1077,7 @@ const LOC = {
   werfenweng:{lat:47.4333, lon:13.2167, label:"Werfenweng"},
 };
 const FULL_ROUTE = ["airport","gmunden","amade","wagrain","glockner","ferleiten","wagrain","alpendorf","wagrain",
-  "werfen","hallein_salt","keltenblitz","wagrain","hallstatt","gosausee","wagrain","stwolfgang","wagrain",
+  "werfen","hallein_salt","keltenblitz","amade","wagrain","hallstatt","gosausee","wagrain","stwolfgang","wagrain",
   "zell","kaprun","zell","wagrain","melk","durnstein","airport"];
 
 /* ---------- Day content ---------- */
@@ -1237,43 +1237,64 @@ const DAYS = [
   `
 },
 {
-  id:"d5", nav:"28.9", navSub:"Hohenwerfen + Hallein",
-  segment: ["wagrain","werfen","hallein_salt","keltenblitz","wagrain"],
+  id:"d5", nav:"28.9", navSub:"פיצול: טירה / מכרה",
+  segment: ["wagrain","werfen","hallein_salt","keltenblitz","amade","wagrain"],
   render: () => `
-    <div class="tag">יום ב׳, 28.9 (הורחב) · טירה, מופע נשרים, מכרה מלח ומגלשה אלפינית</div>
-    <h2 class="title">Hohenwerfen + Hallein</h2>
-    <div class="meta">נסיעות: Wagrain → Hohenwerfen כ-35-45 דק׳; ל-Bad Dürrnberg/Hallein כ-20-25 דק׳; חזרה ל-Wagrain כ-50-60 דק׳</div>
+    <div class="tag">יום ב׳, 28.9 · מתפצלים לשתי קבוצות ונפגשים בצהריים בתרמה</div>
+    <h2 class="title">Hohenwerfen / Hallein → Therme Amadé</h2>
+    <div class="meta">נסיעות: Wagrain → Hohenwerfen כ-35-45 דק׳; Wagrain → Bad Dürrnberg כ-50-60 דק׳; Hohenwerfen → Bad Dürrnberg כ-20-25 דק׳; Bad Dürrnberg → Therme Amadé כ-45-50 דק׳; משם ל-Wagrain כ-10 דק׳</div>
+    <div class="box yellow"><b>איפה זה Bad Dürrnberg?</b>כפר קטן על ההר שמעל העיירה Hallein, כ-5 דק׳ עלייה ממנה. מכרה המלח ו-Keltenblitz נמצאים שם, זה לצד זה. בוויז נווטו לכתובת המדויקת (הכפתורים 🧭 בשורות) ולא ל-"Hallein" - אחרת תגיעו לעיירה למטה.</div>
+
+    <div class="sectionLabel">🏰 קבוצה א׳ — Hohenwerfen + Keltenblitz</div>
     <table class="sched">
-      <tr><td>יציאה מ-Wagrain</td><td>08:30</td></tr>
+      <tr><td>יציאה מ-Wagrain לטירה</td><td>08:30</td></tr>
       <tr><td>חניה ועלייה במעלית לטירה</td><td>~09:15</td></tr>
-      <tr><td>סיור, תערוכות, חידון ילדים ואודיו-גייד</td><td>09:30-11:00</td></tr>
-      <tr><td>מופע עופות דורסים: נשרים, בזים ועיטים במעוף חופשי</td><td>11:15-11:40</td></tr>
-      <tr><td>צהריים בטירה או ב-Werfen</td><td>12:00-13:15</td></tr>
-      <tr><td>השלמת הסיור, תצפית וחנות האבירים</td><td>13:15-14:00</td></tr>
-      <tr><td>נסיעה ל-Bad Dürrnberg (Hallein)</td><td>~14:00-14:25</td></tr>
-      <tr><td>Salzwelten Hallein: סיור במכרה מלח עם רכבת תת-קרקעית, מגלשות עץ ושיט על אגם מלח</td><td>14:30-16:00</td></tr>
-      <tr><td>Keltenblitz: מגלשת קיץ אלפינית (2.2 ק״מ) ממש לידה, עלייה ברכבל</td><td>16:00-17:00</td></tr>
-      <tr><td>חזרה ל-Wagrain</td><td>~17:00-18:00</td></tr>
+      <tr><td>סיור, תערוכות, חידון ילדים ואודיו-גייד</td><td>09:15-10:45</td></tr>
+      <tr><td>נסיעה ל-Bad Dürrnberg (Hallein)</td><td>~10:50-11:15</td></tr>
+      <tr><td>Keltenblitz: עלייה ברכבל-כיסא וירידה במגלשת הקיץ (2.2 ק״מ)</td><td>11:15-12:00</td></tr>
+      <tr><td>יציאה ל-Erlebnis-Therme Amadé</td><td>~12:05</td></tr>
     </table>
+
+    <div class="sectionLabel">⛏️ קבוצה ב׳ — מכרה המלח Salzwelten Hallein</div>
+    <table class="sched">
+      <tr><td>יציאה מ-Wagrain למכרה</td><td>08:30</td></tr>
+      <tr><td>הגעה למכרה המלח Salzwelten Hallein, קניית כרטיסים</td><td>~09:30</td></tr>
+      <tr><td>סיור במכרה: רכבת תת-קרקעית, מגלשות עץ ושיט על אגם המלח</td><td>09:45-11:15</td></tr>
+      <tr><td>אופציונלי: מצטרפים לקבוצה א׳ ב-Keltenblitz, ממש ליד המכרה</td><td>11:15-12:00</td></tr>
+      <tr><td>יציאה ל-Erlebnis-Therme Amadé</td><td>~12:05</td></tr>
+    </table>
+
+    <div class="sectionLabel">♨️ כולם יחד</div>
+    <table class="sched">
+      <tr><td>מפגש ב-Erlebnis-Therme Amadé (Altenmarkt) — צהריים בבית הקפה של התרמה</td><td>13:00-14:00</td></tr>
+      <tr><td>מרחצאות חמים ומגלשות מים — כמה שרוצים</td><td>עד 20:30</td></tr>
+      <tr><td>חזרה למלון בוואגריין</td><td>+10 דק׳</td></tr>
+    </table>
+
     <div class="sectionLabel">📍 מה יש שם</div>
     <div class="places">
-      <div class="p"><b>Burg Hohenwerfen — </b>מצודה מימי הביניים על צוק סלעי מעל עמק ה-Salzach, בת כ-900 שנה; סיור מודרך, תא עינויים, מגדל פעמונים עם נוף פנורמי, ומופעי ציפורי טרף בחצר.</div>
+      <div class="p"><b>Burg Hohenwerfen — </b>מצודה מימי הביניים על צוק סלעי מעל עמק ה-Salzach, בת כ-900 שנה; תא עינויים, מגדל פעמונים עם נוף פנורמי, ותערוכות לילדים.</div>
       <div class="p"><b>Salzwelten Hallein — </b>מכרה מלח היסטורי בהר Dürrnberg מעל העיירה Hallein, ממש דרומית לזלצבורג; הכרייה כאן קדומה אף יותר מזו של Hallstatt. הסיור כולל רכבת מכרות תת-קרקעית, מגלשות עץ ארוכות בין המפלסים, ושיט קטן על אגם מלח תת-קרקעי מואר.</div>
-      <div class="p"><b>Keltenblitz — </b>מגלשת קיץ אלפינית (Sommerrodelbahn) באורך 2.2 ק״מ, ממש ליד מכרה המלח על אותו ההר; עולים ברכבל-כיסא ויורדים במזחלת מהירה בין העצים - כיף גדול לילדים ולהורים כאחד.</div>
+      <div class="p"><b>Keltenblitz — </b>מגלשת קיץ אלפינית (Sommerrodelbahn) באורך 2.2 ק״מ, ממש ליד מכרה המלח על אותו ההר; עולים ברכבל-כיסא ויורדים במזחלת מהירה בין העצים.</div>
+      <div class="p"><b>Erlebnis-Therme Amadé — </b>מרחצאות חמים ומגלשות מים באלטנמרקט-אים-פונגאו, כ-10 דק׳ מהמלון; בריכות פנים וחוץ, ג׳קוזי ומגלשות לילדים. <a href="https://www.thermeamade.at/" target="_blank" rel="noopener">האתר הרשמי</a>.</div>
     </div>
     <div class="boxes">
-      <div class="box green"><b>המופע בטירה</b>ב-11:15 וב-15:15, כ-25 דקות וכלול במחיר הכניסה.</div>
-      <div class="box red"><b>עם הקטנה והסבים</b>יש מעלית לטירה, אך למופע מעל 100 מדרגות וירידה תלולה. לקחת מנשא; אין עגלה.</div>
-      <div class="box red"><b>תלוי מזג אוויר</b>מגלשת הקיץ Keltenblitz פועלת רק בתנאי יובש טובים - נסגרת בגשם. אם יורד גשם, אפשר להישאר רק במכרה המלח (מקורה לגמרי) ולוותר על המגלשה.</div>
+      <div class="box green"><b>מי הולך לאן</b>הפעוטות (2:2, 2:8, 3:3) לא יכולות להיכנס למכרה - מתחת לגיל 4 זה אסור בחוק. לכן הן בקבוצה א׳. יש מעלית לטירה, כך שהמסלול נוח גם לסבים.</div>
+      <div class="box yellow"><b>רכבים</b>מחלקים את הקבוצות לפי רכבים כבר בבוקר - אין נקודת מפגש לפני התרמה (אלא אם שתי הקבוצות נפגשות ב-Keltenblitz).</div>
+      <div class="box green"><b>בלי פקק זלצבורג</b>כולם יוצאים מ-Bad Dürrnberg בצהריים, דרומה, לפני שעת השיא של אחר הצהריים סביב זלצבורג.</div>
     </div>
-    <div class="box tan"><b>שעות ומחירים • 28.9.2026</b>הטירה פתוחה 09:00–17:00, מופעי הנשרים ב-11:15 וב-15:15. Salzwelten Hallein פתוח 09:00-17:00 (סיור אחרון). Keltenblitz בעונה הזו (עד 11.10) פתוח בימי שני-שישי 11:00-17:00 - 28.9 הוא יום שני, מתאים. מחיר משולב (מכרה+מגלשה, "Adventure Card"): מבוגר כ-47€, ילד (4-14) כ-26€ - זול יותר מרכישה נפרדת.</div>
-    <div class="box red"><b>⚠️ גיל מינימום 4 למכרה</b>הכניסה למכרה המלח אסורה מתחת לגיל 4 - זו מגבלה חוקית שנאכפת ללא יוצא מן הכלל, לא עניין של מחיר או גובה. שלוש הפעוטות בקבוצה (2:2, 2:8, 3:3) לא ייכנסו. בניגוד ל-Hallstatt, כאן אין רכבל או תצפית כתחליף - צריך להחליט מראש מי נשאר בחוץ. אפשרות טובה: המלווים והפעוטות נוסעים ישירות ל-Keltenblitz או נשארים בכפר Hallein.</div>
-    <div class="box tan"><b>כרטיסים - איפה להזמין מראש</b>
-      <b>Burg Hohenwerfen:</b> כרטיס All-Inclusive עם מעלית - מבוגר מ-20.90€, ילד (6-14) מ-8.60€ (כולל מופע הנשרים). <a href="https://www.burg-hohenwerfen.at/en/your-visit/tickets" target="_blank" rel="noopener">האתר הרשמי</a>.<br>
-      <b>Salzwelten Hallein:</b> מבוגר כ-35€, ילד (4-15) כ-16€ (או במחיר המשולב עם Keltenblitz שמוזכר למעלה). <a href="https://www.salzwelten.at/en/hallein" target="_blank" rel="noopener">האתר הרשמי</a>.<br>
-      <b>Keltenblitz (Dürrnberg):</b> נסיעה בודדת - מבוגר 19.50€, ילד 13.20€. <a href="https://duerrnberg.at/en/prices/" target="_blank" rel="noopener">מחירים באתר הרשמי</a>.
+    <div class="boxes">
+      <div class="box red"><b>קבוצה א׳ — לוח זמנים צפוף</b>כדי להגיע ל-Keltenblitz ב-11:15 צריך לצאת מהטירה עד 10:50. מופע הנשרים (11:15) לא נכנס — הוא כלול בכרטיס הטירה, אבל ההפעלה הבאה רק ב-15:15.</div>
+      <div class="box red"><b>תלוי מזג אוויר</b>Keltenblitz פועלת רק בתנאי יובש ונסגרת בגשם. בגשם: קבוצה א׳ נשארת בטירה למופע של 11:15 ונוסעת ישר לתרמה (כ-30-35 דק׳); קבוצה ב׳ נוסעת לתרמה מיד אחרי המכרה. המכרה מקורה ופועל בכל מזג אוויר.</div>
+      <div class="box red"><b>פעוטות על המגלשה</b>במגלשות קיץ ילדים קטנים נוסעים רק עם מבוגר, ולרוב יש גיל מינימום גם בליווי. הגיל המדויק ב-Dürrnberg לא אומת — לבדוק בקופה לפני שקונים.</div>
     </div>
-    <div class="footerbar">הנסיעות הגיוניות: Hallein נמצאת בהמשך אותו כביש מ-Werfen לכיוון זלצבורג. היום מסתיים מוקדם יחסית - אם נשאר כוח, Wagrain Wasserwelt חינם עם כרטיס האורח.</div>
+    <div class="box tan"><b>שעות • 28.9.2026</b>הטירה פתוחה 09:00–17:00. Salzwelten Hallein פתוח 09:00-17:00. Keltenblitz בימי שני-שישי 11:00-17:00 (עד 11.10) — לא נפתחת לפני 11:00. Erlebnis-Therme Amadé פתוחה עד 20:30.</div>
+    <div class="box tan"><b>כרטיסים</b>
+      <b>Burg Hohenwerfen (קבוצה א׳):</b> כרטיס All-Inclusive עם מעלית - מבוגר מ-20.90€, ילד (6-14) מ-8.60€. <a href="https://www.burg-hohenwerfen.at/en/your-visit/tickets" target="_blank" rel="noopener">האתר הרשמי</a>.<br>
+      <b>Keltenblitz (קבוצה א׳):</b> נסיעה בודדת - מבוגר 19.50€, ילד 13.20€. <a href="https://duerrnberg.at/en/prices/" target="_blank" rel="noopener">מחירים באתר הרשמי</a>.<br>
+      <b>Salzwelten Hallein (קבוצה ב׳):</b> מכרה בלבד - מבוגר כ-35€, ילד (4-15) כ-16€. מי שמצטרף גם ל-Keltenblitz — עדיף הכרטיס המשולב ("Adventure Card"): מבוגר כ-47€, ילד כ-26€. <a href="https://www.salzwelten.at/en/hallein" target="_blank" rel="noopener">האתר הרשמי</a>.
+    </div>
+    <div class="footerbar">🤝 המפגש: 13:00-14:00 ב-Erlebnis-Therme Amadé, Thermenplatz 1, Altenmarkt. בגדי ים ומגבות — לקחת מהבוקר, לא חוזרים למלון לפני.</div>
   `
 },
 {
@@ -1718,11 +1739,11 @@ const EATS = {
     ]
   },
   d5: {
-    title:"בוורפן ובהליין",
+    title:"בדרך ובתרמה",
     list:[
-      {n:"Burgtaverne Hohenwerfen", t:"בתוך הטירה", d:"הפונדק בתוך המצודה עצמה. לא מטבח גורמה, אבל אתם בדיוק שם בשעת הצהריים ואין צורך לרדת ולעלות שוב.", q:"Burg Hohenwerfen, Werfen, Austria"},
-      {n:"Obauer", t:"למבוגרים", d:"מוסד קולינרי מפורסם בכפר וורפן, ברמה גבוהה ובמחיר תואם. לא לחמישה ילדים — אבל אם מישהו מהמבוגרים רוצה ארוחה אחת רצינית בטיול, זו ההזדמנות.", q:"Obauer, Werfen, Austria"},
-      {n:"מסעדת Salzwelten Hallein", t:"במכרה", d:"מסעדה במתחם מכרה המלח בבאד דירנברג. שימושית במיוחד ביום הזה, כי היא איפה שהמלווים והפעוטות ממתינים בזמן הסיור.", q:"Salzwelten Hallein, Ramsaustraße 3, 5422 Bad Dürrnberg, Austria"},
+      {n:"בית הקפה ב-Erlebnis-Therme Amadé", t:"צהריים לכולם", d:"הצהריים של היום נאכל יחד בתרמה, אחרי המפגש ב-13:00. יש שם בית קפה ומזנון - לא ארוחת שף, אבל כולם כבר בפנים ואין צורך לחפש מקום ל-17 איש.", q:"Erlebnis-Therme Amadé, Thermenplatz 1, 5541 Altenmarkt im Pongau, Austria"},
+      {n:"Burgtaverne Hohenwerfen", t:"קבוצה א׳", d:"הפונדק בתוך המצודה עצמה. נוח לקפה או לנשנוש לילדים לפני הנסיעה לקלטנבליץ - אין זמן לארוחה מלאה.", q:"Burg Hohenwerfen, Werfen, Austria"},
+            {n:"מסעדת Salzwelten Hallein", t:"במכרה", d:"מסעדה במתחם מכרה המלח בבאד דירנברג. נוחה לקבוצה ב׳ לקפה או לנשנוש אחרי הסיור, לפני הנסיעה לתרמה.", q:"Salzwelten Hallein, Ramsaustraße 3, 5422 Bad Dürrnberg, Austria"},
     ]
   },
   d3: {
@@ -2575,7 +2596,7 @@ const ROW_WAZE = {
   d2: [ ["הגעה ל-Gmunden","gmunden"], ["גשר העץ ל-Schloss Ort","schlossort"], ["קנייה גדולה באלטנמרקט","altenmarkt_mpreis"], ["עצירה בסופרמרקט BILLA","wagrain_billa"], ["צ׳ק-אין והתארגנות","wagrain"], ["נסיעה ל-Erlebnis-Therme Amadé","amade"], ["חזרה למלון בוואגריין","wagrain"] ],
   d6: [ ["Hallstatt: כפר","hallstatt"], ["Skywalk או מכרה המלח","hallstatt_salt"], ["Gosausee והליכה קלה","gosausee"], ["חזרה ל-Wagrain","wagrain"] ],
   d4: [ ["הגעה ל-Alpendorf","alpendorf"], ["St. Johann: מרכז עתיק","alpendorf"], ["חזרה ל-Wagrain","wagrain"] ],
-  d5: [ ["חניה ועלייה במעלית לטירה","werfen"], ["Salzwelten Hallein","hallein_salt"], ["Keltenblitz","keltenblitz"], ["חזרה ל-Wagrain","wagrain"] ],
+  d5: [ ["יציאה מ-Wagrain לטירה","werfen"], ["חניה ועלייה במעלית לטירה","werfen"], ["נסיעה ל-Bad Dürrnberg","keltenblitz"], ["יציאה מ-Wagrain למכרה","hallein_salt"], ["הגעה למכרה המלח","hallein_salt"], ["Keltenblitz","keltenblitz"], ["Erlebnis-Therme Amadé","amade"], ["חזרה למלון בוואגריין","wagrain"] ],
   d3: [ ["עצירה ב-Fuscher Törl","fuscher_torl"], ["עצירה ב-Hochtor","hochtor"], ["תצפית הקרחון ב-Kaiser Franz Josef Höhe","glockner"], ["Erlebnispark Ferleiten","ferleiten"], ["Wagrain","wagrain"] ],
   d7: [ ["הגעה ל-St. Wolfgang","stwolfgang"], ["הגעה לוואגריין, מנוחה","wagrain"], ["Wagrain Wasserwelt","wasserwelt"], ["חזרה למלון","wagrain"] ],
   d8: [ ["חניה בחניון החינמי ליד קופת Kesselfall","kaprun"], ["נסיעה ל-Zell am See","zell"], ["חזרה ל-Wagrain","wagrain"] ],
@@ -2615,11 +2636,8 @@ const TRAFFIC = {
     text:"הבעיה ב-Hallstatt היא לא הכביש אלא החניה - החניונים מתמלאים בשעות הבוקר המאוחרות ואז נוצר תור ארוך בכניסה לכפר. יציאה ב-07:45 היא בדיוק מה שמונע את זה. אל תאחרו."
   }] ],
   d5: [ ["נסיעה ל-Bad Dürrnberg (Hallein)", {
-    peak:"אמצע היום - זורם בדרך כלל",
-    text:"הקטע מ-Werfen להליין עובר בפאתי זלצבורג, אבל בשעה 14:00 זה עדיין לפני שיא אחר הצהריים. לרוב נסיעה חלקה."
-  }], ["חזרה ל-Wagrain", {
-    peak:"16:00-18:00 סביב זלצבורג",
-    text:"החזרה מהליין חוצה שוב את אזור זלצבורג בדיוק בשעת השיא של יוצאי העיר. תוסיפו 15-25 דק׳ להערכה. יציאה מוקדמת יותר מקלטנבליץ חוסכת את זה."
+    peak:"אמצע הבוקר - זורם בדרך כלל",
+    text:"הקטע מ-Werfen לבאד דירנברג נוסע לכיוון זלצבורג, אבל ב-11:00 שעת השיא של הבוקר כבר עברה. לרוב נסיעה חלקה - רק לא לאחר ביציאה מהטירה."
   }] ],
   d3: [ ["תצפית הקרחון ב-Kaiser Franz Josef Höhe", {
     peak:"חניון התצפית 10:00-14:00",
@@ -2701,11 +2719,13 @@ const TOLL = {
   d5: {
     rows: [
       ["נסיעה ל-Bad Dürrnberg (Hallein)", {t:"Vignette", c:"אפשר גם בלי", x:"הקטע מ-Werfen לכיוון הליין נוח דרך ה-A10 (דורשת Vignette), אבל אפשר לנסוע במקביל גם על ה-B159 בלי אוטוסטרדה - תוספת של כמה דקות בלבד. אין כאן אגרת מנהרה."}],
+      ["יציאה ל-Erlebnis-Therme Amadé", {t:"Vignette", c:"נדרשת", x:"מבאד דירנברג לאלטנמרקט נוסעים כ-45-50 דק׳ על ה-A10 דרומה - דורש Vignette. יורדים ביציאת Eben/Altenmarkt, לפני מנהרת Tauern, כך שאין אגרת מנהרה."}],
       ["חניה ועלייה במעלית לטירה", {t:"חניה + מעלית", c:"חניה חינם", x:"החניון מתחת למצודת Hohenwerfen חינמי. המעלית לחצר הטירה עולה כ-4€ לאדם הלוך-חזור, וכבר כלולה בכרטיס ה-All-Inclusive שאנחנו קונים."}],
     ],
-    sum: ["<b>Vignette</b> — רק אם נוסעים על ה-A10; יש חלופה מלאה ב-B159.",
+    sum: ["<b>Vignette</b> — נדרשת: שתי הקבוצות נוסעות ב-A10 לתרמה (ובבוקר קבוצה ב׳ גם למכרה). בקטע Werfen → Hallein יש חלופה ב-B159.",
           "<span class=\"none\">חניה בהוהנוורפן: חינם</span> — המעלית (~4€) כלולה בכרטיס.",
-          "<b>חניה בהליין ובקלטנבליץ</b> — חניון גדול למבקרים בבאד דירנברג, לפי הדיווחים ללא תשלום. לאמת בהגעה."],
+          "<b>חניה בהליין ובקלטנבליץ</b> — חניון גדול למבקרים בבאד דירנברג, לפי הדיווחים ללא תשלום. לאמת בהגעה.",
+          "<span class=\"none\">חניה בתרמה: חינם</span>."],
   },
   d3: {
     rows: [
