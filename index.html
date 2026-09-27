@@ -1077,7 +1077,7 @@ const LOC = {
   werfenweng:{lat:47.4333, lon:13.2167, label:"Werfenweng"},
 };
 const FULL_ROUTE = ["airport","gmunden","amade","wagrain","glockner","ferleiten","wagrain","alpendorf","wagrain",
-  "werfen","hallein_salt","keltenblitz","amade","wagrain","hallstatt","gosausee","wagrain","stwolfgang","wagrain",
+  "werfen","amade","wagrain","hallstatt","gosausee","wagrain","stwolfgang","wagrain",
   "zell","kaprun","zell","wagrain","melk","durnstein","airport"];
 
 /* ---------- Day content ---------- */
@@ -1237,64 +1237,36 @@ const DAYS = [
   `
 },
 {
-  id:"d5", nav:"28.9", navSub:"פיצול: טירה / מכרה",
-  segment: ["wagrain","werfen","hallein_salt","keltenblitz","amade","wagrain"],
+  id:"d5", nav:"28.9", navSub:"Hohenwerfen + Therme",
+  segment: ["wagrain","werfen","amade","wagrain"],
   render: () => `
-    <div class="tag">יום ב׳, 28.9 · מתפצלים לשתי קבוצות ונפגשים בצהריים בתרמה</div>
-    <h2 class="title">Hohenwerfen / Hallein → Therme Amadé</h2>
-    <div class="meta">נסיעות: Wagrain → Hohenwerfen כ-35-45 דק׳; Wagrain → Bad Dürrnberg כ-50-60 דק׳; Hohenwerfen → Bad Dürrnberg כ-20-25 דק׳; Bad Dürrnberg → Therme Amadé כ-45-50 דק׳; משם ל-Wagrain כ-10 דק׳</div>
-    <div class="box yellow"><b>איפה זה Bad Dürrnberg?</b>כפר קטן על ההר שמעל העיירה Hallein, כ-5 דק׳ עלייה ממנה. מכרה המלח ו-Keltenblitz נמצאים שם, זה לצד זה. בוויז נווטו לכתובת המדויקת (הכפתורים 🧭 בשורות) ולא ל-"Hallein" - אחרת תגיעו לעיירה למטה.</div>
-
-    <div class="sectionLabel">🏰 קבוצה א׳ — Hohenwerfen + Keltenblitz</div>
+    <div class="tag">יום ב׳, 28.9 (שונה) · טירה ומופע נשרים בבוקר, מרחצאות אחר הצהריים</div>
+    <h2 class="title">Hohenwerfen + Erlebnis-Therme Amadé</h2>
+    <div class="meta">נסיעות: Wagrain → Hohenwerfen כ-35-45 דק׳; Hohenwerfen → Therme Amadé כ-30-35 דק׳; Therme Amadé → Wagrain כ-10 דק׳</div>
     <table class="sched">
-      <tr><td>יציאה מ-Wagrain לטירה</td><td>08:30</td></tr>
+      <tr><td>יציאה מ-Wagrain</td><td>08:30</td></tr>
       <tr><td>חניה ועלייה במעלית לטירה</td><td>~09:15</td></tr>
-      <tr><td>סיור, תערוכות, חידון ילדים ואודיו-גייד</td><td>09:15-10:45</td></tr>
-      <tr><td>נסיעה ל-Bad Dürrnberg (Hallein)</td><td>~10:50-11:15</td></tr>
-      <tr><td>Keltenblitz: עלייה ברכבל-כיסא וירידה במגלשת הקיץ (2.2 ק״מ)</td><td>11:15-12:00</td></tr>
-      <tr><td>יציאה ל-Erlebnis-Therme Amadé</td><td>~12:05</td></tr>
+      <tr><td>סיור, תערוכות, חידון ילדים ואודיו-גייד</td><td>09:30-11:00</td></tr>
+      <tr><td>מופע עופות דורסים: נשרים, בזים ועיטים במעוף חופשי</td><td>11:15-11:40</td></tr>
+      <tr><td>צהריים בטירה או ב-Werfen</td><td>12:00-13:00</td></tr>
+      <tr><td>השלמת הסיור, תצפית וחנות האבירים</td><td>13:00-13:20</td></tr>
+      <tr><td>נסיעה ל-Erlebnis-Therme Amadé (Altenmarkt)</td><td>~13:25-14:00</td></tr>
+      <tr><td>מרחצאות חמים ומגלשות מים ב-Erlebnis-Therme Amadé</td><td>14:00-~18:00</td></tr>
+      <tr><td>חזרה למלון בוואגריין</td><td>~18:15</td></tr>
     </table>
-
-    <div class="sectionLabel">⛏️ קבוצה ב׳ — מכרה המלח Salzwelten Hallein</div>
-    <table class="sched">
-      <tr><td>יציאה מ-Wagrain למכרה</td><td>08:30</td></tr>
-      <tr><td>הגעה למכרה המלח Salzwelten Hallein, קניית כרטיסים</td><td>~09:30</td></tr>
-      <tr><td>סיור במכרה: רכבת תת-קרקעית, מגלשות עץ ושיט על אגם המלח</td><td>09:45-11:15</td></tr>
-      <tr><td>אופציונלי: מצטרפים לקבוצה א׳ ב-Keltenblitz, ממש ליד המכרה</td><td>11:15-12:00</td></tr>
-      <tr><td>יציאה ל-Erlebnis-Therme Amadé</td><td>~12:05</td></tr>
-    </table>
-
-    <div class="sectionLabel">♨️ כולם יחד</div>
-    <table class="sched">
-      <tr><td>מפגש ב-Erlebnis-Therme Amadé (Altenmarkt) — צהריים בבית הקפה של התרמה</td><td>13:00-14:00</td></tr>
-      <tr><td>מרחצאות חמים ומגלשות מים — כמה שרוצים</td><td>עד 20:30</td></tr>
-      <tr><td>חזרה למלון בוואגריין</td><td>+10 דק׳</td></tr>
-    </table>
-
     <div class="sectionLabel">📍 מה יש שם</div>
     <div class="places">
-      <div class="p"><b>Burg Hohenwerfen — </b>מצודה מימי הביניים על צוק סלעי מעל עמק ה-Salzach, בת כ-900 שנה; תא עינויים, מגדל פעמונים עם נוף פנורמי, ותערוכות לילדים.</div>
-      <div class="p"><b>Salzwelten Hallein — </b>מכרה מלח היסטורי בהר Dürrnberg מעל העיירה Hallein, ממש דרומית לזלצבורג; הכרייה כאן קדומה אף יותר מזו של Hallstatt. הסיור כולל רכבת מכרות תת-קרקעית, מגלשות עץ ארוכות בין המפלסים, ושיט קטן על אגם מלח תת-קרקעי מואר.</div>
-      <div class="p"><b>Keltenblitz — </b>מגלשת קיץ אלפינית (Sommerrodelbahn) באורך 2.2 ק״מ, ממש ליד מכרה המלח על אותו ההר; עולים ברכבל-כיסא ויורדים במזחלת מהירה בין העצים.</div>
+      <div class="p"><b>Burg Hohenwerfen — </b>מצודה מימי הביניים על צוק סלעי מעל עמק ה-Salzach, בת כ-900 שנה; תא עינויים, מגדל פעמונים עם נוף פנורמי, ומופעי ציפורי טרף בחצר.</div>
       <div class="p"><b>Erlebnis-Therme Amadé — </b>מרחצאות חמים ומגלשות מים באלטנמרקט-אים-פונגאו, כ-10 דק׳ מהמלון; בריכות פנים וחוץ, ג׳קוזי ומגלשות לילדים. <a href="https://www.thermeamade.at/" target="_blank" rel="noopener">האתר הרשמי</a>.</div>
     </div>
     <div class="boxes">
-      <div class="box green"><b>מי הולך לאן</b>הפעוטות (2:2, 2:8, 3:3) לא יכולות להיכנס למכרה - מתחת לגיל 4 זה אסור בחוק. לכן הן בקבוצה א׳. יש מעלית לטירה, כך שהמסלול נוח גם לסבים.</div>
-      <div class="box yellow"><b>רכבים</b>מחלקים את הקבוצות לפי רכבים כבר בבוקר - אין נקודת מפגש לפני התרמה (אלא אם שתי הקבוצות נפגשות ב-Keltenblitz).</div>
-      <div class="box green"><b>בלי פקק זלצבורג</b>כולם יוצאים מ-Bad Dürrnberg בצהריים, דרומה, לפני שעת השיא של אחר הצהריים סביב זלצבורג.</div>
+      <div class="box green"><b>המופע בטירה</b>ב-11:15 וב-15:15, כ-25 דקות וכלול במחיר הכניסה. מכוונים ל-11:15 - ההפעלה השנייה כבר מתנגשת עם התרמה.</div>
+      <div class="box red"><b>עם הקטנות והסבים</b>יש מעלית לטירה, אך למופע מעל 100 מדרגות וירידה תלולה. לקחת מנשא; אין עגלה.</div>
+      <div class="box yellow"><b>לקחת מהבוקר</b>בגדי ים, מגבות וכפכפים - נוסעים ישר מהטירה לתרמה בלי לעבור במלון.</div>
     </div>
-    <div class="boxes">
-      <div class="box red"><b>קבוצה א׳ — לוח זמנים צפוף</b>כדי להגיע ל-Keltenblitz ב-11:15 צריך לצאת מהטירה עד 10:50. מופע הנשרים (11:15) לא נכנס — הוא כלול בכרטיס הטירה, אבל ההפעלה הבאה רק ב-15:15.</div>
-      <div class="box red"><b>תלוי מזג אוויר</b>Keltenblitz פועלת רק בתנאי יובש ונסגרת בגשם. בגשם: קבוצה א׳ נשארת בטירה למופע של 11:15 ונוסעת ישר לתרמה (כ-30-35 דק׳); קבוצה ב׳ נוסעת לתרמה מיד אחרי המכרה. המכרה מקורה ופועל בכל מזג אוויר.</div>
-      <div class="box red"><b>פעוטות על המגלשה</b>במגלשות קיץ ילדים קטנים נוסעים רק עם מבוגר, ולרוב יש גיל מינימום גם בליווי. הגיל המדויק ב-Dürrnberg לא אומת — לבדוק בקופה לפני שקונים.</div>
-    </div>
-    <div class="box tan"><b>שעות • 28.9.2026</b>הטירה פתוחה 09:00–17:00. Salzwelten Hallein פתוח 09:00-17:00. Keltenblitz בימי שני-שישי 11:00-17:00 (עד 11.10) — לא נפתחת לפני 11:00. Erlebnis-Therme Amadé פתוחה עד 20:30.</div>
-    <div class="box tan"><b>כרטיסים</b>
-      <b>Burg Hohenwerfen (קבוצה א׳):</b> כרטיס All-Inclusive עם מעלית - מבוגר מ-20.90€, ילד (6-14) מ-8.60€. <a href="https://www.burg-hohenwerfen.at/en/your-visit/tickets" target="_blank" rel="noopener">האתר הרשמי</a>.<br>
-      <b>Keltenblitz (קבוצה א׳):</b> נסיעה בודדת - מבוגר 19.50€, ילד 13.20€. <a href="https://duerrnberg.at/en/prices/" target="_blank" rel="noopener">מחירים באתר הרשמי</a>.<br>
-      <b>Salzwelten Hallein (קבוצה ב׳):</b> מכרה בלבד - מבוגר כ-35€, ילד (4-15) כ-16€. מי שמצטרף גם ל-Keltenblitz — עדיף הכרטיס המשולב ("Adventure Card"): מבוגר כ-47€, ילד כ-26€. <a href="https://www.salzwelten.at/en/hallein" target="_blank" rel="noopener">האתר הרשמי</a>.
-    </div>
-    <div class="footerbar">🤝 המפגש: 13:00-14:00 ב-Erlebnis-Therme Amadé, Thermenplatz 1, Altenmarkt. בגדי ים ומגבות — לקחת מהבוקר, לא חוזרים למלון לפני.</div>
+    <div class="box tan"><b>שעות • 28.9.2026</b>הטירה פתוחה 09:00–17:00, מופעי הנשרים ב-11:15 וב-15:15. Erlebnis-Therme Amadé פתוחה עד 20:30 - אפשר להישאר גם לערב.</div>
+    <div class="box tan"><b>כרטיסים • Burg Hohenwerfen</b>כרטיס All-Inclusive עם מעלית - מבוגר מ-20.90€, ילד (6-14) מ-8.60€ (כולל מופע הנשרים). <a href="https://www.burg-hohenwerfen.at/en/your-visit/tickets" target="_blank" rel="noopener">האתר הרשמי</a>.</div>
+    <div class="footerbar">יום רגוע יחסית: אטרקציה אחת בבוקר, ואחר הצהריים כולו במים, 10 דקות מהמלון.</div>
   `
 },
 {
@@ -1663,9 +1635,8 @@ const FUN_FACTS = {
   d5: [
     "מצודת Hohenwerfen נבנתה לפני כמעט 1,000 שנה על צוק תלול!",
     "במצודה מציגים לפעמים הדגמות ציד עם ברזים — עופות דורסים מאולפים.",
-    "מכרה המלח ב-Hallein פעיל כבר יותר מ-2,600 שנה — עוד מתקופת הקלטים!",
-    "במכרה המלח יורדים בין המפלסים על מגלשות עץ ארוכות ושטים בסירה על אגם מלח תת-קרקעי.",
-    "מגלשת הקיץ Keltenblitz ליד המכרה אורכת 2.2 ק״מ — אחת הארוכות באוסטריה!",
+    "העופות הדורסים במופע עפים חופשי מעל עמק ה-Salzach — ואחר כך חוזרים למאלף!",
+    "אחר הצהריים: Erlebnis-Therme Amadé — מרחצאות חמים ומגלשות מים, 10 דקות מהמלון.",
   ],
   d3: [
     "Grossglockner הוא ההר הכי גבוה באוסטריה — 3,798 מטר!",
@@ -1739,11 +1710,11 @@ const EATS = {
     ]
   },
   d5: {
-    title:"בדרך ובתרמה",
+    title:"בוורפן ובתרמה",
     list:[
-      {n:"בית הקפה ב-Erlebnis-Therme Amadé", t:"צהריים לכולם", d:"הצהריים של היום נאכל יחד בתרמה, אחרי המפגש ב-13:00. יש שם בית קפה ומזנון - לא ארוחת שף, אבל כולם כבר בפנים ואין צורך לחפש מקום ל-17 איש.", q:"Erlebnis-Therme Amadé, Thermenplatz 1, 5541 Altenmarkt im Pongau, Austria"},
-      {n:"Burgtaverne Hohenwerfen", t:"קבוצה א׳", d:"הפונדק בתוך המצודה עצמה. נוח לקפה או לנשנוש לילדים לפני הנסיעה לקלטנבליץ - אין זמן לארוחה מלאה.", q:"Burg Hohenwerfen, Werfen, Austria"},
-            {n:"מסעדת Salzwelten Hallein", t:"במכרה", d:"מסעדה במתחם מכרה המלח בבאד דירנברג. נוחה לקבוצה ב׳ לקפה או לנשנוש אחרי הסיור, לפני הנסיעה לתרמה.", q:"Salzwelten Hallein, Ramsaustraße 3, 5422 Bad Dürrnberg, Austria"},
+      {n:"Burgtaverne Hohenwerfen", t:"בתוך הטירה", d:"הפונדק בתוך המצודה עצמה. לא מטבח גורמה, אבל אתם בדיוק שם בשעת הצהריים ואין צורך לרדת ולעלות שוב.", q:"Burg Hohenwerfen, Werfen, Austria"},
+      {n:"Obauer", t:"למבוגרים", d:"מוסד קולינרי מפורסם בכפר וורפן, ברמה גבוהה ובמחיר תואם. לא לחמישה ילדים — אבל אם מישהו מהמבוגרים רוצה ארוחה אחת רצינית בטיול, זו ההזדמנות.", q:"Obauer, Werfen, Austria"},
+      {n:"בית הקפה ב-Erlebnis-Therme Amadé", t:"בתרמה", d:"בית קפה ומזנון בתוך המתחם - לנשנוש אחר הצהריים בלי לצאת מהמים.", q:"Erlebnis-Therme Amadé, Thermenplatz 1, 5541 Altenmarkt im Pongau, Austria"},
     ]
   },
   d3: {
@@ -2112,7 +2083,7 @@ const COST_ROWS = [
   {day:"26.9", label:"Wildpark Ferleiten",           adult:15,    child:15},
   {day:"27.9", label:"Geisterberg (מחיר אונליין)",  adult:32.50, child:19.50},
   {day:"28.9", label:"Burg Hohenwerfen",            adult:20.90, child:8.60},
-  {day:"28.9", label:"הליין + קלטנבליץ",            adult:47,    child:26},
+
   {day:"29.9", label:"Salzwelten Hallstatt",        adult:49,    child:23},
   {day:"30.9", label:"Schafbergbahn",               adult:61,    child:18.40},
   {day:"1.10", label:"Kaprun Hochgebirgsstauseen",  adult:39.50, child:22},
@@ -2233,8 +2204,7 @@ const IMAGES = {
   d6:  [ {f:"Hallstatt, Austria (37260661934).jpg", alt:"Hallstatt"},
          {f:"Gosaulacke mit Blick zum Dachstein.jpg", alt:"Gosausee מול רכס Dachstein"} ],
   d4:  [ {f:"St.-Johannes-Kirche in Sankt Johann im Pongau.jpg", alt:"St. Johann im Pongau"} ],
-  d5:  [ {f:"Hohenwerfen castle.jpg", alt:"מצודת Hohenwerfen"},
-         {f:"20190129 Salzwelten 9353 (47332384992).jpg", alt:"מכרה המלח Salzwelten Hallein"} ],
+  d5:  [ {f:"Hohenwerfen castle.jpg", alt:"מצודת Hohenwerfen"} ],
   d3:  [ {f:"20190624.Kaiser-Franz-Joseph-Höhe, Grossglockner.-047.jpg", alt:"Kaiser-Franz-Josefs-Höhe, Grossglockner"} ],
   d7:  [ {f:"Schafbergbahn-Dampflok.jpg", alt:"קרון הקיטור של ה-Schafbergbahn"},
          {f:"St. Gilgen - Nordwestansicht des Wolfgangsees.JPG", alt:"נוף לאגם Wolfgangsee"} ],
@@ -2596,7 +2566,7 @@ const ROW_WAZE = {
   d2: [ ["הגעה ל-Gmunden","gmunden"], ["גשר העץ ל-Schloss Ort","schlossort"], ["קנייה גדולה באלטנמרקט","altenmarkt_mpreis"], ["עצירה בסופרמרקט BILLA","wagrain_billa"], ["צ׳ק-אין והתארגנות","wagrain"], ["נסיעה ל-Erlebnis-Therme Amadé","amade"], ["חזרה למלון בוואגריין","wagrain"] ],
   d6: [ ["Hallstatt: כפר","hallstatt"], ["Skywalk או מכרה המלח","hallstatt_salt"], ["Gosausee והליכה קלה","gosausee"], ["חזרה ל-Wagrain","wagrain"] ],
   d4: [ ["הגעה ל-Alpendorf","alpendorf"], ["St. Johann: מרכז עתיק","alpendorf"], ["חזרה ל-Wagrain","wagrain"] ],
-  d5: [ ["יציאה מ-Wagrain לטירה","werfen"], ["חניה ועלייה במעלית לטירה","werfen"], ["נסיעה ל-Bad Dürrnberg","keltenblitz"], ["יציאה מ-Wagrain למכרה","hallein_salt"], ["הגעה למכרה המלח","hallein_salt"], ["Keltenblitz","keltenblitz"], ["Erlebnis-Therme Amadé","amade"], ["חזרה למלון בוואגריין","wagrain"] ],
+  d5: [ ["חניה ועלייה במעלית לטירה","werfen"], ["נסיעה ל-Erlebnis-Therme Amadé","amade"], ["חזרה למלון בוואגריין","wagrain"] ],
   d3: [ ["עצירה ב-Fuscher Törl","fuscher_torl"], ["עצירה ב-Hochtor","hochtor"], ["תצפית הקרחון ב-Kaiser Franz Josef Höhe","glockner"], ["Erlebnispark Ferleiten","ferleiten"], ["Wagrain","wagrain"] ],
   d7: [ ["הגעה ל-St. Wolfgang","stwolfgang"], ["הגעה לוואגריין, מנוחה","wagrain"], ["Wagrain Wasserwelt","wasserwelt"], ["חזרה למלון","wagrain"] ],
   d8: [ ["חניה בחניון החינמי ליד קופת Kesselfall","kaprun"], ["נסיעה ל-Zell am See","zell"], ["חזרה ל-Wagrain","wagrain"] ],
@@ -2634,10 +2604,6 @@ const TRAFFIC = {
   d6: [ ["יציאה מוקדמת", {
     peak:"חניוני Hallstatt מתמלאים 10:00-15:00",
     text:"הבעיה ב-Hallstatt היא לא הכביש אלא החניה - החניונים מתמלאים בשעות הבוקר המאוחרות ואז נוצר תור ארוך בכניסה לכפר. יציאה ב-07:45 היא בדיוק מה שמונע את זה. אל תאחרו."
-  }] ],
-  d5: [ ["נסיעה ל-Bad Dürrnberg (Hallein)", {
-    peak:"אמצע הבוקר - זורם בדרך כלל",
-    text:"הקטע מ-Werfen לבאד דירנברג נוסע לכיוון זלצבורג, אבל ב-11:00 שעת השיא של הבוקר כבר עברה. לרוב נסיעה חלקה - רק לא לאחר ביציאה מהטירה."
   }] ],
   d3: [ ["תצפית הקרחון ב-Kaiser Franz Josef Höhe", {
     peak:"חניון התצפית 10:00-14:00",
@@ -2718,13 +2684,11 @@ const TOLL = {
   },
   d5: {
     rows: [
-      ["נסיעה ל-Bad Dürrnberg (Hallein)", {t:"Vignette", c:"אפשר גם בלי", x:"הקטע מ-Werfen לכיוון הליין נוח דרך ה-A10 (דורשת Vignette), אבל אפשר לנסוע במקביל גם על ה-B159 בלי אוטוסטרדה - תוספת של כמה דקות בלבד. אין כאן אגרת מנהרה."}],
-      ["יציאה ל-Erlebnis-Therme Amadé", {t:"Vignette", c:"נדרשת", x:"מבאד דירנברג לאלטנמרקט נוסעים כ-45-50 דק׳ על ה-A10 דרומה - דורש Vignette. יורדים ביציאת Eben/Altenmarkt, לפני מנהרת Tauern, כך שאין אגרת מנהרה."}],
       ["חניה ועלייה במעלית לטירה", {t:"חניה + מעלית", c:"חניה חינם", x:"החניון מתחת למצודת Hohenwerfen חינמי. המעלית לחצר הטירה עולה כ-4€ לאדם הלוך-חזור, וכבר כלולה בכרטיס ה-All-Inclusive שאנחנו קונים."}],
+      ["נסיעה ל-Erlebnis-Therme Amadé", {t:"Vignette", c:"אפשר גם בלי", x:"הדרך המהירה היא A10 דרומה עד יציאת Eben/Altenmarkt (דורשת Vignette, בלי אגרת מנהרה). חלופה בלי אוטוסטרדה: דרך Bischofshofen ו-Wagrain - כמה דקות יותר."}],
     ],
-    sum: ["<b>Vignette</b> — נדרשת: שתי הקבוצות נוסעות ב-A10 לתרמה (ובבוקר קבוצה ב׳ גם למכרה). בקטע Werfen → Hallein יש חלופה ב-B159.",
+    sum: ["<b>Vignette</b> — רק אם נוסעים ב-A10 מהטירה לתרמה; יש חלופה דרך Bischofshofen.",
           "<span class=\"none\">חניה בהוהנוורפן: חינם</span> — המעלית (~4€) כלולה בכרטיס.",
-          "<b>חניה בהליין ובקלטנבליץ</b> — חניון גדול למבקרים בבאד דירנברג, לפי הדיווחים ללא תשלום. לאמת בהגעה.",
           "<span class=\"none\">חניה בתרמה: חינם</span>."],
   },
   d3: {
@@ -3176,9 +3140,8 @@ document.getElementById("dayScrollNext")?.addEventListener("click", () => stepDa
       { n:"Alpendorf — נוף (bergfex)", u:"https://www.bergfex.at/sankt-johann-alpendorf/webcams/c1960/" },
       { n:"Gernkogel — 1,780 מ׳", u:"https://www.bergfex.com/sankt-johann-alpendorf/webcams/c55/" },
       { n:"Snow Space — St. Johann", u:"https://www.snow-space.com/en/winter/information-ski-resort/live/webcams/st.-johann" } ]} ],
-    d5: [ { t:"🏰 Hohenwerfen + Hallein", cams:[
-      { n:"Festung Hohenwerfen (wetter.com)", u:"https://www.wetter.com/hd-live-webcams/oesterreich/pfarrwerfen-salzachtal-festung-hohenwerfen/55141242e9cb3/" },
-      { n:"Hallein / Bad Dürrnberg (bergfex)", u:"https://www.bergfex.com/sommer/hallein-duerrnberg/webcams/" } ]} ],
+    d5: [ { t:"🏰 Hohenwerfen", cams:[
+      { n:"Festung Hohenwerfen (wetter.com)", u:"https://www.wetter.com/hd-live-webcams/oesterreich/pfarrwerfen-salzachtal-festung-hohenwerfen/55141242e9cb3/" } ]} ],
     d3: [ { t:"🏔️ Grossglockner — לבדוק לפני שיוצאים!", cams:[
       { n:"Kaiser-Franz-Josefs-Höhe — פנורמה 360°", u:"https://grossglockner.panomax.com/" },
       { n:"Fuscher Törl — פנורמה 360°", u:"https://fuschertoerl.panomax.com/" },
