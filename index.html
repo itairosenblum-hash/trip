@@ -1077,7 +1077,7 @@ const LOC = {
   werfenweng:{lat:47.4333, lon:13.2167, label:"Werfenweng"},
 };
 const FULL_ROUTE = ["airport","gmunden","amade","wagrain","glockner","ferleiten","wagrain","alpendorf","wagrain",
-  "werfen","amade","wagrain","hallstatt","gosausee","wagrain","stwolfgang","wagrain",
+  "werfen","amade","wagrain","hallstatt","gosausee","wagrain","hallein_salt","keltenblitz","wagrain",
   "zell","kaprun","zell","wagrain","melk","durnstein","airport"];
 
 /* ---------- Day content ---------- */
@@ -1300,44 +1300,43 @@ const DAYS = [
   `
 },
 {
-  id:"d7", nav:"30.9", navSub:"Wolfgangsee + Schafbergbahn",
-  segment: ["wagrain","stwolfgang","wasserwelt","wagrain"],
+  id:"d7", nav:"30.9", navSub:"מכרה מלח + Wasserwelt",
+  segment: ["wagrain","hallein_salt","keltenblitz","wagrain","wasserwelt","wagrain"],
   render: () => `
-    <div class="tag">יום ד׳, 30.9 · אגם אלפיני • רכבת קיטור לפסגה • מרחצאות חמים</div>
-    <h2 class="title">Wolfgangsee + Schafbergbahn</h2>
-    <div class="meta">נסיעה: Wagrain → St. Wolfgang כ-1:40-1:50 לכל כיוון (כ-125 ק״מ דרך זלצבורג); Wagrain Wasserwelt בתוך Wagrain עצמה</div>
+    <div class="tag">יום ד׳, 30.9 (שונה) · מכרה מלח ומגלשה אלפינית בבוקר, מרחצאות ליד המלון אחר הצהריים</div>
+    <h2 class="title">Salzwelten Hallein + Wasserwelt</h2>
+    <div class="meta">נסיעות: Wagrain → Bad Dürrnberg כ-50-60 דק׳ (A10); חזרה באותה דרך; Wagrain Wasserwelt בתוך Wagrain עצמה</div>
     <table class="sched">
-      <tr><td>יציאה מ-Wagrain</td><td>07:45</td></tr>
-      <tr><td>הגעה ל-St. Wolfgang, חניה ליד תחנת הרכבת</td><td>~09:30</td></tr>
-      <tr><td>טיילת האגם וכיכר הכפר (מול מלון Weißes Rössl)</td><td>09:45-10:15</td></tr>
-      <tr><td>עלייה ברכבת השיניים ההיסטורית Schafbergbahn לפסגה</td><td>~10:30</td></tr>
-      <tr><td>זמן חופשי בפסגה: תצפית, הליכה קלה וצהריים</td><td>~11:30-13:00</td></tr>
-      <tr><td>ירידה חזרה ברכבת לתחנה התחתונה</td><td>13:00-13:45</td></tr>
-      <tr><td>שיט קצר באגם Wolfgangsee, אם פועל ומזג האוויר מתאים</td><td>אופציונלי</td></tr>
-      <tr><td>יציאה בחזרה ל-Wagrain</td><td>~15:15</td></tr>
-      <tr><td>הגעה לוואגריין, מנוחה והתארגנות במלון</td><td>17:00-17:45</td></tr>
-      <tr><td>Wagrain Wasserwelt: מרחצאות חמים ומגלשות מים (חינם לאורחי המלון)</td><td>18:00-20:00</td></tr>
-      <tr><td>חזרה למלון</td><td>~20:10</td></tr>
+      <tr><td>יציאה מ-Wagrain</td><td>08:30</td></tr>
+      <tr><td>הגעה למכרה המלח Salzwelten Hallein (Bad Dürrnberg), קניית כרטיסים</td><td>~09:30</td></tr>
+      <tr><td>סיור במכרה: רכבת תת-קרקעית, מגלשות עץ ושיט על אגם המלח (מבוגר נשאר בחוץ עם הפעוטות)</td><td>09:45-11:15</td></tr>
+      <tr><td>Keltenblitz: עלייה ברכבל-כיסא וירידה במגלשת הקיץ (2.2 ק״מ), ממש ליד המכרה — כולם יחד</td><td>11:15-12:15</td></tr>
+      <tr><td>צהריים בבאד דירנברג או בעיר העתיקה של Hallein</td><td>12:15-13:15</td></tr>
+      <tr><td>נסיעה חזרה ל-Wagrain</td><td>~13:15-14:15</td></tr>
+      <tr><td>מנוחה והתארגנות במלון</td><td>14:15-15:45</td></tr>
+      <tr><td>Wagrain Wasserwelt: מרחצאות חמים ומגלשות מים (חינם עם כרטיס האורח)</td><td>16:00-19:00</td></tr>
+      <tr><td>חזרה למלון</td><td>~19:10</td></tr>
     </table>
     <div class="sectionLabel">📍 מה יש שם</div>
     <div class="places">
-      <div class="p"><b>Wolfgangsee — </b>אחד האגמים היפים והידועים בזלצקאמרגוט, מוקף הרים ירוקים; הכפר St. Wolfgang על גדתו מפורסם בזכות המלון ההיסטורי Weißes Rössl ("הסוס הלבן") והכנסייה העתיקה שבמרכזו.</div>
-      <div class="p"><b>Schafbergbahn — </b>רכבת שיניים היסטורית מ-1893 (מהוותיקות באירופה), מטפסת מגובה האגם עד לפסגת שפברג (1,783 מ׳) בכ-40-60 דקות; חלק מהקרונות עדיין מונעים בקיטור אמיתי, לצד קרונות דיזל מודרניים. מהפסגה נשקף נוף מרהיב לכ-13 אגמים באזור.</div>
-      <div class="p"><b>שיט באגם — </b>טיול קצר בסירת נוסעים על פני Wolfgangsee עם נוף לכפרים שלאורך החוף - תוספת נעימה אם נשאר זמן ואנרגיה.</div>
-      <div class="p"><b>Wagrain Wasserwelt — </b>מתחם מרחצאות חמים ומגלשות מים בתוך Wagrain עצמה, ממש קרוב למלון; הכניסה חינמית לאורחי המלון עם כרטיס האורח. סיום מפנק ליום ארוך. <a href="https://www.wagrain-kleinarl.at/de/sommer/wasserwelt-wagrain.html" target="_blank" rel="noopener">האתר הרשמי</a>.</div>
+      <div class="p"><b>Salzwelten Hallein — </b>מכרה מלח היסטורי בהר Dürrnberg מעל העיירה Hallein, ממש דרומית לזלצבורג; הכרייה כאן קדומה אף יותר מזו של Hallstatt. הסיור כולל רכבת מכרות תת-קרקעית, מגלשות עץ ארוכות בין המפלסים, ושיט קטן על אגם מלח תת-קרקעי מואר.</div>
+      <div class="p"><b>Keltenblitz — </b>מגלשת קיץ אלפינית (Sommerrodelbahn) באורך 2.2 ק״מ, ממש ליד מכרה המלח על אותו ההר; עולים ברכבל-כיסא ויורדים במזחלת מהירה בין העצים.</div>
+      <div class="p"><b>Bad Dürrnberg — </b>כפר קטן על ההר שמעל העיירה Hallein, כ-5 דק׳ עלייה ממנה. המכרה והמגלשה נמצאים בו. בוויז נווטו לכתובת המדויקת (כפתורי 🧭) ולא ל-"Hallein", אחרת תגיעו לעיירה למטה.</div>
+      <div class="p"><b>Wagrain Wasserwelt — </b>מתחם מרחצאות חמים ומגלשות מים בתוך Wagrain, ממש קרוב למלון; הכניסה חינמית לאורחי המלון עם כרטיס האורח. <a href="https://www.wagrain-kleinarl.at/de/sommer/wasserwelt-wagrain.html" target="_blank" rel="noopener">האתר הרשמי</a>.</div>
     </div>
+    <div class="box red"><b>⚠️ גיל מינימום 4 למכרה</b>הכניסה למכרה המלח אסורה מתחת לגיל 4 - מגבלה חוקית שנאכפת ללא יוצא מן הכלל. שלוש הפעוטות (2:2, 2:8, 3:3) לא ייכנסו, ובניגוד ל-Hallstatt אין כאן תחליף. מחליטים מראש מי נשאר איתן בזמן הסיור - במתחם יש מסעדה, ומ-11:00 אפשר לעבור ל-Keltenblitz. מי שנשאר בחוץ קונה רק כרטיס מגלשה.</div>
     <div class="boxes">
-      <div class="box green"><b>יום מיוחד</b>אגם מהיפים באזור ורכבת שיניים היסטורית לפסגה - שילוב נדיר של טבע ונוסטלגיה, ומסתיים במרחצאות חמים קרוב למלון.</div>
-      <div class="box red"><b>חשוב</b>מומלץ להזמין כרטיסים ל-Schafbergbahn מראש - זו אטרקציה פופולרית שנגמרים בה מקומות בעונה. הקרונות המונעים בקיטור אמיתי אינם מובטחים בכל נסיעה - שווה לבדוק בהזמנה אם רוצים דווקא אותם.</div>
-      <div class="box tan"><b>עונה ומחירים • Schafbergbahn</b>פועלת 25.4–1.11.2026 (בטווח הטיול שלנו). מחיר הלוך-חזור: מבוגר כ-61€, ילד (4-14) כ-18.40€. תחנה תחתונה: Markt 35, 5360 St. Wolfgang. מומלץ להזמין מראש - מקומות מוגבלים בעונה. <a href="https://www.5schaetze.at/en/schafbergbahn.html" target="_blank" rel="noopener">האתר הרשמי</a> · <a href="https://ticketing.5schaetze.at/en/Home/Index" target="_blank" rel="noopener">הזמנת כרטיסים</a>.</div>
+      <div class="box red"><b>תלוי מזג אוויר</b>Keltenblitz פועלת רק בתנאי יובש ונסגרת בגשם. בגשם: אחרי המכרה נוסעים ל-Erlebnis-Therme Amadé באלטנמרקט (כ-45-50 דק׳) במקום לחזור למלון. המכרה מקורה ופועל בכל מזג אוויר.</div>
+      <div class="box red"><b>פעוטות על המגלשה</b>במגלשות קיץ ילדים קטנים נוסעים רק עם מבוגר, ולרוב יש גיל מינימום גם בליווי. הגיל המדויק ב-Dürrnberg לא אומת — לבדוק בקופה לפני שקונים.</div>
+      <div class="box green"><b>למה Wasserwelt ולא Amadé</b>Amadé כבר הייתה ב-25.9 וב-28.9. Wasserwelt נותנת את אותה חוויה, חינם עם כרטיס האורח, ובמרחק דקות מהמלון.</div>
     </div>
-    <div class="sectionLabel">🧒 אופציות לילדים נוספות בסביבה</div>
-    <table class="kids">
-      <tr><td><b>Zwölferhorn (St. Gilgen)</b> — רכבל נוסף לפסגה עם מגלשת קיץ (Alpine Coaster) ומסלולי הליכה קלים, בצד השני של האגם - כ-15 דק׳ נסיעה מ-St. Wolfgang. אופציה אם נשאר זמן וכוח, לא חלק מהתוכנית הקבועה.
-          <a class="rowWaze" href="${wazeLink("zwoelferhorn")}" target="_blank" rel="noopener" title="נווט ב-Waze ל-Zwölferhornbahn">🧭</a>
-        </td><td>פועל בעונת הקיץ; לבדוק שעות מראש.</td></tr>
-    </table>
-    <div class="footerbar">סוף יום: Wagrain Wasserwelt חינם עם כרטיס האורח, ואז חזרה קצרה למלון.</div>
+    <div class="box tan"><b>שעות • 30.9.2026</b>Salzwelten Hallein פתוח 09:00-17:00. Keltenblitz בימי שני-שישי 11:00-17:00 (עד 11.10) — לא נפתחת לפני 11:00.</div>
+    <div class="box tan"><b>כרטיסים</b>
+      <b>מכרה + Keltenblitz (כרטיס משולב "Adventure Card"):</b> מבוגר כ-47€, ילד (4-14) כ-26€ — זול יותר מרכישה נפרדת. <a href="https://www.salzwelten.at/en/hallein" target="_blank" rel="noopener">Salzwelten — האתר הרשמי</a>.<br>
+      <b>מכרה בלבד:</b> מבוגר כ-35€, ילד (4-15) כ-16€.<br>
+      <b>Keltenblitz בלבד</b> (למי שנשאר עם הפעוטות): מבוגר 19.50€, ילד 13.20€. <a href="https://duerrnberg.at/en/prices/" target="_blank" rel="noopener">מחירים באתר הרשמי</a>.
+    </div>
+    <div class="footerbar">הוחלף: Wolfgangsee + Schafbergbahn ירדו מהתוכנית. אם הוזמנו כרטיסים לרכבת — לבטל.</div>
   `
 },
 {
@@ -1367,7 +1366,7 @@ const DAYS = [
       <div class="p"><b>מגרש משחקים Kinderland — </b>מגרש גדול ומגודר בפארק העירוני, צמוד לאגם וממש ליד הטיילת - מקום טוב לשחרר את הילדים אחרי הבוקר בהר.</div>
     </div>
     <div class="boxes">
-      <div class="box green"><b>יום רגוע יחסית</b>אטרקציה אחת גדולה בבוקר ואחר צהריים פנוי באמת - שינוי קצב מבורך אחרי גרוסגלוקנר ושפברגבאן, ומתאים יותר לפעוטות ולסבים.</div>
+      <div class="box green"><b>יום רגוע יחסית</b>אטרקציה אחת גדולה בבוקר ואחר צהריים פנוי באמת - שינוי קצב מבורך אחרי גרוסגלוקנר והלשטאט, ומתאים יותר לפעוטות ולסבים.</div>
       <div class="box red"><b>עם הקטנות והסבים</b>גובה 2,040 מ׳ יכול להיות קריר ורוחי - שכבות חמות וכובע. ברגע שעולים, הירידה אורכת כ-45 דקות ואי אפשר "לרדת מהר" כמו ברכבל רגיל.</div>
     </div>
     <div class="box red"><b>לברר לפני</b>מדיניות עגלה ומנשא באוטובוסי ההסעה ובמעלית Lärchwand - טלפון +43 50 313 23201. עם שלוש פעוטות בקבוצה זו שאלה מהותית.</div>
@@ -1459,8 +1458,8 @@ const DAYS = [
         <a class="rowWaze" href="${wazeLink("hohensalzburg")}" target="_blank" rel="noopener" title="נווט ב-Waze ל-Hohensalzburg">🧭</a>,
         Haus der Natur
         <a class="rowWaze" href="${wazeLink("hausdernatur")}" target="_blank" rel="noopener" title="נווט ב-Waze ל-Haus der Natur">🧭</a>
-        ). חלופה טובה ליום מעונן/גשום, או להחלפה עם 30.9 אם מזג האוויר לא מתאים לרכבת ההרים.</li>
-      <li><b>Werfenweng</b> — כפר אלפי שקט עם אגם קטן ונעים (Wengsee) ומגרש משחקים; ירד מהתוכנית הקבועה של 28.9 כדי לפנות זמן ל-Hallein, אבל בהחלט אפשר לשלב במקום Keltenblitz אם יורד גשם או שהילדים עייפים.
+        ). חלופה טובה ליום מעונן/גשום.</li>
+      <li><b>Werfenweng</b> — כפר אלפי שקט עם אגם קטן ונעים (Wengsee) ומגרש משחקים; כ-15 דק׳ מ-Hohenwerfen - תוספת אפשרית ל-28.9 אם נשאר זמן לפני התרמה.
         <a class="rowWaze" href="${wazeLink("werfenweng")}" target="_blank" rel="noopener" title="נווט ב-Waze ל-Werfenweng">🧭</a>
       </li>
       <li><b>Schmittenhöhe (Zell am See)</b> — רכבל לפסגה עם נוף ל-30 פסגות מעל 3,000 מ׳, ושביל החוויה Schmidolins Feuertaufe עם 15 תחנות משחק לילדים. ירד מ-1.10 לטובת קאפרון, וזו ההחלפה הטבעית אם מזג האוויר בקאפרון גרוע. מבוגר כ-45€, ילד כ-22.50€. <a href="https://www.schmitten.at/en/Tickets-Prices/Summertickets" target="_blank" rel="noopener">האתר הרשמי</a>.
@@ -1551,16 +1550,15 @@ const DAYS = [
     <div class="box yellow"><b>הערה על ההמלצות</b>אספתי אותן ממדריכי תיירות ומאתרי התיירות המקומיים, וכפתורי ה-Waze מחפשים לפי שם ויישוב ולא לפי כתובת מדויקת - כך שגם אם מסעדה עברה מקום, הניווט עדיין יגיע אליה. שעות פתיחה בסוף ספטמבר משתנות, ובכפרים קטנים יש יום סגירה שבועי - שווה בדיקה מהירה לפני שנוסעים במיוחד.</div>
 
     <div class="sectionLabel">🌦️ גמישות לפי מזג האוויר</div>
-    <div class="box tan">Grossglockner, Hallstatt, Zell am See ו-Wolfgangsee (הנוף מהרכבת לפסגה) שמורים לימים עם הראות הטובה ביותר. אם יורד גשם באחד מהם, Salzburg היא חלופה טובה ליום מעונן. שימו לב שהרכבל ל-Geisterberg פועל בין 12.9–18.10.2026 רק בימי שישי–שלישי, אז אפשר להזיז את ה-27.9 רק לשבת, ראשון, שני או שלישי.</div>
+    <div class="box tan">Grossglockner, Hallstatt ו-Zell am See שמורים לימים עם הראות הטובה ביותר. אם יורד גשם באחד מהם, Salzburg היא חלופה טובה ליום מעונן. שימו לב שהרכבל ל-Geisterberg פועל בין 12.9–18.10.2026 רק בימי שישי–שלישי, אז אפשר להזיז את ה-27.9 רק לשבת, ראשון, שני או שלישי.</div>
 
     <div class="sectionLabel">🚦 מוקדי עומס ושעות שיא</div>
     <div class="meta">בלו״ז של כל יום, שורות שצפוי בהן עומס מסומנות בכפתור 🚦 - הקשה עליו פותחת את הפרטים.</div>
     <ul class="trafficList">
-      <li><b>מעבר זלצבורג (A10 ↔ B158)</b> — <span class="when">07:00-09:00 ו-16:00-18:00 בימי חול.</span> הצוואר המרכזי של הטיול. משפיע על החזרה מוולפגנגזה ב-30.9 ועל החזרה מהליין ב-28.9. מוסיף 15-25 דק׳.</li>
+      <li><b>מעבר זלצבורג (A10 ↔ B158)</b> — <span class="when">07:00-09:00 ו-16:00-18:00 בימי חול.</span> הצוואר המרכזי של הטיול. משפיע בעיקר על הנסיעה להליין בבוקר של 30.9 - החזרה מתוכננת לצהריים, לפני השיא. מוסיף 15-25 דק׳ בשעות השיא.</li>
       <li><b>A10 דרומה לכיוון מנהרת Tauern</b> — <span class="when">שישי אחה״צ ושבת בבוקר.</span> רלוונטי בעיקר ל-25.9, שהוא יום שישי. בסוף ספטמבר, אחרי עונת הקיץ, זה מתון יחסית.</li>
       <li><b>חניוני Hallstatt</b> — <span class="when">מתמלאים 10:00-15:00.</span> לא פקק בכביש אלא תור לחניה. זו הסיבה ליציאה ב-07:45 ב-29.9.</li>
       <li><b>חניון Kaiser-Franz-Josefs-Höhe</b> — <span class="when">10:00-14:00.</span> הכביש עצמו זורם; החניון בתצפית מתמלא ולפעמים נסגר זמנית.</li>
-      <li><b>B158 לאורך האגמים</b> — <span class="when">לאורך כל היום בעונה.</span> כביש דו-נתיבי צר; אוטובוס תיירים אחד מאט את כל השיירה. זו הסיבה שזמן הנסיעה ל-St. Wolfgang עודכן ל-1:40-1:50.</li>
       <li><b>A1 מזרחה לכיוון וינה</b> — <span class="when">שישי 15:00-18:00.</span> רלוונטי ל-2.10 בדרך לשדה. היציאה ב-16:30 מדורנשטיין מספיקה, אבל בלי למתוח.</li>
     </ul>
     <div class="sectionLabel">✅ בדיקות אחרונות</div>
@@ -1568,13 +1566,13 @@ const DAYS = [
       <li>Grossglockner הוקדם ל-26.9 ו-Hallstatt נדחה ל-29.9.</li>
       <li>אם הוזמנו כרטיסים ל-Salzwelten Hallstatt ל-26.9 — לשנות את התאריך ל-29.9.</li>
       <li>ב-26.9 לצאת מהקרחון ב-15:15 כדי להספיק את Wildpark Ferleiten לפני הסגירה ב-18:00 (אין צורך בהזמנה מראש, משלמים בכניסה).</li>
-      <li>להזמין מראש כרטיסים ל-Schafbergbahn (30.9) - אטרקציה פופולרית שנגמרים בה מקומות בעונה.</li>
-      <li>כדאי לרכוש מראש גם ל-Hallstatt Salzwelten (29.9), Geisterberg (27.9 - חוסך עד 15%), ו-Hohenwerfen (28.9); הקישורים והמחירים המעודכנים נמצאים בעמוד של כל יום.</li>
+      <li>30.9 שונה: Wolfgangsee ו-Schafbergbahn ירדו לטובת מכרה המלח ב-Hallein. אם הוזמנו כרטיסים ל-Schafbergbahn — לבטל.</li>
+      <li>כדאי לרכוש מראש גם ל-Hallstatt Salzwelten (29.9), Geisterberg (27.9 - חוסך עד 15%), ו-Hohenwerfen (28.9) ומכרה המלח ב-Hallein (30.9); הקישורים והמחירים המעודכנים נמצאים בעמוד של כל יום.</li>
       <li>לאשר מול Schattauer את תנאי Wasserwelt, את Shuttleberg ל-2026, ואת הכללת/עלות Kaprun במסגרת Salzburger Sportwelt Card.</li>
       <li>קניות: 25.9 (שישי) הוא ההזדמנות הנוחה לקנייה גדולה - הסופרים פתוחים עד 19:00-19:15. בשבת הם נסגרים מוקדם (BILLA כבר ב-14:00) וביום ראשון סגורים לגמרי.</li>
       <li>לבדוק סמוך לנסיעה את פעילות הרכבלים והשיט ב-Zell am See.</li>
       <li>ל-Hohenwerfen לקחת מנשא ולהגיע בזמן למופע 11:15.</li>
-      <li>Keltenblitz (מגלשת הקיץ ב-Hallein) פועלת רק בתנאי יובש - לבדוק תחזית ל-28.9 ולהיות מוכנים לוותר עליה אם יורד גשם (המכרה עצמו מקורה ופועל בכל מזג אוויר).</li>
+      <li>Keltenblitz (מגלשת הקיץ ב-Hallein) פועלת רק בתנאי יובש - לבדוק תחזית ל-30.9 ולהיות מוכנים לוותר עליה אם יורד גשם (המכרה עצמו מקורה ופועל בכל מזג אוויר).</li>
       <li>הרכבל ל-Geisterberg פועל רק בימי שישי-שלישי — אם מזיזים ימים, לוודא שה-27.9 נופל באחד מהם.</li>
       <li>לוודא מדיניות עגלה/מנשא באוטובוסי Kaprun ובמעלית Lärchwand מראש טלפונית (+43 50 313 23201).</li>
       <li>להחליט מי נשאר עם שלוש הפעוטות (2:2, 2:8, 3:3) בשני המכרות - הכניסה אסורה מתחת לגיל 4. ב-Hallstatt יש פתרון (רכבל + Skywalk), ב-Hallein אין.</li>
@@ -1647,11 +1645,11 @@ const FUN_FACTS = {
     "המרמיטה ישנה בתרדמת חורף כמעט חצי שנה, ומזהירה את החברות שלה בשריקה חדה כשמתקרבת סכנה.",
   ],
   d7: [
-    "הרכבת Schafbergbahn פועלת כבר מאז שנת 1893 — היא אחת מרכבות ההרים העתיקות באירופה!",
-    "מפסגת שפברג (1,783 מ׳) אפשר לראות בערך 13 אגמים שונים ביום בהיר!",
-    "חלק מקרונות הרכבת עדיין מונעים בקיטור אמיתי — ממש כמו לפני יותר מ-100 שנה.",
-    "אגם Wolfgangsee נקרא על שם קדוש שחי באזור לפני יותר מ-1,000 שנה.",
-    "בסוף היום נשחה ב-Wagrain Wasserwelt — ולנו זה חינם, כי אנחנו אורחים במלון!",
+    "מכרה המלח ב-Hallein פעיל כבר יותר מ-2,600 שנה — עוד מתקופת הקלטים!",
+    "במכרה יורדים בין המפלסים על מגלשות עץ ארוכות ושטים בסירה על אגם מלח תת-קרקעי.",
+    "בתוך המכרה חוצים את הגבול לגרמניה — ההר יושב בדיוק על קו הגבול!",
+    "מגלשת הקיץ Keltenblitz אורכת 2.2 ק״מ — אחת הארוכות באוסטריה!",
+    "בערב נשחה ב-Wagrain Wasserwelt — ולנו זה חינם, כי אנחנו אורחים במלון!",
   ],
   d8: [
     "סכר Mooserboden בקאפרון עומד בגובה 2,040 מטר - גבוה יותר מכל הר בישראל!",
@@ -1725,12 +1723,12 @@ const EATS = {
     note:"ההמלצה שלי ליום הזה היא פיקניק. קונים ב-BILLA בוואגריין בערב שלפני, ואוכלים באחת נקודות התצפית עם הנוף — זול יותר, גמיש יותר, ולא מבזבזים חצי שעה בתור."
   },
   d7: {
-    title:"בסנט וולפגנג",
+    title:"בבאד דירנברג ובהליין",
     list:[
-      {n:"מסעדת הפסגה, Schafbergalm", t:"בפסגה", d:"בפסגת שפברג, ליד תחנת הרכבת העליונה. הנוף ל-13 אגמים מהמרפסת הוא הסיבה האמיתית לשבת שם, לא התפריט.", q:"Schafbergalm, St. Wolfgang im Salzkammergut, Austria"},
-      {n:"Dorf-Alm", t:"מסורתי", d:"מבנה עץ מקושט עם מרפסת ארוכה, מטבח אוסטרי כבד — גולאש, שניצל, מרק בקר עם כופתאות גבינה. לפעמים יש מוזיקה אוסטרית חיה. חניה חינם.", q:"Dorf-Alm, St. Wolfgang im Salzkammergut, Austria"},
-      {n:"Weisses Rössl", t:"האייקון", d:"המלון ההיסטורי שהכפר מפורסם בזכותו, עם מסעדה ומרפסת על האגם. יקר, אבל אתם עוברים לידו ממילא — לפחות שווה קפה על המרפסת.", q:"Weisses Rössl, St. Wolfgang im Salzkammergut, Austria"},
-    ]
+      {n:"מסעדת Salzwelten Hallein", t:"במכרה", d:"מסעדה במתחם מכרה המלח עצמו. נוחה במיוחד היום - גם למבוגר שמחכה עם הפעוטות בזמן הסיור, וגם לצהריים אחרי המגלשה.", q:"Salzwelten Hallein, Ramsaustraße 3, 5422 Bad Dürrnberg, Austria"},
+      {n:"העיר העתיקה של Hallein", t:"בדרך למטה", d:"5 דקות ירידה מההר: סמטאות מרוצפות, כיכרות קטנות ובתי קפה. אפשרות טובה לצהריים לפני העלייה ל-A10 בחזרה.", q:"Altstadt Hallein, 5400 Hallein, Austria"},
+    ],
+    note:"בערב אתם ב-Wasserwelt בוואגריין - לארוחת ערב ראו את ההמלצות לוואגריין בעמוד \"מידע\"."
   },
   d8: {
     title:"בקפרון ובצל am See",
@@ -1780,7 +1778,7 @@ const FORECAST_LOCS = [
   {k:"wagrain",    nm:"וואגריין",   note:"הבסיס"},
   {k:"glockner",   nm:"גרוסגלוקנר", note:"2,369 מ׳"},
   {k:"hallstatt",  nm:"הלשטאט",     note:""},
-  {k:"stwolfgang", nm:"וולפגנגזה",  note:""},
+  {k:"hallein_salt", nm:"הליין",  note:""},
   {k:"kaprun",     nm:"קפרון",      note:"2,040 מ׳"},
 ];
 const FORECAST_DAYS = 16;   // Open-Meteo's maximum; the window reaches the trip from ~8.9 onward
@@ -2085,7 +2083,7 @@ const COST_ROWS = [
   {day:"28.9", label:"Burg Hohenwerfen",            adult:20.90, child:8.60},
 
   {day:"29.9", label:"Salzwelten Hallstatt",        adult:49,    child:23},
-  {day:"30.9", label:"Schafbergbahn",               adult:61,    child:18.40},
+  {day:"30.9", label:"הליין + קלטנבליץ",            adult:47,    child:26},
   {day:"1.10", label:"Kaprun Hochgebirgsstauseen",  adult:39.50, child:22},
   {day:"2.10", label:"מנזר Melk",                   adult:16,    family:32},
 ];
@@ -2206,8 +2204,7 @@ const IMAGES = {
   d4:  [ {f:"St.-Johannes-Kirche in Sankt Johann im Pongau.jpg", alt:"St. Johann im Pongau"} ],
   d5:  [ {f:"Hohenwerfen castle.jpg", alt:"מצודת Hohenwerfen"} ],
   d3:  [ {f:"20190624.Kaiser-Franz-Joseph-Höhe, Grossglockner.-047.jpg", alt:"Kaiser-Franz-Josefs-Höhe, Grossglockner"} ],
-  d7:  [ {f:"Schafbergbahn-Dampflok.jpg", alt:"קרון הקיטור של ה-Schafbergbahn"},
-         {f:"St. Gilgen - Nordwestansicht des Wolfgangsees.JPG", alt:"נוף לאגם Wolfgangsee"} ],
+  d7:  [ {f:"20190129 Salzwelten 9353 (47332384992).jpg", alt:"מכרה המלח Salzwelten Hallein"} ],
   d8:  [ {f:"Stausee Mooserboden Kaprun 01.jpg", alt:"סכר Mooserboden, Kaprun"},
          {f:"Zell am see zeller see.jpg", alt:"Zell am See"} ],
   d9:  [ {f:"Melk Abbey (8).jpg", alt:"מנזר Melk"},
@@ -2229,7 +2226,7 @@ function renderGallery(id){
 /* ---------- Map (Google Maps, no key) + Waze navigation ---------- */
 const DAY_ICON = {
   checklist:"✅", forecast:"🌦️", d1:"✈️", d2:"🏞️", d6:"🏞️", d4:"🎢", d5:"🏰",
-  d3:"🏔️", d7:"🚂", d8:"🚡", d9:"⛪", d10:"✈️", alt:"📋", costs:"💶", trivia:"🎯",
+  d3:"🏔️", d7:"⛏️", d8:"🚡", d9:"⛪", d10:"✈️", alt:"📋", costs:"💶", trivia:"🎯",
 };
 const LOC_ICON = {
   airport:"✈️", vienna:"🏛️", gmunden:"🏞️", schlossort:"🏰", wagrain:"🏡", wagrain_billa:"🛒", wagrain_spar:"🛒", altenmarkt_mpreis:"🛒", altenmarkt_billa:"🛒", gmunden_eurospar:"🛒", hallstatt:"🏘️", hallstatt_salt:"⛏️", gosausee:"🏞️",
@@ -2244,7 +2241,7 @@ const LOC_ICON = {
    main destination, shown between the map and the schedule. ---------- */
 const WEATHER_LOC = {
   d1:"airport", d2:"gmunden", d6:"hallstatt", d4:"alpendorf", d5:"werfen",
-  d3:"glockner", d7:"stwolfgang", d8:"kaprun", d9:"melk", d10:"airport",
+  d3:"glockner", d7:"hallein_salt", d8:"kaprun", d9:"melk", d10:"airport",
 };
 const WEATHER_CACHE = {};
 let weatherSeq = 0;
@@ -2568,7 +2565,7 @@ const ROW_WAZE = {
   d4: [ ["הגעה ל-Alpendorf","alpendorf"], ["St. Johann: מרכז עתיק","alpendorf"], ["חזרה ל-Wagrain","wagrain"] ],
   d5: [ ["חניה ועלייה במעלית לטירה","werfen"], ["נסיעה ל-Erlebnis-Therme Amadé","amade"], ["חזרה למלון בוואגריין","wagrain"] ],
   d3: [ ["עצירה ב-Fuscher Törl","fuscher_torl"], ["עצירה ב-Hochtor","hochtor"], ["תצפית הקרחון ב-Kaiser Franz Josef Höhe","glockner"], ["Erlebnispark Ferleiten","ferleiten"], ["Wagrain","wagrain"] ],
-  d7: [ ["הגעה ל-St. Wolfgang","stwolfgang"], ["הגעה לוואגריין, מנוחה","wagrain"], ["Wagrain Wasserwelt","wasserwelt"], ["חזרה למלון","wagrain"] ],
+  d7: [ ["הגעה למכרה המלח","hallein_salt"], ["Keltenblitz","keltenblitz"], ["נסיעה חזרה ל-Wagrain","wagrain"], ["Wagrain Wasserwelt","wasserwelt"], ["חזרה למלון","wagrain"] ],
   d8: [ ["חניה בחניון החינמי ליד קופת Kesselfall","kaprun"], ["נסיעה ל-Zell am See","zell"], ["חזרה ל-Wagrain","wagrain"] ],
   d9: [ ["הגעה ל-Melk","melk"], ["נסיעה לאורך Wachau ל-Dürnstein","durnstein"], ["יציאה לשדה התעופה","airport"], ["MOXY, החזרת רכב ואריזה","airport"] ],
 };
@@ -2610,11 +2607,8 @@ const TRAFFIC = {
     text:"הכביש עצמו כמעט אף פעם לא נתקע, אבל החניון בקייזר-פרנץ-יוזפס-הֶהֶה מתמלא בצהריים ולפעמים סוגרים אותו זמנית. היציאה ב-08:00 והגעה לתצפית עד ~11:30 מביאות אתכם בתחילת הגל — בשבת עלול להיות עמוס יותר."
   }] ],
   d7: [ ["יציאה מ-Wagrain", {
-    peak:"07:00-09:00 בכניסה לזלצבורג",
-    text:"הנסיעה חוצה את אזור זלצבורג בין ה-A10 ל-B158, ובבוקר יש שם תנועת נכנסים לעיר. זו אחת הסיבות שהערכת הנסיעה עודכנה ל-1:40-1:50 ולא 1:30."
-  }], ["יציאה בחזרה ל-Wagrain", {
-    peak:"16:00-18:00 סביב זלצבורג",
-    text:"זה הקטע הבעייתי ביותר בטיול. יציאה ב-15:15 מקדימה את השיא בקושי; כל עיכוב מעבר ל-16:00 נכנס בול לפקק ויכול להוסיף 25 דק׳. גם ה-B158 לאורך האגמים היא דו-נתיבית וצרה - אוטובוס תיירים אחד מאט את כל השיירה."
+    peak:"07:00-09:00 לכיוון זלצבורג",
+    text:"ה-A10 צפונה נכנסת לשעת השיא של הבוקר סביב זלצבורג, אבל יציאת Hallein נמצאת לפני העיר. ב-08:30 זה בדרך כלל מתון - חשבו על כ-10 דק׳ תוספת לכל היותר."
   }] ],
   d9: [ ["יציאה לשדה התעופה", {
     peak:"שישי 15:00-18:00 בכניסה לווינה",
@@ -2703,11 +2697,11 @@ const TOLL = {
   },
   d7: {
     rows: [
-      ["יציאה מ-Wagrain", {t:"Vignette", c:"נדרשת", x:"הנסיעה עולה על ה-A10 צפונה לכיוון זלצבורג ומשם ב-B158 לאגמים - קטע האוטוסטרדה דורש Vignette. אין אגרת מנהרה בכיוון הזה."}],
-      ["הגעה ל-St. Wolfgang, חניה ליד תחנת הרכבת", {t:"חניה בתשלום", c:"עד 14.50€", x:"חניון P7 צמוד לתחנת ה-Schafbergbahn: 20 דקות ראשונות חינם, 2.10€ לכל שעה, ותעריף יום 14.50€. מי שמציג כרטיס הלוך-חזור של הרכבת מקבל 4€ הנחה על תעריף הרכב - שווה לשמור את הכרטיס ליציאה."}],
+      ["יציאה מ-Wagrain", {t:"Vignette", c:"נדרשת", x:"הנסיעה לבאד דירנברג וחזרה היא על ה-A10 - דורשת Vignette. אין אגרת מנהרה בכיוון הזה."}],
+      ["הגעה למכרה המלח", {t:"חניה", c:"חינם (לאמת)", x:"חניון גדול למבקרים בבאד דירנברג, משותף למכרה ול-Keltenblitz; לפי הדיווחים ללא תשלום. לאמת בהגעה."}],
     ],
     sum: ["<b>A10</b> — נדרשת Vignette.",
-          "<b>חניון P7 בסנט וולפגנג</b> — 2.10€ לשעה, יום 14.50€, פחות 4€ עם כרטיס Schafbergbahn.",
+          "<b>חניה בבאד דירנברג</b> — לפי הדיווחים חינם; לאמת בהגעה.",
           "<span class=\"none\">Wagrain Wasserwelt: חניה חינם</span>."],
   },
   d8: {
@@ -3147,10 +3141,8 @@ document.getElementById("dayScrollNext")?.addEventListener("click", () => stepDa
       { n:"Fuscher Törl — פנורמה 360°", u:"https://fuschertoerl.panomax.com/" },
       { n:"Edelweiss-Spitze — פנורמה 360°", u:"https://edelweissspitze.panomax.com/" },
       { n:"Freiwandeck — מבט על ה-Grossglockner", u:"https://www.foto-webcam.eu/webcam/freiwandeck/" } ]} ],
-    d7: [ { t:"🚂 St. Wolfgang + Schafberg", cams:[
-      { n:"פסגת Schafberg — פנורמה 360°", u:"https://schafberg.panomax.com/" },
-      { n:"תחנת הרכבת התחתונה + מזח השיט", u:"https://www.bergfex.com/sommer/sankt-wolfgang-am-wolfgangsee/webcams/c12568/" },
-      { n:"מצלמת Schafberg (אתר הרכבת)", u:"https://www.5schaetze.at/en/schafbergbahn/webcam.html" } ]} ],
+    d7: [ { t:"⛏️ Hallein / Bad Dürrnberg", cams:[
+      { n:"Hallein / Bad Dürrnberg (bergfex)", u:"https://www.bergfex.com/sommer/hallein-duerrnberg/webcams/" } ]} ],
     d8: [ { t:"🚡 Zell am See + Kaprun", cams:[
       { n:"פסגת Schmittenhöhe", u:"https://webtv.feratel.com/webtv/?design=v5&cam=5298&c4=1&c3=0&c8=0" },
       { n:"zellamseeXpress — תחנה עליונה", u:"https://webtv.feratel.com/webtv/?design=v5&cam=5295&c4=1&c3=0&c8=0" },
