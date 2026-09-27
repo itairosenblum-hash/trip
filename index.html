@@ -2081,6 +2081,9 @@ const COST_ROWS = [
   {day:"26.9", label:"Wildpark Ferleiten",           adult:15,    child:15},
   {day:"27.9", label:"Geisterberg (מחיר אונליין)",  adult:32.50, child:19.50},
   {day:"28.9", label:"Burg Hohenwerfen",            adult:20.90, child:8.60},
+  // 4-hour ticket, no sauna. With two paying adults, ages 6-15 pay only the 2-hour rate (at the
+  // counter, not online). Ages 3-5 pay €4; under 3 free.
+  {day:"28.9", label:"Erlebnis-Therme Amadé (4 שעות)", adult:30.50, child:19, childWith2Adults:13.50, tot3:4},
 
   {day:"29.9", label:"Salzwelten Hallstatt",        adult:49,    child:23},
   {day:"30.9", label:"הליין + קלטנבליץ",            adult:47,    child:26},
@@ -2089,7 +2092,7 @@ const COST_ROWS = [
 ];
 
 const COST_FAMILIES = [
-  {name:"רון ונטלי",   who:"2 מבוגרים · בת 6 · בת 3:3",          adults:2, kids:1, tots:1, car:true},
+  {name:"רון ונטלי",   who:"2 מבוגרים · בת 6 · בת 3:3",          adults:2, kids:1, tots:1, tots3:1, car:true},
   {name:"ליגל ואבירן", who:"2 מבוגרים · בן 11 · בן 7 · בן 2:2",  adults:2, kids:2, tots:1, car:true},
   {name:"ימית ואיתי",  who:"2 מבוגרים · בן 10 · בן 7 · בת 2:8",  adults:2, kids:2, tots:1, car:true},
   {name:"מוטי ואדרת",  who:"זוג מבוגרים (70 ו-63)",              adults:2, kids:0, tots:0, car:true},
@@ -2104,7 +2107,8 @@ function famRowCost(row, fam){
   if (row.perCar) return fam.car ? row.perCar : 0;
   // Melk sells a family ticket covering both parents and all their children — cheaper than
   // per-head once there are two adults, so use whichever is lower.
-  const perHead = fam.adults*row.adult + fam.kids*(row.child || 0);
+  const childRate = (row.childWith2Adults && fam.adults >= 2) ? row.childWith2Adults : (row.child || 0);
+  const perHead = fam.adults*row.adult + fam.kids*childRate + (fam.tots3 || 0)*(row.tot3 || 0);
   if (row.family && fam.adults >= 2) return Math.min(row.family, perHead);
   return perHead;
 }
@@ -2143,6 +2147,7 @@ function renderCosts(){
     <div class="sectionLabel">💰 איפה אפשר לחסוך</div>
     <div class="boxes">
       <div class="box tan"><b>הפעוטות לא נכנסות למכרות — נצלו את זה</b>ב-Hallstatt מבוגר שנשאר עם הקטנות למעלה צריך רק כרטיס רכבל (29€) במקום המשולב (49€) - חיסכון של 20€ לכל מלווה. ב-Hallein, מבוגר שמוותר על המכרה ועושה רק את קלטנבליץ משלם 19.50€ במקום 47€ - חיסכון של 27.50€. בסך הכל אפשר להוריד כ-95€ מהסכום הכולל.</div>
+      <div class="box tan"><b>Therme Amadé — קונים בקופה, לא אונליין</b>כשמשלמים שני מבוגרים, הילדים (6-15) משלמים רק תעריף שעתיים (13.50€ במקום 19€) - ההנחה ניתנת רק בקופה. הטבלה מניחה כרטיס 4 שעות בלי סאונה. בת 3:3 משלמת 4€, מתחת לגיל 3 חינם. ביום ההולדת - כניסה חינם עם תעודה.</div>
       <div class="box tan"><b>הזמנה מראש אונליין</b>Geisterberg לבדו חוסך עד 15% בהזמנה מוקדמת (כ-6€ למבוגר). ב-Hallstatt, Hohenwerfen ו-Melk ההזמנה מראש לא בהכרח זולה יותר, אבל חוסכת תור - ובימים הצפופים זה שווה יותר מכסף.</div>
     </div>
 
@@ -2150,7 +2155,7 @@ function renderCosts(){
     <div class="boxes">
       <div class="box yellow"><b>גיל הפטור ב-Geisterberg</b>לא הצלחנו לאמת מאיזה גיל מתחיל התשלום שם. החישוב למעלה מניח שהפעוטות (2:2, 2:8, 3:3) פטורות. אם הפטור מתחיל רק מגיל 4 או 6 - התוספת עד כ-60€ לקבוצה. בקאפרון זה מתועד: עד גיל 5 חינם, ולכן שלושתן פטורות בוודאות.</div>
       <div class="box tan"><b>הבת בת ה-6</b>ב-Hohenwerfen הטווח המוזל מתחיל בגיל 6 בדיוק, אז היא משלמת שם ככל ילד אחר ולא פטורה.</div>
-      <div class="box tan"><b>לא נכלל בטבלה</b>שיט באגמים (וולפגנגזה, צל am See), חצר הטירה בגמונדן (4-5€), Erlebnis-Therme Amadé ב-25.9, ארוחות וחניות. Schmittenhöhe ירדה מהמסלול (45€ למבוגר, 22.50€ לילד) - רלוונטית רק אם מחליפים אותה בקאפרון.</div>
+      <div class="box tan"><b>לא נכלל בטבלה</b>שיט באגמים (וולפגנגזה, צל am See), חצר הטירה בגמונדן (4-5€), הביקור ב-Therme Amadé ב-25.9, ארוחות וחניות. Schmittenhöhe ירדה מהמסלול (45€ למבוגר, 22.50€ לילד) - רלוונטית רק אם מחליפים אותה בקאפרון.</div>
     </div>
     <div class="footerbar">💡 המחירים נאספו ממקורות רשמיים ונכונים לעונת 2026 - כדאי לאמת מול אתרי האטרקציות סמוך לנסיעה.</div>
   `;
