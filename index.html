@@ -1058,6 +1058,7 @@ const LOC = {
   keltendorf: {lat:47.6798, lon:13.0950, label:"כפר הקלטים SALINA + מגרש משחקים", address:"Ramsaustraße 3, 5422 Bad Dürrnberg, אוסטריה"},
   keltenblitz: {lat:47.6810, lon:13.0920, label:"Keltenblitz — מגלשת קיץ אלפינית", address:"Weissenwäschweg 19, 5422 Bad Dürrnberg, אוסטריה"},
   amade:     {lat:47.3811, lon:13.2508, label:"Erlebnis-Therme Amadé", address:"Thermenplatz 1, 5541 Altenmarkt im Pongau, אוסטריה"},
+  lombardi:  {lat:47.3345, lon:13.2975, label:"Lombardi Restaurant, Wagrain", address:"Markt 36, 5602 Wagrain, אוסטריה"},
   wasserwelt:{lat:47.3385, lon:13.3040, label:"Wagrain Wasserwelt", address:"Kirchboden 25A, 5602 Wagrain, אוסטריה"},
   ferleiten: {lat:47.1686, lon:12.8147, label:"Wild- & Erlebnispark Ferleiten", address:"Ferleiten 2, 5672 Fusch an der Großglocknerstraße, אוסטריה"},
   fuscher_torl: {lat:47.1128, lon:12.8422, label:"Fuscher Törl"},
@@ -1301,23 +1302,22 @@ const DAYS = [
   `
 },
 {
-  id:"d7", nav:"30.9", navSub:"מכרה מלח + Wasserwelt",
-  segment: ["wagrain","hallein_salt","keltendorf","keltenblitz","wagrain","wasserwelt","wagrain"],
+  id:"d7", nav:"30.9", navSub:"מכרה מלח + Lombardi",
+  segment: ["wagrain","hallein_salt","keltendorf","keltenblitz","wagrain","lombardi","wagrain"],
   render: () => `
-    <div class="tag">יום ד׳, 30.9 (שונה) · מכרה מלח ומגלשה אלפינית בבוקר, מרחצאות ליד המלון אחר הצהריים</div>
-    <h2 class="title">Salzwelten Hallein + Wasserwelt</h2>
-    <div class="meta">נסיעות: Wagrain → Bad Dürrnberg כ-50-60 דק׳ (A10); חזרה באותה דרך; Wagrain Wasserwelt בתוך Wagrain עצמה</div>
+    <div class="tag">יום ד׳, 30.9 (שונה) · מכרה מלח ומגלשה אלפינית בבוקר, אחר צהריים חופשי וארוחת ערב בוואגריין</div>
+    <h2 class="title">Salzwelten Hallein + ארוחת ערב ב-Lombardi</h2>
+    <div class="meta">נסיעות: Wagrain → Bad Dürrnberg כ-50-60 דק׳ (A10); חזרה באותה דרך; Lombardi במרכז Wagrain, דקות מהמלון</div>
     <table class="sched">
       <tr><td>יציאה מ-Wagrain</td><td>09:00</td></tr>
       <tr><td>הגעה למכרה המלח Salzwelten Hallein (Bad Dürrnberg), קניית כרטיסים</td><td>~10:00</td></tr>
       <tr><td>סיור במכרה: רכבת תת-קרקעית, מגלשות עץ ושיט על אגם המלח (מבוגר נשאר בחוץ עם הפעוטות)</td><td>10:15-11:45</td></tr>
       <tr><td>למי שלא נכנס למכרה: כפר הקלטים SALINA, מפעל המלח ומגרש המשחקים — ממש ליד הכניסה למכרה</td><td>10:15-11:45</td></tr>
       <tr><td>Keltenblitz: עלייה ברכבל-כיסא וירידה במגלשת הקיץ (2.2 ק״מ), ממש ליד המכרה — כולם יחד</td><td>11:45-12:45</td></tr>
-      <tr><td>צהריים בבאד דירנברג או בעיר העתיקה של Hallein</td><td>12:45-13:45</td></tr>
-      <tr><td>נסיעה חזרה ל-Wagrain</td><td>~13:45-14:45</td></tr>
-      <tr><td>מנוחה והתארגנות במלון</td><td>14:45-15:45</td></tr>
-      <tr><td>Wagrain Wasserwelt: מרחצאות חמים ומגלשות מים (חינם עם כרטיס האורח)</td><td>16:00-19:00</td></tr>
-      <tr><td>חזרה למלון</td><td>~19:10</td></tr>
+      <tr><td>נסיעה חזרה ל-Wagrain</td><td>~12:45-13:45</td></tr>
+      <tr><td>אחר צהריים חופשי: מנוחה והתארגנות במלון</td><td>13:45-17:45</td></tr>
+      <tr><td>ארוחת ערב במסעדת Lombardi — Markt 36, Wagrain</td><td>18:00</td></tr>
+      <tr><td>חזרה למלון</td><td>~19:45</td></tr>
     </table>
     <div class="sectionLabel">📍 מה יש שם</div>
     <div class="places">
@@ -1325,13 +1325,13 @@ const DAYS = [
       <div class="p"><b>כפר הקלטים SALINA (Kelten.Erlebnis.Berg) — </b>התחליף לפעוטות ולמי שנשאר איתן. צמוד למכרה: שחזור של כפר קלטי מלפני 2,600 שנה, מפעל מלח שבו רואים איך מפיקים מלח מהתמלחת של ההר, ומגרש משחקים בנושא עם צינורות זחילה ורכבת מכרה מיניאטורית. במרחק הליכה מיציאת הסיור, כך שנפגשים עם כולם בלי לזוז ברכב.</div>
       <div class="p"><b>Keltenblitz — </b>מגלשת קיץ אלפינית (Sommerrodelbahn) באורך 2.2 ק״מ, ממש ליד מכרה המלח על אותו ההר; עולים ברכבל-כיסא ויורדים במזחלת מהירה בין העצים.</div>
       <div class="p"><b>Bad Dürrnberg — </b>כפר קטן על ההר שמעל העיירה Hallein, כ-5 דק׳ עלייה ממנה. המכרה והמגלשה נמצאים בו. בוויז נווטו לכתובת המדויקת (כפתורי 🧭) ולא ל-"Hallein", אחרת תגיעו לעיירה למטה.</div>
-      <div class="p"><b>Wagrain Wasserwelt — </b>מתחם מרחצאות חמים ומגלשות מים בתוך Wagrain, ממש קרוב למלון; הכניסה חינמית לאורחי המלון עם כרטיס האורח. <a href="https://www.wagrain-kleinarl.at/de/sommer/wasserwelt-wagrain.html" target="_blank" rel="noopener">האתר הרשמי</a>.</div>
+      <div class="p"><b>Lombardi Restaurant — </b>מסעדה במרכז Wagrain (Markt 36), דקות מהמלון; מטבח אוסטרי מסורתי לצד מנות בינלאומיות, עם ישיבה בחוץ וחניה. פתוחה ג׳-א׳ 17:00-22:00, סגורה בימי שני. טלפון: <a href="tel:+436644208745" dir="ltr">+43 664 4208745</a>.</div>
     </div>
     <div class="box red"><b>⚠️ גיל מינימום 4 למכרה</b>הכניסה למכרה המלח אסורה מתחת לגיל 4 - מגבלה חוקית שנאכפת ללא יוצא מן הכלל. שלוש הפעוטות (2:2, 2:8, 3:3) לא ייכנסו, <b>התחליף:</b> כפר הקלטים SALINA ומגרש המשחקים, צמודים למכרה - מבוגר אחד נשאר שם עם הקטנות בזמן הסיור. במתחם יש גם מסעדה, ובסיום הסיור כולם עוברים יחד ל-Keltenblitz. מי שנשאר בחוץ קונה כרטיס לכפר (7.50€, הפעוטות חינם) וכרטיס מגלשה.</div>
     <div class="boxes">
-      <div class="box red"><b>תלוי מזג אוויר</b>Keltenblitz פועלת רק בתנאי יובש ונסגרת בגשם. בגשם: אחרי המכרה נוסעים ל-Erlebnis-Therme Amadé באלטנמרקט (כ-45-50 דק׳) במקום לחזור למלון. המכרה מקורה ופועל בכל מזג אוויר.</div>
+      <div class="box red"><b>תלוי מזג אוויר</b>Keltenblitz פועלת רק בתנאי יובש ונסגרת בגשם. בגשם: מוותרים על המגלשה וחוזרים למלון מוקדם יותר. המכרה מקורה ופועל בכל מזג אוויר.</div>
       <div class="box red"><b>פעוטות על המגלשה</b>במגלשות קיץ ילדים קטנים נוסעים רק עם מבוגר, ולרוב יש גיל מינימום גם בליווי. הגיל המדויק ב-Dürrnberg לא אומת — לבדוק בקופה לפני שקונים.</div>
-      <div class="box green"><b>למה Wasserwelt ולא Amadé</b>Amadé כבר הייתה ב-25.9 וב-28.9. Wasserwelt נותנת את אותה חוויה, חינם עם כרטיס האורח, ובמרחק דקות מהמלון.</div>
+      <div class="box green"><b>ארוחת הערב — להזמין מקום</b>17 נפשות ב-18:00: להתקשר ל-Lombardi מראש ולשריין שולחן לכולם (<a href="tel:+436644208745" dir="ltr">+43 664 4208745</a>). המסעדה נפתחת ב-17:00, כך ש-18:00 היא עוד לפני העומס.</div>
     </div>
     <div class="box tan"><b>שעות • 30.9.2026</b>Salzwelten Hallein וכפר הקלטים SALINA פתוחים 09:00-17:00. Keltenblitz בימי שני-שישי 11:00-17:00 (עד 11.10) — לא נפתחת לפני 11:00.</div>
     <div class="box tan"><b>כרטיסים</b>
@@ -1653,7 +1653,7 @@ const FUN_FACTS = {
     "במכרה יורדים בין המפלסים על מגלשות עץ ארוכות ושטים בסירה על אגם מלח תת-קרקעי.",
     "בתוך המכרה חוצים את הגבול לגרמניה — ההר יושב בדיוק על קו הגבול!",
     "מגלשת הקיץ Keltenblitz אורכת 2.2 ק״מ — אחת הארוכות באוסטריה!",
-    "בערב נשחה ב-Wagrain Wasserwelt — ולנו זה חינם, כי אנחנו אורחים במלון!",
+    "כמעט כל המלח שאוכלים באוסטריה מגיע ממכרות באזור — וה-Salz בשם זלצבורג פירושו מלח!",
   ],
   d8: [
     "סכר Mooserboden בקאפרון עומד בגובה 2,040 מטר - גבוה יותר מכל הר בישראל!",
@@ -1727,12 +1727,10 @@ const EATS = {
     note:"ההמלצה שלי ליום הזה היא פיקניק. קונים ב-BILLA בוואגריין בערב שלפני, ואוכלים באחת נקודות התצפית עם הנוף — זול יותר, גמיש יותר, ולא מבזבזים חצי שעה בתור."
   },
   d7: {
-    title:"בבאד דירנברג ובהליין",
+    title:"ארוחת ערב בוואגריין",
     list:[
-      {n:"מסעדת Salzwelten Hallein", t:"במכרה", d:"מסעדה במתחם מכרה המלח עצמו. נוחה במיוחד היום - גם למבוגר שמחכה עם הפעוטות בזמן הסיור, וגם לצהריים אחרי המגלשה.", q:"Salzwelten Hallein, Ramsaustraße 3, 5422 Bad Dürrnberg, Austria"},
-      {n:"העיר העתיקה של Hallein", t:"בדרך למטה", d:"5 דקות ירידה מההר: סמטאות מרוצפות, כיכרות קטנות ובתי קפה. אפשרות טובה לצהריים לפני העלייה ל-A10 בחזרה.", q:"Altstadt Hallein, 5400 Hallein, Austria"},
-    ],
-    note:"בערב אתם ב-Wasserwelt בוואגריין - לארוחת ערב ראו את ההמלצות לוואגריין בעמוד \"מידע\"."
+      {n:"Lombardi Restaurant", t:"18:00 · שמור לנו", d:"מטבח אוסטרי מסורתי לצד מנות בינלאומיות, במרכז וואגריין ודקות מהמלון. פתוחה ג׳-א׳ 17:00-22:00 (סגורה בימי שני). לקבוצה של 17 - להתקשר ולשריין: +43 664 4208745.", q:"Lombardi Restaurant, Markt 36, 5602 Wagrain, Austria", w:"https://www.facebook.com/lombardiwagrain/"},
+    ]
   },
   d8: {
     title:"בקפרון ובצל am See",
@@ -2241,7 +2239,7 @@ const LOC_ICON = {
   airport:"✈️", vienna:"🏛️", gmunden:"🏞️", schlossort:"🏰", wagrain:"🏡", wagrain_billa:"🛒", wagrain_spar:"🛒", altenmarkt_mpreis:"🛒", altenmarkt_billa:"🛒", gmunden_eurospar:"🛒", hallstatt:"🏘️", hallstatt_salt:"⛏️", gosausee:"🏞️",
   alpendorf:"🎢", werfen:"🏰", hallein_salt:"⛏️", keltendorf:"🏺", keltenblitz:"🛝", amade:"♨️",
   ferleiten:"🦌", fuscher_torl:"🌄", hochtor:"🏔️", glockner:"🏔️",
-  stwolfgang:"🚂", wasserwelt:"🌊", zell:"🚡", schmittenhoehe:"🚠", kaprun:"💧", melk:"⛪", durnstein:"⛪",
+  stwolfgang:"🚂", lombardi:"🍽️", wasserwelt:"🌊", zell:"🚡", schmittenhoehe:"🚠", kaprun:"💧", melk:"⛪", durnstein:"⛪",
   zwoelferhorn:"🚡", liechtensteinklamm:"🏞️", krimml:"💦", shuttleberg:"🚡",
   hohensalzburg:"🏰", hausdernatur:"🏛️", werfenweng:"🏞️",
 };
@@ -2574,7 +2572,7 @@ const ROW_WAZE = {
   d4: [ ["הגעה ל-Alpendorf","alpendorf"], ["St. Johann: מרכז עתיק","alpendorf"], ["חזרה ל-Wagrain","wagrain"] ],
   d5: [ ["חניה ועלייה במעלית לטירה","werfen"], ["נסיעה ל-Erlebnis-Therme Amadé","amade"], ["חזרה למלון בוואגריין","wagrain"] ],
   d3: [ ["עצירה ב-Fuscher Törl","fuscher_torl"], ["עצירה ב-Hochtor","hochtor"], ["תצפית הקרחון ב-Kaiser Franz Josef Höhe","glockner"], ["Erlebnispark Ferleiten","ferleiten"], ["Wagrain","wagrain"] ],
-  d7: [ ["הגעה למכרה המלח","hallein_salt"], ["כפר הקלטים SALINA","keltendorf"], ["Keltenblitz","keltenblitz"], ["נסיעה חזרה ל-Wagrain","wagrain"], ["Wagrain Wasserwelt","wasserwelt"], ["חזרה למלון","wagrain"] ],
+  d7: [ ["הגעה למכרה המלח","hallein_salt"], ["כפר הקלטים SALINA","keltendorf"], ["Keltenblitz","keltenblitz"], ["נסיעה חזרה ל-Wagrain","wagrain"], ["ארוחת ערב במסעדת Lombardi","lombardi"], ["חזרה למלון","wagrain"] ],
   d8: [ ["חניה בחניון החינמי ליד קופת Kesselfall","kaprun"], ["נסיעה ל-Zell am See","zell"], ["חזרה ל-Wagrain","wagrain"] ],
   d9: [ ["הגעה ל-Melk","melk"], ["נסיעה לאורך Wachau ל-Dürnstein","durnstein"], ["יציאה לשדה התעופה","airport"], ["MOXY, החזרת רכב ואריזה","airport"] ],
 };
@@ -2711,7 +2709,7 @@ const TOLL = {
     ],
     sum: ["<b>A10</b> — נדרשת Vignette.",
           "<b>חניה בבאד דירנברג</b> — לפי הדיווחים חינם; לאמת בהגעה.",
-          "<span class=\"none\">Wagrain Wasserwelt: חניה חינם</span>."],
+          "<span class=\"none\">Lombardi בוואגריין: חניה במקום</span>."],
   },
   d8: {
     rows: [
@@ -3264,7 +3262,7 @@ const SEARCH_SYNONYMS = [
   ["hohenwerfen","הוהנוורפן"], ["werfen","וורפן"], ["hallein","הליין"],
   ["keltenblitz","קלטנבליץ מגלשה"], ["salina","כפר הקלטים קלטים סלינה"], ["salzwelten","מכרה מלח"],
   ["schafberg","שפברג"], ["wolfgang","וולפגנג ולפגנגזה"], ["geisterberg","גייסטרברג"],
-  ["alpendorf","אלפנדורף"], ["therme","תרמה"], ["wasserwelt","וסרוולט"],
+  ["alpendorf","אלפנדורף"], ["therme","תרמה"], ["wasserwelt","וסרוולט"], ["lombardi","לומברדי"],
   ["ferleiten","פרלייטן"], ["wildpark","ווילדפארק פארק חיות"],
   ["murmeltier","מרמיטה מרמיטות"], ["vignette","ויניט מדבקה אגרה"],
   ["billa","בילה"], ["spar","ספאר שפאר"], ["mpreis","אמפרייס"],
