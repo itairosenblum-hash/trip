@@ -1070,6 +1070,7 @@ const LOC = {
   kaprun:    {lat:47.2711, lon:12.7561, label:"Kaprun"},
   melk:      {lat:48.2333, lon:15.3333, label:"Melk"},
   durnstein: {lat:48.3958, lon:15.5183, label:"Dürnstein"},
+  fantasiana:{lat:47.9890, lon:13.2440, label:"FANTASIANA Erlebnispark", address:"Märchenweg 1, 5204 Straßwalchen, אוסטריה"},
   parndorf:  {lat:47.9795, lon:16.8497, label:"Designer Outlet Parndorf", address:"Designer Outlet Straße 1, 7111 Parndorf, אוסטריה"},
   zwoelferhorn: {lat:47.7681, lon:13.3564, label:"Zwölferhornbahn, St. Gilgen", address:"Konrad-Lesiak-Platz 3, 5340 St. Gilgen, אוסטריה"},
   liechtensteinklamm: {lat:47.3467, lon:13.1998, label:"Liechtensteinklamm", address:"Liechtensteinklammstraße 123, 5600 St. Johann im Pongau, אוסטריה"},
@@ -1081,7 +1082,7 @@ const LOC = {
 };
 const FULL_ROUTE = ["airport","gmunden","amade","wagrain","glockner","ferleiten","wagrain","alpendorf","wagrain",
   "werfen","amade","wagrain","hallstatt","gosausee","wagrain","hallein_salt","keltenblitz","wagrain",
-  "zell","kaprun","zell","wagrain","parndorf","airport"];
+  "zell","kaprun","zell","wagrain","fantasiana","airport"];
 
 /* ---------- Day content ---------- */
 const DAYS = [
@@ -1382,33 +1383,33 @@ const DAYS = [
   `
 },
 {
-  id:"d9", nav:"2.10", navSub:"Outlet Parndorf",
-  segment: ["wagrain","parndorf","airport"],
+  id:"d9", nav:"2.10", navSub:"Fantasiana",
+  segment: ["wagrain","fantasiana","airport"],
   render: () => `
-    <div class="tag">יום ו׳, 2.10 · יום מעבר עם עצירת קניות</div>
-    <h2 class="title">Wagrain → Designer Outlet Parndorf → MOXY</h2>
-    <div class="meta">נסיעות: Wagrain → Parndorf כ-3:45 שעות נטו (A10, A1, A21, S1, A4); Parndorf → MOXY כ-20-25 דק׳</div>
+    <div class="tag">יום ו׳, 2.10 · פארק שעשועים בדרך לווינה</div>
+    <h2 class="title">Wagrain → FANTASIANA → MOXY</h2>
+    <div class="meta">נסיעות: Wagrain → Straßwalchen כ-1:15; Straßwalchen → MOXY כ-3:00 נטו (A1, ובשישי אחה״צ + 20-30 דק׳ סביב וינה)</div>
     <table class="sched">
       <tr><td>צ׳ק-אאוט והעמסת הרכבים</td><td>08:30</td></tr>
       <tr><td>יציאה מ-Wagrain</td><td>09:00</td></tr>
-      <tr><td>עצירת מנוחה ושירותים על ה-A1</td><td>~10:45-11:15</td></tr>
-      <tr><td>הגעה ל-Designer Outlet Parndorf</td><td>~13:15</td></tr>
-      <tr><td>צהריים במתחם</td><td>13:15-14:15</td></tr>
-      <tr><td>קניות, מגרש המשחקים ו-Dinoland</td><td>14:15-17:45</td></tr>
-      <tr><td>יציאה ל-MOXY</td><td>18:00</td></tr>
-      <tr><td>MOXY, החזרת רכב ואריזה — Ausfahrtsstraße 4, 1300 Wien</td><td>~18:25-19:00</td></tr>
+      <tr><td>הגעה ל-FANTASIANA Erlebnispark (נפתח ב-10:00)</td><td>~10:15</td></tr>
+      <tr><td>הפארק: מתקנים, טרמפולינות והצגות</td><td>10:15-12:30</td></tr>
+      <tr><td>צהריים באחת המסעדות בפארק</td><td>12:30-13:15</td></tr>
+      <tr><td>סיבוב אחרון במתקנים האהובים</td><td>13:15-14:30</td></tr>
+      <tr><td>יציאה לווינה</td><td>14:30</td></tr>
+      <tr><td>עצירת מנוחה ושירותים על ה-A1</td><td>~16:00-16:20</td></tr>
+      <tr><td>MOXY, החזרת רכב ואריזה — Ausfahrtsstraße 4, 1300 Wien</td><td>~18:00</td></tr>
     </table>
     <div class="sectionLabel">📍 מה יש שם</div>
     <div class="places">
-      <div class="p"><b>Designer Outlet Parndorf — </b>אאוטלט פתוח בסגנון כפר, עם יותר מ-160 מותגים בהנחות. נמצא בבורגנלנד, כ-20 דקות מזרחה מהשדה. בשישי פתוח 09:00-21:00, והחניה חינם.</div>
-      <div class="p"><b>מגרש המשחקים — </b>חינם, מגודר ומקורה בגג אוהל ענק (עובד גם בגשם). מתקן טיפוס עם מנהרות, גשרים ומגלשות לגדולים, ונדנדות קפיץ וקרוסלה לקטנים. יש מרפסת ישיבה להורים ליד.</div>
-      <div class="p"><b>Dinoland — </b>משחקייה מקורה מעל Burger King: דינוזאורים בגודל טבעי, מגלשת ג׳ונגל, ציור פנים ויצירה. גילאי 3-10, 3€ לשעה, בשישי 09:00-19:00.</div>
+      <div class="p"><b>FANTASIANA Erlebnispark — </b>פארק שעשועים משפחתי ב-Straßwalchen, עם 23 מתקנים ובעיקר לילדים צעירים: קרוסלות, רכבת התולעת Wurliwurm, מתחם טרמפולינות גדול, דמויות אגדות בגודל טבעי והצגות. רוב המתקנים מקורים, אז הפארק עובד גם בגשם. ביום שישי 2.10 פתוח 10:00-18:00, והחניה ליד הכניסה חינם.</div>
     </div>
     <div class="boxes">
-      <div class="box green"><b>מתאים להרכב</b>מגרש המשחקים מתאים לכל הגילאים, כולל הפעוטות. Dinoland מתאימה לגילאי 3-10. אפשר לפצל: הורה או שניים עם הילדים במגרש, והשאר בקניות, ולהתחלף.</div>
-      <div class="box red"><b>החזר מע״מ (Tax Free)</b>כתיירים מחוץ לאיחוד מגיע לכם החזר מע״מ על קנייה מעל כ-75€ בחנות אחת ביום. מבקשים טופס Tax Free בקופה, ומחתימים אותו בשדה בבוקר לפני הצ׳ק-אין. לכן כדאי להשאיר את הקניות נגישות ולא לקבור אותן בתחתית המזוודה.</div>
+      <div class="box green"><b>מתאים להרכב</b>הפארק בנוי בשביל הפעוטות וילדי 3-7. ילדי 10-11 עלולים למצוא אותו קצת תינוקי. רוב המבקרים גומרים את כל המתקנים בכשעתיים-שלוש, אז ארבע שעות מספיקות בהחלט.</div>
+      <div class="box red"><b>לא למתוח את היציאה</b>אחרי 14:30 כל רבע שעה בפארק דוחפת אתכם עמוק יותר לפקקי יום שישי סביב וינה. חלופה: להישאר עד הסגירה ב-18:00, לאכול ולנסוע אחרי 19:00 בכביש פנוי — אבל אז מגיעים ל-MOXY רק בסביבות 22:00.</div>
     </div>
-    <div class="footerbar">הקניות נכנסות ישר למזוודות בערב, והטיסה רק למחרת ב-10:10.</div>
+    <div class="box tan"><b>מחיר וכרטיסים • FANTASIANA</b>בכל יום שישי (חוץ מחגים וחופשות) יש <b>Family Day: 28€ לכל אדם</b>, זול מהמחיר הרגיל (35€ מעל 120 ס״מ, 29€ לגובה 90-120 ס״מ, 31.50€ לפנסיונר). ילדים מתחת ל-90 ס״מ נכנסים חינם — כדאי למדוד את הקטנים. <a href="https://www.erlebnispark.at/infos/preise.html" target="_blank" rel="noopener">האתר הרשמי</a>.</div>
+    <div class="footerbar">היום נגמר ב-MOXY ליד השדה; הטיסה רק למחרת ב-10:10.</div>
   `
 },
 {
@@ -1564,7 +1565,7 @@ const DAYS = [
       <li><b>A10 דרומה לכיוון מנהרת Tauern</b> — <span class="when">שישי אחה״צ ושבת בבוקר.</span> רלוונטי בעיקר ל-25.9, שהוא יום שישי. בסוף ספטמבר, אחרי עונת הקיץ, זה מתון יחסית.</li>
       <li><b>חניוני Hallstatt</b> — <span class="when">מתמלאים 10:00-15:00.</span> לא פקק בכביש אלא תור לחניה. זו הסיבה ליציאה ב-07:45 ב-29.9.</li>
       <li><b>חניון Kaiser-Franz-Josefs-Höhe</b> — <span class="when">10:00-14:00.</span> הכביש עצמו זורם; החניון בתצפית מתמלא ולפעמים נסגר זמנית.</li>
-      <li><b>עקיפת וינה (A21/S1)</b> — <span class="when">שישי 15:00-18:30.</span> רלוונטי ל-2.10 בדרך ל-Parndorf. ביציאה ב-09:00 עוברים שם בצהריים, לפני השיא.</li>
+      <li><b>A1 מזרחה לכיוון וינה</b> — <span class="when">שישי 15:00-18:30.</span> רלוונטי ל-2.10 בדרך מ-FANTASIANA לשדה. ביציאה ב-14:30 מגיעים לווינה בתוך השיא; לצאת ב-13:30 או אחרי 19:00 כדי להימנע.</li>
     </ul>
     <div class="sectionLabel">✅ בדיקות אחרונות</div>
     <ol class="checklist">
@@ -1664,9 +1665,9 @@ const FUN_FACTS = {
     "אין דרך להגיע לסכר ברכב פרטי - חייבים אוטובוס ומעלית, וזה חלק מהכיף.",
   ],
   d9: [
-    "היום נחצה לפחות ארבע מדינות של אוסטריה: זלצבורג, אוסטריה העילית, אוסטריה התחתונה ובורגנלנד.",
-    "בורגנלנד, שבה נמצא האאוטלט, היא המדינה הצעירה של אוסטריה - היא הצטרפה רק ב-1921.",
-    "ליד Parndorf נמצא אגם Neusiedl, אגם ערבות ענק ורדוד מאוד - ברוב המקומות אפשר לעמוד בו!",
+    "ב-FANTASIANA ילדים שגובהם מתחת ל-90 ס״מ נכנסים בחינם — מי מאיתנו עוד נכנס חינם?",
+    "בפארק יש 23 מתקנים, ורובם מקורים — כך שגם גשם לא עוצר את הכיף.",
+    "היום נוסעים לאורך האוטוסטרדה המערבית, Westautobahn, שמחברת את זלצבורג לווינה - כמעט כל רוחבה של אוסטריה.",
   ],
   d10: [
     "בטיסה חזרה נראה שוב את האלפים מלמעלה — הזדמנות טובה להיפרד מהנוף!",
@@ -1743,12 +1744,13 @@ const EATS = {
     ]
   },
   d9: {
-    title:"באאוטלט",
+    title:"בפארק",
     list:[
-      {n:"מתחם האוכל באאוטלט", t:"הכי נוח", d:"באאוטלט יש כמה מסעדות ובתי קפה לאורך המתחם, ואוכלים בלי להזיז את הרכבים. בוחרים במקום, לפי מה שמתחשק לכל משפחה.", q:"Designer Outlet Parndorf, Parndorf, Austria"},
-      {n:"Burger King", t:"ליד המשחקייה", d:"נמצא ממש מתחת ל-Dinoland — אפשר לאכול ומשם לעלות ישר עם הילדים למשחקייה.", q:"Burger King Designer Outlet Parndorf, Austria"},
+      {n:"Schlosshof Restaurant", t:"בחצר הטירה", d:"מסעדת שירות עצמי בחצר הטירה של הפארק — הכי מרכזית לארוחת צהריים.", q:"FANTASIANA Erlebnispark, Straßwalchen, Austria"},
+      {n:"Sonnenbucht Restaurant", t:"שירות עצמי", d:"מסעדה נוספת באזור Sonnenbucht של הפארק.", q:"FANTASIANA Erlebnispark, Straßwalchen, Austria"},
+      {n:"Flyro Cafeteria", t:"מתוקים", d:"קפטריה באזור Damalsland — חטיפים ומתוקים באמצע היום.", q:"FANTASIANA Erlebnispark, Straßwalchen, Austria"},
     ],
-    note:"היום הזה נגמר ב-MOXY ליד השדה. אם רוצים ארוחת ערב, עדיף לאכול עוד באאוטלט לפני היציאה — ב-MOXY יש אוכל בלובי, ואל תסמכו על מסעדות באזור התעשייה של השדה."
+    note:"לפי הביקורות האוכל בפארק בינוני ולא זול. בערב — ב-MOXY יש אוכל בלובי, ואל תסמכו על מסעדות באזור התעשייה של השדה."
   },
 };
 
@@ -2090,6 +2092,8 @@ const COST_ROWS = [
   {day:"29.9", label:"Salzwelten Hallstatt",        adult:49,    child:23},
   {day:"30.9", label:"הליין + קלטנבליץ",            adult:47,    child:26},
   {day:"1.10", label:"Kaprun Hochgebirgsstauseen",  adult:39.50, child:22},
+  // Friday "Family Day" flat rate. Under 90 cm free (assumed for the two 2-year-olds); the 3-year-old pays.
+  {day:"2.10", label:"FANTASIANA (Family Day שישי)", adult:28, child:28, tot3:28},
 ];
 
 const COST_FAMILIES = [
@@ -2229,13 +2233,13 @@ function renderGallery(id){
 /* ---------- Map (Google Maps, no key) + Waze navigation ---------- */
 const DAY_ICON = {
   checklist:"✅", forecast:"🌦️", d1:"✈️", d2:"🏞️", d6:"🏞️", d4:"🎢", d5:"🏰",
-  d3:"🏔️", d7:"⛏️", d8:"🚡", d9:"🛍️", d10:"✈️", alt:"📋", costs:"💶", trivia:"🎯",
+  d3:"🏔️", d7:"⛏️", d8:"🚡", d9:"🎠", d10:"✈️", alt:"📋", costs:"💶", trivia:"🎯",
 };
 const LOC_ICON = {
   airport:"✈️", vienna:"🏛️", gmunden:"🏞️", schlossort:"🏰", wagrain:"🏡", wagrain_billa:"🛒", wagrain_spar:"🛒", altenmarkt_mpreis:"🛒", altenmarkt_billa:"🛒", gmunden_eurospar:"🛒", hallstatt:"🏘️", hallstatt_salt:"⛏️", gosausee:"🏞️",
   alpendorf:"🎢", werfen:"🏰", hallein_salt:"⛏️", keltendorf:"🏺", keltenblitz:"🛝", amade:"♨️",
   ferleiten:"🦌", fuscher_torl:"🌄", hochtor:"🏔️", glockner:"🏔️",
-  stwolfgang:"🚂", lombardi:"🍽️", wasserwelt:"🌊", zell:"🚡", schmittenhoehe:"🚠", kaprun:"💧", melk:"⛪", durnstein:"⛪", parndorf:"🛍️",
+  stwolfgang:"🚂", lombardi:"🍽️", wasserwelt:"🌊", zell:"🚡", schmittenhoehe:"🚠", kaprun:"💧", melk:"⛪", durnstein:"⛪", parndorf:"🛍️", fantasiana:"🎠",
   zwoelferhorn:"🚡", liechtensteinklamm:"🏞️", krimml:"💦", shuttleberg:"🚡",
   hohensalzburg:"🏰", hausdernatur:"🏛️", werfenweng:"🏞️",
 };
@@ -2244,7 +2248,7 @@ const LOC_ICON = {
    main destination, shown between the map and the schedule. ---------- */
 const WEATHER_LOC = {
   d1:"airport", d2:"gmunden", d6:"hallstatt", d4:"alpendorf", d5:"werfen",
-  d3:"glockner", d7:"hallein_salt", d8:"kaprun", d9:"parndorf", d10:"airport",
+  d3:"glockner", d7:"hallein_salt", d8:"kaprun", d9:"fantasiana", d10:"airport",
 };
 const WEATHER_CACHE = {};
 let weatherSeq = 0;
@@ -2570,7 +2574,7 @@ const ROW_WAZE = {
   d3: [ ["עצירה ב-Fuscher Törl","fuscher_torl"], ["עצירה ב-Hochtor","hochtor"], ["תצפית הקרחון ב-Kaiser Franz Josef Höhe","glockner"], ["Erlebnispark Ferleiten","ferleiten"], ["Wagrain","wagrain"] ],
   d7: [ ["הגעה למכרה המלח","hallein_salt"], ["כפר הקלטים SALINA","keltendorf"], ["Keltenblitz","keltenblitz"], ["נסיעה חזרה ל-Wagrain","wagrain"], ["ארוחת ערב במסעדת Lombardi","lombardi"], ["חזרה למלון","wagrain"] ],
   d8: [ ["חניה בחניון החינמי ליד קופת Kesselfall","kaprun"], ["נסיעה ל-Zell am See","zell"], ["חזרה ל-Wagrain","wagrain"] ],
-  d9: [ ["הגעה ל-Designer Outlet Parndorf","parndorf"], ["יציאה ל-MOXY","airport"], ["MOXY, החזרת רכב ואריזה","airport"] ],
+  d9: [ ["הגעה ל-FANTASIANA","fantasiana"], ["יציאה לווינה","airport"], ["MOXY, החזרת רכב ואריזה","airport"] ],
 };
 
 function injectRowWaze(id){
@@ -2613,9 +2617,9 @@ const TRAFFIC = {
     peak:"07:00-09:00 לכיוון זלצבורג",
     text:"ה-A10 צפונה נכנסת לשעת השיא של הבוקר סביב זלצבורג, אבל יציאת Hallein נמצאת לפני העיר. ביציאה ב-09:00 כבר עוברים אחרי השיא - צפוי תנועה זורמת, לכל היותר כמה דקות תוספת."
   }] ],
-  d9: [ ["יציאה מ-Wagrain", {
-    peak:"07:00-08:30 בזלצבורג · שישי 15:00-18:30 סביב וינה",
-    text:"היציאה ב-09:00 נבחרה בכוונה: מגיעים לזלצבורג אחרי שיא הבוקר, ועוקפים את וינה (A21/S1) בצהריים - הרבה לפני פקקי יום שישי אחר הצהריים. אל תקדימו ל-07:00, זה מכניס אתכם בדיוק לשיא של זלצבורג. בערב, הנסיעה מהאאוטלט ל-MOXY היא נגד כיוון היוצאים מווינה."
+  d9: [ ["יציאה לווינה", {
+    peak:"שישי 15:00-18:30 בכניסה לווינה",
+    text:"ה-2.10 הוא יום שישי. ביציאה מהפארק ב-14:30 מגיעים לאזור וינה בסביבות 17:00 — בתוך השיא. תכננו 20-30 דק׳ תוספת. כל רבע שעה של איחור ביציאה מהפארק מוסיפה עוד. חלופות: לצאת ב-13:30 ולהגיע לפני השיא, או לנסוע אחרי 19:00 בכביש פנוי. הבוקר (יציאה ב-09:00) עובר את זלצבורג אחרי שיא היוממים."
   }] ],
 };
 
@@ -2718,11 +2722,12 @@ const TOLL = {
   },
   d9: {
     rows: [
-      ["יציאה מ-Wagrain", {t:"Vignette", c:"נדרשת", x:"כל המסלול על אוטוסטרדות ודרכים מהירות (A10, A1, A21, S1, A4), וכולן דורשות Vignette. אין אגרת מנהרה בכיוון הזה."}],
-      ["הגעה ל-Designer Outlet Parndorf", {t:"חניה", c:"חינם", x:"החניונים של האאוטלט חינמיים וגדולים, גם לחמישה רכבים."}],
+      ["יציאה מ-Wagrain", {t:"Vignette", c:"נדרשת", x:"A10 צפונה ואז A1 — אוטוסטרדות שדורשות Vignette. אין אגרת מנהרה בכיוון הזה."}],
+      ["הגעה ל-FANTASIANA", {t:"חניה", c:"חינם", x:"חניה חינמית ישירות ליד כניסת הפארק."}],
+      ["יציאה לווינה", {t:"Vignette", c:"נדרשת", x:"A1 מזרחה לכיוון וינה ומשם לשדה — כל הדרך על אוטוסטרדות עם Vignette."}],
     ],
-    sum: ["<b>A10 + A1 + A21 + S1 + A4</b> — נדרשת Vignette.",
-          "<span class=\"none\">חניה ב-Parndorf: חינם</span>."],
+    sum: ["<b>A10 + A1</b> — נדרשת Vignette.",
+          "<span class=\"none\">חניה ב-FANTASIANA: חינם</span>."],
   },
 };
 
@@ -3247,7 +3252,7 @@ const SEARCH_SYNONYMS = [
   ["hallstatt","הלשטט האלשטט"], ["wagrain","וגריין ואגריין"], ["salzburg","זלצבורג"],
   ["gmunden","גמונדן"], ["traunsee","טראונזה"], ["gosausee","גוזאוזה"],
   ["melk","מלק"], ["durnstein","דירנשטיין"], ["wien","וינה"], ["vienna","וינה"],
-  ["moxy","מוקסי"], ["parndorf","פרנדורף"], ["outlet","אאוטלט"], ["schattauer","שאטאואר"], ["zell","צל אם זה"],
+  ["moxy","מוקסי"], ["parndorf","פרנדורף"], ["outlet","אאוטלט"], ["fantasiana","פנטזיאנה"], ["strasswalchen","שטרסוולכן"], ["schattauer","שאטאואר"], ["zell","צל אם זה"],
   ["kaprun","קפרון"], ["schmitten","שמיטנהוהה"], ["grossglockner","גרוסגלוקנר גלוקנר"],
   ["hohenwerfen","הוהנוורפן"], ["werfen","וורפן"], ["hallein","הליין"],
   ["keltenblitz","קלטנבליץ מגלשה"], ["salina","כפר הקלטים קלטים סלינה"], ["salzwelten","מכרה מלח"],
