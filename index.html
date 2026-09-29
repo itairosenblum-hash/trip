@@ -1070,6 +1070,7 @@ const LOC = {
   kaprun:    {lat:47.2711, lon:12.7561, label:"Kaprun"},
   melk:      {lat:48.2333, lon:15.3333, label:"Melk"},
   durnstein: {lat:48.3958, lon:15.5183, label:"Dürnstein"},
+  parndorf:  {lat:47.9795, lon:16.8497, label:"Designer Outlet Parndorf", address:"Designer Outlet Straße 1, 7111 Parndorf, אוסטריה"},
   zwoelferhorn: {lat:47.7681, lon:13.3564, label:"Zwölferhornbahn, St. Gilgen", address:"Konrad-Lesiak-Platz 3, 5340 St. Gilgen, אוסטריה"},
   liechtensteinklamm: {lat:47.3467, lon:13.1998, label:"Liechtensteinklamm", address:"Liechtensteinklammstraße 123, 5600 St. Johann im Pongau, אוסטריה"},
   krimml:    {lat:47.2144, lon:12.1706, label:"Krimmler Wasserfälle", address:"Krimmler Wasserfälle, 5743 Krimml, אוסטריה"},
@@ -1080,7 +1081,7 @@ const LOC = {
 };
 const FULL_ROUTE = ["airport","gmunden","amade","wagrain","glockner","ferleiten","wagrain","alpendorf","wagrain",
   "werfen","amade","wagrain","hallstatt","gosausee","wagrain","hallein_salt","keltenblitz","wagrain",
-  "zell","kaprun","zell","wagrain","melk","durnstein","airport"];
+  "zell","kaprun","zell","wagrain","parndorf","airport"];
 
 /* ---------- Day content ---------- */
 const DAYS = [
@@ -1381,33 +1382,33 @@ const DAYS = [
   `
 },
 {
-  id:"d9", nav:"2.10", navSub:"Melk + Dürnstein",
-  segment: ["wagrain","melk","durnstein","airport"],
+  id:"d9", nav:"2.10", navSub:"Outlet Parndorf",
+  segment: ["wagrain","parndorf","airport"],
   render: () => `
-    <div class="tag">יום ו׳, 2.10 (הורחב) · יום מעבר עשיר דרך עמק Wachau</div>
-    <h2 class="title">Melk + Dürnstein → Airport</h2>
-    <div class="meta">נסיעות: Wagrain → Melk כ-2:30-2:45; ל-Dürnstein כ-30 דק׳; לשדה כ-1:10-1:20</div>
+    <div class="tag">יום ו׳, 2.10 · יום מעבר עם עצירת קניות</div>
+    <h2 class="title">Wagrain → Designer Outlet Parndorf → MOXY</h2>
+    <div class="meta">נסיעות: Wagrain → Parndorf כ-3:45 שעות נטו (A10, A1, A21, S1, A4); Parndorf → MOXY כ-20-25 דק׳</div>
     <table class="sched">
-      <tr><td>צ׳ק-אאוט ויציאה</td><td>08:00</td></tr>
-      <tr><td>הגעה ל-Melk</td><td>~10:45</td></tr>
-      <tr><td>מנזר Melk, המרפסת והספרייה</td><td>10:45-12:45</td></tr>
-      <tr><td>צהריים</td><td>13:00-14:00</td></tr>
-      <tr><td>נסיעה לאורך Wachau ל-Dürnstein</td><td>14:00-14:30</td></tr>
-      <tr><td>סמטאות העיר העתיקה, הדנובה וגן המשחקים</td><td>14:30-16:15</td></tr>
-      <tr><td>יציאה לשדה התעופה</td><td>16:30</td></tr>
-      <tr><td>MOXY, החזרת רכב ואריזה — Ausfahrtsstraße 4, 1300 Wien</td><td>~17:45-18:15</td></tr>
+      <tr><td>צ׳ק-אאוט והעמסת הרכבים</td><td>08:30</td></tr>
+      <tr><td>יציאה מ-Wagrain</td><td>09:00</td></tr>
+      <tr><td>עצירת מנוחה ושירותים על ה-A1</td><td>~10:45-11:15</td></tr>
+      <tr><td>הגעה ל-Designer Outlet Parndorf</td><td>~13:15</td></tr>
+      <tr><td>צהריים במתחם</td><td>13:15-14:15</td></tr>
+      <tr><td>קניות, מגרש המשחקים ו-Dinoland</td><td>14:15-17:45</td></tr>
+      <tr><td>יציאה ל-MOXY</td><td>18:00</td></tr>
+      <tr><td>MOXY, החזרת רכב ואריזה — Ausfahrtsstraße 4, 1300 Wien</td><td>~18:25-19:00</td></tr>
     </table>
     <div class="sectionLabel">📍 מה יש שם</div>
     <div class="places">
-      <div class="p"><b>Melk Abbey — </b>מנזר בנדיקטיני בארוקי מרהיב על צוק מעל הדנובה, עם ספרייה עתיקה מרשימה ומרפסת נוף פתוחה לעמק Wachau.</div>
-      <div class="p"><b>Dürnstein — </b>כפר ציורי בעמק היין Wachau, ידוע בזכות מגדל הכנסייה הכחול-לבן וחורבות המצודה שבה נכלא (לפי האגדה) ריצ׳רד לב הארי.</div>
+      <div class="p"><b>Designer Outlet Parndorf — </b>אאוטלט פתוח בסגנון כפר, עם יותר מ-160 מותגים בהנחות. נמצא בבורגנלנד, כ-20 דקות מזרחה מהשדה. בשישי פתוח 09:00-21:00, והחניה חינם.</div>
+      <div class="p"><b>מגרש המשחקים — </b>חינם, מגודר ומקורה בגג אוהל ענק (עובד גם בגשם). מתקן טיפוס עם מנהרות, גשרים ומגלשות לגדולים, ונדנדות קפיץ וקרוסלה לקטנים. יש מרפסת ישיבה להורים ליד.</div>
+      <div class="p"><b>Dinoland — </b>משחקייה מקורה מעל Burger King: דינוזאורים בגודל טבעי, מגלשת ג׳ונגל, ציור פנים ויצירה. גילאי 3-10, 3€ לשעה, בשישי 09:00-19:00.</div>
     </div>
     <div class="boxes">
-      <div class="box green"><b>עוד יעד, מעט כביש</b>Dürnstein מוסיפה כ-30 דקות בין Melk לשדה ונותנת עיירה היסטורית ונוף לדנובה.</div>
-      <div class="box red"><b>מתאים להרכב</b>נשארים בעיר העתיקה ובטיילת; לא עולים לחורבות התלולות עם הקטנה והסבים.</div>
+      <div class="box green"><b>מתאים להרכב</b>מגרש המשחקים מתאים לכל הגילאים, כולל הפעוטות. Dinoland מתאימה לגילאי 3-10. אפשר לפצל: הורה או שניים עם הילדים במגרש, והשאר בקניות, ולהתחלף.</div>
+      <div class="box red"><b>החזר מע״מ (Tax Free)</b>כתיירים מחוץ לאיחוד מגיע לכם החזר מע״מ על קנייה מעל כ-75€ בחנות אחת ביום. מבקשים טופס Tax Free בקופה, ומחתימים אותו בשדה בבוקר לפני הצ׳ק-אין. לכן כדאי להשאיר את הקניות נגישות ולא לקבור אותן בתחתית המזוודה.</div>
     </div>
-    <div class="box tan"><b>מחיר וכרטיסים • מנזר Melk</b>מבוגר 16€, כרטיס משפחתי (הורים+ילדים עד גיל 16) 32€, סטודנטים 8€. מכיוון שזה יום עם לו״ז צפוף לפני הטיסה, כדאי להזמין מראש כדי לדלג על התור בקופה. <a href="https://www.stiftmelk.at/en/visit-experience/opening-hours-prices-guided-tours/" target="_blank" rel="noopener">האתר הרשמי</a>.</div>
-    <div class="footerbar">בלוק גמיש: אם עייפים, מדלגים על Dürnstein ונוסעים ישירות ל-MOXY.</div>
+    <div class="footerbar">הקניות נכנסות ישר למזוודות בערב, והטיסה רק למחרת ב-10:10.</div>
   `
 },
 {
@@ -1480,7 +1481,7 @@ const DAYS = [
     <div class="boxes">
       <div class="box tan"><b>מחיר 2026</b>כרטיס 6 ימים: מבוגר 103€, ילד (4-15.9) 52€. כרטיס 12 ימים: מבוגר 129€, ילד 65€. הימים לא חייבים להיות רצופים בתוך תקופת התוקף (1.5-1.11.2026 - מכסה את כל הטיול שלנו). <b>ילד שלישי ומעלה במשפחה מקבל כרטיס חינם.</b> <a href="https://www.salzburgerland.com/en/salzburgerland-card/" target="_blank" rel="noopener">האתר הרשמי</a> · <a href="https://www.salzburgerland.com/en/buy-salzburgerland-card/" target="_blank" rel="noopener">רכישה</a>.</div>
       <div class="box green"><b>כלול מהמסלול שלנו</b>Erlebnisburg Hohenwerfen; מכרות Salzwelten (Hallein ו-Hallstatt); נסיעה אחת ב-Grossglockner Hochalpenstraße (חלופה לכרטיס יום בעיר זלצבורג - בוחרים באחת מהשתיים); Liechtensteinklamm, שנמצא אצלנו בבנק החלופות.</div>
-      <div class="box red"><b>לא כלול — אומת מול הרשימה הרשמית ל-2026</b>הרשימה הרשמית של אתרים שהוסרו מהשותפות ב-2026 כוללת את Schafbergbahn, Schmittenhöhe, Geisterberg/Alpendorf, מגלשת הקיץ ב-Dürrnberg (קלטנבליץ), הסכרים בקאפרון, Zwölferhorn, והשיט בוולפגנגזה ובצל am See. מנזר Melk גם הוא בחוץ - הוא באוסטריה התחתונה, מחוץ למדינת זלצבורג. כלומר: כל אטרקציות הרכבלים והשיט במסלול נשארות בתשלום מלא.</div>
+      <div class="box red"><b>לא כלול — אומת מול הרשימה הרשמית ל-2026</b>הרשימה הרשמית של אתרים שהוסרו מהשותפות ב-2026 כוללת את Schafbergbahn, Schmittenhöhe, Geisterberg/Alpendorf, מגלשת הקיץ ב-Dürrnberg (קלטנבליץ), הסכרים בקאפרון, Zwölferhorn, והשיט בוולפגנגזה ובצל am See. כלומר: כל אטרקציות הרכבלים והשיט במסלול נשארות בתשלום מלא.</div>
       <div class="box red"><b>המסקנה: לא כדאי לכם</b>מול העלויות בפועל, הכרטיס מכסה בערך 350€ למשפחה של 2+2 - ועולה 310€. חיסכון של כ-20€, ורק אם הרכבל ב-Hallstatt כלול ולא רק המכרה. לזוג מבוגרים החיסכון כ-35€, לבוגר יחיד כ-41€. בכל המקרים זה שולי, ולמשפחות עם ילדים כמעט אפסי - כי כרטיס ילד עולה חצי ממבוגר, בעוד שכרטיסי הכניסה הבודדים לילדים זולים בהרבה מחצי. <b>עדיף לרכוש כרטיסים בודדים אונליין מראש.</b></div>
       <div class="box tan"><b>חשוב: לא חופף לכרטיס האורח מ-Schattauer</b>ה-Salzburger Sportwelt Card שמקבלים חינם במלון (Wasserwelt Wagrain + Shuttleberg Kleinarl + הנחות מקומיות) הוא כרטיס שונה לגמרי מה-SalzburgerLand Card הזה, ולא נכלל בו - שני הכרטיסים משלימים זה את זה, לא מתחרים.</div>
     </div>
@@ -1563,7 +1564,7 @@ const DAYS = [
       <li><b>A10 דרומה לכיוון מנהרת Tauern</b> — <span class="when">שישי אחה״צ ושבת בבוקר.</span> רלוונטי בעיקר ל-25.9, שהוא יום שישי. בסוף ספטמבר, אחרי עונת הקיץ, זה מתון יחסית.</li>
       <li><b>חניוני Hallstatt</b> — <span class="when">מתמלאים 10:00-15:00.</span> לא פקק בכביש אלא תור לחניה. זו הסיבה ליציאה ב-07:45 ב-29.9.</li>
       <li><b>חניון Kaiser-Franz-Josefs-Höhe</b> — <span class="when">10:00-14:00.</span> הכביש עצמו זורם; החניון בתצפית מתמלא ולפעמים נסגר זמנית.</li>
-      <li><b>A1 מזרחה לכיוון וינה</b> — <span class="when">שישי 15:00-18:00.</span> רלוונטי ל-2.10 בדרך לשדה. היציאה ב-16:30 מדורנשטיין מספיקה, אבל בלי למתוח.</li>
+      <li><b>עקיפת וינה (A21/S1)</b> — <span class="when">שישי 15:00-18:30.</span> רלוונטי ל-2.10 בדרך ל-Parndorf. ביציאה ב-09:00 עוברים שם בצהריים, לפני השיא.</li>
     </ul>
     <div class="sectionLabel">✅ בדיקות אחרונות</div>
     <ol class="checklist">
@@ -1663,9 +1664,9 @@ const FUN_FACTS = {
     "אין דרך להגיע לסכר ברכב פרטי - חייבים אוטובוס ומעלית, וזה חלק מהכיף.",
   ],
   d9: [
-    "מנזר Melk הוא אחד המנזרים הבארוקיים המרשימים באירופה, על גבעה מעל נהר הדנובה.",
-    "עמק Wachau, שדרכו ניסע, מפורסם בכרמי הענבים שלו.",
-    "בעיירה הקטנה Dürnstein יש מגדל כחול מיוחד שרואים מרחוק.",
+    "היום נחצה לפחות ארבע מדינות של אוסטריה: זלצבורג, אוסטריה העילית, אוסטריה התחתונה ובורגנלנד.",
+    "בורגנלנד, שבה נמצא האאוטלט, היא המדינה הצעירה של אוסטריה - היא הצטרפה רק ב-1921.",
+    "ליד Parndorf נמצא אגם Neusiedl, אגם ערבות ענק ורדוד מאוד - ברוב המקומות אפשר לעמוד בו!",
   ],
   d10: [
     "בטיסה חזרה נראה שוב את האלפים מלמעלה — הזדמנות טובה להיפרד מהנוף!",
@@ -1742,13 +1743,12 @@ const EATS = {
     ]
   },
   d9: {
-    title:"במלק ובדורנשטיין",
+    title:"באאוטלט",
     list:[
-      {n:"Stiftsrestaurant Melk", t:"במנזר", d:"המסעדה בשטח המנזר עצמו, עם גן ישיבה. הנוחות מכרעת ביום עמוס לפני טיסה — לא צריך לחפש חניה שנייה.", q:"Stiftsrestaurant Melk, Melk, Austria"},
-      {n:"Loibnerhof", t:"בעמק היין", d:"פונדק ותיק בעמק וואכאו ליד דורנשטיין, בגן עם עצים. מטבח אזורי ויינות מקומיים — זה בדיוק האזור שמפורסם בהם.", q:"Loibnerhof, Unterloiben, Dürnstein, Austria"},
-      {n:"מרפסות הדנובה בדורנשטיין", t:"נוף", d:"לאורך הרחוב הראשי של דורנשטיין יש כמה בתי קפה ומסעדות עם מרפסות מעל הדנובה. אין צורך להזמין — פשוט בוחרים לפי הנוף.", q:"Dürnstein Hauptstraße, Dürnstein, Austria"},
+      {n:"מתחם האוכל באאוטלט", t:"הכי נוח", d:"באאוטלט יש כמה מסעדות ובתי קפה לאורך המתחם, ואוכלים בלי להזיז את הרכבים. בוחרים במקום, לפי מה שמתחשק לכל משפחה.", q:"Designer Outlet Parndorf, Parndorf, Austria"},
+      {n:"Burger King", t:"ליד המשחקייה", d:"נמצא ממש מתחת ל-Dinoland — אפשר לאכול ומשם לעלות ישר עם הילדים למשחקייה.", q:"Burger King Designer Outlet Parndorf, Austria"},
     ],
-    note:"היום הזה נגמר ב-MOXY ליד השדה. אם מגיעים מאוחר, יש שם אוכל בלובי — ואל תסמכו על מסעדות באזור התעשייה של השדה."
+    note:"היום הזה נגמר ב-MOXY ליד השדה. אם רוצים ארוחת ערב, עדיף לאכול עוד באאוטלט לפני היציאה — ב-MOXY יש אוכל בלובי, ואל תסמכו על מסעדות באזור התעשייה של השדה."
   },
 };
 
@@ -2090,7 +2090,6 @@ const COST_ROWS = [
   {day:"29.9", label:"Salzwelten Hallstatt",        adult:49,    child:23},
   {day:"30.9", label:"הליין + קלטנבליץ",            adult:47,    child:26},
   {day:"1.10", label:"Kaprun Hochgebirgsstauseen",  adult:39.50, child:22},
-  {day:"2.10", label:"מנזר Melk",                   adult:16,    family:32},
 ];
 
 const COST_FAMILIES = [
@@ -2107,8 +2106,7 @@ function eur(n){
 
 function famRowCost(row, fam){
   if (row.perCar) return fam.car ? row.perCar : 0;
-  // Melk sells a family ticket covering both parents and all their children — cheaper than
-  // per-head once there are two adults, so use whichever is lower.
+  // Rows with a family ticket: cheaper than per-head once there are two adults, so use whichever is lower.
   const childRate = (row.childWith2Adults && fam.adults >= 2) ? row.childWith2Adults : (row.child || 0);
   const perHead = fam.adults*row.adult + fam.kids*childRate + (fam.tots3 || 0)*(row.tot3 || 0);
   if (row.family && fam.adults >= 2) return Math.min(row.family, perHead);
@@ -2150,7 +2148,7 @@ function renderCosts(){
     <div class="boxes">
       <div class="box tan"><b>הפעוטות לא נכנסות למכרות — נצלו את זה</b>ב-Hallstatt מבוגר שנשאר עם הקטנות למעלה צריך רק כרטיס רכבל (29€) במקום המשולב (49€) - חיסכון של 20€ לכל מלווה. ב-Hallein, מבוגר שמוותר על המכרה ונשאר עם הקטנות בכפר הקלטים ואז עושה את קלטנבליץ משלם 7.50€ + 19.50€ = 27€ במקום 47€ - חיסכון של 20€ (הפעוטות נכנסות לכפר חינם). בסך הכל אפשר להוריד כ-80€ מהסכום הכולל.</div>
       <div class="box tan"><b>Therme Amadé — קונים בקופה, לא אונליין</b>כשמשלמים שני מבוגרים, הילדים (6-15) משלמים רק תעריף שעתיים (13.50€ במקום 19€) - ההנחה ניתנת רק בקופה. הטבלה מניחה כרטיס 4 שעות בלי סאונה. בת 3:3 משלמת 4€, מתחת לגיל 3 חינם. ביום ההולדת - כניסה חינם עם תעודה.</div>
-      <div class="box tan"><b>הזמנה מראש אונליין</b>Geisterberg לבדו חוסך עד 15% בהזמנה מוקדמת (כ-6€ למבוגר). ב-Hallstatt, Hohenwerfen ו-Melk ההזמנה מראש לא בהכרח זולה יותר, אבל חוסכת תור - ובימים הצפופים זה שווה יותר מכסף.</div>
+      <div class="box tan"><b>הזמנה מראש אונליין</b>Geisterberg לבדו חוסך עד 15% בהזמנה מוקדמת (כ-6€ למבוגר). ב-Hallstatt ו-Hohenwerfen ההזמנה מראש לא בהכרח זולה יותר, אבל חוסכת תור - ובימים הצפופים זה שווה יותר מכסף.</div>
     </div>
 
     <div class="sectionLabel">⚠️ מה עוד לא סגור</div>
@@ -2214,8 +2212,6 @@ const IMAGES = {
   d7:  [ {f:"20190129 Salzwelten 9353 (47332384992).jpg", alt:"מכרה המלח Salzwelten Hallein"} ],
   d8:  [ {f:"Stausee Mooserboden Kaprun 01.jpg", alt:"סכר Mooserboden, Kaprun"},
          {f:"Zell am see zeller see.jpg", alt:"Zell am See"} ],
-  d9:  [ {f:"Melk Abbey (8).jpg", alt:"מנזר Melk"},
-         {f:"Stiftskirche Dürnstein 01.JPG", alt:"Dürnstein"} ],
 };
 function renderGallery(id){
   const imgs = IMAGES[id];
@@ -2233,13 +2229,13 @@ function renderGallery(id){
 /* ---------- Map (Google Maps, no key) + Waze navigation ---------- */
 const DAY_ICON = {
   checklist:"✅", forecast:"🌦️", d1:"✈️", d2:"🏞️", d6:"🏞️", d4:"🎢", d5:"🏰",
-  d3:"🏔️", d7:"⛏️", d8:"🚡", d9:"⛪", d10:"✈️", alt:"📋", costs:"💶", trivia:"🎯",
+  d3:"🏔️", d7:"⛏️", d8:"🚡", d9:"🛍️", d10:"✈️", alt:"📋", costs:"💶", trivia:"🎯",
 };
 const LOC_ICON = {
   airport:"✈️", vienna:"🏛️", gmunden:"🏞️", schlossort:"🏰", wagrain:"🏡", wagrain_billa:"🛒", wagrain_spar:"🛒", altenmarkt_mpreis:"🛒", altenmarkt_billa:"🛒", gmunden_eurospar:"🛒", hallstatt:"🏘️", hallstatt_salt:"⛏️", gosausee:"🏞️",
   alpendorf:"🎢", werfen:"🏰", hallein_salt:"⛏️", keltendorf:"🏺", keltenblitz:"🛝", amade:"♨️",
   ferleiten:"🦌", fuscher_torl:"🌄", hochtor:"🏔️", glockner:"🏔️",
-  stwolfgang:"🚂", lombardi:"🍽️", wasserwelt:"🌊", zell:"🚡", schmittenhoehe:"🚠", kaprun:"💧", melk:"⛪", durnstein:"⛪",
+  stwolfgang:"🚂", lombardi:"🍽️", wasserwelt:"🌊", zell:"🚡", schmittenhoehe:"🚠", kaprun:"💧", melk:"⛪", durnstein:"⛪", parndorf:"🛍️",
   zwoelferhorn:"🚡", liechtensteinklamm:"🏞️", krimml:"💦", shuttleberg:"🚡",
   hohensalzburg:"🏰", hausdernatur:"🏛️", werfenweng:"🏞️",
 };
@@ -2248,7 +2244,7 @@ const LOC_ICON = {
    main destination, shown between the map and the schedule. ---------- */
 const WEATHER_LOC = {
   d1:"airport", d2:"gmunden", d6:"hallstatt", d4:"alpendorf", d5:"werfen",
-  d3:"glockner", d7:"hallein_salt", d8:"kaprun", d9:"melk", d10:"airport",
+  d3:"glockner", d7:"hallein_salt", d8:"kaprun", d9:"parndorf", d10:"airport",
 };
 const WEATHER_CACHE = {};
 let weatherSeq = 0;
@@ -2574,7 +2570,7 @@ const ROW_WAZE = {
   d3: [ ["עצירה ב-Fuscher Törl","fuscher_torl"], ["עצירה ב-Hochtor","hochtor"], ["תצפית הקרחון ב-Kaiser Franz Josef Höhe","glockner"], ["Erlebnispark Ferleiten","ferleiten"], ["Wagrain","wagrain"] ],
   d7: [ ["הגעה למכרה המלח","hallein_salt"], ["כפר הקלטים SALINA","keltendorf"], ["Keltenblitz","keltenblitz"], ["נסיעה חזרה ל-Wagrain","wagrain"], ["ארוחת ערב במסעדת Lombardi","lombardi"], ["חזרה למלון","wagrain"] ],
   d8: [ ["חניה בחניון החינמי ליד קופת Kesselfall","kaprun"], ["נסיעה ל-Zell am See","zell"], ["חזרה ל-Wagrain","wagrain"] ],
-  d9: [ ["הגעה ל-Melk","melk"], ["נסיעה לאורך Wachau ל-Dürnstein","durnstein"], ["יציאה לשדה התעופה","airport"], ["MOXY, החזרת רכב ואריזה","airport"] ],
+  d9: [ ["הגעה ל-Designer Outlet Parndorf","parndorf"], ["יציאה ל-MOXY","airport"], ["MOXY, החזרת רכב ואריזה","airport"] ],
 };
 
 function injectRowWaze(id){
@@ -2617,9 +2613,9 @@ const TRAFFIC = {
     peak:"07:00-09:00 לכיוון זלצבורג",
     text:"ה-A10 צפונה נכנסת לשעת השיא של הבוקר סביב זלצבורג, אבל יציאת Hallein נמצאת לפני העיר. ביציאה ב-09:00 כבר עוברים אחרי השיא - צפוי תנועה זורמת, לכל היותר כמה דקות תוספת."
   }] ],
-  d9: [ ["יציאה לשדה התעופה", {
-    peak:"שישי 15:00-18:00 בכניסה לווינה",
-    text:"ה-2.10 הוא יום שישי, וה-A1 מזרחה לכיוון וינה עמוסה אחר הצהריים. יציאה ב-16:30 מדורנשטיין אמורה להספיק בנוחות ל-MOXY, אבל אל תמתחו את זה - הטיסה למחרת בבוקר, אז העיכוב עולה רק בעצבים ולא בפספוס."
+  d9: [ ["יציאה מ-Wagrain", {
+    peak:"07:00-08:30 בזלצבורג · שישי 15:00-18:30 סביב וינה",
+    text:"היציאה ב-09:00 נבחרה בכוונה: מגיעים לזלצבורג אחרי שיא הבוקר, ועוקפים את וינה (A21/S1) בצהריים - הרבה לפני פקקי יום שישי אחר הצהריים. אל תקדימו ל-07:00, זה מכניס אתכם בדיוק לשיא של זלצבורג. בערב, הנסיעה מהאאוטלט ל-MOXY היא נגד כיוון היוצאים מווינה."
   }] ],
 };
 
@@ -2722,13 +2718,11 @@ const TOLL = {
   },
   d9: {
     rows: [
-      ["הגעה ל-Melk", {t:"חניה", c:"חינם עם כרטיס", x:"חניון המנזר חינמי למבקרים - צריך רק להחתים את כרטיס החניה בקופה בחצר הראשונה בזמן קניית הכרטיסים. יציאה תוך 15 דקות בלי החתמה גם היא חינם."}],
-      ["סמטאות העיר העתיקה", {t:"חניה בתשלום", c:"~4-6€", x:"העיר העתיקה של דירנשטיין סגורה לרכבים; חונים באחד החניונים שמחוץ למרכז (P1/P2/P3), כ-4€ לשעתיים וכ-6€ ליום, והליכה של 7-10 דקות פנימה."}],
-      ["יציאה לשדה התעופה", {t:"Vignette", c:"נדרשת", x:"היום הזה עובר על A10 ואז A1 מזרחה לווינה - שני קטעי אוטוסטרדה שדורשים Vignette. שוב, אין אגרת מנהרה בכיוון הזה."}],
+      ["יציאה מ-Wagrain", {t:"Vignette", c:"נדרשת", x:"כל המסלול על אוטוסטרדות ודרכים מהירות (A10, A1, A21, S1, A4), וכולן דורשות Vignette. אין אגרת מנהרה בכיוון הזה."}],
+      ["הגעה ל-Designer Outlet Parndorf", {t:"חניה", c:"חינם", x:"החניונים של האאוטלט חינמיים וגדולים, גם לחמישה רכבים."}],
     ],
-    sum: ["<b>A10 + A1</b> — נדרשת Vignette.",
-          "<span class=\"none\">חניה במנזר Melk: חינם</span> — בתנאי שמחתימים את הכרטיס בקופה.",
-          "<b>חניה בדירנשטיין</b> — כ-4€ לשעתיים, כ-6€ ליום."],
+    sum: ["<b>A10 + A1 + A21 + S1 + A4</b> — נדרשת Vignette.",
+          "<span class=\"none\">חניה ב-Parndorf: חינם</span>."],
   },
 };
 
@@ -3158,10 +3152,6 @@ document.getElementById("dayScrollNext")?.addEventListener("click", () => stepDa
       { n:"סכר Mooserboden — מבט אל ה-Wiesbachhorn", u:"https://www.foto-webcam.eu/webcam/mooserboden/" },
       { n:"סכר Wasserfallboden — מבט מזרחה", u:"https://www.foto-webcam.eu/webcam/wasserfallboden/" },
       { n:"כל מצלמות Zell am See–Kaprun", u:"https://www.zellamsee-kaprun.com/en/service/live/webcams" } ]} ],
-    d9: [ { t:"⛪ Wachau — Melk + Dürnstein", cams:[
-      { n:"Dürnstein — מצלמות העיירה", u:"https://www.duernstein.at/en/news/webcams" },
-      { n:"Schloss Dürnstein (bergfex)", u:"https://www.bergfex.com/sommer/duernstein-in-der-wachau/webcams/c7510/" },
-      { n:"מצלמות ב-Melk (Outdooractive)", u:"https://www.outdooractive.com/en/webcams/melk/webcams-in-melk/227974579/" } ]} ],
     d10: [ { t:"✈️ שדה התעופה של וינה", cams:[
       { n:"Vienna Airport — פנורמה 360°", u:"https://viennaairport.panomax.com/" } ]} ],
   };
@@ -3257,7 +3247,7 @@ const SEARCH_SYNONYMS = [
   ["hallstatt","הלשטט האלשטט"], ["wagrain","וגריין ואגריין"], ["salzburg","זלצבורג"],
   ["gmunden","גמונדן"], ["traunsee","טראונזה"], ["gosausee","גוזאוזה"],
   ["melk","מלק"], ["durnstein","דירנשטיין"], ["wien","וינה"], ["vienna","וינה"],
-  ["moxy","מוקסי"], ["schattauer","שאטאואר"], ["zell","צל אם זה"],
+  ["moxy","מוקסי"], ["parndorf","פרנדורף"], ["outlet","אאוטלט"], ["schattauer","שאטאואר"], ["zell","צל אם זה"],
   ["kaprun","קפרון"], ["schmitten","שמיטנהוהה"], ["grossglockner","גרוסגלוקנר גלוקנר"],
   ["hohenwerfen","הוהנוורפן"], ["werfen","וורפן"], ["hallein","הליין"],
   ["keltenblitz","קלטנבליץ מגלשה"], ["salina","כפר הקלטים קלטים סלינה"], ["salzwelten","מכרה מלח"],
