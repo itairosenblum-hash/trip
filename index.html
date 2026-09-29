@@ -1055,6 +1055,7 @@ const LOC = {
   alpendorf: {lat:47.3500, lon:13.2000, label:"Alpendorf / St. Johann"},
   werfen:    {lat:47.4772, lon:13.1889, label:"Hohenwerfen"},
   hallein_salt: {lat:47.6795, lon:13.0958, label:"Salzwelten Hallein (מכרה מלח)", address:"Ramsaustraße 3, 5422 Bad Dürrnberg, אוסטריה"},
+  keltendorf: {lat:47.6798, lon:13.0950, label:"כפר הקלטים SALINA + מגרש משחקים", address:"Ramsaustraße 3, 5422 Bad Dürrnberg, אוסטריה"},
   keltenblitz: {lat:47.6810, lon:13.0920, label:"Keltenblitz — מגלשת קיץ אלפינית", address:"Weissenwäschweg 19, 5422 Bad Dürrnberg, אוסטריה"},
   amade:     {lat:47.3811, lon:13.2508, label:"Erlebnis-Therme Amadé", address:"Thermenplatz 1, 5541 Altenmarkt im Pongau, אוסטריה"},
   wasserwelt:{lat:47.3385, lon:13.3040, label:"Wagrain Wasserwelt", address:"Kirchboden 25A, 5602 Wagrain, אוסטריה"},
@@ -1301,7 +1302,7 @@ const DAYS = [
 },
 {
   id:"d7", nav:"30.9", navSub:"מכרה מלח + Wasserwelt",
-  segment: ["wagrain","hallein_salt","keltenblitz","wagrain","wasserwelt","wagrain"],
+  segment: ["wagrain","hallein_salt","keltendorf","keltenblitz","wagrain","wasserwelt","wagrain"],
   render: () => `
     <div class="tag">יום ד׳, 30.9 (שונה) · מכרה מלח ומגלשה אלפינית בבוקר, מרחצאות ליד המלון אחר הצהריים</div>
     <h2 class="title">Salzwelten Hallein + Wasserwelt</h2>
@@ -1310,6 +1311,7 @@ const DAYS = [
       <tr><td>יציאה מ-Wagrain</td><td>08:30</td></tr>
       <tr><td>הגעה למכרה המלח Salzwelten Hallein (Bad Dürrnberg), קניית כרטיסים</td><td>~09:30</td></tr>
       <tr><td>סיור במכרה: רכבת תת-קרקעית, מגלשות עץ ושיט על אגם המלח (מבוגר נשאר בחוץ עם הפעוטות)</td><td>09:45-11:15</td></tr>
+      <tr><td>למי שלא נכנס למכרה: כפר הקלטים SALINA, מפעל המלח ומגרש המשחקים — ממש ליד הכניסה למכרה</td><td>09:45-11:15</td></tr>
       <tr><td>Keltenblitz: עלייה ברכבל-כיסא וירידה במגלשת הקיץ (2.2 ק״מ), ממש ליד המכרה — כולם יחד</td><td>11:15-12:15</td></tr>
       <tr><td>צהריים בבאד דירנברג או בעיר העתיקה של Hallein</td><td>12:15-13:15</td></tr>
       <tr><td>נסיעה חזרה ל-Wagrain</td><td>~13:15-14:15</td></tr>
@@ -1320,20 +1322,22 @@ const DAYS = [
     <div class="sectionLabel">📍 מה יש שם</div>
     <div class="places">
       <div class="p"><b>Salzwelten Hallein — </b>מכרה מלח היסטורי בהר Dürrnberg מעל העיירה Hallein, ממש דרומית לזלצבורג; הכרייה כאן קדומה אף יותר מזו של Hallstatt. הסיור כולל רכבת מכרות תת-קרקעית, מגלשות עץ ארוכות בין המפלסים, ושיט קטן על אגם מלח תת-קרקעי מואר.</div>
+      <div class="p"><b>כפר הקלטים SALINA (Kelten.Erlebnis.Berg) — </b>התחליף לפעוטות ולמי שנשאר איתן. צמוד למכרה: שחזור של כפר קלטי מלפני 2,600 שנה, מפעל מלח שבו רואים איך מפיקים מלח מהתמלחת של ההר, ומגרש משחקים בנושא עם צינורות זחילה ורכבת מכרה מיניאטורית. במרחק הליכה מיציאת הסיור, כך שנפגשים עם כולם בלי לזוז ברכב.</div>
       <div class="p"><b>Keltenblitz — </b>מגלשת קיץ אלפינית (Sommerrodelbahn) באורך 2.2 ק״מ, ממש ליד מכרה המלח על אותו ההר; עולים ברכבל-כיסא ויורדים במזחלת מהירה בין העצים.</div>
       <div class="p"><b>Bad Dürrnberg — </b>כפר קטן על ההר שמעל העיירה Hallein, כ-5 דק׳ עלייה ממנה. המכרה והמגלשה נמצאים בו. בוויז נווטו לכתובת המדויקת (כפתורי 🧭) ולא ל-"Hallein", אחרת תגיעו לעיירה למטה.</div>
       <div class="p"><b>Wagrain Wasserwelt — </b>מתחם מרחצאות חמים ומגלשות מים בתוך Wagrain, ממש קרוב למלון; הכניסה חינמית לאורחי המלון עם כרטיס האורח. <a href="https://www.wagrain-kleinarl.at/de/sommer/wasserwelt-wagrain.html" target="_blank" rel="noopener">האתר הרשמי</a>.</div>
     </div>
-    <div class="box red"><b>⚠️ גיל מינימום 4 למכרה</b>הכניסה למכרה המלח אסורה מתחת לגיל 4 - מגבלה חוקית שנאכפת ללא יוצא מן הכלל. שלוש הפעוטות (2:2, 2:8, 3:3) לא ייכנסו, ובניגוד ל-Hallstatt אין כאן תחליף. מחליטים מראש מי נשאר איתן בזמן הסיור - במתחם יש מסעדה, ומ-11:00 אפשר לעבור ל-Keltenblitz. מי שנשאר בחוץ קונה רק כרטיס מגלשה.</div>
+    <div class="box red"><b>⚠️ גיל מינימום 4 למכרה</b>הכניסה למכרה המלח אסורה מתחת לגיל 4 - מגבלה חוקית שנאכפת ללא יוצא מן הכלל. שלוש הפעוטות (2:2, 2:8, 3:3) לא ייכנסו, <b>התחליף:</b> כפר הקלטים SALINA ומגרש המשחקים, צמודים למכרה - מבוגר אחד נשאר שם עם הקטנות בזמן הסיור. במתחם יש גם מסעדה, ומ-11:00 כולם עוברים יחד ל-Keltenblitz. מי שנשאר בחוץ קונה כרטיס לכפר (7.50€, הפעוטות חינם) וכרטיס מגלשה.</div>
     <div class="boxes">
       <div class="box red"><b>תלוי מזג אוויר</b>Keltenblitz פועלת רק בתנאי יובש ונסגרת בגשם. בגשם: אחרי המכרה נוסעים ל-Erlebnis-Therme Amadé באלטנמרקט (כ-45-50 דק׳) במקום לחזור למלון. המכרה מקורה ופועל בכל מזג אוויר.</div>
       <div class="box red"><b>פעוטות על המגלשה</b>במגלשות קיץ ילדים קטנים נוסעים רק עם מבוגר, ולרוב יש גיל מינימום גם בליווי. הגיל המדויק ב-Dürrnberg לא אומת — לבדוק בקופה לפני שקונים.</div>
       <div class="box green"><b>למה Wasserwelt ולא Amadé</b>Amadé כבר הייתה ב-25.9 וב-28.9. Wasserwelt נותנת את אותה חוויה, חינם עם כרטיס האורח, ובמרחק דקות מהמלון.</div>
     </div>
-    <div class="box tan"><b>שעות • 30.9.2026</b>Salzwelten Hallein פתוח 09:00-17:00. Keltenblitz בימי שני-שישי 11:00-17:00 (עד 11.10) — לא נפתחת לפני 11:00.</div>
+    <div class="box tan"><b>שעות • 30.9.2026</b>Salzwelten Hallein וכפר הקלטים SALINA פתוחים 09:00-17:00. Keltenblitz בימי שני-שישי 11:00-17:00 (עד 11.10) — לא נפתחת לפני 11:00.</div>
     <div class="box tan"><b>כרטיסים</b>
       <b>מכרה + Keltenblitz (כרטיס משולב "Adventure Card"):</b> מבוגר כ-47€, ילד (4-14) כ-26€ — זול יותר מרכישה נפרדת. <a href="https://www.salzwelten.at/en/hallein" target="_blank" rel="noopener">Salzwelten — האתר הרשמי</a>.<br>
       <b>מכרה בלבד:</b> מבוגר כ-35€, ילד (4-15) כ-16€.<br>
+      <b>כפר הקלטים SALINA בלבד</b> (למי שנשאר עם הפעוטות): מבוגר 7.50€, ילד (4-15) 3€, <b>מתחת לגיל 4 חינם</b>, כרטיס משפחתי (2+3) 19€. מי שקונה כרטיס למכרה - הכפר כבר כלול בו. קונים בקופה במקום או מראש ב-<a href="https://tickets.salzwelten.at/" target="_blank" rel="noopener">tickets.salzwelten.at</a> · <a href="https://www.salzwelten.at/en/salzburg/the-celtic-mountain" target="_blank" rel="noopener">פרטים באתר הרשמי</a>. המחירים מעונת 2025 - לאמת בקופה.<br>
       <b>Keltenblitz בלבד</b> (למי שנשאר עם הפעוטות): מבוגר 19.50€, ילד 13.20€. <a href="https://duerrnberg.at/en/prices/" target="_blank" rel="noopener">מחירים באתר הרשמי</a>.
     </div>
     <div class="footerbar">הוחלף: Wolfgangsee + Schafbergbahn ירדו מהתוכנית. אם הוזמנו כרטיסים לרכבת — לבטל.</div>
@@ -1575,7 +1579,7 @@ const DAYS = [
       <li>Keltenblitz (מגלשת הקיץ ב-Hallein) פועלת רק בתנאי יובש - לבדוק תחזית ל-30.9 ולהיות מוכנים לוותר עליה אם יורד גשם (המכרה עצמו מקורה ופועל בכל מזג אוויר).</li>
       <li>הרכבל ל-Geisterberg פועל רק בימי שישי-שלישי — אם מזיזים ימים, לוודא שה-27.9 נופל באחד מהם.</li>
       <li>לוודא מדיניות עגלה/מנשא באוטובוסי Kaprun ובמעלית Lärchwand מראש טלפונית (+43 50 313 23201).</li>
-      <li>להחליט מי נשאר עם שלוש הפעוטות (2:2, 2:8, 3:3) בשני המכרות - הכניסה אסורה מתחת לגיל 4. ב-Hallstatt יש פתרון (רכבל + Skywalk), ב-Hallein אין.</li>
+      <li>להחליט מי נשאר עם שלוש הפעוטות (2:2, 2:8, 3:3) בשני המכרות - הכניסה אסורה מתחת לגיל 4. ב-Hallstatt יש פתרון (רכבל + Skywalk), וב-Hallein - כפר הקלטים SALINA ומגרש המשחקים שליד המכרה.</li>
       <li>לברר טלפונית מאיזה גיל מתחיל התשלום ב-Geisterberg - זו ההנחה היחידה בטבלת העלויות שלא אומתה.</li>
       <li>לוודא מול Schattauer מי מהקבוצה זכאי לכרטיס האורח - מי שלן במקום אחר ישלם על Wasserwelt בנפרד.</li>
     </ol>
@@ -2146,7 +2150,7 @@ function renderCosts(){
 
     <div class="sectionLabel">💰 איפה אפשר לחסוך</div>
     <div class="boxes">
-      <div class="box tan"><b>הפעוטות לא נכנסות למכרות — נצלו את זה</b>ב-Hallstatt מבוגר שנשאר עם הקטנות למעלה צריך רק כרטיס רכבל (29€) במקום המשולב (49€) - חיסכון של 20€ לכל מלווה. ב-Hallein, מבוגר שמוותר על המכרה ועושה רק את קלטנבליץ משלם 19.50€ במקום 47€ - חיסכון של 27.50€. בסך הכל אפשר להוריד כ-95€ מהסכום הכולל.</div>
+      <div class="box tan"><b>הפעוטות לא נכנסות למכרות — נצלו את זה</b>ב-Hallstatt מבוגר שנשאר עם הקטנות למעלה צריך רק כרטיס רכבל (29€) במקום המשולב (49€) - חיסכון של 20€ לכל מלווה. ב-Hallein, מבוגר שמוותר על המכרה ונשאר עם הקטנות בכפר הקלטים ואז עושה את קלטנבליץ משלם 7.50€ + 19.50€ = 27€ במקום 47€ - חיסכון של 20€ (הפעוטות נכנסות לכפר חינם). בסך הכל אפשר להוריד כ-80€ מהסכום הכולל.</div>
       <div class="box tan"><b>Therme Amadé — קונים בקופה, לא אונליין</b>כשמשלמים שני מבוגרים, הילדים (6-15) משלמים רק תעריף שעתיים (13.50€ במקום 19€) - ההנחה ניתנת רק בקופה. הטבלה מניחה כרטיס 4 שעות בלי סאונה. בת 3:3 משלמת 4€, מתחת לגיל 3 חינם. ביום ההולדת - כניסה חינם עם תעודה.</div>
       <div class="box tan"><b>הזמנה מראש אונליין</b>Geisterberg לבדו חוסך עד 15% בהזמנה מוקדמת (כ-6€ למבוגר). ב-Hallstatt, Hohenwerfen ו-Melk ההזמנה מראש לא בהכרח זולה יותר, אבל חוסכת תור - ובימים הצפופים זה שווה יותר מכסף.</div>
     </div>
@@ -2235,7 +2239,7 @@ const DAY_ICON = {
 };
 const LOC_ICON = {
   airport:"✈️", vienna:"🏛️", gmunden:"🏞️", schlossort:"🏰", wagrain:"🏡", wagrain_billa:"🛒", wagrain_spar:"🛒", altenmarkt_mpreis:"🛒", altenmarkt_billa:"🛒", gmunden_eurospar:"🛒", hallstatt:"🏘️", hallstatt_salt:"⛏️", gosausee:"🏞️",
-  alpendorf:"🎢", werfen:"🏰", hallein_salt:"⛏️", keltenblitz:"🛝", amade:"♨️",
+  alpendorf:"🎢", werfen:"🏰", hallein_salt:"⛏️", keltendorf:"🏺", keltenblitz:"🛝", amade:"♨️",
   ferleiten:"🦌", fuscher_torl:"🌄", hochtor:"🏔️", glockner:"🏔️",
   stwolfgang:"🚂", wasserwelt:"🌊", zell:"🚡", schmittenhoehe:"🚠", kaprun:"💧", melk:"⛪", durnstein:"⛪",
   zwoelferhorn:"🚡", liechtensteinklamm:"🏞️", krimml:"💦", shuttleberg:"🚡",
@@ -2570,7 +2574,7 @@ const ROW_WAZE = {
   d4: [ ["הגעה ל-Alpendorf","alpendorf"], ["St. Johann: מרכז עתיק","alpendorf"], ["חזרה ל-Wagrain","wagrain"] ],
   d5: [ ["חניה ועלייה במעלית לטירה","werfen"], ["נסיעה ל-Erlebnis-Therme Amadé","amade"], ["חזרה למלון בוואגריין","wagrain"] ],
   d3: [ ["עצירה ב-Fuscher Törl","fuscher_torl"], ["עצירה ב-Hochtor","hochtor"], ["תצפית הקרחון ב-Kaiser Franz Josef Höhe","glockner"], ["Erlebnispark Ferleiten","ferleiten"], ["Wagrain","wagrain"] ],
-  d7: [ ["הגעה למכרה המלח","hallein_salt"], ["Keltenblitz","keltenblitz"], ["נסיעה חזרה ל-Wagrain","wagrain"], ["Wagrain Wasserwelt","wasserwelt"], ["חזרה למלון","wagrain"] ],
+  d7: [ ["הגעה למכרה המלח","hallein_salt"], ["כפר הקלטים SALINA","keltendorf"], ["Keltenblitz","keltenblitz"], ["נסיעה חזרה ל-Wagrain","wagrain"], ["Wagrain Wasserwelt","wasserwelt"], ["חזרה למלון","wagrain"] ],
   d8: [ ["חניה בחניון החינמי ליד קופת Kesselfall","kaprun"], ["נסיעה ל-Zell am See","zell"], ["חזרה ל-Wagrain","wagrain"] ],
   d9: [ ["הגעה ל-Melk","melk"], ["נסיעה לאורך Wachau ל-Dürnstein","durnstein"], ["יציאה לשדה התעופה","airport"], ["MOXY, החזרת רכב ואריזה","airport"] ],
 };
@@ -3258,7 +3262,7 @@ const SEARCH_SYNONYMS = [
   ["moxy","מוקסי"], ["schattauer","שאטאואר"], ["zell","צל אם זה"],
   ["kaprun","קפרון"], ["schmitten","שמיטנהוהה"], ["grossglockner","גרוסגלוקנר גלוקנר"],
   ["hohenwerfen","הוהנוורפן"], ["werfen","וורפן"], ["hallein","הליין"],
-  ["keltenblitz","קלטנבליץ מגלשה"], ["salzwelten","מכרה מלח"],
+  ["keltenblitz","קלטנבליץ מגלשה"], ["salina","כפר הקלטים קלטים סלינה"], ["salzwelten","מכרה מלח"],
   ["schafberg","שפברג"], ["wolfgang","וולפגנג ולפגנגזה"], ["geisterberg","גייסטרברג"],
   ["alpendorf","אלפנדורף"], ["therme","תרמה"], ["wasserwelt","וסרוולט"],
   ["ferleiten","פרלייטן"], ["wildpark","ווילדפארק פארק חיות"],
