@@ -1,0 +1,3537 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>אוסטריה למשפחה 2026 — המסלול שלנו</title>
+
+<!-- Open Graph / WhatsApp / Facebook link-preview tags. og:image must be an absolute URL —
+     WhatsApp's crawler fetches it directly and won't resolve a relative path. -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://itairosenblum-hash.github.io/trip/austria-2026/">
+<meta property="og:title" content="🏔️ אוסטריה למשפחה 2026">
+<meta property="og:description" content="המסלול המשפחתי שלנו לאוסטריה — לו״ז יומי, מפות עם ניווט ב-Waze, מזג אוויר וגלריית תמונות. ספטמבר–אוקטובר 2026.">
+<meta property="og:image" content="https://itairosenblum-hash.github.io/trip/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="he_IL">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="🏔️ אוסטריה למשפחה 2026">
+<meta name="twitter:description" content="המסלול המשפחתי שלנו לאוסטריה — לו״ז יומי, מפות עם ניווט ב-Waze, מזג אוויר וגלריית תמונות.">
+<meta name="twitter:image" content="https://itairosenblum-hash.github.io/trip/og-image.png">
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#8A0E22">
+<link rel="icon" href="../icon-192.png?v=5">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png?v=5">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="אוסטריה 2026">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700;900&family=Heebo:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<style>
+  :root{
+    --red:#C8102E;
+    --red-dark:#8A0E22;
+    --red-pop:#E63950;
+    --red-soft:#FBEAEC;
+    --gold:#C89B3C;
+    --gold-dark:#8f6d24;
+    --gold-soft:#FBF3E1;
+    --cream:#FFFFFF;
+    --cream-2:#FBEEEF;
+    --ink:#2B2320;
+    --muted:#78706c;
+    --line:#EFE1E1;
+    --red-bg:#FBEAEC;
+    --green-bg:#EFF6EC;
+    --green-txt:#3d7a3f;
+    --yellow-bg:#FDF6E3;
+    --radius-lg:20px;
+    --radius-md:14px;
+    --shadow-soft:0 4px 16px rgba(43,35,32,.09);
+    --shadow-pop:0 6px 20px rgba(43,35,32,.16);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Heebo',sans-serif;
+    font-weight:400;
+    line-height:1.6;
+    font-size:15.5px;
+  }
+  h1,h2,h3{font-family:'Frank Ruhl Libre',serif;margin:0;}
+  header.top{
+    position:relative;
+    padding:26px 28px 22px;
+    background:
+      radial-gradient(circle at 92% -10%, rgba(200,16,46,.10), transparent 55%),
+      radial-gradient(circle at 6% 120%, rgba(200,155,60,.14), transparent 50%),
+      linear-gradient(180deg,#fff, #FFFAF9);
+    border-bottom:3px solid var(--red);
+  }
+  header.top .allTrips{display:inline-block;margin-bottom:8px;font-size:13px;font-weight:700;color:var(--red-dark);text-decoration:none;background:var(--red-soft);padding:4px 12px;border-radius:999px;}
+  header.top .eyebrow{color:var(--red);font-size:14px;font-weight:700;margin-bottom:4px;letter-spacing:.2px;}
+  header.top h1{font-size:32px;color:var(--red-dark);font-weight:700;}
+  header.top .sub{color:var(--muted);font-size:14.5px;margin-top:6px;}
+  .countdown{
+    display:inline-block;margin-top:10px;
+    background:var(--gold-soft);color:var(--gold-dark);
+    font-weight:700;font-size:13px;
+    padding:6px 14px;border-radius:999px;border:1px solid var(--gold);
+  }
+  .countdown[hidden]{display:none;}
+
+  .layout{
+    display:flex;
+    flex-direction:column;
+    max-width:1280px;
+    margin:0 auto;
+    padding:22px 28px 96px;
+    gap:26px;
+  }
+
+  /* ---------- Nav: row 1 = overview/info/trivia pills, row 2 = horizontal day scroller ----------
+     Pinned to the top of the viewport at all times (position:sticky). The ::after strip is a
+     thin gold fade-line, and the box-shadow gives it a subtle "floating shelf" look, so content
+     scrolling underneath has a clean, deliberate edge instead of an abrupt flat cutoff. */
+  nav.daynav{
+    position:sticky;
+    top:0;
+    z-index:1500;
+    background:var(--cream);
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    padding:8px 0 12px;
+    box-shadow:0 12px 14px -12px rgba(43,35,32,.20);
+  }
+  nav.daynav::after{
+    content:"";
+    position:absolute;
+    left:0;right:0;bottom:0;
+    height:2px;
+    background:linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity:.75;
+  }
+  nav.daynav button{
+    all:unset;
+    cursor:pointer;
+    color:var(--ink);
+    display:flex;
+    align-items:center;
+    position:relative;
+    border:2px solid transparent;
+    transition:background .15s ease, border-color .15s ease, transform .1s ease;
+  }
+  nav.daynav button .icon{font-size:18px;line-height:1;flex:0 0 auto;}
+  nav.daynav button .label{display:flex;flex-direction:column;gap:1px;min-width:0;}
+  nav.daynav button .wd{color:var(--muted);font-size:10.5px;font-weight:600;letter-spacing:.2px;}
+  nav.daynav button.active .wd{color:rgba(255,255,255,.8);}
+  nav.daynav button .d{font-weight:700;color:var(--red-dark);font-size:13.5px;}
+  nav.daynav button .t{color:var(--muted);font-size:11.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  nav.daynav button:active{transform:scale(.97);}
+  nav.daynav button.active{background:var(--red-dark);border-color:var(--gold);box-shadow:var(--shadow-pop);}
+  nav.daynav button.active .d,nav.daynav button.active .t{color:#fff;}
+  nav.daynav button.isToday:not(.active){border-color:var(--gold);}
+  nav.daynav button .todayDot{
+    position:absolute;top:-6px;inset-inline-end:-4px;
+    background:var(--gold);color:#fff;font-size:9px;font-weight:800;
+    padding:1px 6px;border-radius:999px;letter-spacing:.3px;
+  }
+
+  /* ---------- Bottom tab bar: the four reference pages (overview / info / costs / trivia).
+     Fixed to the bottom of the viewport so it sits in thumb reach and leaves the top of the
+     screen to the day strip and the content. Sits below the fullscreen map (z-index 3000)
+     so expanding the map still covers everything. ---------- */
+  .tabbar{
+    position:fixed;
+    left:0;right:0;bottom:0;
+    z-index:1400;
+    display:flex;
+    background:rgba(255,255,255,.97);
+    backdrop-filter:saturate(180%) blur(8px);
+    border-top:1px solid var(--line);
+    box-shadow:0 -6px 16px -8px rgba(43,35,32,.28);
+    padding-bottom:env(safe-area-inset-bottom);
+  }
+  .tabbar button{
+    all:unset;
+    flex:1;
+    cursor:pointer;
+    position:relative;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:2px;
+    padding:9px 2px 10px;
+    color:var(--muted);
+    font-size:11px;
+    font-weight:700;
+    text-align:center;
+    transition:color .15s ease;
+  }
+  .tabbar button .icon{font-size:19px;line-height:1;transition:transform .15s ease;}
+  .tabbar button .t{display:none;}
+  .tabbar button:active{transform:scale(.96);}
+  .tabbar button.active{color:var(--red-dark);}
+  .tabbar button.active .icon{transform:translateY(-1px) scale(1.08);}
+  .tabbar button.active::before{
+    content:"";
+    position:absolute;top:0;left:50%;transform:translateX(-50%);
+    width:28px;height:3px;
+    border-radius:0 0 3px 3px;
+    background:var(--gold);
+  }
+
+  .dayScrollWrap{
+    display:flex;
+    align-items:center;
+    gap:6px;
+  }
+  .dayScrollArrow{
+    all:unset;
+    flex:0 0 auto;
+    cursor:pointer;
+    width:30px;height:30px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    background:#fff;border:1px solid var(--line);color:var(--red-dark);
+    font-size:16px;font-weight:800;line-height:1;
+    box-shadow:0 2px 6px rgba(0,0,0,.08);
+    transition:transform .12s ease;
+  }
+  .dayScrollArrow:hover{transform:scale(1.08);}
+  .dayScrollArrow:active{transform:scale(.92);}
+  .dayScroll{
+    flex:1;
+    min-width:0;
+    display:flex;
+    gap:8px;
+    overflow-x:auto;
+    scroll-behavior:smooth;
+    scroll-snap-type:x proximity;
+    padding:2px 2px 8px;
+    scrollbar-width:none;
+  }
+  .dayScroll::-webkit-scrollbar{display:none;}
+  .dayScroll button{
+    flex:0 0 auto;
+    scroll-snap-align:center;
+    flex-direction:column;
+    justify-content:center;
+    text-align:center;
+    gap:3px;
+    min-width:70px;
+    padding:9px 8px;
+    border-radius:14px;
+    border:2px solid var(--line);
+    background:#fff;
+  }
+  .dayScroll button:hover{background:var(--cream-2);}
+  .dayScroll button .label{align-items:center;}
+  .dayScroll button .t{white-space:normal;line-height:1.2;max-width:70px;}
+
+  main.content{flex:1;min-width:0;}
+
+  .nowBar{
+    display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+    background:linear-gradient(135deg, var(--gold-dark), var(--gold));
+    color:#fff;border-radius:var(--radius-lg);
+    padding:14px 18px;margin-bottom:16px;
+    box-shadow:var(--shadow-pop);
+  }
+  .nowBar[hidden]{display:none;}
+  .nowBar-text{display:flex;flex-direction:column;gap:2px;}
+  .nowBar-label{font-size:12px;font-weight:700;opacity:.9;letter-spacing:.2px;}
+  .nowBar-place{font-size:18px;font-weight:800;font-family:'Frank Ruhl Libre',serif;}
+  .nowBar-btn{
+    background:#fff;color:var(--gold-dark);text-decoration:none;
+    font-weight:800;font-size:14.5px;padding:11px 20px;border-radius:999px;
+    white-space:nowrap;box-shadow:0 3px 10px rgba(0,0,0,.15);
+    transition:transform .12s ease;
+  }
+  .nowBar-btn:hover{transform:translateY(-1px) scale(1.02);}
+
+  .installBanner{
+    display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+    background:linear-gradient(135deg, var(--red-dark), var(--red));
+    color:#fff;padding:10px 24px;font-size:14px;
+  }
+  .installBanner[hidden]{display:none;}
+  .installBanner-icon{font-size:19px;line-height:1;}
+  .installBanner-text{flex:1;min-width:200px;}
+  .installBanner-btn{
+    background:#fff;color:var(--red-dark);border:none;font-weight:800;
+    padding:8px 18px;border-radius:999px;cursor:pointer;font-size:13.5px;
+    white-space:nowrap;transition:transform .12s ease;
+  }
+  .installBanner-btn:hover{transform:scale(1.04);}
+  .installBanner-btn[hidden]{display:none;}
+  .installBanner-close{
+    background:transparent;border:none;color:#fff;font-size:16px;cursor:pointer;
+    opacity:.85;padding:4px 6px;line-height:1;
+  }
+  .installBanner-close:hover{opacity:1;}
+
+  .weatherCard{
+    display:block;
+    background:#fff;border:1px solid var(--line);border-radius:var(--radius-md);
+    padding:12px 16px;margin-bottom:20px;box-shadow:var(--shadow-soft);
+    font-size:14px;
+  }
+  .weatherCard[hidden]{display:none;}
+  .wxTop{display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+  /* Hourly strip. The hours the day's schedule actually covers are tinted gold, so the
+     forecast reads against the plan rather than as a standalone weather widget. */
+  .wxHours{
+    display:flex;gap:5px;overflow-x:auto;scrollbar-width:none;
+    padding:10px 0 2px;margin-top:9px;border-top:1px solid #F6EDED;
+  }
+  .wxHours::-webkit-scrollbar{display:none;}
+  .wxHour{flex:0 0 auto;width:50px;text-align:center;padding:5px 2px;border-radius:10px;}
+  .wxHour.out{background:var(--gold-soft);}
+  .wxHour .hr{font-size:11px;color:var(--muted);font-weight:700;}
+  .wxHour .ic{font-size:16px;line-height:1.3;}
+  .wxHour .tp{font-size:13.5px;font-weight:800;color:var(--red-dark);}
+  .wxHour .rn{font-size:10.5px;color:#3d7a9e;font-weight:600;}
+  .wxHour .rn.wet{color:var(--red);font-weight:800;}
+  .wxNote{font-size:11px;color:var(--muted);margin-top:7px;}
+  .weatherIcon{font-size:26px;line-height:1;}
+  .weatherTemps{font-weight:700;color:var(--ink);}
+  .weatherTemps b{color:var(--red-dark);font-size:16.5px;}
+  .weatherRain{color:#3d7a9e;font-weight:600;}
+  .weatherLoc{margin-inline-start:auto;color:var(--muted);font-size:12.5px;}
+  .weatherLoading,.weatherNA{color:var(--muted);font-size:13px;}
+
+  /* ---------- "Did you know?" carousel, shown per trip day ---------- */
+  .funFactCard{
+    background:linear-gradient(135deg, #eaf4fb, #f7f0ff);
+    border:1px solid #dfe7f5;border-radius:var(--radius-md);
+    padding:14px 16px 12px;margin-bottom:20px;box-shadow:var(--shadow-soft);
+    text-align:center;
+  }
+  .funFactCard[hidden]{display:none;}
+  .funFact-head{font-weight:800;color:#4a5fb0;font-size:13.5px;margin-bottom:6px;}
+  .funFact-body{display:flex;align-items:center;gap:10px;}
+  .funFactText{
+    flex:1;margin:0;font-size:14.5px;color:var(--ink);line-height:1.55;
+    min-height:1.6em;
+  }
+  .funFactArrow{
+    flex:0 0 auto;width:32px;height:32px;border-radius:50%;
+    border:none;background:#fff;color:#4a5fb0;font-size:19px;font-weight:800;
+    cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.1);
+    display:flex;align-items:center;justify-content:center;line-height:1;
+    transition:transform .12s ease;
+  }
+  .funFactArrow:hover{transform:scale(1.1);}
+  .funFactArrow:active{transform:scale(.92);}
+  .funFactDots{display:flex;justify-content:center;gap:6px;margin-top:10px;}
+  .funFactDots span{
+    width:6px;height:6px;border-radius:50%;background:#c8d2ea;transition:.2s;
+  }
+  .funFactDots span.on{background:#4a5fb0;width:16px;border-radius:4px;}
+
+  /* ---------- Trivia game page — brighter, bigger, kid-facing ---------- */
+  .tabbar button#nav-trivia{overflow:visible;}
+  .tabbar button#nav-trivia .icon{
+    animation:kidBounce 2.2s ease-in-out infinite;
+  }
+  @keyframes kidBounce{
+    0%,100%{transform:translateY(0) rotate(0deg);}
+    25%{transform:translateY(-3px) rotate(-6deg);}
+    75%{transform:translateY(-1px) rotate(6deg);}
+  }
+  .kidTag{color:#7a3fc9 !important;}
+  .kidTitle{
+    background:linear-gradient(90deg, var(--red), #7a3fc9, var(--gold-dark));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    font-size:26px !important;
+  }
+  .quizIntro{font-size:15px;color:var(--muted);margin:6px 0 18px;}
+  .quizRoot{max-width:640px;}
+  .quizCard{
+    background:#fff;border:2px solid var(--gold);border-radius:22px;
+    padding:22px 20px;box-shadow:var(--shadow-pop);
+  }
+  .quizProgress{
+    display:flex;justify-content:space-between;align-items:center;
+    font-size:12.5px;color:var(--muted);font-weight:700;margin-bottom:12px;
+  }
+  .quizScore{color:var(--gold-dark);}
+  .quizQuestion{
+    font-family:'Frank Ruhl Libre',serif;font-size:19px;font-weight:700;
+    color:var(--red-dark);margin:0 0 18px;line-height:1.4;
+  }
+  .quizOptions{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .quizOption{
+    background:var(--gold-soft);border:2px solid transparent;border-radius:14px;
+    padding:15px 12px;font-size:15px;font-weight:700;color:var(--ink);
+    cursor:pointer;transition:transform .12s ease, box-shadow .12s ease;
+    font-family:inherit;text-align:center;
+  }
+  .quizOption:hover{transform:scale(1.03);box-shadow:var(--shadow-soft);}
+  .quizOption.correct{background:var(--green-bg);border-color:#3d7a3f;color:#2c5c2e;}
+  .quizOption.wrong{background:var(--red-soft);border-color:var(--red);color:var(--red-dark);}
+  .quizOption.disabled{pointer-events:none;opacity:.9;}
+  .quizOption.disabled:not(.correct):not(.wrong){opacity:.55;}
+  .quizFeedback{margin-top:16px;font-size:16px;font-weight:800;text-align:center;}
+  .quizFeedback.correct{color:#2c5c2e;}
+  .quizFeedback.wrong{color:var(--red-dark);}
+  .quizFact{
+    margin-top:10px;background:var(--gold-soft);border-radius:12px;
+    padding:12px 14px;font-size:13.5px;color:var(--ink);text-align:center;
+  }
+  .quizNextBtn{
+    display:block;margin:18px auto 0;background:var(--red-dark);color:#fff;
+    border:none;padding:12px 30px;border-radius:999px;font-weight:800;
+    font-size:15px;cursor:pointer;font-family:inherit;
+    transition:transform .12s ease;
+  }
+  .quizNextBtn:hover{transform:scale(1.04);}
+  .quizSummary{text-align:center;padding:10px 6px;}
+  .quizSummary .emoji{font-size:52px;line-height:1;margin-bottom:10px;}
+  .quizSummary .scoreLine{
+    font-family:'Frank Ruhl Libre',serif;font-size:24px;font-weight:800;
+    color:var(--red-dark);margin-bottom:8px;
+  }
+  .quizSummary .msg{font-size:15px;color:var(--ink);margin-bottom:20px;}
+  .quizAgainBtn{
+    background:linear-gradient(135deg, var(--red-dark), var(--red));color:#fff;
+    border:none;padding:13px 32px;border-radius:999px;font-weight:800;
+    font-size:15.5px;cursor:pointer;font-family:inherit;
+    box-shadow:var(--shadow-pop);transition:transform .12s ease;
+  }
+  .quizAgainBtn:hover{transform:scale(1.05);}
+
+  /* Sits as the last item in the tab bar. Keeps the WhatsApp green so it reads as an
+     outbound link rather than another page of the site. */
+  .waFab{
+    flex:1;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+    padding:9px 2px 10px;
+    text-decoration:none;
+    color:#128C4A;font-size:11px;font-weight:700;
+    transition:transform .12s ease;
+  }
+  .waFab:active{transform:scale(.96);}
+  .waFab svg{width:19px;height:19px;fill:#25D366;display:block;}
+
+  .mapCard{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:var(--radius-lg);
+    padding:16px 16px 14px;
+    margin-bottom:20px;
+    box-shadow:var(--shadow-soft);
+  }
+  .mapCard .mapTitle{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    margin-bottom:6px;
+  }
+  .mapCard .mapTitle h2{font-size:17px;color:var(--red-dark);}
+  .mapCard .mapTitle span{font-size:12.5px;color:var(--muted);}
+  .mapWrap{position:relative;}
+  #mapDiv{
+    width:100%;
+    height:340px;
+    border-radius:var(--radius-md);
+    overflow:hidden;
+    direction:ltr;
+    background:var(--cream-2);
+  }
+  .mapControls{
+    position:absolute;top:10px;right:10px;z-index:1000;
+    display:flex;flex-direction:column;gap:6px;
+  }
+  .mapCtrlBtn{
+    width:34px;height:34px;border-radius:8px;
+    border:1px solid var(--line);background:#fff;
+    box-shadow:0 2px 6px rgba(0,0,0,.18);
+    font-size:16px;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    transition:transform .12s ease;
+  }
+  .mapCtrlBtn:hover{transform:scale(1.07);}
+  .mapCtrlBtn:active{transform:scale(.95);}
+  .mapRouteInfo{
+    margin-top:8px;font-size:12.5px;color:var(--muted);
+    display:flex;gap:16px;flex-wrap:wrap;
+  }
+  .mapRouteInfo[hidden]{display:none;}
+  .mapRouteInfo b{color:var(--red-dark);}
+  .mapCard.fullscreen{
+    position:fixed;inset:0;z-index:3000;
+    margin:0;border-radius:0;
+    height:100vh;display:flex;flex-direction:column;
+    padding:14px;
+  }
+  .mapCard.fullscreen .mapWrap{flex:1;min-height:0;}
+  .mapCard.fullscreen #mapDiv{height:100%;}
+  body.mapFsOpen{overflow:hidden;}
+  .map-marker{
+    width:12px;height:12px;border-radius:50%;
+    background:#cbb9ba;border:2px solid #fff;
+    box-shadow:0 1px 3px rgba(0,0,0,.35);
+    transition:all .15s ease;
+  }
+  .map-marker.active{
+    width:17px;height:17px;
+    background:var(--red);
+    margin:-2.5px 0 0 -2.5px;
+  }
+  .map-marker.base{
+    width:0;height:0;
+    border-left:9px solid transparent;
+    border-right:9px solid transparent;
+    border-bottom:14px solid var(--red-dark);
+    background:none;border-width:0;box-shadow:none;
+    filter:drop-shadow(0 1px 2px rgba(0,0,0,.4));
+  }
+  .leaflet-tooltip.map-tooltip{
+    direction:ltr;text-align:left;
+    font-family:'Heebo',sans-serif;
+    font-size:12px;
+    color:var(--ink);
+    background:#fff;
+    border:1px solid var(--line);
+    box-shadow:0 2px 6px rgba(0,0,0,.12);
+  }
+  .leaflet-tooltip.map-tooltip.base-tooltip{font-weight:700;color:var(--red-dark);}
+  .leaflet-tooltip.map-tooltip.active-tooltip{font-weight:700;color:var(--red-dark);}
+
+  .rowWaze{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:24px;height:24px;margin-inline-start:8px;
+    border-radius:50%;background:var(--gold-soft);
+    font-size:13px;text-decoration:none;vertical-align:middle;line-height:1;
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .rowWaze:hover{box-shadow:var(--shadow-soft);transform:scale(1.12);}
+
+  /* Traffic-congestion badge: same pill shape as the Waze button so schedule rows stay
+     visually even, but tinted red so a jam warning reads differently from a nav action.
+     It's a <button> (not a link) — tapping toggles the detail line underneath the row. */
+  .rowTraffic{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:24px;height:24px;margin-inline-start:6px;padding:0;
+    border:none;border-radius:50%;background:var(--red-soft);
+    font-size:13px;line-height:1;vertical-align:middle;cursor:pointer;
+    font-family:inherit;
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .rowTraffic:hover{box-shadow:var(--shadow-soft);transform:scale(1.12);}
+  .rowTraffic[aria-expanded="true"]{background:var(--red);}
+  .trafficNote{
+    margin-top:6px;font-size:12.8px;line-height:1.5;
+    color:var(--red-dark);background:var(--red-soft);
+    border-radius:10px;padding:8px 11px;text-align:start;
+  }
+  .trafficNote[hidden]{display:none;}
+  .trafficNote b{font-weight:800;}
+  /* Toll / parking-cost badge: same pill as the Waze and traffic buttons, tinted gold so
+     "this costs money" reads differently from "this is a jam" and from "navigate here". */
+  .rowToll{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:24px;height:24px;margin-inline-start:6px;padding:0;
+    border:none;border-radius:50%;background:var(--gold-soft);
+    font-size:13px;line-height:1;vertical-align:middle;cursor:pointer;
+    font-family:inherit;
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .rowToll:hover{box-shadow:var(--shadow-soft);transform:scale(1.12);}
+  .rowToll[aria-expanded="true"]{background:var(--gold);}
+  .tollNote{
+    margin-top:6px;font-size:12.8px;line-height:1.5;
+    color:var(--gold-dark);background:var(--gold-soft);
+    border-radius:10px;padding:8px 11px;text-align:start;
+  }
+  .tollNote[hidden]{display:none;}
+  .tollNote b{font-weight:800;}
+  .tollBox{
+    background:var(--gold-soft);border:1px solid var(--gold);
+    border-radius:var(--radius-md);padding:13px 16px 11px;margin:16px 0;
+    font-size:14px;
+  }
+  .tollBox > b{display:block;color:var(--gold-dark);font-size:14.5px;margin-bottom:6px;}
+  .tollBox ul{margin:0;padding-inline-start:20px;line-height:1.65;}
+  .tollBox li{margin-bottom:4px;}
+  .tollBox .none{color:var(--green-txt);font-weight:700;}
+  .trafficList{padding-inline-start:20px;margin:0 0 16px;font-size:14.3px;line-height:1.7;}
+  .trafficList li{margin-bottom:7px;}
+  .trafficList .when{color:var(--red-dark);font-weight:700;}
+
+  .photoGallery{display:flex;gap:12px;margin-bottom:18px;flex-wrap:wrap;}
+  .photoGallery figure{
+    margin:0;flex:1 1 260px;position:relative;
+    border-radius:var(--radius-md);overflow:hidden;
+    height:190px;
+    background:var(--cream-2);
+    box-shadow:var(--shadow-soft);
+  }
+  .photoGallery figure a{display:block;width:100%;height:100%;}
+  .photoGallery img{
+    width:100%;height:100%;object-fit:cover;display:block;
+    transition:transform .3s ease;
+  }
+  .photoGallery figure:hover img{transform:scale(1.06);}
+  .photoGallery figcaption{
+    position:absolute;inset-inline-start:0;bottom:0;width:100%;
+    background:linear-gradient(0deg, rgba(60,20,24,.80), rgba(60,20,24,0));
+    color:#fff;font-size:12.5px;padding:22px 12px 8px;
+    text-align:start;
+  }
+
+  .panel{background:#fff;border:1px solid var(--line);border-radius:var(--radius-lg);padding:24px 26px 26px;box-shadow:var(--shadow-soft);}
+  .panel .tag{color:var(--red);font-weight:700;font-size:14.5px;margin-bottom:4px;}
+  .panel h2.title{font-size:28px;color:var(--red-dark);margin-bottom:6px;}
+  .panel .meta{color:var(--muted);font-size:13.5px;margin-bottom:16px;}
+
+  table.sched{width:100%;border-collapse:collapse;margin-bottom:18px;font-size:14.5px;}
+  table.sched td{padding:11px 12px;border-bottom:1px solid #F3E7E7;}
+  table.sched td:last-child{width:120px;font-weight:700;background:var(--cream-2);text-align:center;border-radius:10px;color:var(--red-dark);}
+  table.sched tr:last-child td{border-bottom:none;}
+
+  .sectionLabel{font-family:'Frank Ruhl Libre',serif;font-weight:700;color:var(--red-dark);font-size:16.5px;margin:18px 0 8px;}
+
+  .places{display:flex;flex-direction:column;gap:8px;margin-bottom:8px;}
+  .places .p{font-size:14px;line-height:1.6;}
+  .places .p b{color:var(--red);}
+  .places .p a{color:var(--red-dark);font-weight:700;text-decoration:underline;}
+
+  .boxes{display:flex;gap:14px;margin:16px 0;flex-wrap:wrap;}
+  .box{flex:1 1 220px;border-radius:var(--radius-md);padding:14px 16px;font-size:14px;}
+  .box b{display:block;margin-bottom:4px;font-size:14px;}
+  .box.green{background:var(--gold-soft);}
+  .box.green b{color:var(--gold-dark);}
+  .box.red{background:var(--red-soft);}
+  .box.red b{color:var(--red-dark);}
+  .box.yellow{background:var(--yellow-bg);}
+  .box.tan{background:var(--cream-2);}
+
+  table.kids{width:100%;border-collapse:collapse;font-size:13.8px;margin-bottom:6px;}
+  table.kids td{padding:8px 10px;border-bottom:1px solid #F3E7E7;vertical-align:top;}
+  table.kids td:last-child{width:150px;background:var(--cream-2);border-radius:8px;font-size:12.8px;color:var(--muted);}
+
+  /* ---------- Costs page: one block per family rather than a wide matrix, because a
+     6-column table is unreadable on a phone and this site is used mostly on mobile. ---------- */
+  .costFam{
+    background:#fff;border:1px solid var(--line);border-inline-start:4px solid var(--gold);
+    border-radius:var(--radius-md);padding:14px 16px;margin-bottom:14px;
+    box-shadow:var(--shadow-soft);
+  }
+  .costFam h3{font-size:17px;color:var(--red-dark);margin-bottom:2px;}
+  .costFam .who{color:var(--muted);font-size:12.8px;margin-bottom:10px;}
+  .costFam table{width:100%;border-collapse:collapse;font-size:14px;}
+  .costFam td{padding:6px 2px;border-bottom:1px solid #F6EDED;}
+  .costFam td:last-child{text-align:end;font-weight:700;white-space:nowrap;width:80px;}
+  .costFam td .dnum{display:inline-block;min-width:32px;color:var(--muted);font-size:11.5px;margin-inline-end:6px;}
+  .costFam tr.sum td{border-bottom:none;border-top:2px solid var(--gold);padding-top:9px;font-weight:800;color:var(--red-dark);font-size:15.5px;}
+  .costFam tr.free td:last-child{color:var(--green-txt);}
+  /* ---------- Boarding-pass card for the flight details ----------
+     Laid out LTR because the whole content is airline data (codes, times, flight numbers)
+     that reads left-to-right even on a Hebrew page. The dashed rule plus the two notches
+     cut into the sides are the tear-off perforation. */
+  .bpass{
+    direction:ltr;
+    background:linear-gradient(160deg,#fff 0%,#FFFBFB 55%,var(--cream-2) 100%);
+    border:1px solid var(--line);
+    border-radius:var(--radius-md);
+    margin-bottom:14px;
+    box-shadow:var(--shadow-soft);
+    overflow:hidden;
+  }
+  .bpass-head{
+    display:flex;align-items:center;justify-content:space-between;
+    background:var(--red-dark);color:#fff;
+    padding:9px 16px;
+  }
+  .bpass-airline{font-size:12.5px;font-weight:700;letter-spacing:.4px;}
+  .bpass-no{
+    font-family:'Frank Ruhl Libre',serif;
+    font-size:17px;font-weight:800;color:var(--gold-soft);
+  }
+  .bpass-route{
+    display:flex;align-items:center;justify-content:space-between;gap:10px;
+    padding:16px 16px 12px;
+  }
+  .bpass-end{display:flex;flex-direction:column;gap:1px;min-width:0;}
+  .bpass-end.arr{text-align:right;align-items:flex-end;}
+  .bpass-code{
+    font-family:'Frank Ruhl Libre',serif;
+    font-size:30px;font-weight:900;color:var(--red-dark);line-height:1;
+  }
+  .bpass-city{font-size:11.5px;color:var(--muted);}
+  .bpass-time{font-size:19px;font-weight:800;color:var(--ink);margin-top:5px;}
+  .bpass-mid{
+    flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;
+    color:var(--gold-dark);min-width:70px;
+  }
+  .bpass-dur{font-size:11.5px;font-weight:700;}
+  .bpass-path{
+    position:relative;width:100%;height:14px;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .bpass-path::before{
+    content:"";position:absolute;left:0;right:0;top:50%;
+    border-top:2px dotted var(--gold);
+  }
+  .bpass-plane{
+    position:relative;background:var(--cream-2);
+    padding:0 5px;font-size:14px;line-height:1;
+  }
+  .bpass-tear{
+    position:relative;
+    border-top:2px dashed var(--line);
+    margin:0 12px;
+  }
+  .bpass-tear::before,.bpass-tear::after{
+    content:"";position:absolute;top:-9px;
+    width:16px;height:16px;border-radius:50%;
+    background:var(--cream);
+    border:1px solid var(--line);
+  }
+  .bpass-tear::before{left:-20px;}
+  .bpass-tear::after{right:-20px;}
+  .bpass-meta{
+    display:flex;flex-wrap:wrap;gap:12px 22px;
+    padding:12px 16px 14px;
+  }
+  .bpass-meta div{display:flex;flex-direction:column;gap:1px;}
+  .bpass-meta .k{font-size:10.5px;color:var(--muted);font-weight:600;}
+  .bpass-meta .v{font-size:13.5px;font-weight:700;color:var(--ink);}
+  .bpass-bars{
+    height:26px;margin:0 16px 14px;border-radius:3px;
+    background-image:repeating-linear-gradient(90deg,
+      var(--ink) 0 2px, transparent 2px 4px,
+      var(--ink) 4px 5px, transparent 5px 9px,
+      var(--ink) 9px 12px, transparent 12px 14px);
+    opacity:.55;
+  }
+  /* ---------- Checklist page: collapsible sections of tick-boxes. State lives in
+     localStorage, so each family ticks their own copy on their own device — there is no
+     backend here, and nothing syncs between phones. ---------- */
+  .ckProgress{
+    background:linear-gradient(135deg, var(--red-dark), var(--red));
+    color:#fff;border-radius:var(--radius-lg);padding:15px 18px;margin-bottom:18px;
+    box-shadow:var(--shadow-pop);
+  }
+  .ckProgress .row{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:9px;}
+  .ckProgress .big{font-family:'Frank Ruhl Libre',serif;font-size:27px;font-weight:800;line-height:1;}
+  .ckProgress .cap{font-size:12.5px;opacity:.9;}
+  .ckBar{height:8px;border-radius:99px;background:rgba(255,255,255,.28);overflow:hidden;}
+  .ckBar i{display:block;height:100%;background:var(--gold);border-radius:99px;transition:width .35s ease;}
+  .ckSec{
+    background:#fff;border:1px solid var(--line);border-radius:var(--radius-md);
+    margin-bottom:12px;box-shadow:var(--shadow-soft);overflow:hidden;
+  }
+  .ckHead{
+    all:unset;display:flex;align-items:center;gap:10px;width:100%;
+    cursor:pointer;padding:12px 15px;box-sizing:border-box;
+  }
+  .ckHead .ic{font-size:19px;line-height:1;flex:0 0 auto;}
+  .ckHead .nm{font-weight:800;font-size:15.5px;color:var(--red-dark);flex:1;min-width:0;}
+  .ckHead .cnt{
+    font-size:11.5px;font-weight:800;color:var(--gold-dark);
+    background:var(--gold-soft);border-radius:99px;padding:2px 9px;flex:0 0 auto;
+  }
+  .ckSec.done .ckHead .cnt{background:var(--green-bg);color:var(--green-txt);}
+  .ckHead .car{color:var(--muted);font-size:13px;transition:transform .2s ease;flex:0 0 auto;}
+  .ckSec.open .ckHead .car{transform:rotate(180deg);}
+  .ckBody{display:none;padding:0 15px 12px;}
+  .ckSec.open .ckBody{display:block;}
+  .ckItem{
+    display:flex;align-items:flex-start;gap:10px;
+    padding:9px 0;border-top:1px solid #F6EDED;cursor:pointer;
+  }
+  .ckBox{
+    flex:0 0 auto;width:21px;height:21px;margin-top:1px;border-radius:6px;
+    border:2px solid var(--line);background:#fff;
+    display:flex;align-items:center;justify-content:center;
+    font-size:13px;color:#fff;line-height:1;transition:.15s;
+  }
+  .ckItem.on .ckBox{background:var(--green-txt);border-color:var(--green-txt);}
+  .ckItem .txt{font-size:14.2px;line-height:1.5;}
+  .ckItem .txt small{display:block;color:var(--muted);font-size:12.3px;margin-top:1px;}
+  .ckItem.on .txt{color:var(--muted);text-decoration:line-through;text-decoration-color:var(--line);}
+  .ckItem.on .txt small{text-decoration:none;}
+  .ckTools{display:flex;gap:9px;margin-top:16px;flex-wrap:wrap;}
+  .ckTools button{
+    all:unset;cursor:pointer;font-size:13px;font-weight:700;
+    padding:9px 16px;border-radius:99px;border:1px solid var(--line);
+    background:var(--cream-2);color:var(--ink);
+  }
+  .ckTools button:hover{background:#f5dfe1;}
+  /* ---------- Forecast page: destinations down the side, days across the top.
+     The table scrolls sideways on a phone rather than shrinking to unreadable columns,
+     and the place column is pinned so you always know which row you're reading. ---------- */
+  .fcLoading{color:var(--muted);font-size:14px;padding:14px 2px;}
+  .fcWrap{overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
+  .fcWrap::-webkit-scrollbar{display:none;}
+  .fcTable{border-collapse:separate;border-spacing:0;width:100%;}
+  .fcTable th,.fcTable td{padding:8px 6px;text-align:center;vertical-align:middle;}
+  .fcTable thead th{
+    border-bottom:2px solid var(--line);
+    min-width:64px;
+  }
+  .fcTable thead th .wd{display:block;font-size:11px;font-weight:800;color:var(--red-dark);}
+  .fcTable thead th .dt{display:block;font-size:10.5px;color:var(--muted);font-weight:600;}
+  .fcTable th.fcPlace .nm{display:block;white-space:nowrap;}
+  .fcTable th.fcPlace .nt{display:block;font-size:10px;color:var(--muted);font-weight:600;}
+  .fcTable thead th .trip{
+    display:block;margin-top:3px;font-size:8.5px;font-weight:800;max-width:60px;
+    margin-inline:auto;
+    color:var(--gold-dark);background:var(--gold-soft);border-radius:99px;
+    padding:1px 4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  }
+  .fcTable th.fcPlace{
+    position:sticky;inset-inline-start:0;z-index:2;
+    background:var(--cream);
+    text-align:start;font-size:12.5px;font-weight:700;color:var(--ink);
+    min-width:92px;max-width:92px;
+    border-bottom:1px solid #F6EDED;
+    box-shadow:6px 0 8px -8px rgba(43,35,32,.35);
+  }
+  .fcTable tbody td{border-bottom:1px solid #F6EDED;}
+  .fcTable tbody tr:last-child td,.fcTable tbody tr:last-child th{border-bottom:none;}
+  .fcTable .fcToday{background:var(--gold-soft);}
+  .fcTable td .ic{display:block;font-size:17px;line-height:1.2;}
+  .fcTable td .tm{display:block;font-size:12px;color:var(--muted);}
+  .fcTable td .tm b{color:var(--red-dark);font-size:13.5px;margin-inline-end:3px;}
+  .fcTable td .rn{display:block;font-size:10.5px;color:#3d7a9e;font-weight:600;}
+  .fcTable td .rn.wet{color:var(--red);font-weight:800;}
+  .fcLegend{margin-top:9px;font-size:11.5px;color:var(--muted);}
+  /* ---------- Restaurant recommendations, appended to each day ---------- */
+  .eats{display:flex;flex-direction:column;gap:9px;margin-bottom:8px;}
+  .eat{
+    display:flex;align-items:flex-start;gap:10px;
+    background:#fff;border:1px solid var(--line);border-inline-start:3px solid var(--gold);
+    border-radius:var(--radius-md);padding:11px 13px;
+  }
+  .eat .body{flex:1;min-width:0;}
+  .eat .nm{font-weight:800;font-size:14.5px;color:var(--red-dark);}
+  .eat .nm .tagline{
+    font-weight:700;font-size:10.5px;color:var(--gold-dark);
+    background:var(--gold-soft);border-radius:99px;padding:1px 7px;margin-inline-start:6px;
+    white-space:nowrap;
+  }
+  .eat .ds{font-size:13.3px;line-height:1.5;margin-top:2px;}
+  .eat .lk{margin-top:5px;font-size:12.5px;}
+  .eat .lk a{color:var(--red-dark);font-weight:700;text-decoration:underline;}
+  .eat .nav{
+    flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;
+    width:30px;height:30px;border-radius:50%;background:var(--gold-soft);
+    font-size:15px;text-decoration:none;line-height:1;
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .eat .nav:hover{box-shadow:var(--shadow-soft);transform:scale(1.1);}
+  .footerbar{background:var(--red-dark);color:#fff;padding:13px 16px;border-radius:var(--radius-md);font-size:14px;font-weight:500;margin-top:16px;display:flex;align-items:center;gap:8px;}
+
+  ul.altlist{padding-inline-start:20px;margin:0 0 16px;font-size:14.3px;line-height:1.7;}
+  ol.checklist{padding-inline-start:20px;margin:0 0 16px;font-size:14.3px;line-height:1.75;}
+
+  /* ---------- Site-wide search: a 🔍 tab opens a full-screen search sheet.
+     The index is built once, lazily, by rendering every day into a detached element. ---------- */
+  .searchSheet{
+    position:fixed;inset:0;z-index:4000;
+    background:var(--cream);
+    display:flex;flex-direction:column;
+  }
+  .searchSheet[hidden]{display:none;}
+  body.searchOpen{overflow:hidden;}
+  .searchBar{
+    display:flex;align-items:center;gap:8px;
+    padding:14px 16px;
+    background:linear-gradient(180deg,#fff,#FFFAF9);
+    border-bottom:3px solid var(--red);
+  }
+  .searchBar input{
+    flex:1;min-width:0;
+    font-family:'Heebo',sans-serif;font-size:16px;
+    padding:11px 16px;border-radius:999px;
+    border:2px solid var(--line);background:#fff;color:var(--ink);
+  }
+  .searchBar input:focus{outline:none;border-color:var(--gold);}
+  .searchClose{
+    all:unset;cursor:pointer;flex:0 0 auto;
+    width:40px;height:40px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:17px;color:var(--red-dark);background:var(--cream-2);
+  }
+  .searchClose:active{transform:scale(.94);}
+  .searchResults{flex:1;overflow-y:auto;padding:14px 16px 50px;}
+  .searchHint,.searchEmpty{color:var(--muted);font-size:14px;line-height:1.7;padding:10px 2px;}
+  .searchGroup{margin-bottom:20px;}
+  .searchGroupHead{
+    font-family:'Frank Ruhl Libre',serif;font-weight:700;
+    color:var(--red-dark);font-size:16px;margin:0 0 8px;
+  }
+  .searchItem{
+    display:block;width:100%;text-align:start;
+    background:#fff;border:1px solid var(--line);border-radius:var(--radius-md);
+    padding:11px 13px;margin-bottom:8px;cursor:pointer;
+    font-family:inherit;font-size:14px;color:var(--ink);line-height:1.55;
+  }
+  .searchItem:hover{background:var(--cream-2);}
+  .searchItem .kind{display:block;font-size:11.5px;font-weight:700;color:var(--gold-dark);margin-bottom:3px;}
+  .searchItem mark,.searchPlaceRow mark{background:var(--gold-soft);color:var(--red-dark);font-weight:700;border-radius:3px;padding:0 2px;}
+  .searchPlaceRow{
+    display:flex;align-items:center;gap:6px;
+    background:#fff;border:1px solid var(--line);border-radius:var(--radius-md);
+    padding:11px 13px;margin-bottom:8px;font-size:14px;
+  }
+  .searchPlaceRow .nm{flex:1;min-width:0;}
+  .searchHit{animation:searchFlash 2.2s ease;scroll-margin-top:120px;}
+  @keyframes searchFlash{
+    0%,55%{background:var(--gold-soft);}
+    100%{background:transparent;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .searchHit{animation:none;outline:2px solid var(--gold);outline-offset:2px;}
+  }
+
+  @media (max-width: 860px){
+    body{font-size:16px;}
+    header.top{padding:20px 18px 18px;}
+    header.top h1{font-size:27px;}
+    .countdown{font-size:12px;padding:5px 12px;}
+    .layout{padding:16px 14px 88px;gap:16px;}
+    nav.daynav{top:0;padding:8px 0 4px;gap:8px;}
+    .tabbar button{padding:8px 2px 9px;font-size:10.5px;}
+    .tabbar button .icon{font-size:18px;}
+    .costFam{padding:12px 13px;}
+    .costFam table{font-size:13.5px;}
+    .bpass-code{font-size:26px;}
+    .bpass-time{font-size:17px;}
+    .bpass-route{padding:14px 13px 10px;gap:6px;}
+    .bpass-mid{min-width:56px;}
+    .bpass-meta{padding:11px 13px 12px;gap:10px 16px;}
+    .bpass-bars{margin:0 13px 12px;height:22px;}
+    .bpass-tear::before{left:-19px;}
+    .bpass-tear::after{right:-19px;}
+    .dayScroll button{min-width:60px;padding:8px 6px;}
+    .dayScroll button .icon{font-size:17px;}
+    .dayScroll button .d{font-size:12.5px;}
+    .dayScroll button .t{display:none;}
+    .dayScrollArrow{width:26px;height:26px;font-size:14px;}
+    nav.daynav button .todayDot{top:-5px;inset-inline-end:-3px;}
+    .nowBar{padding:12px 14px;}
+    .nowBar-place{font-size:16px;}
+    .installBanner{padding:9px 14px;font-size:13px;}
+    .installBanner-text{min-width:0;}
+    .weatherCard{padding:10px 14px;font-size:13.5px;gap:10px;}
+    .funFactCard{padding:12px 14px 10px;}
+    .funFactText{font-size:14px;}
+    .quizCard{padding:18px 14px;border-radius:18px;}
+    .quizQuestion{font-size:17px;}
+    .quizOptions{grid-template-columns:1fr;}
+    .kidTitle{font-size:22px !important;}
+    .weatherLoc{font-size:12px;}
+    .waFab{padding:8px 2px 9px;font-size:10.5px;}
+    .waFab svg{width:18px;height:18px;}
+    .panel{padding:18px 16px 20px;}
+    .panel h2.title{font-size:23px;}
+    #mapDiv{height:260px;}
+    .mapCtrlBtn{width:32px;height:32px;font-size:15px;}
+    .mapRouteInfo{font-size:12px;gap:12px;}
+    .boxes{flex-direction:column;}
+    .photoGallery figure{height:150px;flex:1 1 45%;}
+    table.sched td{padding:12px 10px;font-size:14.5px;}
+  }
+
+  .camCard{background:#fff;border:1px solid var(--line,#EFE1E1);border-radius:var(--radius-md,14px);
+    padding:14px 16px 12px;margin-bottom:20px;box-shadow:var(--shadow-soft,0 4px 16px rgba(43,35,32,.09));}
+  .camCard[hidden]{display:none;}
+  .camHead{display:flex;align-items:center;gap:8px;font-weight:800;color:var(--red-dark,#8A0E22);font-size:15px;margin-bottom:8px;}
+  .camHead .live{background:#e53935;color:#fff;font-size:10.5px;font-weight:800;padding:2px 8px;border-radius:999px;letter-spacing:.4px;}
+  .camGroup{margin:10px 0 2px;font-size:13px;font-weight:700;color:var(--muted,#78706c);}
+  .camList{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;}
+  .camBtn{display:inline-flex;align-items:center;gap:6px;text-decoration:none;
+    background:var(--cream-2,#FBEEEF);color:var(--ink,#2B2320);border:1px solid var(--line,#EFE1E1);
+    border-radius:999px;padding:8px 14px;font-size:13.5px;font-weight:600;transition:transform .12s ease,background .12s ease;}
+  .camBtn:hover{background:#f5dfe1;transform:translateY(-1px);}
+  .camBtn:active{transform:scale(.97);}
+  .camNote{margin-top:10px;font-size:12px;color:var(--muted,#78706c);line-height:1.5;}
+  @media (max-width:860px){.camBtn{padding:9px 13px;font-size:13.5px;}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <a class="allTrips" href="../">→ כל הטיולים</a>
+  <div class="eyebrow">החופשה המשפחתית שלנו • ספטמבר–אוקטובר 2026</div>
+  <h1>🏔️ אוסטריה למשפחה</h1>
+  <span class="countdown" id="countdown" hidden></span>
+  <a class="waFab" href="https://chat.whatsapp.com/FvTOR3qNp8tCQPNzDZPXvS?s=sw&amp;p=a&amp;mlu=4&amp;ilr=4" target="_blank" rel="noopener" title="קבוצת הוואטסאפ שלנו" aria-label="קבוצת הוואטסאפ שלנו">
+  <svg viewBox="0 0 448 512" aria-hidden="true"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.7z"/></svg><span>וואטסאפ</span>
+</a>
+</header>
+
+<div class="installBanner" id="installBanner" hidden>
+  <span class="installBanner-icon">📲</span>
+  <span class="installBanner-text" id="installBannerText">התקינו את האתר כאפליקציה למסך הבית — גישה מהירה גם בלי אינטרנט</span>
+  <button class="installBanner-btn" id="installBannerBtn" type="button">התקן</button>
+  <button class="installBanner-close" id="installBannerClose" type="button" aria-label="סגור" title="סגור">✕</button>
+</div>
+
+<div class="layout">
+  <nav class="daynav" id="daynav">
+    <div class="dayScrollWrap">
+      <button type="button" class="dayScrollArrow" id="dayScrollPrev" aria-label="היום הקודם">‹</button>
+      <div class="dayScroll" id="dayScroll"></div>
+      <button type="button" class="dayScrollArrow" id="dayScrollNext" aria-label="היום הבא">›</button>
+    </div>
+  </nav>
+  <main class="content">
+    <div class="nowBar" id="nowBar" hidden>
+      <div class="nowBar-text">
+        <span class="nowBar-label" id="nowBarLabel">🧭 עכשיו בלו״ז</span>
+        <span class="nowBar-place" id="nowBarPlace">—</span>
+      </div>
+      <a class="nowBar-btn" id="nowBarBtn" href="#" target="_blank" rel="noopener">נווט עכשיו ב-Waze</a>
+    </div>
+    <div class="mapCard" id="mapCard">
+      <div class="mapTitle">
+        <h2 id="mapTitle">🗺️ מפת היום</h2>
+        <span id="mapSub">ממורכזת אוטומטית ביעד היום</span>
+      </div>
+      <div class="mapWrap">
+        <div id="mapDiv"></div>
+        <div class="mapControls">
+          <button type="button" class="mapCtrlBtn" id="mapLayerBtn" title="החלף שכבת מפה">🛰️</button>
+          <button type="button" class="mapCtrlBtn" id="mapFullBtn" title="הרחב למסך מלא">⛶</button>
+        </div>
+      </div>
+      <div class="mapRouteInfo" id="mapRouteInfo" hidden></div>
+    </div>
+    <div class="weatherCard" id="weatherCard" hidden></div>
+    <div class="camCard" id="camCard" hidden></div>
+    <div class="funFactCard" id="funFactCard" hidden>
+      <div class="funFact-head">🎈 הידעת?</div>
+      <div class="funFact-body">
+        <button type="button" class="funFactArrow" id="funFactPrev" aria-label="העובדה הקודמת">‹</button>
+        <p class="funFactText" id="funFactText"></p>
+        <button type="button" class="funFactArrow" id="funFactNext" aria-label="העובדה הבאה">›</button>
+      </div>
+      <div class="funFactDots" id="funFactDots"></div>
+    </div>
+    <div class="panel" id="panel"></div>
+  </main>
+</div>
+
+<div class="searchSheet" id="searchSheet" hidden>
+  <div class="searchBar">
+    <input type="search" id="searchInput" enterkeyhint="search" autocomplete="off"
+           placeholder="חיפוש באתר — מקום, מלון, שעה…" aria-label="חיפוש באתר">
+    <button type="button" class="searchClose" id="searchClose" aria-label="סגירת החיפוש" title="סגירת החיפוש">✕</button>
+  </div>
+  <div class="searchResults" id="searchResults"></div>
+</div>
+
+<nav class="tabbar" id="tabbar" aria-label="עמודי האתר"></nav>
+
+
+<script>
+/* ---------- Coordinates ---------- */
+const LOC = {
+  airport:   {lat:48.1103, lon:16.5697, label:"שדה התעופה / MOXY", address:"Moxy Vienna Airport, Ausfahrtsstraße 4, 1300 Wien, אוסטריה"},
+  vienna:    {lat:48.2082, lon:16.3738, label:"וינה (מרכז העיר)"},
+  gmunden:   {lat:47.9186, lon:13.7982, label:"Gmunden / Traunsee"},
+  schlossort: {lat:47.9059, lon:13.7936, label:"Schloss Ort", address:"Toscanapark, 4810 Gmunden, אוסטריה"},
+  wagrain:   {lat:47.3400, lon:13.3000, label:"Wagrain (בסיס)", address:"Appartements Schattauer, Markt 164, 5602 Wagrain, אוסטריה"},
+  wagrain_billa: {lat:47.3341, lon:13.2935, label:"BILLA Wagrain (סופרמרקט)", address:"Markt 169, 5602 Wagrain, אוסטריה"},
+  wagrain_spar: {lat:47.3312, lon:13.2984, label:"SPAR Landmarkt Wagrain (סופרמרקט)", address:"Markt 39B, 5602 Wagrain, אוסטריה"},
+  altenmarkt_mpreis: {lat:47.3804, lon:13.4115, label:"MPREIS Altenmarkt (סופרמרקט)", address:"Obere Marktstraße 79, 5541 Altenmarkt im Pongau, אוסטריה"},
+  altenmarkt_billa: {lat:47.3818, lon:13.4181, label:"BILLA Altenmarkt (סופרמרקט)", address:"Oberndorferstraße 2, 5541 Altenmarkt im Pongau, אוסטריה"},
+  gmunden_eurospar: {lat:47.9238, lon:13.8083, label:"EUROSPAR Gmunden (סופרמרקט)", address:"Scharnsteiner Straße 1, 4810 Gmunden, אוסטריה"},
+  hallstatt: {lat:47.5622, lon:13.6493, label:"Hallstatt"},
+  hallstatt_salt: {lat:47.5567, lon:13.6413, label:"Skywalk / מכרה המלח (Salzwelten Hallstatt)", address:"Salzbergstraße 21, 4830 Hallstatt, אוסטריה"},
+  gosausee:  {lat:47.5386, lon:13.5461, label:"Gosausee"},
+  alpendorf: {lat:47.3500, lon:13.2000, label:"Alpendorf / St. Johann"},
+  werfen:    {lat:47.4772, lon:13.1889, label:"Hohenwerfen"},
+  hallein_salt: {lat:47.6795, lon:13.0958, label:"Salzwelten Hallein (מכרה מלח)", address:"Ramsaustraße 3, 5422 Bad Dürrnberg, אוסטריה"},
+  keltendorf: {lat:47.6798, lon:13.0950, label:"כפר הקלטים SALINA + מגרש משחקים", address:"Ramsaustraße 3, 5422 Bad Dürrnberg, אוסטריה"},
+  keltenblitz: {lat:47.6810, lon:13.0920, label:"Keltenblitz — מגלשת קיץ אלפינית", address:"Weissenwäschweg 19, 5422 Bad Dürrnberg, אוסטריה"},
+  amade:     {lat:47.3811, lon:13.2508, label:"Erlebnis-Therme Amadé", address:"Thermenplatz 1, 5541 Altenmarkt im Pongau, אוסטריה"},
+  lombardi:  {lat:47.3345, lon:13.2975, label:"Lombardi Restaurant, Wagrain", address:"Markt 36, 5602 Wagrain, אוסטריה"},
+  wasserwelt:{lat:47.3385, lon:13.3040, label:"Wagrain Wasserwelt", address:"Kirchboden 25A, 5602 Wagrain, אוסטריה"},
+  ferleiten: {lat:47.1686, lon:12.8147, label:"Wild- & Erlebnispark Ferleiten", address:"Ferleiten 2, 5672 Fusch an der Großglocknerstraße, אוסטריה"},
+  fuscher_torl: {lat:47.1128, lon:12.8422, label:"Fuscher Törl"},
+  hochtor:   {lat:47.0982, lon:12.8354, label:"Hochtor"},
+  glockner:  {lat:47.0725, lon:12.8319, label:"Kaiser-Franz-Josefs-Höhe"},
+  stwolfgang: {lat:47.7392, lon:13.4398, label:"St. Wolfgang / Schafbergbahn", address:"Markt 35, 5360 St. Wolfgang im Salzkammergut, אוסטריה"},
+  zell:      {lat:47.3239, lon:12.7958, label:"Zell am See"},
+  schmittenhoehe: {lat:47.3212, lon:12.7935, label:"Schmittenhöhebahn (תחנת עמק)", address:"Schmittenstraße 119, 5700 Zell am See, אוסטריה"},
+  kaprun:    {lat:47.2711, lon:12.7561, label:"Kaprun"},
+  melk:      {lat:48.2333, lon:15.3333, label:"Melk"},
+  durnstein: {lat:48.3958, lon:15.5183, label:"Dürnstein"},
+  fantasiana:{lat:47.9890, lon:13.2440, label:"FANTASIANA Erlebnispark", address:"Märchenweg 1, 5204 Straßwalchen, אוסטריה"},
+  parndorf:  {lat:47.9795, lon:16.8497, label:"Designer Outlet Parndorf", address:"Designer Outlet Straße 1, 7111 Parndorf, אוסטריה"},
+  zwoelferhorn: {lat:47.7681, lon:13.3564, label:"Zwölferhornbahn, St. Gilgen", address:"Konrad-Lesiak-Platz 3, 5340 St. Gilgen, אוסטריה"},
+  liechtensteinklamm: {lat:47.3467, lon:13.1998, label:"Liechtensteinklamm", address:"Liechtensteinklammstraße 123, 5600 St. Johann im Pongau, אוסטריה"},
+  krimml:    {lat:47.2144, lon:12.1706, label:"Krimmler Wasserfälle", address:"Krimmler Wasserfälle, 5743 Krimml, אוסטריה"},
+  shuttleberg: {lat:47.2967, lon:13.3467, label:"Shuttleberg Kleinarl", address:"Viehhofstraße 12, 5603 Kleinarl, אוסטריה"},
+  hohensalzburg: {lat:47.7950, lon:13.0475, label:"Hohensalzburg Fortress", address:"Mönchsberg 34, 5020 Salzburg, אוסטריה"},
+  hausdernatur:  {lat:47.7989, lon:13.0431, label:"Haus der Natur", address:"Museumsplatz 5, 5020 Salzburg, אוסטריה"},
+  werfenweng:{lat:47.4333, lon:13.2167, label:"Werfenweng"},
+};
+const FULL_ROUTE = ["airport","gmunden","amade","wagrain","glockner","ferleiten","wagrain","alpendorf","wagrain",
+  "werfen","amade","wagrain","hallstatt","gosausee","wagrain","hallein_salt","keltenblitz","wagrain",
+  "zell","kaprun","zell","wagrain","fantasiana","airport"];
+
+/* ---------- Day content ---------- */
+const DAYS = [
+{
+  id:"checklist", nav:"צ׳קליסט", navSub:"לפני שיוצאים",
+  segment: [],
+  render: () => renderChecklist(),
+},
+{
+  id:"d1", nav:"24.9", navSub:"טיסה לוינה",
+  segment: ["airport"],
+  render: () => `
+    <div class="tag">יום ה׳, 24.9 · יום הגעה • לא מעמיסים</div>
+    <h2 class="title">טיסה לוינה</h2>
+    <div class="meta">נסיעה: שדה התעופה → MOXY - דקות בודדות</div>
+    <table class="sched">
+      <tr><td>הגעה לנתב״ג</td><td>15:30-16:00</td></tr>
+      <tr><td>טיסת OS82 לוינה</td><td>18:40</td></tr>
+      <tr><td>נחיתה ואיסוף מזוודות</td><td>21:25</td></tr>
+      <tr><td>לילה: MOXY Vienna Airport — Ausfahrtsstraße 4, 1300 Wien</td><td>לילה</td></tr>
+    </table>
+    <div class="boxes">
+      <div class="box tan"><b>המטרה</b>להגיע בנחת, לאסוף ציוד ולישון. לא מתכננים אטרקציות בערב.</div>
+      <div class="box yellow"><b>להכין מראש</b>בגדים וציוד ליום הנסיעה הארוך שלמחרת (עד Gmunden ואז Wagrain), כדי שהבוקר יהיה מהיר.</div>
+    </div>
+    <div class="footerbar">כרטיס האורח: עדיין אין - מקבלים לאחר הצ׳ק-אין ב-Schattauer.</div>
+  `
+},
+{
+  id:"d2", nav:"25.9", navSub:"Gmunden + Traunsee",
+  segment: ["airport","gmunden","schlossort","altenmarkt_mpreis","wagrain_billa","wagrain","amade","wagrain"],
+  render: () => `
+    <div class="tag">יום ו׳, 25.9 · עצירה רגועה באגם + מעבר להרים + מרחצאות</div>
+    <h2 class="title">Gmunden + Traunsee</h2>
+    <div class="meta">נסיעות: MOXY → Gmunden כ-2:30 שעות; Gmunden → Wagrain כ-1:30-1:40; Wagrain → Erlebnis-Therme Amadé כ-10-13 דק׳</div>
+    <table class="sched">
+      <tr><td>יציאה מ-MOXY (איסוף רכבים מההשכרה, העמסת מזוודות)</td><td>10:00</td></tr>
+      <tr><td>הגעה ל-Gmunden, חניה חינמית ליד Schloss Ort (Toscanapark)</td><td>~12:30</td></tr>
+      <tr><td>גשר העץ ל-Schloss Ort, טיילת האגם, פיקניק/צהריים וקפה מול הנוף</td><td>12:30-15:00</td></tr>
+      <tr><td>המשך נסיעה ל-Wagrain</td><td>15:00</td></tr>
+      <tr><td>אופציונלי: קנייה גדולה באלטנמרקט (MPREIS / BILLA), כ-12 דק׳ לפני וגריין</td><td>~16:15-16:45</td></tr>
+      <tr><td>עצירה בסופרמרקט BILLA Wagrain (ליד המלון)</td><td>~16:30-17:00</td></tr>
+      <tr><td>צ׳ק-אין והתארגנות — Appartements Schattauer, Markt 164, Wagrain</td><td>~17:00-17:30</td></tr>
+      <tr><td>נסיעה ל-Erlebnis-Therme Amadé (Altenmarkt im Pongau)</td><td>~18:00</td></tr>
+      <tr><td>מרחצאות חמים ומגלשות מים ב-Erlebnis-Therme Amadé</td><td>18:15-20:30</td></tr>
+      <tr><td>חזרה למלון בוואגריין</td><td>~20:45</td></tr>
+    </table>
+    <div class="sectionLabel">📍 מה יש שם</div>
+    <div class="places">
+      <div class="p"><b>Gmunden — </b>עיירה ציורית על קצה הצפוני של אגם Traunsee בלב הזלצקאמרגוט, עם טיילת מישורית ונוחה לעגלות לאורך שפת האגם, בתי קפה ומזרקות.</div>
+      <div class="p"><b>Schloss Ort — </b>טירה עתיקה שיושבת ממש בתוך המים על אי קטן, ומחוברת ליבשה בגשר עץ ציורי; ההליכה סביבה וגשר העץ חינמיים לגמרי, וכניסה פנימית לחצר/מגדל היא תוספת קטנה ואופציונלית.</div>
+      <div class="p"><b>טיילת ומרחב לילדים — </b>שבילי הליכה מישוריים לאורך האגם, מקומות נוחים להאכיל ברווזים, ומגרשי משחקים קרובים (כמו Freizeitanlage Seebahnhof) - מקום טוב לילדים לרוץ אחרי נסיעה ארוכה.</div>
+      <div class="p"><b>Erlebnis-Therme Amadé — </b>מתחם מרחצאות חמים ומגלשות מים באלטנמרקט-אים-פונגאו, כ-10 דקות נסיעה מהמלון; בריכות פנים וחוץ, אזור ג׳קוזי ומגלשות לילדים. סיום מפנק ליום נסיעה ארוך, ודרך טובה לשחרר את הילדים אחרי שעות ברכב. <a href="https://www.thermeamade.at/" target="_blank" rel="noopener">האתר הרשמי</a>.</div>
+    </div>
+    <div class="boxes">
+      <div class="box green"><b>למה זה עובד</b>עצירה בטבע במקום יום עירוני שלם - פחות הליכה מאומצת, יותר מרגוע, ומתאים גם לסבים ולילדים קטנים. וגם בול באמצע הדרך בין וינה ל-Wagrain.</div>
+      <div class="box tan"><b>חניה וכניסה</b>חניון Toscanapark ליד הטירה חינמי. הליכה סביב הטירה וגשר העץ - חינם. כניסה לחצר הפנימית/מגדל: מבוגר כ-4-5€ (בלבד למי שרוצה, לא חובה).</div>
+      <div class="box tan"><b>מקומות לצהריים</b>Orther Stubn - מסעדה ממש ליד הטירה על האי; ולאורך הטיילת יש עוד כמה בתי קפה ומסעדות עם נוף לאגם - קל למצוא מקום מול הנוף בלי הזמנה מראש.</div>
+    </div>
+    <div class="boxes">
+      <div class="box tan"><b>איפה עושים את הקניות</b>
+        <b>אלטנמרקט — הכי מומלץ</b>על ציר היציאה מה-A10 לכיוון וגריין, כ-12 דק׳ לפני המלון (אותה עיירה שבה נמצאת Erlebnis-Therme Amadé). שלושה סופרים גדולים צמודים והמבחר רחב יותר מאשר בוגריין: MPREIS עד 19:00
+        <a class="rowWaze" href="${wazeLink("altenmarkt_mpreis")}" target="_blank" rel="noopener" title="נווט ב-Waze ל-MPREIS Altenmarkt">🧭</a>,
+        BILLA עד 19:15
+        <a class="rowWaze" href="${wazeLink("altenmarkt_billa")}" target="_blank" rel="noopener" title="נווט ב-Waze ל-BILLA Altenmarkt">🧭</a>,
+        ו-SPAR Landmarkt עד 19:00.
+        <b>בוגריין עצמה</b>BILLA עד 19:15
+        <a class="rowWaze" href="${wazeLink("wagrain_billa")}" target="_blank" rel="noopener" title="נווט ב-Waze ל-BILLA Wagrain">🧭</a>
+        ו-SPAR Landmarkt עד 19:00
+        <a class="rowWaze" href="${wazeLink("wagrain_spar")}" target="_blank" rel="noopener" title="נווט ב-Waze ל-SPAR Wagrain">🧭</a>
+        — שניהם דקות ספורות מהמלון.
+        <b>גיבוי בגמונדן</b>EUROSPAR עד 19:00
+        <a class="rowWaze" href="${wazeLink("gmunden_eurospar")}" target="_blank" rel="noopener" title="נווט ב-Waze ל-EUROSPAR Gmunden">🧭</a>
+        — אם רוצים לסגור את הקנייה לפני היציאה מגמונדן.
+      </div>
+      <div class="box yellow"><b>קנייה שצריכה להחזיק את סוף השבוע</b>25.9 הוא יום שישי, ובאוסטריה זה יום מסחר רגיל - הסופרים פתוחים עד 19:00-19:15. לעומת זאת בשבת 26.9 BILLA נסגר כבר ב-14:00 ו-SPAR ב-18:00, וביום ראשון 27.9 הכל סגור. כדאי שהקנייה של שישי תכסה את כל סוף השבוע. שימו לב שהערב מוקדש לטרמה - הסופרים כבר יהיו סגורים כשנחזור.</div>
+    </div>
+    <div class="box red"><b>חשוב</b>יוצאים ב-10:00 כדי לתת מרווח לאיסוף הרכבים והמזוודות. חלון הזמן בגמונדן גמיש - אפשר לקצר אם מתעכבים בבוקר, כדי לא לפספס את הסופרמרקט בוגריין.</div>
+    <div class="sectionLabel">🧒 אופציות לילדים נוספות בסביבה</div>
+    <table class="kids">
+      <tr><td><b>שיט קצר באגם Traunsee</b> — יש ספינות נוסעים (כולל ספינת קיטור היסטורית) שיוצאות מהטיילת בגמונדן; תוספת נעימה אם נשאר זמן, לא חלק מהתוכנית הקבועה.</td><td>עונת קיץ; לבדוק שעות מראש בטיילת.</td></tr>
+    </table>
+    <div class="box tan"><b>הטרמה בערב — גמיש</b>Erlebnis-Therme Amadé פתוחה עד 20:30 והנסיעה מהמלון היא כ-10 דקות בלבד. אם הנסיעה מווינה מתישה או שהילדים גמורים, מוותרים בלי להרוס כלום - אפשר להעביר את זה לערב אחר בשבוע.</div>
+    <div class="footerbar">מהיום: מקבלים ב-Schattauer את Salzburger Sportwelt Card.</div>
+  `
+},
+{
+  id:"d3", nav:"26.9", navSub:"Grossglockner",
+  segment: ["wagrain","fuscher_torl","hochtor","glockner","ferleiten","wagrain"],
+  render: () => `
+    <div class="tag">שבת, 26.9 (הוקדם) · יום WOW • כביש אלפיני, קרחון וחיות אלפיניות</div>
+    <h2 class="title">Grossglockner</h2>
+    <div class="meta">נהיגה: עד תחילת הכביש כ-1:15-1:30; מהקרחון חזרה ל-Ferleiten כ-1:00, ומשם ל-Wagrain כ-1:15</div>
+    <table class="sched">
+      <tr><td>יציאה</td><td>08:00</td></tr>
+      <tr><td>תחילת אזור הכביש האלפיני</td><td>~09:30</td></tr>
+      <tr><td>עצירה ב-Fuscher Törl: נקודת תצפית ומעבר הרים (עצירה קצרה)</td><td>~10:00</td></tr>
+      <tr><td>עצירה ב-Hochtor: פסגת הכביש ומנהרת הגבול (עצירה קצרה)</td><td>~10:30</td></tr>
+      <tr><td>תצפית הקרחון ב-Kaiser Franz Josef Höhe — שיא היום, לפני שהעננים מצטברים</td><td>~11:30</td></tr>
+      <tr><td>ארוחה אחרי התצפית</td><td>~13:00</td></tr>
+      <tr><td>התחלת חזרה מהקרחון</td><td>~15:15</td></tr>
+      <tr><td>Wild- &amp; Erlebnispark Ferleiten: חיות אלפיניות ופארק שעשועים (לפני תחנת האגרה)</td><td>16:15-18:00</td></tr>
+      <tr><td>Wagrain</td><td>~19:15</td></tr>
+    </table>
+    <div class="sectionLabel">📍 מה יש שם</div>
+    <div class="places">
+      <div class="p"><b>Großglockner Hochalpenstraße — </b>הכביש הפנורמי המפורסם באוסטריה - 48 ק״מ עם 36 עיקולים, חוצה את פארק הלאום Hohe Tauern ומוביל לרגלי ההר הגבוה באוסטריה (3,798 מ׳).</div>
+      <div class="p"><b>Hochtor / Fuscher Törl — </b>נקודות תצפית ומעברי הרים לאורך הדרך, עם נופים פתוחים לפסגות המושלגות.</div>
+      <div class="p"><b>Kaiser Franz Josef Höhe — </b>התצפית המרשימה ביותר בכביש - מבט ישיר על הפסטרצה, הקרחון הגדול באוסטריה, ועל פסגת Großglockner עצמה. סביב התצפית חיות מרמיטות (Murmeltiere) בטבע, ולפעמים רואים גם יעלים - שווה לחפש אותן עם הילדים.</div>
+      <div class="p"><b>Wild- &amp; Erlebnispark Ferleiten — </b>פארק חיות אלפיניות ופארק שעשועים בתחילת הכביש, ממש לפני תחנת האגרה (1,145 מ׳). למעלה מ-200 חיות מכ-40 מינים - דובים חומים, זאבים, לינקס, ביזונים, יעלים ומרמיטות - וגם פינת ליטוף עם עזים ננסיות, פונים ואלפקות. לצידו פארק שעשועים עם יותר מ-40 מתקנים (מכוניות, סירות, טרמפולינה, קארטינג דיווש) ואולם משחקים מקורה לימי גשם. סיבוב שלם בפארק החיות אורך כשעה, והשבילים מתאימים לעגלות. <a href="https://www.wildpark-ferleiten.at/" target="_blank" rel="noopener">האתר הרשמי</a>.</div>
+    </div>
+    <div class="boxes">
+      <div class="box green"><b>למה כן</b>פסגות ותצפיות של האלפים הגבוהים בלי טרק.</div>
+      <div class="box red"><b>כלל ברזל</b>לא נוסעים אם הראות גרועה; מעבירים ליום הבהיר ביותר. שבת = עומס בכביש ובחניון בתצפית, ועננים נוטים להצטבר אחר הצהריים — להגיע לקרחון עד הצהריים ולשמור את ההפסקה הארוכה לאחר מכן.</div>
+      <div class="box green"><b>הפרס בסוף היום</b>Ferleiten יושב על הדרך חזרה, לפני תחנת האגרה - לא צריך לצאת מהמסלול. יורדים מהקרחון ב-15:15, מגיעים ~16:15 ונשארים עד הסגירה ב-18:00 - כמעט שעתיים של חיות ומתקנים אחרי יום של נסיעות ותצפיות.</div>
+    </div>
+    <div class="box tan"><b>שעות פעילות</b>הכביש פתוח מאפריל ועד תחילת נובמבר 2026 (תלוי מזג אוויר); בספטמבר 06:00–19:30.</div>
+    <div class="box tan"><b>שעות ומחיר • Wild- &amp; Erlebnispark Ferleiten</b>פתוח כל יום 09:00-18:00, מתחילת מאי עד תחילת נובמבר (העונה נסגרת יחד עם הכביש). כניסה מגיל 4: כ-15€ לאדם, קשישים עם תעודה כ-13.50€; שקית מזון לחיות 2€. <b>פארק השעשועים והחניה חינם</b> - משלמים רק על פארק החיות. טלפון: +43 6546 220. <a href="https://www.wildpark-ferleiten.at/preise" target="_blank" rel="noopener">מחירים באתר הרשמי</a>.</div>
+    <div class="box tan"><b>מחיר • אגרת כביש</b>משולם במזומן/כרטיס בקופה בכניסה (אין צורך בהזמנה מראש) - כרטיס יום לרכב: כ-46.50€ (כ-36.50€ לנסיעות אחרי 18:00, כ-40€ לרכב חשמלי). <a href="https://www.grossglockner.at/en/for-your-visit/prices-opening-times" target="_blank" rel="noopener">מחירים מעודכנים באתר הרשמי</a>.</div>
+    <div class="sectionLabel">🧒 אופציות לילדים נוספות בסביבה</div>
+    <table class="kids">
+      <tr><td><b>ציד מרמיטות בתצפית הקרחון</b> — סביב Kaiser-Franz-Josefs-Höhe מסתובבות מרמיטות בטבע. הן שורקות לפני שהן נעלמות למחילה, אז כדאי קודם להקשיב ורק אחר כך לחפש.</td><td>הכי פעילות בבוקר ולפנות ערב.</td></tr>
+      <tr><td><b>מגרשי משחקים ותערוכות לאורך הכביש</b> — כמה מנקודות העצירה כוללות מגרש משחקים קטן ותערוכות חינמיות (כמו Haus Alpine Naturschau) — נעים להפסקה קצרה.</td><td>תערוכות פתוחות יומי כ-10:00-17:00.</td></tr>
+    </table>
+    <div class="footerbar">נוחות: מתאים יחסית גם לסבים ולילדה קטנה - נסיעה ועצירות קצרות.</div>
+  `
+},
+{
+  id:"d4", nav:"27.9", navSub:"Geisterberg + St. Johann",
+  segment: ["wagrain","alpendorf","wagrain"],
+  render: () => `
+    <div class="tag">יום א׳, 27.9 (הורחב) · יום ילדים מלא • הר ועיירה</div>
+    <h2 class="title">Geisterberg + St. Johann</h2>
+    <div class="meta">נסיעות: Wagrain → Alpendorf כ-15-20 דק׳; Alpendorf → מרכז St. Johann כ-10 דק׳; חזרה כ-20 דק׳</div>
+    <table class="sched">
+      <tr><td>יציאה מ-Wagrain</td><td>08:30</td></tr>
+      <tr><td>הגעה ל-Alpendorf</td><td>~08:50</td></tr>
+      <tr><td>רכבל לפסגה</td><td>09:00</td></tr>
+      <tr><td>מתקנים, מגלשות, משחקי מים, מסלול קל וצהריים בהר</td><td>09:30-15:30</td></tr>
+      <tr><td>ירידה ברכבל</td><td>15:30-16:00</td></tr>
+      <tr><td>St. Johann: מרכז עתיק, קתדרלת Pongau, גלידה וארוחת ערב מוקדמת</td><td>16:15-18:00</td></tr>
+      <tr><td>חזרה ל-Wagrain</td><td>~18:20</td></tr>
+    </table>
+    <div class="sectionLabel">📍 מה יש שם</div>
+    <div class="places">
+      <div class="p"><b>Geisterberg — </b>"הר הרוחות" - הר חוויות למשפחות עם למעלה מ-40 תחנות משחק: מגלשות, משחקי מים, מגדלי טיפוס וכפר רוחות ידידותי; מגיעים ברכבל.</div>
+      <div class="p"><b>St. Johann im Pongau — </b>עיירת שוק ותיקה עם קתדרלה ניאו-רומנסקית ורודה בולטת (Pongau Dom) וסמטאות עתיקות.</div>
+    </div>
+    <div class="boxes">
+      <div class="box green"><b>מתאים למשפחה</b>רוב Geisterberg נוח גם עם הקטנה. רכבת-הטרקטור מקצרת הליכה ומאפשרת להישאר עד אחר הצהריים.</div>
+      <div class="box yellow"><b>בלי זיגזג</b>St. Johann נמצאת בדרך חזרה ובמרחק דקות מ-Alpendorf; התוספת כמעט לא מאריכה את הנהיגה.</div>
+    </div>
+    <div class="box red"><b>חשוב</b>הרכבל Alpendorf/Geisterberg פועל בתקופה 12.9–18.10.2026 רק בימי שישי-שלישי. ה-27.9.2026 הוא יום שני - תקין. אם מזיזים את היום בגלל מזג אוויר, לוודא שהיום החדש נמצא בטווח שישי-שלישי.</div>
+    <div class="box tan"><b>מחיר וכרטיסים • Geisterberg</b>כרטיס יום למבוגר כ-32.50€ באינטרנט (כ-38.50€ בקופה), ילד כ-19.50€ באינטרנט (כ-23€ בקופה) - הזמנה מראש באתר חוסכת עד 15%. <a href="https://www.snow-space.com/en/summer/tickets/one-day-tickets" target="_blank" rel="noopener">רכישת כרטיסים באתר הרשמי</a>.</div>
+    <div class="footerbar">בלוק גמיש: אם הילדים מותשים, מדלגים על העיירה; אם יורד גשם, מחליפים אותה ב-Wasserwelt.</div>
+  `
+},
+{
+  id:"d5", nav:"28.9", navSub:"Hohenwerfen + Therme",
+  segment: ["wagrain","werfen","amade","wagrain"],
+  render: () => `
+    <div class="tag">יום ב׳, 28.9 (שונה) · טירה ומופע נשרים בבוקר, מרחצאות אחר הצהריים</div>
+    <h2 class="title">Hohenwerfen + Erlebnis-Therme Amadé</h2>
+    <div class="meta">נסיעות: Wagrain → Hohenwerfen כ-35-45 דק׳; Hohenwerfen → Therme Amadé כ-30-35 דק׳; Therme Amadé → Wagrain כ-10 דק׳</div>
+    <table class="sched">
+      <tr><td>יציאה מ-Wagrain</td><td>08:30</td></tr>
+      <tr><td>חניה ועלייה במעלית לטירה</td><td>~09:15</td></tr>
+      <tr><td>סיור, תערוכות, חידון ילדים ואודיו-גייד</td><td>09:30-11:00</td></tr>
+      <tr><td>מופע עופות דורסים: נשרים, בזים ועיטים במעוף חופשי</td><td>11:15-11:40</td></tr>
+      <tr><td>צהריים בטירה או ב-Werfen</td><td>12:00-13:00</td></tr>
+      <tr><td>השלמת הסיור, תצפית וחנות האבירים</td><td>13:00-13:20</td></tr>
+      <tr><td>נסיעה ל-Erlebnis-Therme Amadé (Altenmarkt)</td><td>~13:25-14:00</td></tr>
+      <tr><td>מרחצאות חמים ומגלשות מים ב-Erlebnis-Therme Amadé</td><td>14:00-~18:00</td></tr>
+      <tr><td>חזרה למלון בוואגריין</td><td>~18:15</td></tr>
+    </table>
+    <div class="sectionLabel">📍 מה יש שם</div>
+    <div class="places">
+      <div class="p"><b>Burg Hohenwerfen — </b>מצודה מימי הביניים על צוק סלעי מעל עמק ה-Salzach, בת כ-900 שנה; תא עינויים, מגדל פעמונים עם נוף פנורמי, ומופעי ציפורי טרף בחצר.</div>
+      <div class="p"><b>Erlebnis-Therme Amadé — </b>מרחצאות חמים ומגלשות מים באלטנמרקט-אים-פונגאו, כ-10 דק׳ מהמלון; בריכות פנים וחוץ, ג׳קוזי ומגלשות לילדים. <a href="https://www.thermeamade.at/" target="_blank" rel="noopener">האתר הרשמי</a>.</div>
+    </div>
+    <div class="boxes">
+      <div class="box green"><b>המופע בטירה</b>ב-11:15 וב-15:15, כ-25 דקות וכלול במחיר הכניסה. מכוונים ל-11:15 - ההפעלה השנייה כבר מתנגשת עם התרמה.</div>
+      <div class="box red"><b>עם הקטנות והסבים</b>יש מעלית לטירה, אך למופע מעל 100 מדרגות וירידה תלולה. לקחת מנשא; אין עגלה.</div>
+      <div class="box yellow"><b>לקחת מהבוקר</b>בגדי ים, מגבות וכפכפים - נוסעים ישר מהטירה לתרמה בלי לעבור במלון.</div>
+    </div>
+    <div class="box tan"><b>שעות • 28.9.2026</b>הטירה פתוחה 09:00–17:00, מופעי הנשרים ב-11:15 וב-15:15. Erlebnis-Therme Amadé פתוחה עד 20:30 - אפשר להישאר גם לערב.</div>
+    <div class="box tan"><b>כרטיסים • Burg Hohenwerfen</b>כרטיס All-Inclusive עם מעלית - מבוגר מ-20.90€, ילד (6-14) מ-8.60€ (כולל מופע הנשרים). <a href="https://www.burg-hohenwerfen.at/en/your-visit/tickets" target="_blank" rel="noopener">האתר הרשמי</a>.</div>
+    <div class="footerbar">יום רגוע יחסית: אטרקציה אחת בבוקר, ואחר הצהריים כולו במים, 10 דקות מהמלון.</div>
+  `
+},
+{
+  id:"d6", nav:"29.9", navSub:"Hallstatt + Gosausee",
+  segment: ["wagrain","hallstatt","hallstatt_salt","gosausee","wagrain"],
+  render: () => `
+    <div class="tag">יום ג׳, 29.9 (נדחה) · כפר אייקוני + אגם אלפיני</div>
+    <h2 class="title">Hallstatt + Gosausee</h2>
+    <div class="meta">נסיעות: Wagrain → Hallstatt כ-1:10; ל-Gosausee כ-25 דק׳; חזרה כ-1:05</div>
+    <table class="sched">
+      <tr><td>יציאה מוקדמת</td><td>07:45</td></tr>
+      <tr><td>Hallstatt: כפר, אגם, כיכר ונקודות צילום</td><td>~09:00</td></tr>
+      <tr><td>Skywalk או מכרה המלח - רק אם אופציונלי מתאים</td><td>אופציונלי</td></tr>
+      <tr><td>צהריים</td><td>12:30-13:30</td></tr>
+      <tr><td>Gosausee והליכה קלה</td><td>14:00-16:30</td></tr>
+      <tr><td>חזרה ל-Wagrain</td><td>17:30-18:00</td></tr>
+    </table>
+    <div class="sectionLabel">📍 מה יש שם</div>
+    <div class="places">
+      <div class="p"><b>Hallstatt — </b>כפר אלפיני עתיק על שפת אגם Hallstättersee, אתר מורשת עולמית של אונסק״ו; ידוע בזכות מכרות המלח (מהעתיקים בעולם) ובזכות התמונה האייקונית מול ההר.</div>
+      <div class="p"><b>Skywalk / מכרה המלח — </b>רכבל, נקודת תצפית מרחפת מעל הכפר, וסיור במכרה מלח היסטורי הכולל מגלשות עץ לילדים.</div>
+      <div class="p"><b>Gosausee — </b>אגם אלפיני שקט ובהיר עם שביל הליכה מישורי ונוף ישיר לקרחון Dachstein.</div>
+    </div>
+    <div class="boxes">
+      <div class="box green"><b>מה מיוחד</b>כפר אייקוני ואגם רגוע מול רכס Dachstein.</div>
+      <div class="box red"><b>חשוב</b>להגיע מוקדם בגלל החניה. המכרה אופציונלי. לבחור יום עם ראות טובה. לוודא שעות עלייה אחרונות ל-Skywalk/מכרה המלח (בד״כ ~16:00-16:30).</div>
+    </div>
+    <div class="box tan"><b>מחיר וכרטיסים • Skywalk + מכרה המלח (Salzwelten Hallstatt)</b>כרטיס משולב (רכבל + מכרה): מבוגר כ-49€, ילד (4-15) כ-23€. עונה 29.8-24.10.2026: מכרה 09:30-16:30, רכבל 09:00-18:00 (כניסה אחרונה חצי שעה לפני). מומלץ לרכוש מראש באתר הרשמי כדי לדלג על התור. <a href="https://www.salzwelten.at/en/hallstatt" target="_blank" rel="noopener">האתר הרשמי</a> · <a href="https://tickets.salzwelten.at/en/2/date" target="_blank" rel="noopener">הזמנת כרטיסים</a>.</div>
+    <div class="box red"><b>⚠️ גיל מינימום 4 למכרה</b>הכניסה למכרה אסורה מתחת לגיל 4 - מגבלה חוקית שנאכפת ללא יוצא מן הכלל. שלוש הפעוטות בקבוצה (2:2, 2:8, 3:3) לא ייכנסו. <b>אבל יש פתרון:</b> ילדים מתחת ל-4 כן מורשים ברכבל לשני הכיוונים וב-Skywalk, אז מבוגר אחד יכול להישאר איתן למעלה בתצפית. כרטיס רכבל בלבד: מבוגר 29€, ילד (4-15) 14€ - במקום 49€/23€ לכרטיס המשולב.</div>
+    <div class="footerbar">סוף יום: Wagrain Wasserwelt חינם דרך כרטיס האורח, אם נשאר כוח.</div>
+  `
+},
+{
+  id:"d7", nav:"30.9", navSub:"מכרה מלח + Lombardi",
+  segment: ["wagrain","hallein_salt","keltendorf","keltenblitz","wagrain","lombardi","wagrain"],
+  render: () => `
+    <div class="tag">יום ד׳, 30.9 (שונה) · מכרה מלח ומגלשה אלפינית בבוקר, אחר צהריים חופשי וארוחת ערב בוואגריין</div>
+    <h2 class="title">Salzwelten Hallein + ארוחת ערב ב-Lombardi</h2>
+    <div class="meta">נסיעות: Wagrain → Bad Dürrnberg כ-50-60 דק׳ (A10); חזרה באותה דרך; Lombardi במרכז Wagrain, דקות מהמלון</div>
+    <table class="sched">
+      <tr><td>יציאה מ-Wagrain</td><td>09:00</td></tr>
+      <tr><td>הגעה למכרה המלח Salzwelten Hallein (Bad Dürrnberg), קניית כרטיסים</td><td>~10:00</td></tr>
+      <tr><td>סיור במכרה: רכבת תת-קרקעית, מגלשות עץ ושיט על אגם המלח (מבוגר נשאר בחוץ עם הפעוטות)</td><td>10:15-11:45</td></tr>
+      <tr><td>למי שלא נכנס למכרה: כפר הקלטים SALINA, מפעל המלח ומגרש המשחקים — ממש ליד הכניסה למכרה</td><td>10:15-11:45</td></tr>
+      <tr><td>Keltenblitz: עלייה ברכבל-כיסא וירידה במגלשת הקיץ (2.2 ק״מ), ממש ליד המכרה — כולם יחד</td><td>11:45-12:45</td></tr>
+      <tr><td>נסיעה חזרה ל-Wagrain</td><td>~12:45-13:45</td></tr>
+      <tr><td>אחר צהריים חופשי: מנוחה והתארגנות במלון</td><td>13:45-17:45</td></tr>
+      <tr><td>ארוחת ערב במסעדת Lombardi — Markt 36, Wagrain</td><td>18:00</td></tr>
+      <tr><td>חזרה למלון</td><td>~19:45</td></tr>
+    </table>
+    <div class="sectionLabel">📍 מה יש שם</div>
+    <div class="places">
+      <div class="p"><b>Salzwelten Hallein — </b>מכרה מלח היסטורי בהר Dürrnberg מעל העיירה Hallein, ממש דרומית לזלצבורג; הכרייה כאן קדומה אף יותר מזו של Hallstatt. הסיור כולל רכבת מכרות תת-קרקעית, מגלשות עץ ארוכות בין המפלסים, ושיט קטן על אגם מלח תת-קרקעי מואר.</div>
+      <div class="p"><b>כפר הקלטים SALINA (Kelten.Erlebnis.Berg) — </b>התחליף לפעוטות ולמי שנשאר איתן. צמוד למכרה: שחזור של כפר קלטי מלפני 2,600 שנה, מפעל מלח שבו רואים איך מפיקים מלח מהתמלחת של ההר, ומגרש משחקים בנושא עם צינורות זחילה ורכבת מכרה מיניאטורית. במרחק הליכה מיציאת הסיור, כך שנפגשים עם כולם בלי לזוז ברכב.</div>
+      <div class="p"><b>Keltenblitz — </b>מגלשת קיץ אלפינית (Sommerrodelbahn) באורך 2.2 ק״מ, ממש ליד מכרה המלח על אותו ההר; עולים ברכבל-כיסא ויורדים במזחלת מהירה בין העצים.</div>
+      <div class="p"><b>Bad Dürrnberg — </b>כפר קטן על ההר שמעל העיירה Hallein, כ-5 דק׳ עלייה ממנה. המכרה והמגלשה נמצאים בו. בוויז נווטו לכתובת המדויקת (כפתורי 🧭) ולא ל-"Hallein", אחרת תגיעו לעיירה למטה.</div>
+      <div class="p"><b>Lombardi Restaurant — </b>מסעדה במרכז Wagrain (Markt 36), דקות מהמלון; מטבח אוסטרי מסורתי לצד מנות בינלאומיות, עם ישיבה בחוץ וחניה. פתוחה ג׳-א׳ 17:00-22:00, סגורה בימי שני. טלפון: <a href="tel:+436644208745" dir="ltr">+43 664 4208745</a>.</div>
+    </div>
+    <div class="box red"><b>⚠️ גיל מינימום 4 למכרה</b>הכניסה למכרה המלח אסורה מתחת לגיל 4 - מגבלה חוקית שנאכפת ללא יוצא מן הכלל. שלוש הפעוטות (2:2, 2:8, 3:3) לא ייכנסו, <b>התחליף:</b> כפר הקלטים SALINA ומגרש המשחקים, צמודים למכרה - מבוגר אחד נשאר שם עם הקטנות בזמן הסיור. במתחם יש גם מסעדה, ובסיום הסיור כולם עוברים יחד ל-Keltenblitz. מי שנשאר בחוץ קונה כרטיס לכפר (7.50€, הפעוטות חינם) וכרטיס מגלשה.</div>
+    <div class="boxes">
+      <div class="box red"><b>תלוי מזג אוויר</b>Keltenblitz פועלת רק בתנאי יובש ונסגרת בגשם. בגשם: מוותרים על המגלשה וחוזרים למלון מוקדם יותר. המכרה מקורה ופועל בכל מזג אוויר.</div>
+      <div class="box red"><b>פעוטות על המגלשה</b>במגלשות קיץ ילדים קטנים נוסעים רק עם מבוגר, ולרוב יש גיל מינימום גם בליווי. הגיל המדויק ב-Dürrnberg לא אומת — לבדוק בקופה לפני שקונים.</div>
+      <div class="box green"><b>ארוחת הערב — להזמין מקום</b>17 נפשות ב-18:00: להתקשר ל-Lombardi מראש ולשריין שולחן לכולם (<a href="tel:+436644208745" dir="ltr">+43 664 4208745</a>). המסעדה נפתחת ב-17:00, כך ש-18:00 היא עוד לפני העומס.</div>
+    </div>
+    <div class="box tan"><b>שעות • 30.9.2026</b>Salzwelten Hallein וכפר הקלטים SALINA פתוחים 09:00-17:00. Keltenblitz בימי שני-שישי 11:00-17:00 (עד 11.10) — לא נפתחת לפני 11:00.</div>
+    <div class="box tan"><b>כרטיסים</b>
+      <b>מכרה + Keltenblitz (כרטיס משולב "Adventure Card"):</b> מבוגר כ-47€, ילד (4-14) כ-26€ — זול יותר מרכישה נפרדת. <a href="https://www.salzwelten.at/en/hallein" target="_blank" rel="noopener">Salzwelten — האתר הרשמי</a>.<br>
+      <b>מכרה בלבד:</b> מבוגר כ-35€, ילד (4-15) כ-16€.<br>
+      <b>כפר הקלטים SALINA בלבד</b> (למי שנשאר עם הפעוטות): מבוגר 7.50€, ילד (4-15) 3€, <b>מתחת לגיל 4 חינם</b>, כרטיס משפחתי (2+3) 19€. מי שקונה כרטיס למכרה - הכפר כבר כלול בו. קונים בקופה במקום או מראש ב-<a href="https://tickets.salzwelten.at/" target="_blank" rel="noopener">tickets.salzwelten.at</a> · <a href="https://www.salzwelten.at/en/salzburg/the-celtic-mountain" target="_blank" rel="noopener">פרטים באתר הרשמי</a>. המחירים מעונת 2025 - לאמת בקופה.<br>
+      <b>Keltenblitz בלבד</b> (למי שנשאר עם הפעוטות): מבוגר 19.50€, ילד 13.20€. <a href="https://duerrnberg.at/en/prices/" target="_blank" rel="noopener">מחירים באתר הרשמי</a>.
+    </div>
+    <div class="footerbar">הוחלף: Wolfgangsee + Schafbergbahn ירדו מהתוכנית. אם הוזמנו כרטיסים לרכבת — לבטל.</div>
+  `
+},
+{
+  id:"d8", nav:"1.10", navSub:"Kaprun + Zell am See",
+  segment: ["wagrain","kaprun","zell","wagrain"],
+  render: () => `
+    <div class="tag">יום ה׳, 1.10 · סכר הררי בגובה 2,040 מ׳ + אגם ושיט</div>
+    <h2 class="title">Kaprun + Zell am See</h2>
+    <div class="meta">נסיעות: Wagrain → קפרון כ-1:10; קפרון → Zell am See כ-15-20 דק׳; חזרה ל-Wagrain כ-1 שעה</div>
+    <table class="sched">
+      <tr><td>יציאה מ-Wagrain</td><td>08:45</td></tr>
+      <tr><td>חניה בחניון החינמי ליד קופת Kesselfall, קפרון</td><td>~09:55</td></tr>
+      <tr><td>הסעה + מעלית משופעת Lärchwand ל-Mooserboden (2,040 מ׳)</td><td>10:10-10:55</td></tr>
+      <tr><td>הסכר, נקודות התצפית, שביל החוויה לילדים "Stromi" וצהריים במסעדה למעלה</td><td>10:55-12:30</td></tr>
+      <tr><td>ירידה חזרה בהסעה לחניון</td><td>12:30-13:30</td></tr>
+      <tr><td>נסיעה ל-Zell am See</td><td>13:30-13:50</td></tr>
+      <tr><td>הכיכר המרכזית, טיילת האגם ומגרש המשחקים Kinderland</td><td>13:50-15:00</td></tr>
+      <tr><td>שיט פנורמה באגם (כ-45 דק׳), אם מזג האוויר מתאים</td><td>15:00-16:00</td></tr>
+      <tr><td>זמן חופשי: גלידה, קפה או ארוחת ערב מוקדמת</td><td>16:00-17:00</td></tr>
+      <tr><td>חזרה ל-Wagrain</td><td>~17:00-18:00</td></tr>
+    </table>
+    <div class="sectionLabel">📍 מה יש שם</div>
+    <div class="places">
+      <div class="p"><b>Kaprun Hochgebirgsstauseen — </b>שני סכרים הרריים ענקיים (Mooserboden ו-Wasserfallboden) בגובה 2,040 מ׳, שנבנו לאחר מלחמת העולם השנייה; מגיעים בהסעה ובמעלית משופעת פתוחה - הגדולה מסוגה באירופה. שילוב לא שגרתי של הנדסה ענקית ונוף אלפיני גבוה.</div>
+      <div class="p"><b>שביל "Stromi" — </b>שביל חוויה קצר לילדים בפסגת הסכר, עם תחנות על מים וחשמל.</div>
+      <div class="p"><b>Zell am See — </b>עיירת נופש ציורית על שפת אגם Zeller See, עם טיילת נעימה, חוף רחצה ואפשרויות שיט.</div>
+      <div class="p"><b>מגרש משחקים Kinderland — </b>מגרש גדול ומגודר בפארק העירוני, צמוד לאגם וממש ליד הטיילת - מקום טוב לשחרר את הילדים אחרי הבוקר בהר.</div>
+    </div>
+    <div class="boxes">
+      <div class="box green"><b>יום רגוע יחסית</b>אטרקציה אחת גדולה בבוקר ואחר צהריים פנוי באמת - שינוי קצב מבורך אחרי גרוסגלוקנר והלשטאט, ומתאים יותר לפעוטות ולסבים.</div>
+      <div class="box red"><b>עם הקטנות והסבים</b>גובה 2,040 מ׳ יכול להיות קריר ורוחי - שכבות חמות וכובע. ברגע שעולים, הירידה אורכת כ-45 דקות ואי אפשר "לרדת מהר" כמו ברכבל רגיל.</div>
+    </div>
+    <div class="box yellow"><b>עודכן (30.9): יציאה ב-08:45 במקום 07:00</b>כדי לא להשכים, הצהריים עוברים למסעדה ליד הסכר במקום בצל אם זה - כך נשאר אותו זמן לעיירה, רק שעה וחצי מאוחר יותר. מגיעים לסכר בשעות העומס, אז לתכנן כרבע שעה המתנה לאוטובוסים. ההסעה האחרונה למטה ב-16:45-17:00, מרווח ביטחון גדול. אם מפספסים את השיט ב-15:00 - יש גם ב-16:00 וב-17:00.</div>
+    <div class="box red"><b>לברר לפני</b>מדיניות עגלה ומנשא באוטובוסי ההסעה ובמעלית Lärchwand - טלפון +43 50 313 23201. עם שלוש פעוטות בקבוצה זו שאלה מהותית.</div>
+    <div class="box tan"><b>עונה ולוגיסטיקה</b>פתוח 21.5–11.10.2026, אוטובוסים יומיים 08:10–16:45/17:00. אין גישה ברכב פרטי מעבר לקופה - חובה לחנות בחניון החינמי ליד Kesselfall. השיט בצל am See יוצא מה-Esplanade כל שעה עגולה 10:00–17:00 (1-4.10) ואורך כ-45 דק׳.</div>
+    <div class="box tan"><b>מחיר וכרטיסים • Kaprun Hochgebirgsstauseen</b>כרטיס הלוך-חזור (2 קווי אוטובוס + מעלית משופעת): מבוגר כ-39.50€, ילד (6-15) כ-22€, עד גיל 5 חינם. <a href="https://www.kaprun-stauseen.com/preise/" target="_blank" rel="noopener">מחירים באתר הרשמי</a>.</div>
+    <div class="box tan"><b>מחיר וכרטיסים • שיט פנורמה בצל am See</b>מבוגר 24€, ילד (שנתון 2011-2020) 12€, ילידי 2021 ואילך חינם עם ההורים - כלומר כל שלוש הפעוטות פטורות. קונים בקופה ב-Esplanade או אונליין. <a href="https://www.schmitten.at/en/Boat-Tours-on-Lake-Zell/Operating-hours-prices" target="_blank" rel="noopener">האתר הרשמי</a>.</div>
+    <div class="box yellow"><b>מה ויתרנו עליו</b>Schmittenhöhe ירדה מהיום הזה ועברה לבנק החלופות. איתה ירד גם שביל החוויה Schmidolins Feuertaufe שבפסגה - 15 תחנות משחק, אטרקציית ילדים גדולה יותר מ-"Stromi". אם מזג האוויר בקפרון גרוע, שמיטנהה היא ההחלפה הטבעית.</div>
+    <div class="footerbar">סוף יום: Wagrain Wasserwelt חינם דרך כרטיס האורח, אם נשאר כוח.</div>
+  `
+},
+{
+  id:"d9", nav:"2.10", navSub:"Fantasiana",
+  segment: ["wagrain","fantasiana","airport"],
+  render: () => `
+    <div class="tag">יום ו׳, 2.10 · פארק שעשועים בדרך לווינה</div>
+    <h2 class="title">Wagrain → FANTASIANA → MOXY</h2>
+    <div class="meta">נסיעות: Wagrain → Straßwalchen כ-1:15; Straßwalchen → MOXY כ-3:00 נטו (A1, ובשישי אחה״צ + 20-30 דק׳ סביב וינה)</div>
+    <table class="sched">
+      <tr><td>צ׳ק-אאוט והעמסת הרכבים</td><td>08:30</td></tr>
+      <tr><td>יציאה מ-Wagrain</td><td>09:00</td></tr>
+      <tr><td>הגעה ל-FANTASIANA Erlebnispark (נפתח ב-10:00)</td><td>~10:15</td></tr>
+      <tr><td>הפארק: מתקנים, טרמפולינות והצגות</td><td>10:15-12:30</td></tr>
+      <tr><td>צהריים באחת המסעדות בפארק</td><td>12:30-13:15</td></tr>
+      <tr><td>סיבוב אחרון במתקנים האהובים</td><td>13:15-14:30</td></tr>
+      <tr><td>יציאה לווינה</td><td>14:30</td></tr>
+      <tr><td>עצירת מנוחה ושירותים על ה-A1</td><td>~16:00-16:20</td></tr>
+      <tr><td>MOXY, החזרת רכב ואריזה — Ausfahrtsstraße 4, 1300 Wien</td><td>~18:00</td></tr>
+    </table>
+    <div class="sectionLabel">📍 מה יש שם</div>
+    <div class="places">
+      <div class="p"><b>FANTASIANA Erlebnispark — </b>פארק שעשועים משפחתי ב-Straßwalchen, עם 23 מתקנים ובעיקר לילדים צעירים: קרוסלות, רכבת התולעת Wurliwurm, מתחם טרמפולינות גדול, דמויות אגדות בגודל טבעי והצגות. רוב המתקנים מקורים, אז הפארק עובד גם בגשם. ביום שישי 2.10 פתוח 10:00-18:00, והחניה ליד הכניסה חינם.</div>
+    </div>
+    <div class="boxes">
+      <div class="box green"><b>מתאים להרכב</b>הפארק בנוי בשביל הפעוטות וילדי 3-7. ילדי 10-11 עלולים למצוא אותו קצת תינוקי. רוב המבקרים גומרים את כל המתקנים בכשעתיים-שלוש, אז ארבע שעות מספיקות בהחלט.</div>
+      <div class="box red"><b>לא למתוח את היציאה</b>אחרי 14:30 כל רבע שעה בפארק דוחפת אתכם עמוק יותר לפקקי יום שישי סביב וינה. חלופה: להישאר עד הסגירה ב-18:00, לאכול ולנסוע אחרי 19:00 בכביש פנוי — אבל אז מגיעים ל-MOXY רק בסביבות 22:00.</div>
+    </div>
+    <div class="box tan"><b>מחיר וכרטיסים • FANTASIANA</b>בכל יום שישי (חוץ מחגים וחופשות) יש <b>Family Day: 28€ לכל אדם</b>, זול מהמחיר הרגיל (35€ מעל 120 ס״מ, 29€ לגובה 90-120 ס״מ, 31.50€ לפנסיונר). ילדים מתחת ל-90 ס״מ נכנסים חינם — כדאי למדוד את הקטנים. <a href="https://www.erlebnispark.at/infos/preise.html" target="_blank" rel="noopener">האתר הרשמי</a>.</div>
+    <div class="footerbar">היום נגמר ב-MOXY ליד השדה; הטיסה רק למחרת ב-10:10.</div>
+  `
+},
+{
+  id:"d10", nav:"3.10", navSub:"טיסה הביתה",
+  segment: ["airport"],
+  render: () => `
+    <div class="tag">שבת, 3.10 · בוקר קל ליד השדה</div>
+    <h2 class="title">טיסה הביתה</h2>
+    <div class="meta">מעבר: MOXY → טרמינל - דקות בודדות</div>
+    <table class="sched">
+      <tr><td>קימה</td><td>~07:00</td></tr>
+      <tr><td>מעבר לטרמינל</td><td>07:15-07:30</td></tr>
+      <tr><td>טיסת OS79 לתל אביב</td><td>10:10</td></tr>
+      <tr><td>נחיתה בתל אביב</td><td>14:35</td></tr>
+    </table>
+    <div class="boxes">
+      <div class="box green"><b>היתרון</b>הלינה ליד השדה חוסכת נסיעה מוקדמת ומורידה לחץ.</div>
+      <div class="box yellow"><b>בלילה שלפני</b>להכין מזוודות, דרכונים, כרטיסי טיסה ובגדי טיסה.</div>
+    </div>
+    <div class="footerbar">סיום נעים ובטוח של הטיול.</div>
+  `
+},
+{
+  id:"alt", nav:"מידע", navSub:"טיסות, מלונות וחלופות",
+  segment: [],
+  render: () => `
+    <div class="tag">לשמור בטלפון</div>
+    <h2 class="title">מידע כללי לטיול</h2>
+    <div class="sectionLabel">✈️ הטיסות שלנו</div>
+    ${renderFlights()}
+    <div class="sectionLabel">🏨 המלונות שלנו</div>
+    <table class="kids" style="margin-bottom:18px;">
+      <tr>
+        <td><b>Appartements Schattauer</b> — Markt 164, 5602 Wagrain, אוסטריה
+          <a class="rowWaze" href="${wazeLink("wagrain")}" target="_blank" rel="noopener" title="נווט ב-Waze ל-Schattauer">🧭</a>
+        </td>
+        <td><span dir="ltr">25.9 – 1.10</span></td>
+      </tr>
+      <tr>
+        <td><b>Moxy Vienna Airport</b> — Ausfahrtsstraße 4, 1300 Wien, אוסטריה
+          <a class="rowWaze" href="${wazeLink("airport")}" target="_blank" rel="noopener" title="נווט ב-Waze ל-Moxy">🧭</a>
+        </td>
+        <td><span dir="ltr">24.9, 2.10</span></td>
+      </tr>
+    </table>
+    <div class="sectionLabel">🔄 חלופות</div>
+    <ul class="altlist">
+      <li>Liechtensteinklamm — עובר לבנק החלופות. מתאים רק אם רוצים נקיק ומוכנים ל-440 מדרגות ולמנשא. מחיר: מבוגר 16€, נוער (6-18) 9€. <a href="https://www.liechtensteinklamm.info/preise/" target="_blank" rel="noopener">מחירים באתר הרשמי</a>.
+        <a class="rowWaze" href="${wazeLink("liechtensteinklamm")}" target="_blank" rel="noopener" title="נווט ב-Waze ל-Liechtensteinklamm">🧭</a>
+      </li>
+      <li><b>Salzburg</b> — סיור עירוני (Mirabell, העיר העתיקה, Getreidegasse, Hohensalzburg Fortress
+        <a class="rowWaze" href="${wazeLink("hohensalzburg")}" target="_blank" rel="noopener" title="נווט ב-Waze ל-Hohensalzburg">🧭</a>,
+        Haus der Natur
+        <a class="rowWaze" href="${wazeLink("hausdernatur")}" target="_blank" rel="noopener" title="נווט ב-Waze ל-Haus der Natur">🧭</a>
+        ). חלופה טובה ליום מעונן/גשום.</li>
+      <li><b>Werfenweng</b> — כפר אלפי שקט עם אגם קטן ונעים (Wengsee) ומגרש משחקים; כ-15 דק׳ מ-Hohenwerfen - תוספת אפשרית ל-28.9 אם נשאר זמן לפני התרמה.
+        <a class="rowWaze" href="${wazeLink("werfenweng")}" target="_blank" rel="noopener" title="נווט ב-Waze ל-Werfenweng">🧭</a>
+      </li>
+      <li><b>Schmittenhöhe (Zell am See)</b> — רכבל לפסגה עם נוף ל-30 פסגות מעל 3,000 מ׳, ושביל החוויה Schmidolins Feuertaufe עם 15 תחנות משחק לילדים. ירד מ-1.10 לטובת קאפרון, וזו ההחלפה הטבעית אם מזג האוויר בקאפרון גרוע. מבוגר כ-45€, ילד כ-22.50€. <a href="https://www.schmitten.at/en/Tickets-Prices/Summertickets" target="_blank" rel="noopener">האתר הרשמי</a>.
+        <a class="rowWaze" href="${wazeLink("schmittenhoehe")}" target="_blank" rel="noopener" title="נווט ב-Waze ל-Schmittenhöhe">🧭</a>
+      </li>
+      <li>Krimml Waterfalls — מפלים גדולים, רק אם מוכנים לנסיעה ארוכה. מחיר: מבוגר 9€, ילד (6-15) 4.50€. <a href="https://www.wasserfaelle-krimml.at/besuchen/tickets" target="_blank" rel="noopener">מחירים באתר הרשמי</a>.
+        <a class="rowWaze" href="${wazeLink("krimml")}" target="_blank" rel="noopener" title="נווט ב-Waze למפלי Krimml">🧭</a>
+      </li>
+      <li>Shuttleberg Kleinarl — רכבל והר למשפחות - רק לאחר אישור ההטבה מהמלון. <a href="https://www.shuttleberg.com/en/" target="_blank" rel="noopener">האתר הרשמי</a>.
+        <a class="rowWaze" href="${wazeLink("shuttleberg")}" target="_blank" rel="noopener" title="נווט ב-Waze ל-Shuttleberg Kleinarl">🧭</a>
+      </li>
+    </ul>
+    <div class="sectionLabel">🎫 כרטיס SalzburgerLand Card - נבדק, לא משתלם</div>
+    <div class="boxes">
+      <div class="box tan"><b>מחיר 2026</b>כרטיס 6 ימים: מבוגר 103€, ילד (4-15.9) 52€. כרטיס 12 ימים: מבוגר 129€, ילד 65€. הימים לא חייבים להיות רצופים בתוך תקופת התוקף (1.5-1.11.2026 - מכסה את כל הטיול שלנו). <b>ילד שלישי ומעלה במשפחה מקבל כרטיס חינם.</b> <a href="https://www.salzburgerland.com/en/salzburgerland-card/" target="_blank" rel="noopener">האתר הרשמי</a> · <a href="https://www.salzburgerland.com/en/buy-salzburgerland-card/" target="_blank" rel="noopener">רכישה</a>.</div>
+      <div class="box green"><b>כלול מהמסלול שלנו</b>Erlebnisburg Hohenwerfen; מכרות Salzwelten (Hallein ו-Hallstatt); נסיעה אחת ב-Grossglockner Hochalpenstraße (חלופה לכרטיס יום בעיר זלצבורג - בוחרים באחת מהשתיים); Liechtensteinklamm, שנמצא אצלנו בבנק החלופות.</div>
+      <div class="box red"><b>לא כלול — אומת מול הרשימה הרשמית ל-2026</b>הרשימה הרשמית של אתרים שהוסרו מהשותפות ב-2026 כוללת את Schafbergbahn, Schmittenhöhe, Geisterberg/Alpendorf, מגלשת הקיץ ב-Dürrnberg (קלטנבליץ), הסכרים בקאפרון, Zwölferhorn, והשיט בוולפגנגזה ובצל am See. כלומר: כל אטרקציות הרכבלים והשיט במסלול נשארות בתשלום מלא.</div>
+      <div class="box red"><b>המסקנה: לא כדאי לכם</b>מול העלויות בפועל, הכרטיס מכסה בערך 350€ למשפחה של 2+2 - ועולה 310€. חיסכון של כ-20€, ורק אם הרכבל ב-Hallstatt כלול ולא רק המכרה. לזוג מבוגרים החיסכון כ-35€, לבוגר יחיד כ-41€. בכל המקרים זה שולי, ולמשפחות עם ילדים כמעט אפסי - כי כרטיס ילד עולה חצי ממבוגר, בעוד שכרטיסי הכניסה הבודדים לילדים זולים בהרבה מחצי. <b>עדיף לרכוש כרטיסים בודדים אונליין מראש.</b></div>
+      <div class="box tan"><b>חשוב: לא חופף לכרטיס האורח מ-Schattauer</b>ה-Salzburger Sportwelt Card שמקבלים חינם במלון (Wasserwelt Wagrain + Shuttleberg Kleinarl + הנחות מקומיות) הוא כרטיס שונה לגמרי מה-SalzburgerLand Card הזה, ולא נכלל בו - שני הכרטיסים משלימים זה את זה, לא מתחרים.</div>
+    </div>
+    <div class="sectionLabel">🍽️ ארוחות ערב — בוואגריין</div>
+    <div class="meta">אתם ישנים כאן שישה לילות, אז אלה המקומות שתחזרו אליהם ברגל או בנסיעה של דקות.</div>
+    <div class="eats">
+      <div class="eat">
+        <div class="body">
+          <div class="nm">Die Alte Schmiede<span class="tagline">משפחתי</span></div>
+          <div class="ds">מנוהל על ידי משפחה אוסטרית, אווירה חמה ומטבח אוסטרי לצד מנות בינלאומיות. חוזר שוב ושוב בהמלצות של משפחות עם ילדים קטנים. בשעות עומס השירות עלול להיות איטי.</div>
+        </div>
+        <a class="nav" href="${eatsLink("Die Alte Schmiede, Wagrain, Austria")}" target="_blank" rel="noopener" title="נווט ב-Waze">🧭</a>
+      </div>
+      <div class="eat">
+        <div class="body">
+          <div class="nm">Joe's<span class="tagline">פיצה ופאב</span></div>
+          <div class="ds">פאב קטן במרכז וואגריין עם פיצות טובות ואווירה נעימה. הטירמיסו הביתי הוא מה שכולם ממליצים עליו.</div>
+        </div>
+        <a class="nav" href="${eatsLink("Joe's, Wagrain, Austria")}" target="_blank" rel="noopener" title="נווט ב-Waze">🧭</a>
+      </div>
+      <div class="eat">
+        <div class="body">
+          <div class="nm">ALMMONTE 96<span class="tagline">מנות גדולות</span></div>
+          <div class="ds">בית מרזח מודרני בתחנת התחתית של Flying Mozart. פיצות בקוטר 35 ס״מ, המבורגרים ולזניה, מחירים הוגנים ושירות מהיר — מתאים לקבוצה גדולה ורעבה.</div>
+        </div>
+        <a class="nav" href="${eatsLink("Almmonte 96, Wagrain, Austria")}" target="_blank" rel="noopener" title="נווט ב-Waze">🧭</a>
+      </div>
+      <div class="eat">
+        <div class="body">
+          <div class="nm">Starchen Stadl<span class="tagline">מסורתי</span></div>
+          <div class="ds">מסעדה בוואגריין עם מטבח אוסטרי מסורתי לצד מנות בינלאומיות, בסגנון אסם כפרי.</div>
+        </div>
+        <a class="nav" href="${eatsLink("Starchen Stadl, Wagrain, Austria")}" target="_blank" rel="noopener" title="נווט ב-Waze">🧭</a>
+      </div>
+    </div>
+    <div class="box red"><b>חשוב לקבוצה בגודל הזה</b>17 נפשות זה לא שולחן שמתפנה מעצמו. בכל מקום שתרצו לשבת בו כולם יחד — התקשרו יום מראש. באוסטריה מקבלים את זה בטבעיות, וזה ההבדל בין ארוחה נעימה לבין המתנה של שעה בחוץ עם חמישה ילדים.</div>
+
+    <div class="sectionLabel">🍽️ ובפלאכאו — 15 דקות מהמלון</div>
+    <div class="meta">בחירה גדולה ורצינית יותר מוואגריין, ושווה את הנסיעה הקצרה. <a href="https://www.flachau.com/en/summer/delight-culinary/gastronomy-in-summer.html" target="_blank" rel="noopener">רשימת כל המסעדות הפתוחות בקיץ, באתר הרשמי של פלאכאו</a>.</div>
+    <div class="eats">
+      <div class="eat">
+        <div class="body">
+          <div class="nm">Glückskind<span class="tagline">הכי בטוח לקבוצה</span></div>
+          <div class="ds">פסטות, סלט הבית, סטייקים מבקר זלצבורגי ודגים. תפריט רחב מספיק שכל אחד מ-17 האנשים ימצא משהו — וזה בדיוק מה שקשה למצוא בכפר אלפיני קטן.</div>
+        </div>
+        <a class="nav" href="${eatsLink("Glückskind, Flachau, Austria")}" target="_blank" rel="noopener" title="נווט ב-Waze">🧭</a>
+      </div>
+      <div class="eat">
+        <div class="body">
+          <div class="nm">Wirtshaus mit Pfiff<span class="tagline">אלפיני מודרני</span></div>
+          <div class="ds">מטבח אלפיני מחומרי גלם אזוריים ועונתיים, באווירה ביתית. מנת הדגל היא ה-Holzwurm-Pfandl, ויש גם טמפורה וקארי — נדיר באזור הזה.</div>
+        </div>
+        <a class="nav" href="${eatsLink("Wirtshaus mit Pfiff, Flachau, Austria")}" target="_blank" rel="noopener" title="נווט ב-Waze">🧭</a>
+      </div>
+      <div class="eat">
+        <div class="body">
+          <div class="nm">Hoagascht<span class="tagline">אוסטרי-אסייתי</span></div>
+          <div class="ds">הרמן אוברייטר מגיש קלאסיקות אוסטריות בפרשנות אסייתית, תחת השם PongAsia. אם נמאס לכם משניצל אחרי שבוע — זו התשובה.</div>
+        </div>
+        <a class="nav" href="${eatsLink("Hoagascht, Flachau, Austria")}" target="_blank" rel="noopener" title="נווט ב-Waze">🧭</a>
+      </div>
+      <div class="eat">
+        <div class="body">
+          <div class="nm">Restaurant im Hotel loj<span class="tagline">ערב מיוחד</span></div>
+          <div class="ds">השף יוזף אוברייטר מבשל ברמה גבוהה עם חומרי גלם מקומיים, ופתוח גם למי שלא מתארח במלון. לערב אחד בלי הילדים, אם מסתדרים עם שמרטף.</div>
+        </div>
+        <a class="nav" href="${eatsLink("Hotel loj, Flachau, Austria")}" target="_blank" rel="noopener" title="נווט ב-Waze">🧭</a>
+      </div>
+    </div>
+
+    <div class="box yellow"><b>הערה על ההמלצות</b>אספתי אותן ממדריכי תיירות ומאתרי התיירות המקומיים, וכפתורי ה-Waze מחפשים לפי שם ויישוב ולא לפי כתובת מדויקת - כך שגם אם מסעדה עברה מקום, הניווט עדיין יגיע אליה. שעות פתיחה בסוף ספטמבר משתנות, ובכפרים קטנים יש יום סגירה שבועי - שווה בדיקה מהירה לפני שנוסעים במיוחד.</div>
+
+    <div class="sectionLabel">🌦️ גמישות לפי מזג האוויר</div>
+    <div class="box tan">Grossglockner, Hallstatt ו-Zell am See שמורים לימים עם הראות הטובה ביותר. אם יורד גשם באחד מהם, Salzburg היא חלופה טובה ליום מעונן. שימו לב שהרכבל ל-Geisterberg פועל בין 12.9–18.10.2026 רק בימי שישי–שלישי, אז אפשר להזיז את ה-27.9 רק לשבת, ראשון, שני או שלישי.</div>
+
+    <div class="sectionLabel">🚦 מוקדי עומס ושעות שיא</div>
+    <div class="meta">בלו״ז של כל יום, שורות שצפוי בהן עומס מסומנות בכפתור 🚦 - הקשה עליו פותחת את הפרטים.</div>
+    <ul class="trafficList">
+      <li><b>מעבר זלצבורג (A10 ↔ B158)</b> — <span class="when">07:00-09:00 ו-16:00-18:00 בימי חול.</span> הצוואר המרכזי של הטיול. משפיע בעיקר על הנסיעה להליין בבוקר של 30.9 - החזרה מתוכננת לצהריים, לפני השיא. מוסיף 15-25 דק׳ בשעות השיא.</li>
+      <li><b>A10 דרומה לכיוון מנהרת Tauern</b> — <span class="when">שישי אחה״צ ושבת בבוקר.</span> רלוונטי בעיקר ל-25.9, שהוא יום שישי. בסוף ספטמבר, אחרי עונת הקיץ, זה מתון יחסית.</li>
+      <li><b>חניוני Hallstatt</b> — <span class="when">מתמלאים 10:00-15:00.</span> לא פקק בכביש אלא תור לחניה. זו הסיבה ליציאה ב-07:45 ב-29.9.</li>
+      <li><b>חניון Kaiser-Franz-Josefs-Höhe</b> — <span class="when">10:00-14:00.</span> הכביש עצמו זורם; החניון בתצפית מתמלא ולפעמים נסגר זמנית.</li>
+      <li><b>A1 מזרחה לכיוון וינה</b> — <span class="when">שישי 15:00-18:30.</span> רלוונטי ל-2.10 בדרך מ-FANTASIANA לשדה. ביציאה ב-14:30 מגיעים לווינה בתוך השיא; לצאת ב-13:30 או אחרי 19:00 כדי להימנע.</li>
+    </ul>
+    <div class="sectionLabel">✅ בדיקות אחרונות</div>
+    <ol class="checklist">
+      <li>Grossglockner הוקדם ל-26.9 ו-Hallstatt נדחה ל-29.9.</li>
+      <li>אם הוזמנו כרטיסים ל-Salzwelten Hallstatt ל-26.9 — לשנות את התאריך ל-29.9.</li>
+      <li>ב-26.9 לצאת מהקרחון ב-15:15 כדי להספיק את Wildpark Ferleiten לפני הסגירה ב-18:00 (אין צורך בהזמנה מראש, משלמים בכניסה).</li>
+      <li>30.9 שונה: Wolfgangsee ו-Schafbergbahn ירדו לטובת מכרה המלח ב-Hallein. אם הוזמנו כרטיסים ל-Schafbergbahn — לבטל.</li>
+      <li>כדאי לרכוש מראש גם ל-Hallstatt Salzwelten (29.9), Geisterberg (27.9 - חוסך עד 15%), ו-Hohenwerfen (28.9) ומכרה המלח ב-Hallein (30.9); הקישורים והמחירים המעודכנים נמצאים בעמוד של כל יום.</li>
+      <li>לאשר מול Schattauer את תנאי Wasserwelt, את Shuttleberg ל-2026, ואת הכללת/עלות Kaprun במסגרת Salzburger Sportwelt Card.</li>
+      <li>קניות: 25.9 (שישי) הוא ההזדמנות הנוחה לקנייה גדולה - הסופרים פתוחים עד 19:00-19:15. בשבת הם נסגרים מוקדם (BILLA כבר ב-14:00) וביום ראשון סגורים לגמרי.</li>
+      <li>לבדוק סמוך לנסיעה את פעילות הרכבלים והשיט ב-Zell am See.</li>
+      <li>ל-Hohenwerfen לקחת מנשא ולהגיע בזמן למופע 11:15.</li>
+      <li>Keltenblitz (מגלשת הקיץ ב-Hallein) פועלת רק בתנאי יובש - לבדוק תחזית ל-30.9 ולהיות מוכנים לוותר עליה אם יורד גשם (המכרה עצמו מקורה ופועל בכל מזג אוויר).</li>
+      <li>הרכבל ל-Geisterberg פועל רק בימי שישי-שלישי — אם מזיזים ימים, לוודא שה-27.9 נופל באחד מהם.</li>
+      <li>לוודא מדיניות עגלה/מנשא באוטובוסי Kaprun ובמעלית Lärchwand מראש טלפונית (+43 50 313 23201).</li>
+      <li>להחליט מי נשאר עם שלוש הפעוטות (2:2, 2:8, 3:3) בשני המכרות - הכניסה אסורה מתחת לגיל 4. ב-Hallstatt יש פתרון (רכבל + Skywalk), וב-Hallein - כפר הקלטים SALINA ומגרש המשחקים שליד המכרה.</li>
+      <li>לברר טלפונית מאיזה גיל מתחיל התשלום ב-Geisterberg - זו ההנחה היחידה בטבלת העלויות שלא אומתה.</li>
+      <li>לוודא מול Schattauer מי מהקבוצה זכאי לכרטיס האורח - מי שלן במקום אחר ישלם על Wasserwelt בנפרד.</li>
+    </ol>
+    <div class="box tan"><b>בדיקת שעות ומסלול • מקורות רשמיים</b>Geisterberg פועל ב-27.9.2026 09:00-17:00 (בטווח שישי-שלישי). Hohenwerfen פתוח בספטמבר 09:00-17:00, מופעים 11:15/15:15. Salzwelten Hallein פתוח 09:00-17:00 (עד 1.11.2026). Keltenblitz בעונה 14.9-11.10.2026 פועל בימי שני-שישי 11:00-17:00, שבת-ראשון 10:30-17:00, ותלוי בתנאי יובש. Grossglockner פתוח עד תחילת נובמבר 2026, שעות ספטמבר 06:00-19:30. Schafbergbahn פועלת 25.4-1.11.2026. Schmittenhöhe ושיט פועלים ב-1.10.2026 09:00-17:00/10:00-17:00. Kaprun פתוח 21.5-11.10.2026, אוטובוסים 08:10-16:45/17:00. מקורות: grossglockner.at • burg-hohenwerfen.at • salzwelten.at • duerrnberg.at • 5schaetze.at • schmitten.at • skiamade.com • kaprun-stauseen.com</div>
+  `
+},
+{
+  id:"forecast", nav:"תחזית", navSub:"עד 16 יום קדימה",
+  segment: [],
+  render: () => renderForecast(),
+},
+{
+  id:"costs", nav:"עלויות", navSub:"מי משלם כמה",
+  segment: [],
+  render: () => renderCosts(),
+},
+{
+  id:"trivia", nav:"טריוויה", navSub:"בואו לשחק!",
+  segment: [],
+  render: () => `
+    <div class="tag kidTag">🎮 פינת המשחק</div>
+    <h2 class="title kidTitle">🎯 טריוויה אוסטריה</h2>
+    <p class="quizIntro">כמה אתם מכירים את אוסטריה ואת הטיול שלנו? ${TRIVIA.length} שאלות כיפיות — בואו לבדוק! 🏔️</p>
+    <div id="quizRoot" class="quizRoot"></div>
+  `
+},
+];
+
+/* ---------- "Did you know?" facts, 3-5 per trip day ---------- */
+const FUN_FACTS = {
+  d1: [
+    "הטיסה מתל אביב לוינה אורכת כ-3.5 שעות — בערך כמו לצפות בשני סרטים ברצף!",
+    "וינה נקראת גם 'עיר המוזיקה' — כאן חיו וכתבו מוזיקאים מפורסמים כמו מוצרט ובטהובן.",
+    "אוסטריה היא מדינה בלי יציאה לים — כל הגבולות שלה הם עם מדינות אחרות.",
+    "המלון שלנו ליד שדה התעופה נמצא ממש כמה דקות הליכה מהמסוף — נוח מאוד אחרי טיסה ארוכה!",
+  ],
+  d2: [
+    "Schloss Ort יושבת ממש בתוך המים על אי קטן, ומחוברת ליבשה רק בגשר עץ.",
+    "הטירה שימשה מיקום צילום לסדרת הטלוויזיה הגרמנית הפופולרית \"Schlosshotel Orth\".",
+    "אגם Traunsee הוא האגם העמוק והגדול ביותר שנמצא כולו בתוך אוסטריה - 191 מטר עומק!",
+    "Wagrain, הכפר שבו נגור, נמצא בלב האלפים באזור זלצבורגרלנד.",
+    "בערב נצלול ב-Erlebnis-Therme Amadé — מרחצאות חמים ומגלשות מים, רק 10 דקות מהמלון!",
+  ],
+  d6: [
+    "Hallstatt כל כך יפה שבסין בנו עיר תאומה שנראית בדיוק כמוה!",
+    "מתחת לכפר יש מכרות מלח בני יותר מ-7,000 שנה — מהעתיקים בעולם.",
+    "אגם Hallstättersee כל כך צלול שאפשר לראות עמוק לתוכו.",
+    "אגם Gosausee הוא אגם הררי שקט עם נוף ישיר להר הקרחון Dachstein.",
+  ],
+  d4: [
+    "Geisterberg פירושו 'הר הרוחות' — שם קצת מסתורי להר!",
+    "St. Johann im Pongau היא עיירה עתיקה שהוקמה לפני מאות שנים.",
+    "באזור Pongau יש עשרות רכבלים והרים לטיולים משפחתיים.",
+  ],
+  d5: [
+    "מצודת Hohenwerfen נבנתה לפני כמעט 1,000 שנה על צוק תלול!",
+    "במצודה מציגים לפעמים הדגמות ציד עם ברזים — עופות דורסים מאולפים.",
+    "העופות הדורסים במופע עפים חופשי מעל עמק ה-Salzach — ואחר כך חוזרים למאלף!",
+    "אחר הצהריים: Erlebnis-Therme Amadé — מרחצאות חמים ומגלשות מים, 10 דקות מהמלון.",
+  ],
+  d3: [
+    "Grossglockner הוא ההר הכי גבוה באוסטריה — 3,798 מטר!",
+    "הכביש ההררי Grossglockner Hochalpenstraße הוא אחד הכבישים ההרריים היפים באירופה.",
+    "מנקודת התצפית Kaiser-Franz-Josefs-Höhe רואים את הקרחון Pasterze — הקרחון הגדול באוסטריה.",
+    "בגלל השלג, הכביש הזה סגור בחורף ופתוח רק חלק מהשנה.",
+    "בפארק החיות Ferleiten שבתחילת הכביש חיים יותר מ-200 בעלי חיים - כולל דובים חומים, זאבים ולינקס!",
+    "המרמיטה ישנה בתרדמת חורף כמעט חצי שנה, ומזהירה את החברות שלה בשריקה חדה כשמתקרבת סכנה.",
+  ],
+  d7: [
+    "מכרה המלח ב-Hallein פעיל כבר יותר מ-2,600 שנה — עוד מתקופת הקלטים!",
+    "במכרה יורדים בין המפלסים על מגלשות עץ ארוכות ושטים בסירה על אגם מלח תת-קרקעי.",
+    "בתוך המכרה חוצים את הגבול לגרמניה — ההר יושב בדיוק על קו הגבול!",
+    "מגלשת הקיץ Keltenblitz אורכת 2.2 ק״מ — אחת הארוכות באוסטריה!",
+    "כמעט כל המלח שאוכלים באוסטריה מגיע ממכרות באזור — וה-Salz בשם זלצבורג פירושו מלח!",
+  ],
+  d8: [
+    "סכר Mooserboden בקאפרון עומד בגובה 2,040 מטר - גבוה יותר מכל הר בישראל!",
+    "המעלית המשופעת Lärchwand שעולה לסכר היא הגדולה מסוגה באירופה.",
+    "הסכרים נבנו אחרי מלחמת העולם השנייה, והמים שלהם מייצרים חשמל עד היום.",
+    "Zell am See נמצאת על שפת אגם כחול-טורקיז מרהיב.",
+    "אין דרך להגיע לסכר ברכב פרטי - חייבים אוטובוס ומעלית, וזה חלק מהכיף.",
+  ],
+  d9: [
+    "ב-FANTASIANA ילדים שגובהם מתחת ל-90 ס״מ נכנסים בחינם — מי מאיתנו עוד נכנס חינם?",
+    "בפארק יש 23 מתקנים, ורובם מקורים — כך שגם גשם לא עוצר את הכיף.",
+    "היום נוסעים לאורך האוטוסטרדה המערבית, Westautobahn, שמחברת את זלצבורג לווינה - כמעט כל רוחבה של אוסטריה.",
+  ],
+  d10: [
+    "בטיסה חזרה נראה שוב את האלפים מלמעלה — הזדמנות טובה להיפרד מהנוף!",
+    "אוסטריה חולקת גבולות עם 8 מדינות שונות — יותר משכנות מרוב מדינות אירופה.",
+  ],
+};
+
+/* ---------- Restaurant recommendations ----------
+   `q` is a Waze *search* string, not a street address. Waze resolves "name, town, country"
+   reliably, and it avoids the worse failure of navigating the whole family to a street
+   number that turned out to be wrong. Where an address was verifiable it's in the `q`.
+   `w` is only set where an official site was actually confirmed — no guessed URLs. */
+function eatsLink(q){
+  return `https://waze.com/ul?q=${encodeURIComponent(q)}&navigate=yes`;
+}
+
+const EATS = {
+  d1: {note:"נוחתים ב-21:25 ומגיעים למלון מאוחר. ה-MOXY מגיש אוכל ומשקאות בלובי עד השעות הקטנות, וזו האופציה הסבירה היחידה בשעה הזו. שווה לקנות משהו לילדים כבר בשדה."},
+  d2: {
+    title:"בגמונדן ובדרך",
+    list:[
+      {n:"Orther Stub'n", t:"על האגם", d:"בתוך חצר הטירה עצמה, עם מרפסת שיושבת ממש מעל המים. מתמחים בדגים טריים מהטראונזה. המקום הכי מתבקש לצהריים ביום הזה — אתם ממילא שם.", q:"Orther Stub'n, Ort 1, 4810 Gmunden, Austria", w:"https://www.ortherstubn.at/"},
+      {n:"Orther Hütt'n", t:"קליל וזול", d:"דוכן־בקתה של אותם בעלים בטוסקנהפארק, עם עוגות, משקאות חמים ונשנושים. אופציה טובה אם לא בא לכם לשבת לארוחה מלאה עם הילדים אחרי הנסיעה.", q:"Orther Hüttn, Toscanapark, 4810 Gmunden, Austria"},
+    ],
+    note:"בערב אתם בטרמה אמאדה, שיש בה בית קפה ומזנון — אבל אם רוצים ארוחה אמיתית, ראו את ההמלצות לוואגריין בעמוד \"מידע\"."
+  },
+  d6: {
+    title:"בהלשטאט ובגוסאו",
+    list:[
+      {n:"Rudolfsturm", t:"נוף מלמעלה", d:"מגדל שמירה מהמאה ה-13 שהפך לבית קפה ומסעדה, ממש ליד תחנת הרכבל העליונה מעל הכפר. אתם עולים לשם בכל מקרה — והנוף מהמרפסת הוא הטוב ביותר בהלשטאט.", q:"Rudolfsturm, Hallstatt, Austria"},
+      {n:"Restaurant Im Kainz", t:"", d:"מסעדה ותיקה במרכז הכפר, מטבח אוסטרי קלאסי. מהמומלצות באזור לפי אתר התיירות המקומי.", q:"Restaurant Im Kainz, Hallstatt, Austria"},
+      {n:"Seecafe Hallstatt", t:"שקט מהתיירים", d:"מעט מחוץ למרכז, ומשם רואים את כל הכפר מהצד. בית קפה שמגיש גם ארוחות — מקום טוב לברוח מהצפיפות.", q:"Seecafe Hallstatt, Seelände 173, 4830 Hallstatt, Austria"},
+      {n:"Gasthof Brandwirt", t:"בגוסאו", d:"פונדק כפרי בגוסאו עם אוכל ביתי אוסטרי, בדרך לאגם. נוח אם מגיעים לגוסאוזה רעבים.", q:"Brandwirt, Gosau, Austria"},
+    ],
+    note:"הלשטאט יקרה — זה המחיר של כפר תיירותי. יש גם דוכני קבב ופיצה בכיכר אם רוצים לחסוך."
+  },
+  d4: {
+    title:"בהר ובסנט יוהאן",
+    list:[
+      {n:"בקתות ההר ב-Geisterberg", t:"על ההר", d:"יש כמה בקתות ומזנונים לאורך אזור החוויה בפסגה. הנוחות ברורה: לא צריך לרדת ברכבל באמצע היום.", q:"Alpendorf Bergstation, St. Johann im Pongau, Austria"},
+      {n:"Platzl", t:"במרכז", d:"מסעדה מקומית בלב סנט יוהאן, מטבח אוסטרי קלאסי, אווירה נעימה. מומלצת דווקא על ידי מקומיים ולא רק תיירים.", q:"Platzl, St. Johann im Pongau, Austria"},
+      {n:"Cavalli Ristorante", t:"לילדים", d:"איטלקית — פסטה ופיצה. כשהילדים מותשים אחרי יום שלם בהר, זו לרוב הבחירה שמצליחה.", q:"Cavalli Ristorante, St. Johann im Pongau, Austria"},
+      {n:"Café Schiebel", t:"גלידה", d:"בית קפה בסגנון וינאי בהאופטשטראסה, עוגות וקפה. בדיוק לבלוק הגלידה שבלו״ז.", q:"Café Schiebel, Hauptstraße 37, 5600 St. Johann im Pongau, Austria"},
+    ]
+  },
+  d5: {
+    title:"בוורפן ובתרמה",
+    list:[
+      {n:"Burgtaverne Hohenwerfen", t:"בתוך הטירה", d:"הפונדק בתוך המצודה עצמה. לא מטבח גורמה, אבל אתם בדיוק שם בשעת הצהריים ואין צורך לרדת ולעלות שוב.", q:"Burg Hohenwerfen, Werfen, Austria"},
+      {n:"Obauer", t:"למבוגרים", d:"מוסד קולינרי מפורסם בכפר וורפן, ברמה גבוהה ובמחיר תואם. לא לחמישה ילדים — אבל אם מישהו מהמבוגרים רוצה ארוחה אחת רצינית בטיול, זו ההזדמנות.", q:"Obauer, Werfen, Austria"},
+      {n:"בית הקפה ב-Erlebnis-Therme Amadé", t:"בתרמה", d:"בית קפה ומזנון בתוך המתחם - לנשנוש אחר הצהריים בלי לצאת מהמים.", q:"Erlebnis-Therme Amadé, Thermenplatz 1, 5541 Altenmarkt im Pongau, Austria"},
+    ]
+  },
+  d3: {
+    title:"על הכביש האלפיני",
+    list:[
+      {n:"מסעדות לאורך הכביש", t:"", d:"יש מסעדות ומזנונים בנקודות העצירה המרכזיות — פוּשֶר טֶרְל ובקייזר-פרנץ-יוזפס-הההה. האוכל סביר והמחירים גבוהים, כמו בכל מקום שאין לו תחרות בגובה 2,400 מ׳.", q:"Kaiser-Franz-Josefs-Höhe, Grossglockner, Austria"},
+    ],
+    note:"ההמלצה שלי ליום הזה היא פיקניק. קונים ב-BILLA בוואגריין בערב שלפני, ואוכלים באחת נקודות התצפית עם הנוף — זול יותר, גמיש יותר, ולא מבזבזים חצי שעה בתור."
+  },
+  d7: {
+    title:"ארוחת ערב בוואגריין",
+    list:[
+      {n:"Lombardi Restaurant", t:"18:00 · שמור לנו", d:"מטבח אוסטרי מסורתי לצד מנות בינלאומיות, במרכז וואגריין ודקות מהמלון. פתוחה ג׳-א׳ 17:00-22:00 (סגורה בימי שני). לקבוצה של 17 - להתקשר ולשריין: +43 664 4208745.", q:"Lombardi Restaurant, Markt 36, 5602 Wagrain, Austria", w:"https://www.facebook.com/lombardiwagrain/"},
+    ]
+  },
+  d8: {
+    title:"בקפרון ובצל am See",
+    list:[
+      {n:"מסעדת Mooserboden", t:"בסכר", d:"יש מסעדה למעלה ליד הסכר, בגובה 2,040 מ׳. לפי הלו״ז המעודכן אוכלים כאן את ארוחת הצהריים - כך לא מבזבזים שעה על ארוחה בצל. לקבוצה של 17, כדאי שמישהו יתפוס שולחנות מיד כשמגיעים.", q:"Mooserboden Stausee, Kaprun, Austria"},
+      {n:"Erlhof", t:"נוף לאגם", d:"מסעדה משפחתית באולם מקומר כפרי עם מרפסת שמש ונוף פתוח לצֵלר זֶה. מטבח אוסטרי מסורתי עם נגיעות מודרניות.", q:"Erlhof, Zell am See, Austria"},
+      {n:"Beach Club Thumersbach", t:"קליל עם ילדים", d:"בצד השקט של האגם, מול הנוף לקיצשטיינהורן. המבורגרים, פיצה ושטרודל תפוחים — לא גורמה, אבל המיקום והאווירה מתאימים לסיום יום עם ילדים.", q:"Beach Club Thumersbach, Zell am See, Austria"},
+      {n:"Zum Metzgerwirt", t:"היסטורי", d:"פונדק שמוזכר לראשונה ב-1493 ומנוהל באותה משפחה דורות. מטבח אוסטרי קלאסי במרכז צל am See.", q:"Metzgerwirt, Zell am See, Austria"},
+    ]
+  },
+  d9: {
+    title:"בפארק",
+    list:[
+      {n:"Schlosshof Restaurant", t:"בחצר הטירה", d:"מסעדת שירות עצמי בחצר הטירה של הפארק — הכי מרכזית לארוחת צהריים.", q:"FANTASIANA Erlebnispark, Straßwalchen, Austria"},
+      {n:"Sonnenbucht Restaurant", t:"שירות עצמי", d:"מסעדה נוספת באזור Sonnenbucht של הפארק.", q:"FANTASIANA Erlebnispark, Straßwalchen, Austria"},
+      {n:"Flyro Cafeteria", t:"מתוקים", d:"קפטריה באזור Damalsland — חטיפים ומתוקים באמצע היום.", q:"FANTASIANA Erlebnispark, Straßwalchen, Austria"},
+    ],
+    note:"לפי הביקורות האוכל בפארק בינוני ולא זול. בערב — ב-MOXY יש אוכל בלובי, ואל תסמכו על מסעדות באזור התעשייה של השדה."
+  },
+};
+
+function renderEats(id){
+  const e = EATS[id];
+  if (!e) return "";
+  const cards = (e.list || []).map(r => `
+    <div class="eat">
+      <div class="body">
+        <div class="nm">${r.n}${r.t?`<span class="tagline">${r.t}</span>`:""}</div>
+        <div class="ds">${r.d}</div>
+        ${r.w?`<div class="lk"><a href="${r.w}" target="_blank" rel="noopener">האתר הרשמי</a></div>`:""}
+      </div>
+      <a class="nav" href="${eatsLink(r.q)}" target="_blank" rel="noopener" title="נווט ב-Waze ל-${r.n}">🧭</a>
+    </div>`).join("");
+  return `
+    <div class="sectionLabel">🍽️ איפה אוכלים${e.title?` — ${e.title}`:""}</div>
+    ${cards?`<div class="eats">${cards}</div>`:""}
+    ${e.note?`<div class="box tan">${e.note}</div>`:""}
+  `;
+}
+
+/* ---------- Forecast page: today + 5 days for several destinations at once ----------
+   One Open-Meteo request covers all of them (the API accepts comma-separated coordinates
+   and returns an array in the same order). Destinations were picked to be the ones the
+   itinerary is flexible about — Grossglockner and Hallstatt in particular are swapped to
+   the clearest day, so seeing them side by side is the whole point. */
+const FORECAST_LOCS = [
+  {k:"wagrain",    nm:"וואגריין",   note:"הבסיס"},
+  {k:"glockner",   nm:"גרוסגלוקנר", note:"2,369 מ׳"},
+  {k:"hallstatt",  nm:"הלשטאט",     note:""},
+  {k:"hallein_salt", nm:"הליין",  note:""},
+  {k:"kaprun",     nm:"קפרון",      note:"2,040 מ׳"},
+];
+const FORECAST_DAYS = 16;   // Open-Meteo's maximum; the window reaches the trip from ~8.9 onward
+
+function renderForecast(){
+  return `
+    <div class="tag">מזג אוויר</div>
+    <h2 class="title">🌦️ תחזית לאזור הטיול</h2>
+    <div class="meta">עד 16 ימים קדימה, בכמה יעדים במקביל — כדי להחליט איזה יום מקדישים לאיזה מקום. גללו לצדדים.</div>
+    <div id="fcRoot"><div class="fcLoading">טוען תחזית…</div></div>
+    <div class="box tan" style="margin-top:16px;"><b>איך להשתמש בזה</b>גרוסגלוקנר, Hallstatt וההרים הגבוהים שווים רק בראות טובה. השוו כאן בין היעדים והזיזו את היום הבהיר ביותר לגרוסגלוקנר. ימים ששייכים לטיול מסומנים בכותרת בשם היעד של אותו יום.</div>
+    <div class="box yellow" style="margin-top:12px;"><b>עד כמה לסמוך על זה</b>התחזית נמתחת 16 יום קדימה, אבל הדיוק יורד ככל שמתרחקים: 1-3 ימים אמינים מאוד, 4-7 ימים סבירים, ומעבר ל-10 ימים זו יותר מגמה מאשר תחזית. אל תקבעו סופית את יום גרוסגלוקנר לפני שהוא נכנס לטווח של 3-4 ימים.</div>
+  `;
+}
+
+async function initForecast(){
+  const root = document.getElementById("fcRoot");
+  if (!root) return;
+  const lats = FORECAST_LOCS.map(o=>LOC[o.k].lat).join(",");
+  const lons = FORECAST_LOCS.map(o=>LOC[o.k].lon).join(",");
+  const url = `https://api.open-meteo.com/v1/forecast?latitude=${lats}&longitude=${lons}`
+    + `&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_probability_max`
+    + `&timezone=Europe%2FVienna&forecast_days=${FORECAST_DAYS}`;
+  try {
+    const resp = await fetch(url);
+    if (!resp.ok) throw new Error("http " + resp.status);
+    let data = await resp.json();
+    if (!Array.isArray(data)) data = [data];   // a single-location query returns a bare object
+    const dates = data[0]?.daily?.time || [];
+    if (!dates.length) throw new Error("no data");
+
+    // Column headers: weekday + date, flagged when the date is one of our trip days.
+    const heads = dates.map((iso,i)=>{
+      const wd = WEEKDAY_HE_SHORT[new Date(iso+"T00:00:00").getDay()];
+      const [ , m, d ] = iso.split("-");
+      const tripId = Object.keys(DAY_DATES).find(k=>DAY_DATES[k]===iso);
+      const tripDay = tripId ? DAYS.find(x=>x.id===tripId) : null;
+      return `<th class="${i===0?"fcToday":""}">
+        <span class="wd">${i===0?"היום":wd}</span>
+        <span class="dt">${+d}.${+m}</span>
+        ${tripDay?`<span class="trip">${tripDay.navSub}</span>`:""}
+      </th>`;
+    }).join("");
+
+    const rows = FORECAST_LOCS.map((o,li)=>{
+      const d = data[li]?.daily;
+      if (!d) return "";
+      const cells = dates.map((_,i)=>{
+        const max = Math.round(d.temperature_2m_max[i]);
+        const min = Math.round(d.temperature_2m_min[i]);
+        const rain = d.precipitation_probability_max[i];
+        const wet = rain >= 50;
+        return `<td class="${i===0?"fcToday":""}">
+          <span class="ic">${weatherEmoji(d.weathercode[i])}</span>
+          <span class="tm"><b>${max}°</b>${min}°</span>
+          <span class="rn${wet?" wet":""}">${rain}%</span>
+        </td>`;
+      }).join("");
+      return `<tr><th scope="row" class="fcPlace">
+        <span class="nm">${LOC_ICON[o.k]||"📍"} ${o.nm}</span>
+        ${o.note?`<span class="nt">${o.note}</span>`:""}
+      </th>${cells}</tr>`;
+    }).join("");
+
+    const covered = dates.filter(d => Object.values(DAY_DATES).includes(d)).length;
+    const coverMsg = covered
+      ? `התחזית כבר מכסה ${covered} מתוך 10 ימי הטיול.`
+      : "התחזית עדיין לא מגיעה לימי הטיול — חזרו לכאן קרוב יותר לתאריך.";
+
+    root.innerHTML = `<div class="fcWrap"><table class="fcTable">
+      <thead><tr><th class="fcPlace"></th>${heads}</tr></thead>
+      <tbody>${rows}</tbody>
+    </table></div>
+    <div class="fcLegend">${coverMsg} גללו לצדדים לימים נוספים · אחוז = סיכוי למשקעים · אדום = מעל 50%</div>`;
+  } catch(e){
+    root.innerHTML = `<div class="fcLoading">התחזית לא נטענה כרגע — נסו שוב מאוחר יותר. שאר האתר פועל כרגיל.</div>`;
+  }
+}
+
+/* ---------- Checklist ---------- */
+const CHECKLIST = [
+  {id:"docs", ic:"🛂", name:"מסמכים", items:[
+    {t:"דרכונים בתוקף לכל בני המשפחה", s:"לוודא תוקף של לפחות 6 חודשים מיום החזרה"},
+    {t:"ביטוח נסיעות כולל כיסוי לילדים"},
+    {t:"רישיון נהיגה בינלאומי", s:"לנהגים בלבד — נדרש באוסטריה לצד הרישיון הישראלי"},
+    {t:"אישורי טיסה OS82 / OS79 שמורים בטלפון"},
+    {t:"אישור הזמנה — Appartements Schattauer"},
+    {t:"אישור הזמנה — Moxy Vienna Airport (שני הלילות)"},
+    {t:"אישור הזמנת רכב שכור"},
+  ]},
+  {id:"cloth", ic:"🧥", name:"ביגוד אישי", items:[
+    {t:"הלבשה תחתונה וגרביים", s:"10 ימים — או פחות אם עושים כביסה באמצע"},
+    {t:"חולצות קצרות וארוכות", s:"בספטמבר-אוקטובר הטמפרטורה נעה בין כ-5° בבוקר בהרים ל-20° בעמק"},
+    {t:"סווטשירט או פליז — שניים לאדם", s:"שכבת האמצע החשובה ביותר"},
+    {t:"מעיל חם", s:"לגרוסגלוקנר ולקאפרון — מעל 2,000 מ׳ קר ורוחי גם בקיץ"},
+    {t:"מעיל גשם או פונצ׳ו", s:"קל לקפל, שווה לכל אחד בנפרד"},
+    {t:"מכנסיים ארוכים"},
+    {t:"מכנסיים קצרים", s:"לימים החמים ולמעבר בטרמה"},
+    {t:"פיג׳מות"},
+    {t:"בגדי ים לכל אחד", s:"טרמה אמאדה ב-25.9 ו-Wasserwelt במהלך השבוע"},
+    {t:"כובע חם וכובע שמש"},
+    {t:"כפפות דקות וצעיף או באף", s:"בעיקר לימי הגובה"},
+    {t:"נעלי הליכה סגורות ונוחות"},
+    {t:"כפכפים", s:"למלון, לטרמה ולבריכה"},
+    {t:"בגדים חגיגיים קלים", s:"אם מתכננים ערב במסעדה"},
+    {t:"שקית לכביסה מלוכלכת"},
+  ]},
+  {id:"toilet", ic:"🧴", name:"תמרוקים והיגיינה", items:[
+    {t:"מברשות שיניים ומשחה"},
+    {t:"שמפו, מרכך וסבון גוף"},
+    {t:"דאודורנט"},
+    {t:"קרם הגנה", s:"הקרינה בגובה חזקה יותר משנדמה, גם ביום מעונן"},
+    {t:"שפתון לחות", s:"האוויר ההררי מייבש"},
+    {t:"מברשת שיער וגומיות"},
+    {t:"ציוד גילוח"},
+    {t:"היגיינה נשית"},
+    {t:"מגבונים לחים וג׳ל אלכוהול"},
+    {t:"מגבת מהירת ייבוש", s:"למרחצאות ולאגמים"},
+    {t:"תרופות אישיות ומרשמים", s:"בכמות מספקת לכל הטיול"},
+    {t:"ערכת עזרה ראשונה ופלסטרים", s:"גם לשלפוחיות מהליכה"},
+    {t:"תרופות ילדים", s:"מורידי חום ותרופה נגד בחילה — הכבישים ההרריים מפותלים"},
+  ]},
+  {id:"kids", ic:"👶", name:"לפעוטות", items:[
+    {t:"חיתולים ומגבונים לכל התקופה"},
+    {t:"קרם החתלה"},
+    {t:"מנשא", s:"בהוהנוורפן יש מעל 100 מדרגות למופע; עגלה לא עוברת"},
+    {t:"בקבוקים, כוסות ומזון מיוחד"},
+    {t:"בגדי החלפה נוספים בתיק היד"},
+    {t:"שמיכי, מוצץ או צעצוע מרגיע"},
+    {t:"חטיפים לנסיעות הארוכות"},
+  ]},
+  {id:"gear", ic:"🎒", name:"ציוד וגאדג׳טים", items:[
+    {t:"מתאם חשמל אירופאי"},
+    {t:"מטענים, כבלים ופאוור בנק"},
+    {t:"תיק גב קטן ליום טיול"},
+    {t:"בקבוקי מים רב-פעמיים"},
+    {t:"משקפי שמש לכולם"},
+    {t:"מצלמה וכרטיס זיכרון פנוי"},
+    {t:"שקיות ניילון לבגדים רטובים"},
+  ]},
+  {id:"car", ic:"🚗", name:"רכב ונסיעות", items:[
+    {t:"כיסאות בטיחות מתאימים לגיל הילדים", s:"להזמין מראש מול חברת ההשכרה"},
+    {t:"מטענים לרכב וכבלים"},
+    {t:"הורדת מפות אופליין לאזור"},
+    {t:"חטיפים ומים לנסיעות הארוכות"},
+    {t:"שקיות למקרה של בחילה", s:"הכביש לגרוסגלוקנר כולל 36 עיקולים"},
+  ]},
+  {id:"last", ic:"⏰", name:"ביום היציאה", items:[
+    {t:"צ׳ק-אין אונליין לטיסה"},
+    {t:"בדיקת משקל מזוודות", s:"מזוודה אחת לכל נוסע (1 PC)"},
+    {t:"טעינת כל הטלפונים והמצלמות"},
+    {t:"התקנת האתר כאפליקציה למסך הבית", s:"עובד גם בלי אינטרנט"},
+    {t:"החלפת כסף / כרטיס אשראי ללא עמלת המרה"},
+  ]},
+];
+
+const CK_KEY = "austria_checklist_v2";
+let ckState = {};
+try { ckState = JSON.parse(localStorage.getItem(CK_KEY) || "{}"); } catch(e){ ckState = {}; }
+function ckSave(){ try { localStorage.setItem(CK_KEY, JSON.stringify(ckState)); } catch(e){} }
+function ckKey(si, ii){ return CHECKLIST[si].id + ":" + ii; }
+
+function renderChecklist(){
+  return `
+    <div class="tag">לפני שיוצאים</div>
+    <h2 class="title">✅ הצ׳קליסט שלנו</h2>
+    <div class="meta">כל משפחה מסמנת לעצמה. הסימון נשמר במכשיר — אפשר לסגור ולחזור.</div>
+    <div class="ckProgress">
+      <div class="row">
+        <span class="big" id="ckPct">0%</span>
+        <span class="cap" id="ckCap">0 מתוך 0 בוצעו</span>
+      </div>
+      <div class="ckBar"><i id="ckFill" style="width:0%"></i></div>
+    </div>
+    <div id="ckRoot">${CHECKLIST.map((sec, si) => {
+      const done = sec.items.filter((_,ii)=>ckState[ckKey(si,ii)]).length;
+      return `<div class="ckSec${done===sec.items.length?" done":""}${si===0?" open":""}" data-s="${si}">
+        <button type="button" class="ckHead">
+          <span class="ic">${sec.ic}</span>
+          <span class="nm">${sec.name}</span>
+          <span class="cnt">${done}/${sec.items.length}</span>
+          <span class="car">▾</span>
+        </button>
+        <div class="ckBody">${sec.items.map((it,ii)=>{
+          const on = !!ckState[ckKey(si,ii)];
+          return `<div class="ckItem${on?" on":""}" data-s="${si}" data-i="${ii}">
+            <span class="ckBox">${on?"✓":""}</span>
+            <span class="txt">${it.t}${it.s?`<small>${it.s}</small>`:""}</span>
+          </div>`;
+        }).join("")}</div>
+      </div>`;
+    }).join("")}</div>
+    <div class="ckTools">
+      <button type="button" id="ckOpenAll">פתח הכל</button>
+      <button type="button" id="ckCloseAll">סגור הכל</button>
+      <button type="button" id="ckReset">אפס סימונים</button>
+    </div>
+    <div class="box tan" style="margin-top:16px;"><b>איך זה עובד</b>הסימונים נשמרים בדפדפן של המכשיר שסימנתם בו, ולא משותפים בין המשפחות — לכל משפחה רשימה משלה. אם תפתחו את האתר בטלפון אחר, הרשימה שם תהיה ריקה.</div>
+  `;
+}
+
+function ckUpdateProgress(){
+  let total=0, done=0;
+  CHECKLIST.forEach((sec,si)=>sec.items.forEach((_,ii)=>{ total++; if(ckState[ckKey(si,ii)]) done++; }));
+  const pct = total ? Math.round(done/total*100) : 0;
+  const p = document.getElementById("ckPct");
+  if (!p) return;
+  p.textContent = pct + "%";
+  document.getElementById("ckCap").textContent = `${done} מתוך ${total} בוצעו`;
+  document.getElementById("ckFill").style.width = pct + "%";
+}
+
+// Wired once per render of the checklist page, via delegation on #ckRoot.
+function initChecklist(){
+  const root = document.getElementById("ckRoot");
+  if (!root) return;
+  ckUpdateProgress();
+  root.addEventListener("click", e => {
+    const head = e.target.closest(".ckHead");
+    if (head){ head.parentElement.classList.toggle("open"); return; }
+    const item = e.target.closest(".ckItem");
+    if (!item) return;
+    const si = +item.dataset.s, ii = +item.dataset.i, k = ckKey(si,ii);
+    ckState[k] = !ckState[k];
+    ckSave();
+    // repaint just this row and its section counter, so open/closed state is preserved
+    const sec = item.closest(".ckSec");
+    item.classList.toggle("on", !!ckState[k]);
+    item.querySelector(".ckBox").textContent = ckState[k] ? "✓" : "";
+    const secDone = CHECKLIST[si].items.filter((_,j)=>ckState[ckKey(si,j)]).length;
+    sec.querySelector(".cnt").textContent = secDone + "/" + CHECKLIST[si].items.length;
+    sec.classList.toggle("done", secDone === CHECKLIST[si].items.length);
+    ckUpdateProgress();
+  });
+  document.getElementById("ckOpenAll")?.addEventListener("click", ()=>
+    root.querySelectorAll(".ckSec").forEach(s=>s.classList.add("open")));
+  document.getElementById("ckCloseAll")?.addEventListener("click", ()=>
+    root.querySelectorAll(".ckSec").forEach(s=>s.classList.remove("open")));
+  document.getElementById("ckReset")?.addEventListener("click", ()=>{
+    if(!confirm("לאפס את כל הסימונים?")) return;
+    ckState = {}; ckSave(); selectDay("checklist");
+  });
+}
+
+/* ---------- Flights, rendered as boarding-pass cards ----------
+   Durations account for the one-hour offset between Israel (UTC+3 in September) and
+   Vienna (UTC+2), so they don't match a naive subtraction of the printed clock times. */
+const FLIGHTS = [
+  {no:"OS 82", airline:"AUSTRIAN AIRLINES", dur:"3ש׳ 45ד׳",
+   from:{code:"TLV", city:"Tel Aviv", time:"18:40"},
+   to:  {code:"VIE", city:"Vienna",   time:"21:25"},
+   date:"24 Sep 2026", weekday:"יום ה׳", cls:"Q · OK", bag:"1 PC"},
+  {no:"OS 79", airline:"AUSTRIAN AIRLINES", dur:"3ש׳ 25ד׳",
+   from:{code:"VIE", city:"Vienna",   time:"10:10"},
+   to:  {code:"TLV", city:"Tel Aviv", time:"14:35"},
+   date:"03 Oct 2026", weekday:"שבת", cls:"Q · OK", bag:"1 PC"},
+];
+
+function renderFlights(){
+  return FLIGHTS.map(f => `
+    <div class="bpass">
+      <div class="bpass-head">
+        <span class="bpass-airline">${f.airline}</span>
+        <span class="bpass-no">${f.no}</span>
+      </div>
+      <div class="bpass-route">
+        <div class="bpass-end">
+          <span class="bpass-code">${f.from.code}</span>
+          <span class="bpass-city">${f.from.city}</span>
+          <span class="bpass-time">${f.from.time}</span>
+        </div>
+        <div class="bpass-mid">
+          <span class="bpass-dur">${f.dur}</span>
+          <span class="bpass-path"><span class="bpass-plane">✈</span></span>
+        </div>
+        <div class="bpass-end arr">
+          <span class="bpass-code">${f.to.code}</span>
+          <span class="bpass-city">${f.to.city}</span>
+          <span class="bpass-time">${f.to.time}</span>
+        </div>
+      </div>
+      <div class="bpass-tear"></div>
+      <div class="bpass-meta">
+        <div><span class="k">תאריך</span><span class="v">${f.date}</span></div>
+        <div><span class="k">יום</span><span class="v">${f.weekday}</span></div>
+        <div><span class="k">מחלקה</span><span class="v">${f.cls}</span></div>
+        <div><span class="k">כבודה</span><span class="v">${f.bag}</span></div>
+      </div>
+      <div class="bpass-bars" aria-hidden="true"></div>
+    </div>`).join("");
+}
+
+/* ---------- Cost model ----------
+   Only paid attractions that are actually on the fixed itinerary. Prices are the per-person
+   gate/online rates already documented on each day's page. "child" = each attraction's own
+   discounted bracket (roughly 4-15); under-4s are free everywhere here, so they're counted
+   separately and cost nothing. Grossglockner is a per-vehicle toll, not per person. */
+const COST_ROWS = [
+  {day:"26.9", label:"אגרת Grossglockner",          perCar:46.50},
+  {day:"26.9", label:"Wildpark Ferleiten",           adult:15,    child:15},
+  {day:"27.9", label:"Geisterberg (מחיר אונליין)",  adult:32.50, child:19.50},
+  {day:"28.9", label:"Burg Hohenwerfen",            adult:20.90, child:8.60},
+  // 4-hour ticket, no sauna. With two paying adults, ages 6-15 pay only the 2-hour rate (at the
+  // counter, not online). Ages 3-5 pay €4; under 3 free.
+  {day:"28.9", label:"Erlebnis-Therme Amadé (4 שעות)", adult:30.50, child:19, childWith2Adults:13.50, tot3:4},
+
+  {day:"29.9", label:"Salzwelten Hallstatt",        adult:49,    child:23},
+  {day:"30.9", label:"הליין + קלטנבליץ",            adult:47,    child:26},
+  {day:"1.10", label:"Kaprun Hochgebirgsstauseen",  adult:39.50, child:22},
+  // Born 2011-2020 = child rate; born 2021+ (all three toddlers) free with parents.
+  {day:"1.10", label:"שיט פנורמה בצל am See",       adult:24,    child:12},
+  // Friday "Family Day" flat rate. Under 90 cm free (assumed for the two 2-year-olds); the 3-year-old pays.
+  {day:"2.10", label:"FANTASIANA (Family Day שישי)", adult:28, child:28, tot3:28},
+];
+
+const COST_FAMILIES = [
+  {name:"רון ונטלי",   who:"2 מבוגרים · בת 6 · בת 3:3",          adults:2, kids:1, tots:1, tots3:1, car:true},
+  {name:"ליגל ואבירן", who:"2 מבוגרים · בן 11 · בן 7 · בן 2:2",  adults:2, kids:2, tots:1, car:true},
+  {name:"ימית ואיתי",  who:"2 מבוגרים · בן 10 · בן 7 · בת 2:8",  adults:2, kids:2, tots:1, car:true},
+  {name:"מוטי ואדרת",  who:"זוג מבוגרים (70 ו-63)",              adults:2, kids:0, tots:0, car:true},
+  {name:"סילביה",      who:"בודדת (70) · נוסעת עם אחת המשפחות",  adults:1, kids:0, tots:0, car:false},
+];
+
+function eur(n){
+  return "€" + n.toLocaleString("en-US", {minimumFractionDigits:2, maximumFractionDigits:2});
+}
+
+function famRowCost(row, fam){
+  if (row.perCar) return fam.car ? row.perCar : 0;
+  // Rows with a family ticket: cheaper than per-head once there are two adults, so use whichever is lower.
+  const childRate = (row.childWith2Adults && fam.adults >= 2) ? row.childWith2Adults : (row.child || 0);
+  const perHead = fam.adults*row.adult + fam.kids*childRate + (fam.tots3 || 0)*(row.tot3 || 0);
+  if (row.family && fam.adults >= 2) return Math.min(row.family, perHead);
+  return perHead;
+}
+
+function renderCosts(){
+  const famTotals = COST_FAMILIES.map(f => COST_ROWS.reduce((s,r)=> s + famRowCost(r,f), 0));
+
+  const blocks = COST_FAMILIES.map((f, i) => `
+    <div class="costFam">
+      <h3>${f.name}</h3>
+      <div class="who">${f.who}</div>
+      <table>
+        ${COST_ROWS.map(r => {
+          const v = famRowCost(r, f);
+          return `<tr${v === 0 ? ' class="free"' : ""}>
+            <td><span class="dnum">${r.day}</span><bdi>${r.label}</bdi></td>
+            <td>${v === 0 ? "—" : eur(v)}</td>
+          </tr>`;
+        }).join("")}
+        <tr class="sum"><td>סה״כ</td><td>${eur(famTotals[i])}</td></tr>
+      </table>
+    </div>`).join("");
+
+  return `
+    <div class="tag">תכנון תקציב</div>
+    <h2 class="title">עלויות האטרקציות</h2>
+    <div class="meta">רק אטרקציות שנמצאות במסלול הקבוע. מחירי כניסה בלבד - בלי טיסות, לינה, השכרת רכב, דלק, חניות וארוחות.</div>
+
+    ${blocks}
+
+    <div class="sectionLabel">🎁 מה מקבלים בחינם</div>
+    <div class="boxes">
+      <div class="box green"><b>כרטיס האורח מ-Schattauer</b>ה-Salzburger Sportwelt Card ניתן חינם לאורחי המלון וכולל כניסה חינם ל-Wagrain Wasserwelt, את Shuttleberg Kleinarl (טעון אישור ל-2026) והנחות מקומיות. מי שלן במקום אחר ישלם על Wasserwelt בנפרד.</div>
+    </div>
+
+    <div class="sectionLabel">💰 איפה אפשר לחסוך</div>
+    <div class="boxes">
+      <div class="box tan"><b>הפעוטות לא נכנסות למכרות — נצלו את זה</b>ב-Hallstatt מבוגר שנשאר עם הקטנות למעלה צריך רק כרטיס רכבל (29€) במקום המשולב (49€) - חיסכון של 20€ לכל מלווה. ב-Hallein, מבוגר שמוותר על המכרה ונשאר עם הקטנות בכפר הקלטים ואז עושה את קלטנבליץ משלם 7.50€ + 19.50€ = 27€ במקום 47€ - חיסכון של 20€ (הפעוטות נכנסות לכפר חינם). בסך הכל אפשר להוריד כ-80€ מהסכום הכולל.</div>
+      <div class="box tan"><b>Therme Amadé — קונים בקופה, לא אונליין</b>כשמשלמים שני מבוגרים, הילדים (6-15) משלמים רק תעריף שעתיים (13.50€ במקום 19€) - ההנחה ניתנת רק בקופה. הטבלה מניחה כרטיס 4 שעות בלי סאונה. בת 3:3 משלמת 4€, מתחת לגיל 3 חינם. ביום ההולדת - כניסה חינם עם תעודה.</div>
+      <div class="box tan"><b>הזמנה מראש אונליין</b>Geisterberg לבדו חוסך עד 15% בהזמנה מוקדמת (כ-6€ למבוגר). ב-Hallstatt ו-Hohenwerfen ההזמנה מראש לא בהכרח זולה יותר, אבל חוסכת תור - ובימים הצפופים זה שווה יותר מכסף.</div>
+    </div>
+
+    <div class="sectionLabel">⚠️ מה עוד לא סגור</div>
+    <div class="boxes">
+      <div class="box yellow"><b>גיל הפטור ב-Geisterberg</b>לא הצלחנו לאמת מאיזה גיל מתחיל התשלום שם. החישוב למעלה מניח שהפעוטות (2:2, 2:8, 3:3) פטורות. אם הפטור מתחיל רק מגיל 4 או 6 - התוספת עד כ-60€ לקבוצה. בקאפרון זה מתועד: עד גיל 5 חינם, ולכן שלושתן פטורות בוודאות.</div>
+      <div class="box tan"><b>הבת בת ה-6</b>ב-Hohenwerfen הטווח המוזל מתחיל בגיל 6 בדיוק, אז היא משלמת שם ככל ילד אחר ולא פטורה.</div>
+      <div class="box tan"><b>לא נכלל בטבלה</b>חצר הטירה בגמונדן (4-5€), הביקור ב-Therme Amadé ב-25.9, ארוחות וחניות. Schmittenhöhe ירדה מהמסלול (45€ למבוגר, 22.50€ לילד) - רלוונטית רק אם מחליפים אותה בקאפרון.</div>
+    </div>
+    <div class="footerbar">💡 המחירים נאספו ממקורות רשמיים ונכונים לעונת 2026 - כדאי לאמת מול אתרי האטרקציות סמוך לנסיעה.</div>
+  `;
+}
+
+/* ---------- Trivia quiz: multiple-choice questions about Austria + this trip ---------- */
+const TRIVIA = [
+  { q:"איך קוראים לבירה של אוסטריה?", options:["וינה","זלצבורג","גראץ","אינסברוק"], correct:0,
+    fact:"וינה היא הבירה הגדולה והיפה של אוסטריה — שם נוחתת הטיסה שלנו ביום הראשון!" },
+  { q:"באיזה מטבע משלמים באוסטריה?", options:["יורו","פרנק","דולר","לירה"], correct:0,
+    fact:"אוסטריה היא חברה באיחוד האירופי, ולכן משתמשים בה במטבע היורו." },
+  { q:"מה שם ההר הכי גבוה באוסטריה, שנתקרב אליו בטיול?", options:["Grossglockner","Everest","Matterhorn","Mont Blanc"], correct:0,
+    fact:"Grossglockner גבוה כמעט 3,800 מטר — נראה אותו מקרוב ביום 3 בטיול." },
+  { q:"באיזו שפה מדברים באוסטריה?", options:["גרמנית","צרפתית","איטלקית","ספרדית"], correct:0,
+    fact:"גרמנית היא השפה הרשמית של אוסטריה." },
+  { q:"מה שם הכפר היפהפה על שפת אגם, שדומה לציור?", options:["Hallstatt","Salzburg","Wagrain","Innsbruck"], correct:0,
+    fact:"Hallstatt כל כך מפורסם שבסין בנו עיר תאומה שנראית בדיוק כמוהו!" },
+  { q:"כמה ימים אנחנו נשארים באוסטריה בטיול הזה?", options:["10 ימים","3 ימים","חודש שלם","שבוע"], correct:0,
+    fact:"מ-24 בספטמבר עד 3 באוקטובר — 10 ימים של הרפתקאות!" },
+  { q:"מה הצבעים של דגל אוסטריה?", options:["אדום-לבן-אדום","כחול-לבן","ירוק-לבן-אדום","שחור-צהוב"], correct:0,
+    fact:"בגלל זה גם האתר הזה מעוצב באדום ולבן!" },
+  { q:"איזה סוג תחבורה עוזר לעלות על הרים בלי ללכת ברגל?", options:["רכבל","אופנוע","סירה","רכבת תחתית"], correct:0,
+    fact:"רכבלים (Seilbahn) פזורים בכל האלפים ומקצרים טיפוסים ארוכים." },
+  { q:"איזו מתכת לבנה הופקה בעבר במכרות ליד Hallstatt?", options:["מלח","זהב","נחושת","פחם"], correct:0,
+    fact:"יש שם אחד ממכרות המלח העתיקים בעולם — בני יותר מ-7,000 שנה!" },
+  { q:"איזה בעל חיים עם קרניים מפותלות אפשר לפעמים לראות בהרי האלפים?", options:["יעל אלפיני","פינגווין","קנגורו","פיל"], correct:0,
+    fact:"היעל האלפיני (Steinbock) מטפס על צוקים תלולים בזריזות מדהימה." },
+  { q:"איזה מלחין מפורסם נולד בזלצבורג?", options:["וולפגנג אמדאוס מוצרט","בטהובן","באך","ורדי"], correct:0,
+    fact:"מוצרט נולד בזלצבורג ב-1756 — אפשר עדיין לבקר בבית שבו גדל." },
+  { q:"איך אומרים 'תודה' בגרמנית?", options:["Danke","Merci","Gracias","Grazie"], correct:0,
+    fact:"מילה שימושית לכל הטיול — Danke schön אומר 'תודה רבה'." },
+  { q:"מה שם האגם השקט שנלך לידו ברגל קלה ליד Hallstatt?", options:["Gosausee","Wolfgangsee","Zeller See","Wörthersee"], correct:0,
+    fact:"Gosausee מציע נוף ישיר להר הקרחון Dachstein." },
+  { q:"איזו חיה קטנה שורקת בקול חד כשהיא מזהה סכנה בהרי האלפים?", options:["מרמיטה","דולפין","ג׳ירפה","תוכי"], correct:0,
+    fact:"המרמיטה (Murmeltier) חיה במחילות ומזהירה את החברות שלה בשריקה - אפשר לראות אותן בתצפית הקרחון וגם בפארק Ferleiten." },
+  { q:"איזו עוגה מפורסמת מגיעה מווינה, עם שוקולד ומשמש?", options:["עוגת זאכר (Sachertorte)","עוגת גבינה","טירמיסו","בקלאווה"], correct:0,
+    fact:"עוגת הזאכר הומצאה בווינה ב-1832 ונחשבת לאחת העוגות המפורסמות בעולם." },
+];
+
+/* ---------- Destination photos (Wikimedia Commons) ---------- */
+function wmFile(name, width){
+  return "https://commons.wikimedia.org/wiki/Special:FilePath/" + encodeURIComponent(name.replace(/ /g,"_")) + "?width=" + (width||1400);
+}
+function wmPage(name){
+  return "https://commons.wikimedia.org/wiki/File:" + encodeURIComponent(name.replace(/ /g,"_"));
+}
+const IMAGES = {
+  d2:  [ {f:"Gmunden - Schloss Ort (3).JPG", alt:"Schloss Ort, Gmunden"} ],
+  d6:  [ {f:"Hallstatt, Austria (37260661934).jpg", alt:"Hallstatt"},
+         {f:"Gosaulacke mit Blick zum Dachstein.jpg", alt:"Gosausee מול רכס Dachstein"} ],
+  d4:  [ {f:"St.-Johannes-Kirche in Sankt Johann im Pongau.jpg", alt:"St. Johann im Pongau"} ],
+  d5:  [ {f:"Hohenwerfen castle.jpg", alt:"מצודת Hohenwerfen"} ],
+  d3:  [ {f:"20190624.Kaiser-Franz-Joseph-Höhe, Grossglockner.-047.jpg", alt:"Kaiser-Franz-Josefs-Höhe, Grossglockner"} ],
+  d7:  [ {f:"20190129 Salzwelten 9353 (47332384992).jpg", alt:"מכרה המלח Salzwelten Hallein"} ],
+  d8:  [ {f:"Stausee Mooserboden Kaprun 01.jpg", alt:"סכר Mooserboden, Kaprun"},
+         {f:"Zell am see zeller see.jpg", alt:"Zell am See"} ],
+};
+function renderGallery(id){
+  const imgs = IMAGES[id];
+  if(!imgs || !imgs.length) return "";
+  return `<div class="photoGallery">${imgs.map(im => `
+    <figure>
+      <a href="${wmPage(im.f)}" target="_blank" rel="noopener">
+        <img src="${wmFile(im.f)}" alt="${im.alt}" loading="lazy"
+             onerror="this.closest('figure').style.display='none'">
+      </a>
+      <figcaption>${im.alt}</figcaption>
+    </figure>`).join("")}</div>`;
+}
+
+/* ---------- Map (Google Maps, no key) + Waze navigation ---------- */
+const DAY_ICON = {
+  checklist:"✅", forecast:"🌦️", d1:"✈️", d2:"🏞️", d6:"🏞️", d4:"🎢", d5:"🏰",
+  d3:"🏔️", d7:"⛏️", d8:"🚡", d9:"🎠", d10:"✈️", alt:"📋", costs:"💶", trivia:"🎯",
+};
+const LOC_ICON = {
+  airport:"✈️", vienna:"🏛️", gmunden:"🏞️", schlossort:"🏰", wagrain:"🏡", wagrain_billa:"🛒", wagrain_spar:"🛒", altenmarkt_mpreis:"🛒", altenmarkt_billa:"🛒", gmunden_eurospar:"🛒", hallstatt:"🏘️", hallstatt_salt:"⛏️", gosausee:"🏞️",
+  alpendorf:"🎢", werfen:"🏰", hallein_salt:"⛏️", keltendorf:"🏺", keltenblitz:"🛝", amade:"♨️",
+  ferleiten:"🦌", fuscher_torl:"🌄", hochtor:"🏔️", glockner:"🏔️",
+  stwolfgang:"🚂", lombardi:"🍽️", wasserwelt:"🌊", zell:"🚡", schmittenhoehe:"🚠", kaprun:"💧", melk:"⛪", durnstein:"⛪", parndorf:"🛍️", fantasiana:"🎠",
+  zwoelferhorn:"🚡", liechtensteinklamm:"🏞️", krimml:"💦", shuttleberg:"🚡",
+  hohensalzburg:"🏰", hausdernatur:"🏛️", werfenweng:"🏞️",
+};
+
+/* ---------- Weather: per-day forecast (Open-Meteo, no key needed) for the day's
+   main destination, shown between the map and the schedule. ---------- */
+const WEATHER_LOC = {
+  d1:"airport", d2:"gmunden", d6:"hallstatt", d4:"alpendorf", d5:"werfen",
+  d3:"glockner", d7:"hallein_salt", d8:"kaprun", d9:"fantasiana", d10:"airport",
+};
+const WEATHER_CACHE = {};
+let weatherSeq = 0;
+
+function weatherEmoji(code){
+  if (code === 0) return "☀️";
+  if (code === 1 || code === 2) return "🌤️";
+  if (code === 3) return "☁️";
+  if (code === 45 || code === 48) return "🌫️";
+  if ([51,53,55,56,57,80,81,82].includes(code)) return "🌦️";
+  if ([61,63,65,66,67].includes(code)) return "🌧️";
+  if ([71,73,75,77,85,86].includes(code)) return "❄️";
+  if ([95,96,99].includes(code)) return "⛈️";
+  return "🌡️";
+}
+
+/* Which clock hours a given day's schedule actually spans, read straight from that day's
+   table so it can never drift out of sync when times are edited. Used to tint the hours
+   the family is out of the hotel. */
+function dayHourRange(id){
+  const day = DAYS.find(d=>d.id===id);
+  if (!day) return null;
+  const tmp = document.createElement("div");
+  tmp.innerHTML = day.render();
+  const hours = [];
+  tmp.querySelectorAll("table.sched tr").forEach(tr=>{
+    const tds = tr.querySelectorAll("td");
+    if (tds.length < 2) return;
+    for (const m of tds[1].textContent.matchAll(/(\d{1,2}):(\d{2})/g)){
+      hours.push(parseInt(m[1],10));
+    }
+  });
+  if (!hours.length) return null;
+  return [Math.min(...hours), Math.max(...hours)];
+}
+
+const HOUR_FROM = 6, HOUR_TO = 22;   // outside this the strip is just padding
+
+function renderHourly(hourly, id){
+  if (!hourly || !hourly.time || !hourly.time.length) return "";
+  const range = dayHourRange(id);
+  const cells = [];
+  hourly.time.forEach((iso, i) => {
+    const h = parseInt(iso.slice(11,13), 10);
+    if (h < HOUR_FROM || h > HOUR_TO) return;
+    const t = Math.round(hourly.temperature_2m[i]);
+    const r = hourly.precipitation_probability?.[i];
+    const out = range && h >= range[0] && h <= range[1];
+    cells.push(`<div class="wxHour${out?" out":""}">
+      <div class="hr">${String(h).padStart(2,"0")}</div>
+      <div class="ic">${weatherEmoji(hourly.weathercode[i])}</div>
+      <div class="tp">${t}°</div>
+      <div class="rn${r>=50?" wet":""}">${r==null?"–":r+"%"}</div>
+    </div>`);
+  });
+  if (!cells.length) return "";
+  return `<div class="wxHours">${cells.join("")}</div>
+    <div class="wxNote">${range?"מודגש בזהב: השעות שאתם בחוץ לפי הלו״ז של היום. ":""}גללו לצדדים לשעות נוספות.</div>`;
+}
+
+async function injectWeather(id){
+  const card = document.getElementById("weatherCard");
+  const locKey = WEATHER_LOC[id];
+  const date = DAY_DATES[id];
+  if (!locKey || !date){
+    card.hidden = true;
+    return;
+  }
+  const mySeq = ++weatherSeq;
+  card.hidden = false;
+  card.innerHTML = `<div class="wxTop"><span class="weatherLoading">🌦️ טוען תחזית ל-${LOC[locKey].label}…</span></div>`;
+
+  const cacheKey = locKey + "_" + date;
+  try {
+    let data = WEATHER_CACHE[cacheKey];
+    if (!data){
+      const loc = LOC[locKey];
+      const url = `https://api.open-meteo.com/v1/forecast?latitude=${loc.lat}&longitude=${loc.lon}`
+        + `&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_probability_max`
+        + `&hourly=temperature_2m,precipitation_probability,weathercode`
+        + `&timezone=Europe%2FVienna&start_date=${date}&end_date=${date}`;
+      const resp = await fetch(url);
+      if (!resp.ok) throw new Error("weather http " + resp.status);
+      data = await resp.json();
+      WEATHER_CACHE[cacheKey] = data;
+    }
+    if (mySeq !== weatherSeq) return; // a newer day was selected meanwhile — drop this result
+    const d = data.daily;
+    if (!d || !d.time || !d.time.length){
+      card.innerHTML = `<div class="wxTop"><span class="weatherNA">📅 התחזית ל-${LOC[locKey].label} עדיין לא זמינה — תופיע כאן כשבועיים-שלושה לפני התאריך.</span></div>`;
+      return;
+    }
+    const code = d.weathercode[0];
+    const max = Math.round(d.temperature_2m_max[0]);
+    const min = Math.round(d.temperature_2m_min[0]);
+    const rain = d.precipitation_probability_max[0];
+    card.innerHTML = `
+      <div class="wxTop">
+        <span class="weatherIcon">${weatherEmoji(code)}</span>
+        <span class="weatherTemps"><b>${max}°</b> / ${min}°</span>
+        <span class="weatherRain">🌧️ ${rain}%</span>
+        <span class="weatherLoc">${LOC[locKey].label}</span>
+      </div>
+      ${renderHourly(data.hourly, id)}
+    `;
+    scrollHoursIntoView(card);
+  } catch(e){
+    if (mySeq !== weatherSeq) return;
+    card.innerHTML = `<div class="wxTop"><span class="weatherNA">מזג האוויר לא נטען כרגע — שאר האתר פועל כרגיל.</span></div>`;
+  }
+}
+
+// The strip starts at 06:00, but the hours worth looking at are the ones on the schedule —
+// so nudge it to the first gold cell instead of leaving the user on an empty dawn.
+// scrollIntoView is used rather than setting scrollLeft: horizontal scroll offsets are
+// mirrored (and inconsistently signed) in RTL, and this sidesteps that entirely.
+// block:"nearest" keeps it from scrolling the page vertically as a side effect.
+function scrollHoursIntoView(card){
+  const first = card.querySelector(".wxHour.out");
+  if (first) first.scrollIntoView({inline:"start", block:"nearest"});
+}
+
+/* ---------- Leaflet map: full route (muted) + today's highlighted segment,
+   drawn as the real driving road (via OSRM, no key) with a straight-line fallback,
+   plus a base-layer toggle (street/topo) and a fullscreen mode. ---------- */
+let leafletMap = null;
+let mapLayers = []; // markers/polylines currently on the map, cleared+rebuilt on each render
+let mapGen = 0;      // bumped on every updateMap() call so stale async work (routes, animations) can bail out
+let streetLayer = null, topoLayer = null;
+let currentLayerMode = "street";
+
+const ROUTE_CACHE = {};
+async function fetchRoute(keys){
+  const cacheKey = keys.join(",");
+  if (ROUTE_CACHE[cacheKey]) return ROUTE_CACHE[cacheKey];
+  const coordStr = keys.map(k => `${LOC[k].lon},${LOC[k].lat}`).join(";");
+  const url = `https://router.project-osrm.org/route/v1/driving/${coordStr}?overview=full&geometries=geojson`;
+  const resp = await fetch(url);
+  if (!resp.ok) throw new Error("osrm http " + resp.status);
+  const data = await resp.json();
+  if (data.code !== "Ok" || !data.routes || !data.routes.length) throw new Error("osrm no route");
+  const route = data.routes[0];
+  const result = {
+    latlngs: route.geometry.coordinates.map(c => [c[1], c[0]]),
+    distanceKm: route.distance / 1000,
+    durationMin: route.duration / 60,
+  };
+  ROUTE_CACHE[cacheKey] = result;
+  return result;
+}
+
+// Reveals a polyline progressively (a light "drawing" animation) rather than popping in at once.
+// `gen` is the mapGen snapshot at call time — if a newer updateMap() has since run, we quietly stop.
+function animatePolyline(latlngs, options, gen, duration){
+  const line = L.polyline([], options).addTo(leafletMap);
+  mapLayers.push(line);
+  const total = latlngs.length;
+  if (total < 2){ line.setLatLngs(latlngs); return line; }
+  const start = performance.now();
+  function step(now){
+    if (gen !== mapGen) return;
+    const t = Math.min(1, (now - start) / duration);
+    const count = Math.max(2, Math.round(total * t));
+    line.setLatLngs(latlngs.slice(0, count));
+    if (t < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+  return line;
+}
+
+function initMap(){
+  if (typeof L === "undefined"){
+    document.getElementById("mapDiv").innerHTML =
+      '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--muted);font-size:13px;padding:12px;text-align:center;">המפה לא נטענה (בעיית רשת) — שאר האתר פועל כרגיל.</div>';
+    return;
+  }
+  leafletMap = L.map("mapDiv", {scrollWheelZoom:false});
+  streetLayer = L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
+    subdomains:"abcd",
+    maxZoom:19,
+    attribution:"© CARTO © OpenStreetMap contributors"
+  });
+  topoLayer = L.tileLayer("https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png", {
+    subdomains:"abc",
+    maxZoom:17,
+    attribution:"© OpenTopoMap (CC-BY-SA) © OpenStreetMap contributors"
+  });
+  streetLayer.addTo(leafletMap);
+
+  const layerBtn = document.getElementById("mapLayerBtn");
+  if (layerBtn){
+    layerBtn.addEventListener("click", () => {
+      if (currentLayerMode === "street"){
+        leafletMap.removeLayer(streetLayer);
+        topoLayer.addTo(leafletMap);
+        currentLayerMode = "topo";
+        layerBtn.textContent = "🗺️";
+        layerBtn.title = "עבור לתצוגת רחוב";
+      } else {
+        leafletMap.removeLayer(topoLayer);
+        streetLayer.addTo(leafletMap);
+        currentLayerMode = "street";
+        layerBtn.textContent = "🛰️";
+        layerBtn.title = "עבור לתצוגה טופוגרפית";
+      }
+    });
+  }
+
+  const fullBtn = document.getElementById("mapFullBtn");
+  const mapCardEl = document.getElementById("mapCard");
+  if (fullBtn && mapCardEl){
+    fullBtn.addEventListener("click", () => {
+      const isFull = mapCardEl.classList.toggle("fullscreen");
+      document.body.classList.toggle("mapFsOpen", isFull);
+      fullBtn.textContent = isFull ? "✕" : "⛶";
+      fullBtn.title = isFull ? "סגור מסך מלא" : "הרחב למסך מלא";
+      setTimeout(() => leafletMap.invalidateSize(), 260);
+    });
+  }
+}
+
+function fmtRouteInfo(distanceKm, durationMin){
+  const km = Math.round(distanceKm);
+  const h = Math.floor(durationMin / 60), m = Math.round(durationMin % 60);
+  const timeStr = h > 0 ? `${h}:${String(m).padStart(2,"0")} שעות` : `${m} דק׳`;
+  return `<span>🛣️ <b>${km}</b> ק"מ</span><span>⏱️ <b>${timeStr}</b> נסיעה</span>`;
+}
+
+async function updateMap(segment, isOverview){
+  if (!leafletMap) return;
+  mapLayers.forEach(l=>leafletMap.removeLayer(l));
+  mapLayers = [];
+  const gen = ++mapGen;
+
+  const routeInfoEl = document.getElementById("mapRouteInfo");
+  if (routeInfoEl) routeInfoEl.hidden = true;
+
+  const keys = segment.length ? segment : FULL_ROUTE;
+  const uniqueKeys = [...new Set(keys)];
+
+  // Straight-line coordinates — drawn immediately so the map never waits on the network,
+  // then swapped for the real road route (via OSRM) if/when that resolves.
+  const fullStraight = FULL_ROUTE.map(k=>[LOC[k].lat, LOC[k].lon]);
+  const segStraight = keys.map(k=>[LOC[k].lat, LOC[k].lon]);
+
+  let fullLine = animatePolyline(fullStraight, {color:"#cbb9ba", weight:3, dashArray:"2,8", opacity:.8}, gen, 500);
+  let segLine = null;
+  if (!isOverview && keys.length > 1){
+    segLine = animatePolyline(segStraight, {color:"#C8102E", weight:5, opacity:.9}, gen, 650);
+  }
+
+  // Markers: Wagrain (home base) gets a pin shape; today's other stops are highlighted red dots;
+  // in overview mode all stops are plain muted dots. Clicking a marker pops up its name + a Waze link.
+  uniqueKeys.forEach(k=>{
+    const loc = LOC[k];
+    const isBase = (k === "wagrain");
+    const isActive = !isOverview && !isBase;
+    const cls = isBase ? "map-marker base" : (isActive ? "map-marker active" : "map-marker");
+    const size = isBase ? [18,14] : (isActive ? [17,17] : [12,12]);
+    const anchor = isBase ? [9,14] : (isActive ? [9,9] : [6,6]);
+    const icon = L.divIcon({className:"", html:`<div class="${cls}"></div>`, iconSize:size, iconAnchor:anchor});
+    const marker = L.marker([loc.lat, loc.lon], {icon}).addTo(leafletMap);
+    const tClass = "map-tooltip" + (isBase ? " base-tooltip" : (isActive ? " active-tooltip" : ""));
+    marker.bindTooltip(loc.label, {className:tClass, direction:"top", offset:[0,-10]});
+    marker.bindPopup(
+      `<div style="font-family:Heebo,sans-serif;text-align:center;">
+        <b>${loc.label}</b><br>
+        <a href="${wazeLink(k)}" target="_blank" rel="noopener" style="color:#C8102E;font-weight:700;text-decoration:none;">🧭 נווט ב-Waze</a>
+      </div>`
+    );
+    mapLayers.push(marker);
+  });
+
+  // Fit bounds to the relevant set of points (based on the straight-line coordinates —
+  // available immediately, and close enough even once the real route comes in).
+  const boundsKeys = isOverview ? FULL_ROUTE : uniqueKeys;
+  const bounds = L.latLngBounds(boundsKeys.map(k=>[LOC[k].lat, LOC[k].lon]));
+  leafletMap.fitBounds(bounds, {padding:[30,30], maxZoom: isOverview ? 9 : 12});
+  setTimeout(()=>leafletMap.invalidateSize(), 50);
+
+  // Upgrade to the real driving route in the background; silently keep the straight
+  // lines if the routing service is unreachable.
+  fetchRoute(FULL_ROUTE).then(r => {
+    if (gen !== mapGen) return;
+    leafletMap.removeLayer(fullLine);
+    const idx = mapLayers.indexOf(fullLine);
+    if (idx !== -1) mapLayers.splice(idx, 1);
+    fullLine = animatePolyline(r.latlngs, {color:"#cbb9ba", weight:3, dashArray:"2,8", opacity:.8}, gen, 500);
+  }).catch(()=>{});
+
+  if (!isOverview && keys.length > 1){
+    fetchRoute(keys).then(r => {
+      if (gen !== mapGen) return;
+      leafletMap.removeLayer(segLine);
+      const idx = mapLayers.indexOf(segLine);
+      if (idx !== -1) mapLayers.splice(idx, 1);
+      segLine = animatePolyline(r.latlngs, {color:"#C8102E", weight:5, opacity:.9}, gen, 800);
+      if (routeInfoEl){
+        routeInfoEl.innerHTML = fmtRouteInfo(r.distanceKm, r.durationMin);
+        routeInfoEl.hidden = false;
+      }
+    }).catch(()=>{});
+  }
+}
+
+function wazeLink(k){
+  const loc = LOC[k];
+  if (loc.address){
+    return `https://waze.com/ul?q=${encodeURIComponent(loc.address)}&navigate=yes`;
+  }
+  return `https://waze.com/ul?ll=${loc.lat}%2C${loc.lon}&navigate=yes`;
+}
+
+/* Per-day map of [substring appearing in a schedule row's first cell -> LOC key],
+   used to attach an inline Waze button to the specific row that marks arrival/start
+   at that destination. Substrings are exact fragments of the existing row text. */
+const ROW_WAZE = {
+  d1: [ ["נחיתה ואיסוף מזוודות","airport"], ["לילה: MOXY Vienna Airport","airport"] ],
+  d2: [ ["הגעה ל-Gmunden","gmunden"], ["גשר העץ ל-Schloss Ort","schlossort"], ["קנייה גדולה באלטנמרקט","altenmarkt_mpreis"], ["עצירה בסופרמרקט BILLA","wagrain_billa"], ["צ׳ק-אין והתארגנות","wagrain"], ["נסיעה ל-Erlebnis-Therme Amadé","amade"], ["חזרה למלון בוואגריין","wagrain"] ],
+  d6: [ ["Hallstatt: כפר","hallstatt"], ["Skywalk או מכרה המלח","hallstatt_salt"], ["Gosausee והליכה קלה","gosausee"], ["חזרה ל-Wagrain","wagrain"] ],
+  d4: [ ["הגעה ל-Alpendorf","alpendorf"], ["St. Johann: מרכז עתיק","alpendorf"], ["חזרה ל-Wagrain","wagrain"] ],
+  d5: [ ["חניה ועלייה במעלית לטירה","werfen"], ["נסיעה ל-Erlebnis-Therme Amadé","amade"], ["חזרה למלון בוואגריין","wagrain"] ],
+  d3: [ ["עצירה ב-Fuscher Törl","fuscher_torl"], ["עצירה ב-Hochtor","hochtor"], ["תצפית הקרחון ב-Kaiser Franz Josef Höhe","glockner"], ["Erlebnispark Ferleiten","ferleiten"], ["Wagrain","wagrain"] ],
+  d7: [ ["הגעה למכרה המלח","hallein_salt"], ["כפר הקלטים SALINA","keltendorf"], ["Keltenblitz","keltenblitz"], ["נסיעה חזרה ל-Wagrain","wagrain"], ["ארוחת ערב במסעדת Lombardi","lombardi"], ["חזרה למלון","wagrain"] ],
+  d8: [ ["חניה בחניון החינמי ליד קופת Kesselfall","kaprun"], ["נסיעה ל-Zell am See","zell"], ["חזרה ל-Wagrain","wagrain"] ],
+  d9: [ ["הגעה ל-FANTASIANA","fantasiana"], ["יציאה לווינה","airport"], ["MOXY, החזרת רכב ואריזה","airport"] ],
+};
+
+function injectRowWaze(id){
+  const rules = ROW_WAZE[id];
+  if(!rules) return;
+  panelEl.querySelectorAll("table.sched td:first-child").forEach(td=>{
+    const text = td.textContent;
+    const rule = rules.find(([sub])=> text.includes(sub));
+    if(!rule) return;
+    const [, locKey] = rule;
+    const a = document.createElement("a");
+    a.href = wazeLink(locKey);
+    a.target = "_blank";
+    a.rel = "noopener";
+    a.className = "rowWaze";
+    a.title = "נווט ב-Waze ל-" + LOC[locKey].label;
+    a.textContent = "🧭";
+    td.appendChild(a);
+  });
+}
+
+/* Per-day map of [substring in a schedule row -> congestion warning], mirroring ROW_WAZE.
+   Each flagged row gets a 🚦 badge; tapping it opens a short note with the peak window and
+   what to do about it. Only genuine choke points are listed — badging every drive would
+   make the schedule unreadable and train people to ignore the icon. */
+const TRAFFIC = {
+  d2: [ ["המשך נסיעה ל-Wagrain", {
+    peak:"שישי 14:00-18:00",
+    text:"ה-25.9 הוא יום שישי, וה-A10 דרומה מזלצבורג לכיוון מנהרת Tauern היא עורק תנועת הנופש המרכזי של אוסטריה - זה החלון העמוס בשבוע. אפשר להוסיף 20-40 דק׳. אם אתם מאחרים מגמונדן, עדיף דווקא לצאת מאוחר יותר (אחרי 18:00) מאשר להיתקע בשיא."
+  }] ],
+  d6: [ ["יציאה מוקדמת", {
+    peak:"חניוני Hallstatt מתמלאים 10:00-15:00",
+    text:"הבעיה ב-Hallstatt היא לא הכביש אלא החניה - החניונים מתמלאים בשעות הבוקר המאוחרות ואז נוצר תור ארוך בכניסה לכפר. יציאה ב-07:45 היא בדיוק מה שמונע את זה. אל תאחרו."
+  }] ],
+  d3: [ ["תצפית הקרחון ב-Kaiser Franz Josef Höhe", {
+    peak:"חניון התצפית 10:00-14:00",
+    text:"הכביש עצמו כמעט אף פעם לא נתקע, אבל החניון בקייזר-פרנץ-יוזפס-הֶהֶה מתמלא בצהריים ולפעמים סוגרים אותו זמנית. היציאה ב-08:00 והגעה לתצפית עד ~11:30 מביאות אתכם בתחילת הגל — בשבת עלול להיות עמוס יותר."
+  }] ],
+  d7: [ ["יציאה מ-Wagrain", {
+    peak:"07:00-09:00 לכיוון זלצבורג",
+    text:"ה-A10 צפונה נכנסת לשעת השיא של הבוקר סביב זלצבורג, אבל יציאת Hallein נמצאת לפני העיר. ביציאה ב-09:00 כבר עוברים אחרי השיא - צפוי תנועה זורמת, לכל היותר כמה דקות תוספת."
+  }] ],
+  d9: [ ["יציאה לווינה", {
+    peak:"שישי 15:00-18:30 בכניסה לווינה",
+    text:"ה-2.10 הוא יום שישי. ביציאה מהפארק ב-14:30 מגיעים לאזור וינה בסביבות 17:00 — בתוך השיא. תכננו 20-30 דק׳ תוספת. כל רבע שעה של איחור ביציאה מהפארק מוסיפה עוד. חלופות: לצאת ב-13:30 ולהגיע לפני השיא, או לנסוע אחרי 19:00 בכביש פנוי. הבוקר (יציאה ב-09:00) עובר את זלצבורג אחרי שיא היוממים."
+  }] ],
+};
+
+function injectTraffic(id){
+  const rules = TRAFFIC[id];
+  if(!rules) return;
+  panelEl.querySelectorAll("table.sched td:first-child").forEach(td=>{
+    const text = td.textContent;
+    const rule = rules.find(([sub])=> text.includes(sub));
+    if(!rule) return;
+    const [, info] = rule;
+    const note = document.createElement("div");
+    note.className = "trafficNote";
+    note.hidden = true;
+    note.innerHTML = `<b>🚦 שעת שיא: ${info.peak}</b><br>${info.text}`;
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "rowTraffic";
+    btn.textContent = "🚦";
+    btn.title = "צפוי עומס - " + info.peak;
+    btn.setAttribute("aria-label", "פרטי עומס תנועה");
+    btn.setAttribute("aria-expanded", "false");
+    btn.addEventListener("click", ()=>{
+      const open = note.hidden;
+      note.hidden = !open;
+      btn.setAttribute("aria-expanded", String(open));
+    });
+    td.appendChild(btn);
+    td.appendChild(note);
+  });
+}
+
+/* Per-day road money: Vignette, point tolls (Sondermaut) and paid parking at the stops,
+   mirroring the TRAFFIC structure. Each flagged row gets a 💶 badge that opens the detail,
+   and renderToll() prints the day's summary at the bottom of the page. Only real payments
+   are listed; days that cost nothing say so explicitly, so silence is never ambiguous. */
+const TOLL = {
+  d1: {
+    sum: ["<span class=\"none\">אין עלויות דרך היום</span> — MOXY נמצא בתוך מתחם שדה התעופה, המעבר מהטרמינל הוא דקות ספורות, והרכבים נאספים רק מחר בבוקר."],
+  },
+  d2: {
+    rows: [
+      ["יציאה מ-MOXY", {t:"Vignette", c:"12.80€ ל-10 ימים", x:"זהו יום הנהיגה הראשון, וכל היום כמעט כולו על אוטוסטרדות: A1 מווינה לכיוון גמונדן ואז A10 דרומה. באוסטריה כל אוטוסטרדה דורשת מדבקת Vignette. ברוב חברות ההשכרה המקומיות הרכב מגיע עם מדבקה שנתית - לוודא את זה בקבלת הרכב בבוקר. אם אין: 12.80€ ל-10 ימים או 9.60€ ליום, נרכשת דיגיטלית באתר/אפליקציית ASFINAG (תקפה מיד) או בכל תחנת דלק."}],
+      ["המשך נסיעה ל-Wagrain", {t:"אגרת מנהרה", c:"לא נדרשת", x:"מנהרת Tauern בתשלום (14.50€) נמצאת דרומית ליציאת Eben/Altenmarkt, ואנחנו יורדים מהאוטוסטרדה לפניה - כך שאין כאן אגרה נקודתית."}],
+      ["הגעה ל-Gmunden, חניה חינמית", {t:"חניה", c:"חינם", x:"חניון Toscanapark ליד Schloss Ort חינמי, וכך גם החניות בסופרים ובטרמה."}],
+    ],
+    sum: ["<b>A1 + A10</b> — נדרשת Vignette: 12.80€ ל-10 ימים. לבדוק בקבלת הרכב בבוקר אם כבר יש מדבקה.",
+          "<b>אגרת מנהרה</b> — לא נדרשת: מנהרת Tauern נמצאת דרומית ליציאה שלנו.",
+          "<span class=\"none\">חניה: חינם</span> — Toscanapark בגמונדן, הסופרים, המלון והטרמה."],
+  },
+  d6: {
+    rows: [
+      ["Hallstatt: כפר", {t:"חניה בתשלום", c:"~10-20€", x:"החניונים P1-P4 בהלשטט הם המחיר האמיתי של היום: 15 דק׳ ראשונות חינם, שעה 5€, 3-4 שעות כ-10€, 5-6 שעות כ-12€, 7-12 שעות כ-15€, כרטיס יום עד 20€. משלמים באוטומט (כרטיס או מזומן). P2 הוא הקרוב לרכבל ולמכרה, P1 לכפר. אי אפשר להזמין מקום מראש."}],
+      ["Gosausee והליכה קלה", {t:"חניה", c:"תשלום קטן", x:"בחניון Gosausee יש אוטומט תשלום בסכום נמוך לכמה שעות. שווה להחזיק מטבעות ברכב למקרה שהאוטומט לא מקבל כרטיס."}],
+    ],
+    sum: ["<b>חניה בהלשטט</b> — ~10-20€ לרכב, לפי מספר השעות. זו העלות המשמעותית של היום.",
+          "<b>חניה ב-Gosausee</b> — תשלום קטן באוטומט.",
+          "<span class=\"none\">אין אגרות ואין צורך ב-Vignette</span> — כל המסלול על כבישים בין-עירוניים (B166/B162)."],
+  },
+  d4: {
+    sum: ["<span class=\"none\">היום הזה לא עולה כסף בדרך</span> — הנסיעה כולה מקומית, בלי אוטוסטרדה ובלי אגרה.",
+          "<b>חניה</b> — חניון הרכבל באלפנדורף חינם; במרכז St. Johann יש אזורי חניה מוסדרים לזמן קצוב, כדאי להחנות בחניון ולא ברחוב."],
+  },
+  d5: {
+    rows: [
+      ["חניה ועלייה במעלית לטירה", {t:"חניה + מעלית", c:"חניה חינם", x:"החניון מתחת למצודת Hohenwerfen חינמי. המעלית לחצר הטירה עולה כ-4€ לאדם הלוך-חזור, וכבר כלולה בכרטיס ה-All-Inclusive שאנחנו קונים."}],
+      ["נסיעה ל-Erlebnis-Therme Amadé", {t:"Vignette", c:"אפשר גם בלי", x:"הדרך המהירה היא A10 דרומה עד יציאת Eben/Altenmarkt (דורשת Vignette, בלי אגרת מנהרה). חלופה בלי אוטוסטרדה: דרך Bischofshofen ו-Wagrain - כמה דקות יותר."}],
+    ],
+    sum: ["<b>Vignette</b> — רק אם נוסעים ב-A10 מהטירה לתרמה; יש חלופה דרך Bischofshofen.",
+          "<span class=\"none\">חניה בהוהנוורפן: חינם</span> — המעלית (~4€) כלולה בכרטיס.",
+          "<span class=\"none\">חניה בתרמה: חינם</span>."],
+  },
+  d3: {
+    rows: [
+      ["תחילת אזור הכביש האלפיני", {t:"אגרת כביש", c:"46.50€ לרכב", x:"Großglockner Hochalpenstraße היא Sondermaut - אגרה נפרדת שלא מכוסה ב-Vignette. כרטיס יום לרכב כ-46.50€ (כ-40€ לרכב חשמלי, כ-36.50€ לנסיעות אחרי 18:00). משלמים בקופה בכניסה במזומן או בכרטיס, בלי הזמנה מראש. החניה בכל נקודות התצפית לאורך הכביש כלולה במחיר."}],
+      ["Wild- & Erlebnispark Ferleiten", {t:"כניסה", c:"15€ לאדם", x:"פארק החיות: כ-15€ מגיל 4, קשישים עם תעודה כ-13.50€, ילדים עד גיל 4 חינם. פארק השעשועים והחניה - חינם. הפארק נמצא לפני תחנת האגרה, כך שאפשר לעצור בו גם בלי לשלם על הכביש."}],
+    ],
+    sum: ["<b>אגרת Grossglockner</b> — 46.50€ לרכב ליום (40€ חשמלי, 36.50€ אחרי 18:00). לא כלולה ב-Vignette.",
+          "<b>Wildpark Ferleiten</b> — ~15€ לאדם מגיל 4; החניה ופארק השעשועים חינם.",
+          "<span class=\"none\">חניה לאורך הכביש: כלולה באגרה</span> — כולל החניון בתצפית הקרחון.",
+          "אין צורך ב-Vignette במסלול היום (B163/B311)."],
+  },
+  d7: {
+    rows: [
+      ["יציאה מ-Wagrain", {t:"Vignette", c:"נדרשת", x:"הנסיעה לבאד דירנברג וחזרה היא על ה-A10 - דורשת Vignette. אין אגרת מנהרה בכיוון הזה."}],
+      ["הגעה למכרה המלח", {t:"חניה", c:"חינם (לאמת)", x:"חניון גדול למבקרים בבאד דירנברג, משותף למכרה ול-Keltenblitz; לפי הדיווחים ללא תשלום. לאמת בהגעה."}],
+    ],
+    sum: ["<b>A10</b> — נדרשת Vignette.",
+          "<b>חניה בבאד דירנברג</b> — לפי הדיווחים חינם; לאמת בהגעה.",
+          "<span class=\"none\">Lombardi בוואגריין: חניה במקום</span>."],
+  },
+  d8: {
+    rows: [
+      ["חניה בחניון החינמי ליד קופת Kesselfall", {t:"חניה", c:"חינם", x:"החניון בקסלפאל חינמי, וזו גם הדרך היחידה להגיע לסכר - אין גישה ברכב פרטי מעבר לנקודה הזו. ההסעה והמעלית המשופעת הן בכרטיס הנפרד (39.50€ למבוגר)."}],
+      ["נסיעה ל-Zell am See", {t:"חניה בתשלום", c:"~2€ לשעה", x:"בצל אם זה עצמה החניה סביב הטיילת והמרכז היא בתשלום (חניון תת-קרקעי ואזורים מוסדרים). חלופה חינמית: חניוני תחנת העמק של Schmittenhöhe (חניונים 2-6 חינם, 08:00-19:00) והליכה קצרה או אוטובוס מקומי."}],
+    ],
+    sum: ["<span class=\"none\">אין אגרות היום</span> — כל המסלול על B163/B311, בלי אוטוסטרדה.",
+          "<b>חניה בקפרון</b> — חינם בקסלפאל.",
+          "<b>חניה בצל אם זה</b> — בתשלום במרכז (~2€ לשעה); חינם בחניוני Schmittenhöhe."],
+  },
+  d9: {
+    rows: [
+      ["יציאה מ-Wagrain", {t:"Vignette", c:"נדרשת", x:"A10 צפונה ואז A1 — אוטוסטרדות שדורשות Vignette. אין אגרת מנהרה בכיוון הזה."}],
+      ["הגעה ל-FANTASIANA", {t:"חניה", c:"חינם", x:"חניה חינמית ישירות ליד כניסת הפארק."}],
+      ["יציאה לווינה", {t:"Vignette", c:"נדרשת", x:"A1 מזרחה לכיוון וינה ומשם לשדה — כל הדרך על אוטוסטרדות עם Vignette."}],
+    ],
+    sum: ["<b>A10 + A1</b> — נדרשת Vignette.",
+          "<span class=\"none\">חניה ב-FANTASIANA: חינם</span>."],
+  },
+};
+
+function injectToll(id){
+  const data = TOLL[id];
+  if(!data || !data.rows) return;
+  panelEl.querySelectorAll("table.sched td:first-child").forEach(td=>{
+    const text = td.textContent;
+    const rule = data.rows.find(([sub])=> text.includes(sub));
+    if(!rule) return;
+    const [, info] = rule;
+    const note = document.createElement("div");
+    note.className = "tollNote";
+    note.hidden = true;
+    note.innerHTML = `<b>💶 ${info.t}: ${info.c}</b><br>${info.x}`;
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "rowToll";
+    btn.textContent = "💶";
+    btn.title = info.t + " - " + info.c;
+    btn.setAttribute("aria-label", "פרטי עלות בשורה זו");
+    btn.setAttribute("aria-expanded", "false");
+    btn.addEventListener("click", ()=>{
+      const open = note.hidden;
+      note.hidden = !open;
+      btn.setAttribute("aria-expanded", String(open));
+    });
+    td.appendChild(btn);
+    td.appendChild(note);
+  });
+}
+
+// The day's road-money summary, printed at the bottom of the day page.
+function renderToll(id){
+  const data = TOLL[id];
+  if(!data || !data.sum) return "";
+  return `<div class="tollBox"><b>💶 עלויות דרך ביום הזה</b><ul>${
+    data.sum.map(li => `<li>${li}</li>`).join("")
+  }</ul></div>`;
+}
+
+/* ---------- Smart Waze target: reads today's schedule + the clock, and figures out
+   which point on today's route makes sense to navigate to right now. ---------- */
+function parseTimeToMinutes(text){
+  const m = text.match(/(\d{1,2}):(\d{2})/);
+  if(!m) return null;
+  return parseInt(m[1],10)*60 + parseInt(m[2],10);
+}
+
+function getRowTimes(id){
+  const rules = ROW_WAZE[id];
+  if(!rules) return [];
+  const day = DAYS.find(d=>d.id===id);
+  if(!day) return [];
+  const tmp = document.createElement("div");
+  tmp.innerHTML = day.render();
+  const out = [];
+  tmp.querySelectorAll("table.sched tr").forEach(tr=>{
+    const tds = tr.querySelectorAll("td");
+    if(tds.length < 2) return;
+    const text = tds[0].textContent;
+    const rule = rules.find(([sub])=> text.includes(sub));
+    if(!rule) return;
+    const [, locKey] = rule;
+    out.push({loc:locKey, label:text.split("—")[0].trim(), minutes: parseTimeToMinutes(tds[1].textContent)});
+  });
+  return out;
+}
+
+function getSmartTarget(id){
+  const rows = getRowTimes(id);
+  if(!rows.length) return null;
+  const now = new Date();
+  const nowMin = now.getHours()*60 + now.getMinutes();
+  // rows are already in schedule (chronological) order — pick the first one that hasn't
+  // happened yet; if the whole day already passed, fall back to the last stop (usually the hotel).
+  const upcoming = rows.find(r => r.minutes === null || r.minutes >= nowMin);
+  return upcoming || rows[rows.length - 1];
+}
+
+function updateNowBar(viewingId){
+  const bar = document.getElementById("nowBar");
+  const today = todaysDayId();
+  if (!today || viewingId !== today){
+    bar.hidden = true;
+    return;
+  }
+  const target = getSmartTarget(today);
+  if (!target){
+    bar.hidden = true;
+    return;
+  }
+  bar.hidden = false;
+  document.getElementById("nowBarLabel").textContent = "🧭 עכשיו בלו״ז: " + target.label;
+  document.getElementById("nowBarPlace").textContent = LOC[target.loc].label;
+  document.getElementById("nowBarBtn").href = wazeLink(target.loc);
+}
+
+/* ---------- "Did you know?" carousel ---------- */
+let funFactList = [];
+let funFactIndex = 0;
+
+function renderFunFactDots(){
+  const dotsEl = document.getElementById("funFactDots");
+  if (!dotsEl) return;
+  dotsEl.innerHTML = funFactList.map((_, i) =>
+    `<span class="${i === funFactIndex ? "on" : ""}"></span>`
+  ).join("");
+}
+
+function renderFunFactView(){
+  const textEl = document.getElementById("funFactText");
+  if (!textEl || !funFactList.length) return;
+  textEl.textContent = funFactList[funFactIndex];
+  renderFunFactDots();
+}
+
+function updateFunFacts(id){
+  const card = document.getElementById("funFactCard");
+  if (!card) return;
+  const facts = FUN_FACTS[id];
+  if (!facts || !facts.length){
+    card.hidden = true;
+    funFactList = [];
+    return;
+  }
+  funFactList = facts;
+  funFactIndex = 0;
+  card.hidden = false;
+  renderFunFactView();
+}
+
+document.getElementById("funFactPrev")?.addEventListener("click", () => {
+  if (!funFactList.length) return;
+  funFactIndex = (funFactIndex - 1 + funFactList.length) % funFactList.length;
+  renderFunFactView();
+});
+document.getElementById("funFactNext")?.addEventListener("click", () => {
+  if (!funFactList.length) return;
+  funFactIndex = (funFactIndex + 1) % funFactList.length;
+  renderFunFactView();
+});
+
+/* ---------- Trivia quiz ---------- */
+function shuffleArr(arr){
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+let quizOrder = [];
+let quizPos = 0;
+let quizScore = 0;
+
+function initTrivia(){
+  const root = document.getElementById("quizRoot");
+  if (!root) return;
+  quizOrder = shuffleArr(TRIVIA.map((_, i) => i));
+  quizPos = 0;
+  quizScore = 0;
+  root.addEventListener("click", onQuizClick);
+  renderQuizQuestion();
+}
+
+function onQuizClick(e){
+  const optBtn = e.target.closest(".quizOption");
+  if (optBtn && !optBtn.classList.contains("disabled")){
+    handleQuizAnswer(optBtn);
+    return;
+  }
+  const nextBtn = e.target.closest(".quizNextBtn");
+  if (nextBtn){
+    quizPos++;
+    renderQuizQuestion();
+    return;
+  }
+  const againBtn = e.target.closest(".quizAgainBtn");
+  if (againBtn){
+    quizOrder = shuffleArr(TRIVIA.map((_, i) => i));
+    quizPos = 0;
+    quizScore = 0;
+    renderQuizQuestion();
+  }
+}
+
+function renderQuizQuestion(){
+  const root = document.getElementById("quizRoot");
+  if (!root) return;
+  if (quizPos >= quizOrder.length){
+    renderQuizSummary();
+    return;
+  }
+  const item = TRIVIA[quizOrder[quizPos]];
+  const optOrder = shuffleArr(item.options.map((_, i) => i));
+  root.innerHTML = `
+    <div class="quizCard">
+      <div class="quizProgress">
+        <span>שאלה ${quizPos + 1} מתוך ${quizOrder.length}</span>
+        <span class="quizScore">⭐ ${quizScore}</span>
+      </div>
+      <p class="quizQuestion">${item.q}</p>
+      <div class="quizOptions">
+        ${optOrder.map(i => `<button type="button" class="quizOption" data-idx="${i}">${item.options[i]}</button>`).join("")}
+      </div>
+    </div>
+  `;
+}
+
+function handleQuizAnswer(optBtn){
+  const item = TRIVIA[quizOrder[quizPos]];
+  const chosen = Number(optBtn.dataset.idx);
+  const isCorrect = chosen === item.correct;
+  if (isCorrect) quizScore++;
+
+  document.querySelectorAll(".quizOption").forEach(b => {
+    b.classList.add("disabled");
+    const idx = Number(b.dataset.idx);
+    if (idx === item.correct) b.classList.add("correct");
+    else if (b === optBtn) b.classList.add("wrong");
+  });
+
+  const card = document.querySelector(".quizCard");
+  if (card){
+    const scoreEl = card.querySelector(".quizScore");
+    if (scoreEl) scoreEl.textContent = "⭐ " + quizScore;
+    const feedback = document.createElement("div");
+    feedback.className = "quizFeedback " + (isCorrect ? "correct" : "wrong");
+    feedback.textContent = isCorrect ? "🎉 נכון מאוד!" : "❌ לא בדיוק...";
+    card.appendChild(feedback);
+    const fact = document.createElement("div");
+    fact.className = "quizFact";
+    fact.textContent = "💡 " + item.fact;
+    card.appendChild(fact);
+    const isLast = quizPos + 1 >= quizOrder.length;
+    const nextBtn = document.createElement("button");
+    nextBtn.type = "button";
+    nextBtn.className = "quizNextBtn";
+    nextBtn.textContent = isLast ? "לתוצאה הסופית 🏁" : "השאלה הבאה ⟵";
+    card.appendChild(nextBtn);
+  }
+}
+
+function renderQuizSummary(){
+  const root = document.getElementById("quizRoot");
+  if (!root) return;
+  const total = quizOrder.length;
+  let emoji, msg;
+  if (quizScore === total){
+    emoji = "🏆"; msg = "מושלם! אתם ממש מומחי אוסטריה!";
+  } else if (quizScore >= total * 0.7){
+    emoji = "🥳"; msg = "כל הכבוד! אתם מכירים את אוסטריה מצוין.";
+  } else if (quizScore >= total * 0.4){
+    emoji = "😊"; msg = "יפה מאוד! אחרי הטיול תדעו עוד יותר.";
+  } else {
+    emoji = "🌟"; msg = "התחלה נהדרת — בואו נגלה עוד באוסטריה ביחד!";
+  }
+  root.innerHTML = `
+    <div class="quizCard quizSummary">
+      <div class="emoji">${emoji}</div>
+      <div class="scoreLine">הניקוד שלכם: ${quizScore} מתוך ${total} ⭐</div>
+      <div class="msg">${msg}</div>
+      <button type="button" class="quizAgainBtn">🔁 לשחק שוב</button>
+    </div>
+  `;
+}
+
+/* ---------- Nav + panel rendering ---------- */
+const tabbarEl = document.getElementById("tabbar");
+const dayScrollEl = document.getElementById("dayScroll");
+const panelEl = document.getElementById("panel");
+const mapTitleEl = document.getElementById("mapTitle");
+const mapSubEl = document.getElementById("mapSub");
+
+/* ---------- Auto-open today's day during the trip ---------- */
+const DAY_DATES = {
+  d1:"2026-09-24", d2:"2026-09-25", d3:"2026-09-26", d4:"2026-09-27", d5:"2026-09-28",
+  d6:"2026-09-29", d7:"2026-09-30", d8:"2026-10-01", d9:"2026-10-02", d10:"2026-10-03",
+};
+function todaysDayId(){
+  const now = new Date();
+  const y = now.getFullYear(), m = String(now.getMonth()+1).padStart(2,"0"), dd = String(now.getDate()).padStart(2,"0");
+  const todayStr = `${y}-${m}-${dd}`;
+  for (const id in DAY_DATES){
+    if (DAY_DATES[id] === todayStr) return id;
+  }
+  return null;
+}
+const TODAY_ID = todaysDayId();
+
+/* ---------- Weekday label (e.g. "יום ה׳", "שבת") for a trip-day id, from DAY_DATES ---------- */
+const WEEKDAY_HE = ["יום א׳","יום ב׳","יום ג׳","יום ד׳","יום ה׳","יום ו׳","שבת"]; // index = Date#getDay()
+const WEEKDAY_HE_SHORT = ["א׳","ב׳","ג׳","ד׳","ה׳","ו׳","שבת"];
+function weekdayLabel(id){
+  const iso = DAY_DATES[id];
+  if (!iso) return "";
+  return WEEKDAY_HE[new Date(iso + "T00:00:00").getDay()];
+}
+function weekdayShort(id){
+  const iso = DAY_DATES[id];
+  if (!iso) return "";
+  return WEEKDAY_HE_SHORT[new Date(iso + "T00:00:00").getDay()];
+}
+
+/* ---------- Countdown badge in the header: days left, or which trip day we're on. ---------- */
+function updateCountdown(){
+  const el = document.getElementById("countdown");
+  if (!el) return;
+  const now = new Date();
+  const today0 = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const tripStart = new Date(2026, 8, 24);
+  const tripEnd = new Date(2026, 9, 3);
+  const diffDays = Math.round((tripStart - today0) / 86400000);
+
+  if (today0 > tripEnd){
+    el.hidden = true;
+    return;
+  }
+  if (diffDays > 1){
+    el.textContent = `⏳ עוד ${diffDays} ימים לטיסה!`;
+  } else if (diffDays === 1){
+    el.textContent = `⏳ מחר טסים!`;
+  } else if (diffDays === 0){
+    el.textContent = `🎉 היום זה קורה — טיסה טובה!`;
+  } else if (TODAY_ID && /^d\d+$/.test(TODAY_ID)){
+    const n = TODAY_ID.slice(1);
+    el.textContent = `📍 יום ${n} מתוך 10 בטיול`;
+  } else {
+    el.hidden = true;
+    return;
+  }
+  el.hidden = false;
+}
+updateCountdown();
+
+// Top strip: the 10 trip days in a horizontal scroller (see the arrow handlers below).
+// Bottom tab bar: the four reference pages, always one tap away regardless of scroll position.
+const TOP_NAV_IDS = ["checklist", "forecast", "alt", "costs", "trivia"];
+DAYS.forEach(d=>{
+  if (TOP_NAV_IDS.includes(d.id)) return;   // tab-bar pages are built below, in TOP_NAV_IDS order
+  const btn = document.createElement("button");
+  btn.id = "nav-"+d.id;
+  btn.type = "button";
+  const isToday = (d.id === TODAY_ID);
+  if (isToday) btn.classList.add("isToday");
+  const wd = weekdayShort(d.id);
+  btn.innerHTML = `<span class="icon">${DAY_ICON[d.id]||"📍"}</span><span class="label">${wd ? `<span class="wd">${wd}</span>` : ""}<span class="d">${d.nav}</span><span class="t">${d.navSub}</span></span>${isToday ? '<span class="todayDot">היום</span>' : ''}`;
+  btn.addEventListener("click", ()=> selectDay(d.id));
+  dayScrollEl.appendChild(btn);
+});
+TOP_NAV_IDS.forEach(id=>{
+  const d = DAYS.find(x=>x.id===id);
+  if (!d) return;
+  const btn = document.createElement("button");
+  btn.id = "nav-"+id;
+  btn.type = "button";
+  btn.innerHTML = `<span class="icon">${DAY_ICON[id]||"📍"}</span><span class="lbl">${d.nav}</span>`;
+  btn.addEventListener("click", ()=> selectDay(id));
+  tabbarEl.appendChild(btn);
+});
+// Search sits in the tab bar like any other page button — same size, same icon+label shape —
+// except that it opens the search sheet instead of switching pages.
+const searchTabBtn = document.createElement("button");
+searchTabBtn.id = "nav-search";
+searchTabBtn.type = "button";
+searchTabBtn.title = "חיפוש באתר";
+searchTabBtn.setAttribute("aria-label", "חיפוש באתר");
+searchTabBtn.innerHTML = `<span class="icon">🔍</span><span class="lbl">חיפוש</span>`;
+searchTabBtn.addEventListener("click", () => openSearch());
+tabbarEl.appendChild(searchTabBtn);
+
+// The WhatsApp link lives in the markup near the header for no-JS fallback, but belongs
+// at the end of the tab bar — move the existing node rather than duplicating it.
+const waEl = document.querySelector(".waFab");
+if (waEl) tabbarEl.appendChild(waEl);
+
+/* ---------- Day scroller arrows: step to the previous/next day chip ----------
+   Tracked with its own index (not tied to which day is currently selected/active),
+   so repeated arrow clicks keep advancing even if the user hasn't tapped a chip yet. */
+const DAY_SCROLL_IDS = DAYS.map(d=>d.id).filter(id => !TOP_NAV_IDS.includes(id));
+let dayScrollIdx = Math.max(0, DAY_SCROLL_IDS.indexOf(TODAY_ID));
+function scrollDayIntoView(id){
+  const btn = document.getElementById("nav-"+id);
+  if (btn) btn.scrollIntoView({behavior:"smooth", inline:"center", block:"nearest"});
+}
+function stepDayScroll(dir){
+  dayScrollIdx = Math.min(DAY_SCROLL_IDS.length - 1, Math.max(0, dayScrollIdx + dir));
+  scrollDayIntoView(DAY_SCROLL_IDS[dayScrollIdx]);
+}
+document.getElementById("dayScrollPrev")?.addEventListener("click", () => stepDayScroll(-1));
+document.getElementById("dayScrollNext")?.addEventListener("click", () => stepDayScroll(1));
+
+/* ---------- Live webcams per day ---------- */
+  const WEBCAMS = {
+    d1: [ { t:"✈️ שדה התעופה של וינה", cams:[
+      { n:"Vienna Airport — פנורמה 360°", u:"https://viennaairport.panomax.com/" },
+      { n:"Schwechat — שדה התעופה (bergfex)", u:"https://www.bergfex.com/sommer/schwechat/webcams/c19269/" } ]} ],
+    d2: [ { t:"🏞️ Gmunden / Traunsee", cams:[
+      { n:"כל המצלמות בגמונדן (bergfex)", u:"https://www.bergfex.com/sommer/gmunden/webcams/" },
+      { n:"Gmunden — Bergstation Grünberg", u:"https://www.feratel.com/en/webcams/austria/upper-austria/gmunden-bergstation-gruenberg" },
+      { n:"Traunstein — נוף מערבה", u:"https://www.foto-webcam.eu/webcam/traunstein/" } ]} ],
+    d6: [ { t:"🏘️ Hallstatt + Gosau", cams:[
+      { n:"כיכר השוק של Hallstatt", u:"https://dachstein.salzkammergut.at/en/oesterreich-poi/detail/430019315/hallstatt-markt-webcam.html" },
+      { n:"מצלמות Hallstatt (hallstatt.net)", u:"https://www.hallstatt.net/webcams/" },
+      { n:"Gosautal — אזור Gosausee", u:"https://www.gosautal.net/webcam/" },
+      { n:"Hallstatt (bergfex)", u:"https://www.bergfex.com/sommer/hallstatt/webcams/" } ]} ],
+    d4: [ { t:"🎢 Alpendorf / St. Johann", cams:[
+      { n:"Alpendorf — נוף (bergfex)", u:"https://www.bergfex.at/sankt-johann-alpendorf/webcams/c1960/" },
+      { n:"Gernkogel — 1,780 מ׳", u:"https://www.bergfex.com/sankt-johann-alpendorf/webcams/c55/" },
+      { n:"Snow Space — St. Johann", u:"https://www.snow-space.com/en/winter/information-ski-resort/live/webcams/st.-johann" } ]} ],
+    d5: [ { t:"🏰 Hohenwerfen", cams:[
+      { n:"Festung Hohenwerfen (wetter.com)", u:"https://www.wetter.com/hd-live-webcams/oesterreich/pfarrwerfen-salzachtal-festung-hohenwerfen/55141242e9cb3/" } ]} ],
+    d3: [ { t:"🏔️ Grossglockner — לבדוק לפני שיוצאים!", cams:[
+      { n:"Kaiser-Franz-Josefs-Höhe — פנורמה 360°", u:"https://grossglockner.panomax.com/" },
+      { n:"Fuscher Törl — פנורמה 360°", u:"https://fuschertoerl.panomax.com/" },
+      { n:"Edelweiss-Spitze — פנורמה 360°", u:"https://edelweissspitze.panomax.com/" },
+      { n:"Freiwandeck — מבט על ה-Grossglockner", u:"https://www.foto-webcam.eu/webcam/freiwandeck/" } ]} ],
+    d7: [ { t:"⛏️ Hallein / Bad Dürrnberg", cams:[
+      { n:"Hallein / Bad Dürrnberg (bergfex)", u:"https://www.bergfex.com/sommer/hallein-duerrnberg/webcams/" } ]} ],
+    d8: [ { t:"🚡 Zell am See + Kaprun", cams:[
+      { n:"פסגת Schmittenhöhe", u:"https://webtv.feratel.com/webtv/?design=v5&cam=5298&c4=1&c3=0&c8=0" },
+      { n:"zellamseeXpress — תחנה עליונה", u:"https://webtv.feratel.com/webtv/?design=v5&cam=5295&c4=1&c3=0&c8=0" },
+      { n:"Zell am See — נוף לאגם ול-Kitzsteinhorn", u:"https://www.foto-webcam.eu/webcam/zellamsee/" },
+      { n:"סכר Mooserboden (אתר הסכרים הרשמי)", u:"https://www.kaprun-stauseen.com/webcam-mooserboden/" },
+      { n:"סכר Mooserboden — מבט אל ה-Wiesbachhorn", u:"https://www.foto-webcam.eu/webcam/mooserboden/" },
+      { n:"סכר Wasserfallboden — מבט מזרחה", u:"https://www.foto-webcam.eu/webcam/wasserfallboden/" },
+      { n:"כל מצלמות Zell am See–Kaprun", u:"https://www.zellamsee-kaprun.com/en/service/live/webcams" } ]} ],
+    d10: [ { t:"✈️ שדה התעופה של וינה", cams:[
+      { n:"Vienna Airport — פנורמה 360°", u:"https://viennaairport.panomax.com/" } ]} ],
+  };
+
+
+function renderWebcams(id){
+  const card = document.getElementById("camCard");
+  if (!card) return;
+  const groups = WEBCAMS[id];
+  if (!groups){ card.hidden = true; return; }
+  const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"&quot;");
+  card.hidden = false;
+  card.innerHTML =
+    `<div class="camHead"><span class="live">LIVE</span>📹 מצלמות חיות באזור</div>` +
+    groups.map(g => `<div class="camGroup">${esc(g.t)}</div><div class="camList">` +
+      g.cams.map(c => `<a class="camBtn" href="${esc(c.u)}" target="_blank" rel="noopener">📷 ${esc(c.n)}</a>`).join("") +
+      `</div>`).join("") +
+    `<div class="camNote">הקישורים נפתחים בחלון חדש באתרי צד שלישי (תיירות מקומית, bergfex, Panomax ועוד). בלילה המצלמות חשוכות, ולפעמים מצלמה בודדת מושבתת — לכן יש כמה לכל אזור.</div>`;
+}
+
+function selectDay(id){
+  const day = DAYS.find(d=>d.id===id);
+  if(!day) return;
+  // Restaurant picks are injected rather than written into each day's template, so all the
+  // food data lives in one place (EATS) instead of scattered across ten render functions.
+  panelEl.innerHTML = renderGallery(id) + day.render() + renderToll(id) + renderEats(id);
+  injectRowWaze(id);
+  injectTraffic(id);
+  injectToll(id);
+  document.querySelectorAll("nav.daynav button, nav.tabbar button").forEach(b=>b.classList.remove("active"));
+  document.getElementById("nav-"+id).classList.add("active");
+  if (DAY_SCROLL_IDS.includes(id)){
+    dayScrollIdx = DAY_SCROLL_IDS.indexOf(id);
+    scrollDayIntoView(id);
+  }
+  const isOverview = (id === "alt");
+  const isTrivia = (id === "trivia");
+  // Trivia and the costs table are reference pages, not places — a map, a forecast and a
+  // "navigate now" button would all be noise there, so hide the whole strip.
+  const noMap = isTrivia || ["costs","checklist","forecast"].includes(id);
+  const segment = day.segment.length ? day.segment : FULL_ROUTE;
+
+  const mapCardEl = document.getElementById("mapCard");
+  if (mapCardEl) mapCardEl.hidden = noMap;
+
+  if (!noMap){
+    try { updateMap(segment, isOverview); } catch(e) { console.error("map update failed", e); }
+    updateNowBar(id);
+    injectWeather(id);
+    const wdLabel = weekdayShort(id);
+    mapTitleEl.textContent = (DAY_ICON[id]||"🗺️") + " מפה — " + (wdLabel ? wdLabel + " " : "") + day.nav;
+    mapSubEl.textContent = isOverview ? "כל המסלול" : "ממורכזת אוטומטית ביעד היום";
+  } else {
+    document.getElementById("nowBar").hidden = true;
+    document.getElementById("weatherCard").hidden = true;
+    if (isTrivia) initTrivia();
+    if (id === "checklist") initChecklist();
+    if (id === "forecast") initForecast();
+  }
+
+  renderWebcams(id);
+  updateFunFacts(id);
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+try { initMap(); } catch(e) { console.error("map init failed", e); }
+selectDay(TODAY_ID || "d1");
+
+/* ---------- Site-wide search ----------
+   Only one day's panel exists in the DOM at a time, so the index is built by rendering
+   every day into a detached element (same trick as getRowTimes) the first time the search
+   is opened. Each entry remembers {day, selector, index-within-selector}, so a result can
+   be re-found in the live panel after selectDay() re-renders it. The rendered string must
+   match what selectDay() builds, or the indexes would point at the wrong element. */
+const SEARCH_SECTIONS = [
+  {sel:".tag",                       kind:"תאריך וכותרת"},
+  {sel:"h2.title",                   kind:"כותרת היום"},
+  {sel:"table.sched td:first-child", kind:"לו״ז"},
+  {sel:".places .p",                 kind:"מה יש שם"},
+  {sel:".box",                       kind:"מידע"},
+  {sel:".tollBox li",                kind:"עלויות דרך"},
+  {sel:".eat .body",                 kind:"מסעדה"},
+  {sel:"table.kids td:first-child",  kind:"פרטים"},
+  {sel:"ul.altlist li",              kind:"חלופה"},
+  {sel:"ol.checklist li",            kind:"בדיקות לפני הנסיעה"},
+];
+// Pages built by their own JS (checklist state, live forecast, quiz) aren't indexable from
+// a detached render, so they stay out.
+const SEARCH_SKIP_DAYS = ["trivia", "forecast", "checklist", "costs"];
+
+// Hebrew transliterations, so "הלשטט" finds Hallstatt and "vienna" finds וינה.
+const SEARCH_SYNONYMS = [
+  ["hallstatt","הלשטט האלשטט"], ["wagrain","וגריין ואגריין"], ["salzburg","זלצבורג"],
+  ["gmunden","גמונדן"], ["traunsee","טראונזה"], ["gosausee","גוזאוזה"],
+  ["melk","מלק"], ["durnstein","דירנשטיין"], ["wien","וינה"], ["vienna","וינה"],
+  ["moxy","מוקסי"], ["parndorf","פרנדורף"], ["outlet","אאוטלט"], ["fantasiana","פנטזיאנה"], ["strasswalchen","שטרסוולכן"], ["schattauer","שאטאואר"], ["zell","צל אם זה"],
+  ["kaprun","קפרון"], ["schmitten","שמיטנהוהה"], ["grossglockner","גרוסגלוקנר גלוקנר"],
+  ["hohenwerfen","הוהנוורפן"], ["werfen","וורפן"], ["hallein","הליין"],
+  ["keltenblitz","קלטנבליץ מגלשה"], ["salina","כפר הקלטים קלטים סלינה"], ["salzwelten","מכרה מלח"],
+  ["schafberg","שפברג"], ["wolfgang","וולפגנג ולפגנגזה"], ["geisterberg","גייסטרברג"],
+  ["alpendorf","אלפנדורף"], ["therme","תרמה"], ["wasserwelt","וסרוולט"], ["lombardi","לומברדי"],
+  ["ferleiten","פרלייטן"], ["wildpark","ווילדפארק פארק חיות"],
+  ["murmeltier","מרמיטה מרמיטות"], ["vignette","ויניט מדבקה אגרה"],
+  ["billa","בילה"], ["spar","ספאר שפאר"], ["mpreis","אמפרייס"],
+  ["altenmarkt","אלטנמרקט"], ["waze","וייז"],
+];
+
+function normText(s){
+  return (s||"")
+    .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+    .replace(/ß/g,"ss")
+    .toLowerCase()
+    .replace(/[״׳'"`]/g,"")
+    .replace(/\s+/g," ")
+    .trim();
+}
+function synonymExtra(hay){
+  let extra = "";
+  SEARCH_SYNONYMS.forEach(([lat, heb]) => {
+    if (hay.includes(lat)) extra += " " + heb;
+    else if (heb.split(" ").some(w => hay.includes(w))) extra += " " + lat;
+  });
+  return extra;
+}
+function escHtml(s){
+  return String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+}
+
+let SEARCH_INDEX = null;
+function buildSearchIndex(){
+  if (SEARCH_INDEX) return SEARCH_INDEX;
+  const idx = [];
+  const tmp = document.createElement("div");
+  DAYS.forEach(day => {
+    if (SEARCH_SKIP_DAYS.includes(day.id)) return;
+    tmp.innerHTML = day.render() + renderToll(day.id) + renderEats(day.id);
+    SEARCH_SECTIONS.forEach(sec => {
+      tmp.querySelectorAll(sec.sel).forEach((el, i) => {
+        const text = el.textContent.replace(/\s+/g," ").trim();
+        if (text.length < 3) return;
+        const base = normText(text);
+        idx.push({dayId:day.id, sel:sec.sel, i, kind:sec.kind, text,
+                  hay: base + " " + normText(sec.kind) + synonymExtra(base)});
+      });
+    });
+  });
+  Object.keys(LOC).forEach(k => {
+    const loc = LOC[k];
+    const text = loc.label + (loc.address ? " — " + loc.address : "");
+    const base = normText(text);
+    idx.push({place:k, kind:"מקום", text, hay: base + synonymExtra(base)});
+  });
+  SEARCH_INDEX = idx;
+  return idx;
+}
+
+function runSearch(q){
+  const nq = normText(q);
+  if (nq.length < 2) return null;
+  const tokens = nq.split(" ").filter(Boolean);
+  const out = [];
+  buildSearchIndex().forEach(e => {
+    if (!tokens.every(t => e.hay.includes(t))) return;
+    let score = e.hay.indexOf(tokens[0]);
+    if (e.place) score -= 400;
+    if (e.sel === "h2.title" || e.sel === ".tag") score -= 300;
+    if (e.kind === "לו״ז") score -= 60;
+    out.push({e, score});
+  });
+  out.sort((a,b) => a.score - b.score);
+  return out;
+}
+
+// Highlights the matched term inside a trimmed excerpt, so long info boxes stay scannable.
+function markSnippet(text, rawToken){
+  const MAX = 140;
+  const i = rawToken ? text.toLowerCase().indexOf(rawToken.toLowerCase()) : -1;
+  const start = i > 60 ? i - 50 : 0;
+  const piece = text.slice(start, start + MAX);
+  const pre = start > 0 ? "…" : "";
+  const post = (start + MAX) < text.length ? "…" : "";
+  const rel = i - start;
+  if (i >= 0 && rel >= 0 && rel + rawToken.length <= piece.length){
+    return pre + escHtml(piece.slice(0, rel)) +
+           "<mark>" + escHtml(piece.slice(rel, rel + rawToken.length)) + "</mark>" +
+           escHtml(piece.slice(rel + rawToken.length)) + post;
+  }
+  return pre + escHtml(piece) + post;
+}
+
+function renderSearchResults(q){
+  const box = document.getElementById("searchResults");
+  const results = runSearch(q);
+  if (results === null){
+    box.innerHTML = `<div class="searchHint">הקלידו שתי אותיות ומעלה. אפשר לחפש שם מקום (Hallstatt, מכרה מלח, סופר), מסעדה, שם מלון, שעה מהלו״ז או כל טקסט מהאתר.</div>`;
+    return;
+  }
+  if (!results.length){
+    box.innerHTML = `<div class="searchEmpty">אין תוצאות ל"${escHtml(q.trim())}". נסו מילה אחת קצרה יותר.</div>`;
+    return;
+  }
+  const token = q.trim().split(/\s+/)[0];
+  const places = results.filter(r => r.e.place).slice(0, 6);
+  const byDay = {};
+  results.filter(r => !r.e.place).forEach(r => {
+    (byDay[r.e.dayId] = byDay[r.e.dayId] || []).push(r);
+  });
+
+  let html = "";
+  if (places.length){
+    html += `<div class="searchGroup"><h3 class="searchGroupHead">📍 מקומות וניווט</h3>` +
+      places.map(r => `<div class="searchPlaceRow">
+        <span class="nm">${LOC_ICON[r.e.place] || "📍"} ${markSnippet(r.e.text, token)}</span>
+        <a class="rowWaze" href="${wazeLink(r.e.place)}" target="_blank" rel="noopener" title="נווט ב-Waze">🧭</a>
+      </div>`).join("") + `</div>`;
+  }
+  DAYS.forEach(d => {
+    const list = byDay[d.id];
+    if (!list) return;
+    html += `<div class="searchGroup"><h3 class="searchGroupHead">${DAY_ICON[d.id] || "📍"} ${d.nav} · ${d.navSub}</h3>` +
+      list.slice(0, 8).map(r => `<button type="button" class="searchItem"
+        data-day="${d.id}" data-sel="${escHtml(r.e.sel)}" data-i="${r.e.i}">
+        <span class="kind">${r.e.kind}</span>${markSnippet(r.e.text, token)}</button>`).join("") + `</div>`;
+  });
+  box.innerHTML = html;
+}
+
+function openSearch(){
+  const sheet = document.getElementById("searchSheet");
+  const input = document.getElementById("searchInput");
+  if (!sheet || !input) return;
+  sheet.hidden = false;
+  document.body.classList.add("searchOpen");
+  renderSearchResults(input.value);
+  setTimeout(() => input.focus(), 60);
+}
+function closeSearch(){
+  const sheet = document.getElementById("searchSheet");
+  if (!sheet) return;
+  sheet.hidden = true;
+  document.body.classList.remove("searchOpen");
+}
+
+// Re-finds the matched element in the freshly rendered panel and flashes it.
+function jumpToResult(dayId, sel, i){
+  closeSearch();
+  selectDay(dayId);
+  setTimeout(() => {
+    const el = panelEl.querySelectorAll(sel)[Number(i)];
+    if (!el) return;
+    const target = el.closest("tr") || el;
+    target.classList.add("searchHit");
+    target.scrollIntoView({behavior:"smooth", block:"center"});
+    setTimeout(() => target.classList.remove("searchHit"), 2400);
+  }, 240);
+}
+
+(function initSearch(){
+  const input = document.getElementById("searchInput");
+  let debounce = null;
+  input?.addEventListener("input", () => {
+    clearTimeout(debounce);
+    debounce = setTimeout(() => renderSearchResults(input.value), 120);
+  });
+  input?.addEventListener("keydown", e => { if (e.key === "Escape") closeSearch(); });
+  document.getElementById("searchClose")?.addEventListener("click", closeSearch);
+  document.addEventListener("keydown", e => { if (e.key === "Escape") closeSearch(); });
+  document.getElementById("searchResults")?.addEventListener("click", e => {
+    const btn = e.target.closest(".searchItem");
+    if (!btn) return;
+    jumpToResult(btn.dataset.day, btn.dataset.sel, btn.dataset.i);
+  });
+})();
+
+/* ---------- PWA auto-refresh: every time the app is opened/foregrounded, actively
+   check for a newer version and, if one takes over, reload automatically so the
+   visitor never has to manually clear the cache. ---------- */
+if ("serviceWorker" in navigator){
+  // Only auto-reload on a REAL update (a newer service worker replacing one that was
+  // already controlling this page) — not on the very first install, where the first
+  // "controllerchange" just means the page has a controller for the first time.
+  let hadController = !!navigator.serviceWorker.controller;
+
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("sw.js", { updateViaCache: "none" }).then((reg) => {
+      // Re-check for a new version every time the app is opened or comes back to the foreground.
+      reg.update().catch(()=>{});
+      document.addEventListener("visibilitychange", () => {
+        if (document.visibilityState === "visible") reg.update().catch(()=>{});
+      });
+    }).catch(()=>{});
+  });
+
+  let swRefreshed = false;
+  navigator.serviceWorker.addEventListener("controllerchange", () => {
+    if (!hadController){ hadController = true; return; }
+    if (swRefreshed) return;
+    swRefreshed = true;
+    window.location.reload();
+  });
+}
+
+/* ---------- Install prompt: proactively offer to install the app, instead of
+   relying on the visitor to find the option in the browser menu themselves. ---------- */
+(function(){
+  const DISMISS_KEY = "austria_install_dismissed_v1";
+  const banner = document.getElementById("installBanner");
+  const textEl = document.getElementById("installBannerText");
+  const btnEl = document.getElementById("installBannerBtn");
+  const closeEl = document.getElementById("installBannerClose");
+  let deferredPrompt = null;
+
+  function isStandalone(){
+    return window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
+  }
+  function isIOS(){
+    const ua = window.navigator.userAgent;
+    const iOSDevice = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
+    const iPadOS13Plus = navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1;
+    return iOSDevice || iPadOS13Plus;
+  }
+  function dismissed(){
+    try { return localStorage.getItem(DISMISS_KEY) === "1"; } catch(e){ return false; }
+  }
+
+  function show(mode){
+    if (!banner || isStandalone() || dismissed()) return;
+    if (mode === "ios"){
+      textEl.textContent = "התקינו את האתר כאפליקציה: הקישו שיתוף ⬆️ ואז \"הוסף למסך הבית\"";
+      btnEl.hidden = true;
+    } else {
+      textEl.textContent = "התקינו את האתר כאפליקציה למסך הבית — גישה מהירה גם בלי אינטרנט";
+      btnEl.hidden = false;
+    }
+    banner.hidden = false;
+  }
+  function hide(){
+    if (banner) banner.hidden = true;
+  }
+
+  window.addEventListener("beforeinstallprompt", (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    show("android");
+  });
+
+  window.addEventListener("appinstalled", () => {
+    hide();
+    try { localStorage.setItem(DISMISS_KEY, "1"); } catch(e){}
+  });
+
+  btnEl && btnEl.addEventListener("click", async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    try { await deferredPrompt.userChoice; } catch(e){}
+    deferredPrompt = null;
+    hide();
+  });
+
+  closeEl && closeEl.addEventListener("click", () => {
+    hide();
+    try { localStorage.setItem(DISMISS_KEY, "1"); } catch(e){}
+  });
+
+  if (isIOS() && !isStandalone() && !dismissed()){
+    setTimeout(() => show("ios"), 1500);
+  }
+})();
+</script>
+
+</body>
+</html>

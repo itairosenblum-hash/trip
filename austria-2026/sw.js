@@ -1,15 +1,12 @@
-// Service worker של הלובי (מסך הטיולים). לכל טיול בתיקייה משלו יש sw.js נפרד עם קידומת מטמון משלו.
-const PREFIX = "trips-lobby-";
-const CACHE = PREFIX + "v1";
-// המטמון של האתר הישן (לפני המעבר לתיקייה) — מנקים אותו פעם אחת.
-const LEGACY = "austria-trip-";
+// כל טיול מקבל מטמון משלו עם קידומת משלו, כדי שלא ימחק את המטמון של הלובי או של טיולים אחרים.
+const PREFIX = "austria2026-";
+const CACHE = PREFIX + "v40";
 const ASSETS = [
   "./",
   "./index.html",
   "./manifest.json",
-  "./og-image.png",
-  "./icon-192.png?v=5",
-  "./icon-512.png?v=5",
+  "../icon-192.png?v=5",
+  "../icon-512.png?v=5",
 ];
 
 self.addEventListener("install", (e) => {
@@ -22,17 +19,16 @@ self.addEventListener("install", (e) => {
 self.addEventListener("activate", (e) => {
   e.waitUntil(
     caches.keys().then((keys) =>
-      Promise.all(
-        keys
-          .filter((k) => (k.startsWith(PREFIX) && k !== CACHE) || k.startsWith(LEGACY))
-          .map((k) => caches.delete(k))
-      )
+      Promise.all(keys.filter((k) => k.startsWith(PREFIX) && k !== CACHE).map((k) => caches.delete(k)))
     )
   );
   self.clients.claim();
 });
 
-// Network-first עם no-store, ומטמון כגיבוי לאופליין — כמו באתר של אוסטריה.
+// Network-first for navigations (so trip updates show up), cache-first fallback for offline.
+// `cache:"no-store"` on the fetch makes sure we bypass the browser's own HTTP cache too,
+// not just the service-worker cache — otherwise a page could still get served a stale
+// disk-cached response even though this handler is "network-first".
 self.addEventListener("fetch", (e) => {
   if (e.request.method !== "GET") return;
   const isSameOrigin = new URL(e.request.url).origin === self.location.origin;
