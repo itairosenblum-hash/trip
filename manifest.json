@@ -4,7 +4,7 @@
   "description": "כל הטיולים המשפחתיים שלנו — הטיול הבא וארכיון הטיולים שעשינו",
   "start_url": "./index.html",
   "scope": "./",
-  "id": "./",
+  "id": "/trip/",
   "display": "standalone",
   "orientation": "portrait-primary",
   "background_color": "#FFFAF9",

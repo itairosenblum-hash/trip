@@ -4,7 +4,7 @@
   "description": "המסלול המשפחתי שלנו לאוסטריה, ספטמבר–אוקטובר 2026",
   "start_url": "./index.html",
   "scope": "./",
-  "id": "./",
+  "id": "/trip/austria-2026/",
   "display": "standalone",
   "orientation": "portrait-primary",
   "background_color": "#FFFAF9",
