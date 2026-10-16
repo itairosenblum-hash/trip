@@ -87,7 +87,7 @@
   .fam li{padding:2px 0;}
   .note{background:var(--blue-soft);color:var(--blue);border-radius:12px;padding:10px 12px;font-size:14px;margin-top:10px;}
 
-  #map{height:340px;border-radius:18px;border:1px solid var(--line);box-shadow:var(--shadow-soft);z-index:0;}
+  #map{height:300px;border-radius:18px;border:1px solid var(--line);box-shadow:var(--shadow-soft);z-index:0;}
   .pin{background:var(--red);color:#fff;font-weight:800;font-size:12px;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.3);}
   .pin.van{background:var(--green);}
   .pin.home{background:var(--gold-dark);}
@@ -124,6 +124,47 @@
 
   .q{display:flex;gap:10px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 12px;margin-bottom:8px;font-size:14.5px;}
   .q .ic{font-size:18px;line-height:1.4;}
+
+  /* ===== תפריט כמו באתר של אוסטריה: פס ימים דביק למעלה + סרגל עמודים קבוע למטה ===== */
+  nav.daynav{position:sticky;top:0;z-index:1500;background:#FFFAF9;padding:8px 12px 6px;box-shadow:0 12px 14px -12px rgba(43,35,32,.20);}
+  nav.daynav::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.75;}
+  nav.daynav button,.tabbar button{all:unset;cursor:pointer;position:relative;-webkit-tap-highlight-color:transparent;}
+  .dayScrollWrap{display:flex;align-items:center;gap:6px;max-width:760px;margin:0 auto;}
+  .dayScrollArrow{flex:0 0 auto;width:28px;height:28px;border-radius:50%;display:flex !important;align-items:center;justify-content:center;background:#fff;border:1px solid var(--line) !important;color:var(--red-dark);font-size:15px;font-weight:800;box-shadow:0 2px 6px rgba(0,0,0,.08);}
+  .dayScroll{flex:1;min-width:0;display:flex;gap:8px;overflow-x:auto;scroll-behavior:smooth;scroll-snap-type:x proximity;padding:6px 2px 8px;scrollbar-width:none;}
+  .dayScroll::-webkit-scrollbar{display:none;}
+  nav.daynav .dayScroll button{flex:0 0 auto;scroll-snap-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;min-width:60px;padding:7px 6px;border-radius:14px;border:2px solid var(--line);background:#fff;text-align:center;transition:background .15s, border-color .15s;}
+  nav.daynav .dayScroll button .icon{font-size:17px;line-height:1.1;}
+  nav.daynav .dayScroll button .wd{color:var(--muted);font-size:10.5px;font-weight:600;}
+  nav.daynav .dayScroll button .d{font-weight:700;color:var(--red-dark);font-size:12.5px;}
+  nav.daynav .dayScroll button.vanDay{border-color:#cfe3c9;background:var(--green-soft);}
+  nav.daynav .dayScroll button.active{background:var(--red-dark);border-color:var(--gold);box-shadow:0 6px 20px rgba(43,35,32,.16);}
+  nav.daynav nav.daynav .dayScroll button.active .d,nav.daynav .dayScroll button.active .wd{color:#fff;}
+  nav.daynav .dayScroll button.isToday:not(.active){border-color:var(--gold);}
+  .todayDot{position:absolute;top:-5px;inset-inline-end:-3px;background:var(--gold);color:#fff;font-size:9px;font-weight:800;padding:1px 6px;border-radius:999px;}
+
+  .tabbar{position:fixed;left:0;right:0;bottom:0;z-index:1400;display:flex;background:rgba(255,255,255,.97);backdrop-filter:saturate(180%) blur(8px);border-top:1px solid var(--line);box-shadow:0 -6px 16px -8px rgba(43,35,32,.28);padding-bottom:env(safe-area-inset-bottom);}
+  .tabbar button{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 2px 9px;color:var(--muted);font-size:10.5px;font-weight:700;text-align:center;}
+  .tabbar button .icon{font-size:19px;line-height:1;transition:transform .15s;}
+  .tabbar button.active{color:var(--red-dark);}
+  .tabbar button.active .icon{transform:translateY(-1px) scale(1.08);}
+  .tabbar button.active::before{content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);width:28px;height:3px;border-radius:0 0 3px 3px;background:var(--gold);}
+
+  main{padding-bottom:96px !important;}
+  .page[hidden],#mapCard[hidden]{display:none !important;}
+  .page > section:first-child{margin-top:4px;}
+  #mapCard{margin-bottom:14px;}
+  #mapCard h2{font-size:19px;color:var(--red-dark);margin-bottom:8px;}
+  .dayHead{background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px 16px;box-shadow:var(--shadow-soft);}
+  .dayHead.van{border-color:#cfe3c9;}
+  .dayHead .when{font-size:13px;color:var(--muted);font-weight:700;}
+  .dayHead h2{font-size:24px;color:var(--red-dark);margin:2px 0 2px;}
+  .dayHead .tag{font-size:14px;color:var(--muted);}
+  .dayHead ul{margin:12px 0 0;padding-inline-start:20px;}
+  .dayHead li{margin:5px 0;}
+  .dayNav{display:flex;justify-content:space-between;gap:8px;margin-top:14px;}
+  .dayNav button{all:unset;cursor:pointer;font-size:13.5px;font-weight:700;color:var(--red-dark);background:var(--red-soft);padding:7px 14px;border-radius:999px;}
+  .dayNav button[disabled]{visibility:hidden;}
   footer{text-align:center;color:var(--muted);font-size:12.5px;margin-top:36px;}
 </style>
 </head>
@@ -138,7 +179,16 @@
   <span class="draft">✏️ סקיצה ראשונה — הכול פתוח לשינוי</span>
 </header>
 
+<nav class="daynav" aria-label="ימי הטיול">
+  <div class="dayScrollWrap">
+    <button type="button" class="dayScrollArrow" id="dayScrollPrev" aria-label="היום הקודם">›</button>
+    <div class="dayScroll" id="dayScroll"></div>
+    <button type="button" class="dayScrollArrow" id="dayScrollNext" aria-label="היום הבא">‹</button>
+  </div>
+</nav>
+
 <main>
+  <div class="page" data-page="overview">
   <div class="hero" role="img" aria-label="איור: שני קרוואנים על רקע הרי הטטרה ואגם"></div>
 
   <div class="facts">
@@ -174,17 +224,13 @@
     <div class="note">🤝 הילדים מתחלקים יפה לזוגות: דן ודולב (11), עומר ודותן (8), מאיה וליה (3). כל יום בסקיצה כולל משהו גם לקטנות, ובמכרה ובמורסקיה אוקו צריך מנשא ולא עגלה.</div>
   </section>
 
-  <section>
-    <h2>🗺️ המסלול על המפה</h2>
-    <div id="map"></div>
-  </section>
+  </div>
 
-  <section>
-    <h2>📅 יום אחרי יום</h2>
-    <p class="lead">לחיצה על יום פותחת את הפירוט. 🚐 = יום קרוואן.</p>
-    <div id="days"></div>
-  </section>
+  <div id="mapCard"><h2 id="mapTitle">🗺️ המסלול על המפה</h2><div id="map"></div></div>
 
+  <div class="page" data-page="day" id="dayPage" hidden></div>
+
+  <div class="page" data-page="caravan" hidden>
   <section>
     <h2>🚐 על ימי הקרוואן</h2>
     <div class="cards">
@@ -196,6 +242,9 @@
     </div>
   </section>
 
+  </div>
+
+  <div class="page" data-page="options" hidden>
   <section>
     <h2>⏱️ אם רוצים קצר או ארוך יותר</h2>
     <div class="cards">
@@ -205,13 +254,20 @@
     </div>
   </section>
 
+  </div>
+
+  <div class="page" data-page="open" hidden>
   <section>
     <h2>❓ פתוח להחלטה</h2>
     <div id="open"></div>
   </section>
 
+  </div>
+
   <footer>סקיצה ראשונה · אוקטובר 2026 · זמני נסיעה ומחירים הם הערכה ועוד לא נבדקו</footer>
 </main>
+
+<nav class="tabbar" id="tabbar" aria-label="עמודי האתר"></nav>
 
 <script>
 /* ===== נקודות על המפה ===== */
@@ -273,20 +329,6 @@ const OPEN = [
 /* ===== רינדור ===== */
 function esc(s){ return String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
 
-document.getElementById("days").innerHTML = DAYS.map((x,i) => `
-  <details class="day${x.van ? " van" : ""}"${i === 0 ? " open" : ""}>
-    <summary>
-      <div class="dnum"><b>${esc(x.d)}</b><span>יום ${i+1}</span></div>
-      <div class="dtitle"><h3>${esc(x.title)}${x.van ? '<span class="vanbadge">🚐 קרוואן</span>' : ""}</h3><div class="tag">${esc(x.wd)} · ${esc(x.tag)}</div></div>
-      <span class="chev">▾</span>
-    </summary>
-    <div class="dbody">
-      <ul>${x.plan.map(p => `<li>${esc(p)}</li>`).join("")}</ul>
-      ${x.kids ? `<div class="kids">👧 ${esc(x.kids)}</div>` : ""}
-      <div class="meta"><span class="chip sleep">🛏️ ${esc(x.sleep)}</span><span class="chip drive">🚗 ${esc(x.drive)}</span></div>
-    </div>
-  </details>`).join("");
-
 document.getElementById("open").innerHTML = OPEN.map(([ic,t]) =>
   `<div class="q"><span class="ic">${ic}</span><span>${esc(t)}</span></div>`).join("");
 
@@ -302,21 +344,118 @@ document.getElementById("open").innerHTML = OPEN.map(([ic,t]) =>
   }
 })();
 
-/* מפה */
-(function(){
+/* ===== תאריכים, אייקונים ונקודות לכל יום ===== */
+const DAY_ISO  = ["2027-06-23","2027-06-24","2027-06-25","2027-06-26","2027-06-27","2027-06-28","2027-06-29","2027-06-30","2027-07-01"];
+const DAY_ICON = ["✈️","⛏️","🎢","🏰","🛶","🏔️","🔁","🌲","🏠"];
+const DAY_PTS  = [[0],[0,1],[2],[3],[4,5],[6,7],[0],[8],[0]];
+const WD_SHORT = ["א׳","ב׳","ג׳","ד׳","ה׳","ו׳","שבת"];
+const TABS = [
+  { id:"overview", icon:"🧭", label:"סקירה" },
+  { id:"caravan",  icon:"🚐", label:"קרוואנים" },
+  { id:"options",  icon:"⏱️", label:"7/8/10 ימים" },
+  { id:"open",     icon:"❓", label:"פתוח" },
+];
+function isoToday(){ const n=new Date(); return `${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,"0")}-${String(n.getDate()).padStart(2,"0")}`; }
+const TODAY_IDX = DAY_ISO.indexOf(isoToday());
+
+/* ===== מפה משותפת: כל המסלול בסקירה, נקודות היום בעמוד יום ===== */
+let map=null, layer=null;
+function drawMap(idxs, withRoute){
   if (!window.L) return;
-  const map = L.map("map", { scrollWheelZoom:false });
-  L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
-    attribution:'&copy; OpenStreetMap &copy; CARTO', subdomains:"abcd", maxZoom:18
-  }).addTo(map);
-  L.polyline(ROUTE, { color:"#3d7a3f", weight:4, opacity:.7, dashArray:"8 8" }).addTo(map);
-  const pts = PLACES.map(p => {
+  if (!map){
+    map = L.map("map", { scrollWheelZoom:false });
+    L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
+      attribution:'&copy; OpenStreetMap &copy; CARTO', subdomains:"abcd", maxZoom:18
+    }).addTo(map);
+  }
+  if (layer) layer.remove();
+  layer = L.layerGroup().addTo(map);
+  if (withRoute) L.polyline(ROUTE, { color:"#3d7a3f", weight:4, opacity:.7, dashArray:"8 8" }).addTo(layer);
+  const pts = idxs.map(i => {
+    const p = PLACES[i];
     const icon = L.divIcon({ className:"", html:`<div class="pin ${p.kind || ""}">${p.n}</div>`, iconSize:[24,24], iconAnchor:[12,12] });
-    L.marker([p.lat, p.lng], { icon }).addTo(map).bindPopup(`<b>יום ${p.n}</b><br>${esc(p.name)}`);
+    L.marker([p.lat, p.lng], { icon }).addTo(layer).bindPopup(`<b>${esc(p.name)}</b><br><a href="https://waze.com/ul?ll=${p.lat},${p.lng}&navigate=yes" target="_blank" rel="noopener">ניווט ב-Waze</a>`);
     return [p.lat, p.lng];
   });
-  map.fitBounds(pts, { padding:[24,24] });
-})();
+  setTimeout(() => {
+    map.invalidateSize();
+    if (pts.length === 1) map.setView(pts[0], 12);
+    else map.fitBounds(pts, { padding:[28,28], maxZoom:12 });
+  }, 30);
+}
+
+/* ===== עמוד יום ===== */
+function renderDay(i){
+  const x = DAYS[i];
+  document.getElementById("dayPage").innerHTML = `
+    <div class="dayHead${x.van ? " van" : ""}">
+      <div class="when">יום ${i+1} מתוך ${DAYS.length} · ${esc(x.wd)} ${esc(x.d)}${x.van ? ' <span class="vanbadge">🚐 קרוואן</span>' : ""}</div>
+      <h2>${DAY_ICON[i]} ${esc(x.title)}</h2>
+      <div class="tag">${esc(x.tag)}</div>
+      <ul>${x.plan.map(p => `<li>${esc(p)}</li>`).join("")}</ul>
+      ${x.kids ? `<div class="kids">👧 ${esc(x.kids)}</div>` : ""}
+      <div class="meta"><span class="chip sleep">🛏️ ${esc(x.sleep)}</span><span class="chip drive">🚗 ${esc(x.drive)}</span></div>
+      <div class="dayNav">
+        <button type="button" data-go="${i-1}" ${i===0?"disabled":""}>→ יום ${i}</button>
+        <button type="button" data-go="${i+1}" ${i===DAYS.length-1?"disabled":""}>יום ${i+2} ←</button>
+      </div>
+    </div>`;
+  document.querySelectorAll("#dayPage [data-go]").forEach(b => b.addEventListener("click", () => select("d"+(+b.dataset.go+1))));
+}
+
+/* ===== בחירת עמוד ===== */
+function select(id, fromHash){
+  const isDay = /^d\d+$/.test(id);
+  const idx = isDay ? +id.slice(1) - 1 : -1;
+  if (isDay && !DAYS[idx]) id = "overview";
+  document.querySelectorAll(".page").forEach(pg => pg.hidden = pg.dataset.page !== (isDay ? "day" : id));
+  document.querySelectorAll(".dayScroll button, .tabbar button").forEach(b => b.classList.toggle("active", b.dataset.id === id));
+  const mc = document.getElementById("mapCard");
+  if (isDay){
+    renderDay(idx);
+    mc.hidden = false;
+    document.getElementById("mapTitle").textContent = "🗺️ מפת היום";
+    drawMap(DAY_PTS[idx], false);
+    document.querySelector(`.dayScroll button[data-id="${id}"]`)?.scrollIntoView({behavior:"smooth", inline:"center", block:"nearest"});
+    // המפה מתחת לכרטיס היום
+    document.getElementById("dayPage").after(mc);
+  } else if (id === "overview"){
+    mc.hidden = false;
+    document.getElementById("mapTitle").textContent = "🗺️ המסלול על המפה";
+    document.querySelector('.page[data-page="overview"]').after(mc);
+    drawMap(PLACES.map((_,i) => i), true);
+  } else {
+    mc.hidden = true;
+  }
+  if (!fromHash) history.replaceState(null, "", "#" + id);
+  window.scrollTo({ top:0, behavior: fromHash ? "auto" : "smooth" });
+}
+
+const dayScrollEl = document.getElementById("dayScroll");
+DAYS.forEach((x,i) => {
+  const b = document.createElement("button");
+  b.type = "button"; b.dataset.id = "d"+(i+1);
+  if (x.van) b.classList.add("vanDay");
+  if (i === TODAY_IDX) b.classList.add("isToday");
+  const wd = WD_SHORT[new Date(DAY_ISO[i]+"T00:00:00").getDay()];
+  b.innerHTML = `<span class="icon">${DAY_ICON[i]}</span><span class="wd">${wd}</span><span class="d">${esc(x.d)}</span>${i===TODAY_IDX?'<span class="todayDot">היום</span>':""}`;
+  b.addEventListener("click", () => select(b.dataset.id));
+  dayScrollEl.appendChild(b);
+});
+const tabbarEl = document.getElementById("tabbar");
+TABS.forEach(t => {
+  const b = document.createElement("button");
+  b.type = "button"; b.dataset.id = t.id;
+  b.innerHTML = `<span class="icon">${t.icon}</span><span>${t.label}</span>`;
+  b.addEventListener("click", () => select(t.id));
+  tabbarEl.appendChild(b);
+});
+document.getElementById("dayScrollPrev").addEventListener("click", () => dayScrollEl.scrollBy({ left: 160 }));
+document.getElementById("dayScrollNext").addEventListener("click", () => dayScrollEl.scrollBy({ left: -160 }));
+
+const startId = location.hash.slice(1) || (TODAY_IDX >= 0 ? "d"+(TODAY_IDX+1) : "overview");
+select(TABS.some(t => t.id === startId) || /^d\d+$/.test(startId) ? startId : "overview", true);
+window.addEventListener("hashchange", () => select(location.hash.slice(1) || "overview", true));
 
 /* ===== אופליין + עדכון אוטומטי ===== */
 if ("serviceWorker" in navigator){
