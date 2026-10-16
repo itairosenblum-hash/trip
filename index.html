@@ -204,6 +204,17 @@ function render(){
   }
   document.getElementById("app").innerHTML = html;
 }
+/* ===== הטיול הנוכחי כעמוד הבית =====
+   כשנכנסים לכתובת הראשית — עוברים ישר לטיול שקורה עכשיו, או לטיול הקרוב הבא.
+   הכפתור "כל הטיולים" בכל טיול מוביל ל- ?all, ואז הלובי מוצג בלי הפניה. */
+(function(){
+  if (new URLSearchParams(location.search).has("all")) return;
+  const live = TRIPS.find(t => status(t).kind === "live");
+  const next = TRIPS.filter(t => status(t).kind === "upcoming")
+                    .sort((x,y) => parseDay(x.start) - parseDay(y.start))[0];
+  const current = live || next;
+  if (current) location.replace(current.folder + "/");
+})();
 render();
 
 /* ===== אופליין + עדכון אוטומטי, כמו באתר של אוסטריה ===== */

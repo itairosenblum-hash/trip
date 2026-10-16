@@ -1,6 +1,6 @@
 // Service worker של הלובי (מסך הטיולים). לכל טיול בתיקייה משלו יש sw.js נפרד עם קידומת מטמון משלו.
 const PREFIX = "trips-lobby-";
-const CACHE = PREFIX + "v3";
+const CACHE = PREFIX + "v4";
 // המטמון של האתר הישן (לפני המעבר לתיקייה) — מנקים אותו פעם אחת.
 const LEGACY = "austria-trip-";
 const ASSETS = [
