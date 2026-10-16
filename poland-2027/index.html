@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>פולין 2027 — טיול קרוואנים</title>
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://itairosenblum-hash.github.io/trip/poland-2027/">
+<meta property="og:title" content="🚐 פולין 2027 — טיול קרוואנים">
+<meta property="og:description" content="סקיצה ראשונה: קרקוב, הרי הטטרה ופייניני — רוזנבלום ואפרת, 9 ימים בסוף יוני, 3 מהם בקרוואן.">
+<meta property="og:image" content="https://itairosenblum-hash.github.io/trip/poland-2027/cover.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="he_IL">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#8A0E22">
+<link rel="icon" href="../icon-192.png?v=5">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png?v=5">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="פולין 2027">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700;900&family=Heebo:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<style>
+  :root{
+    --red:#C8102E; --red-dark:#8A0E22; --red-soft:#FBEAEC;
+    --gold:#C89B3C; --gold-dark:#8f6d24; --gold-soft:#FBF3E1;
+    --green:#3d7a3f; --green-soft:#EFF6EC;
+    --blue:#1F5E73; --blue-soft:#E7F2F6;
+    --ink:#2B2320; --muted:#78706c; --line:#EFE1E1;
+    --shadow-soft:0 4px 16px rgba(43,35,32,.09);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{background:#FFFAF9;color:var(--ink);font-family:'Heebo',sans-serif;line-height:1.6;font-size:15.5px;}
+  h1,h2,h3{font-family:'Frank Ruhl Libre',serif;margin:0;}
+  header{
+    padding:22px 18px 20px;
+    background:
+      radial-gradient(circle at 92% -10%, rgba(200,16,46,.10), transparent 55%),
+      radial-gradient(circle at 6% 120%, rgba(200,155,60,.14), transparent 50%),
+      linear-gradient(180deg,#fff,#FFFAF9);
+    border-bottom:3px solid var(--red);
+  }
+  .allTrips{display:inline-block;margin-bottom:10px;font-size:13px;font-weight:700;color:var(--red-dark);text-decoration:none;background:var(--red-soft);padding:4px 12px;border-radius:999px;}
+  .eyebrow{color:var(--red);font-size:14px;font-weight:700;margin-bottom:2px;}
+  header h1{font-size:32px;color:var(--red-dark);font-weight:700;}
+  header .sub{color:var(--muted);font-size:14.5px;margin-top:4px;}
+  .draft{display:inline-block;margin-top:10px;margin-inline-start:6px;background:#fff;color:var(--muted);font-weight:700;font-size:12.5px;padding:5px 12px;border-radius:999px;border:1.5px dashed var(--muted);}
+  .countdown{display:inline-block;margin-top:10px;background:var(--gold-soft);color:var(--gold-dark);font-weight:700;font-size:13px;padding:5px 14px;border-radius:999px;border:1px solid var(--gold);}
+
+  main{max-width:760px;margin:0 auto;padding:18px 16px 60px;}
+  .hero{border-radius:20px;overflow:hidden;box-shadow:var(--shadow-soft);aspect-ratio:1200/630;background:#A9D1EE center/cover no-repeat url('cover.jpg');}
+
+  .facts{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:16px 0 4px;}
+  .fact{background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 12px;}
+  .fact .k{font-size:12px;color:var(--muted);font-weight:600;}
+  .fact .v{font-size:15px;font-weight:700;}
+  @media (min-width:620px){ .facts{grid-template-columns:repeat(4,1fr);} }
+
+  section{margin-top:30px;}
+  section > h2{font-size:22px;color:var(--red-dark);display:flex;align-items:center;gap:8px;margin-bottom:12px;}
+  .lead{color:var(--muted);font-size:14.5px;margin:-6px 0 12px;}
+
+  /* מבנה הטיול: שלושה גושים */
+  .blocks{display:flex;gap:8px;}
+  .blk{flex:1;border-radius:14px;padding:10px 10px 12px;text-align:center;}
+  .blk .n{font-size:22px;}
+  .blk b{display:block;font-size:14.5px;}
+  .blk span{font-size:12.5px;color:var(--muted);}
+  .blk.city{background:var(--red-soft);}
+  .blk.van{background:var(--green-soft);flex:1.1;border:2px solid var(--green);}
+  .blk.city2{background:var(--gold-soft);}
+
+  /* משפחות */
+  .fams{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .fam{background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px 14px;border-top:5px solid var(--red);}
+  .fam.efrat{border-top-color:var(--gold);}
+  .fam h3{font-size:18px;}
+  .fam ul{margin:6px 0 0;padding:0;list-style:none;font-size:14.5px;}
+  .fam li{padding:2px 0;}
+  .note{background:var(--blue-soft);color:var(--blue);border-radius:12px;padding:10px 12px;font-size:14px;margin-top:10px;}
+
+  #map{height:340px;border-radius:18px;border:1px solid var(--line);box-shadow:var(--shadow-soft);z-index:0;}
+  .pin{background:var(--red);color:#fff;font-weight:800;font-size:12px;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.3);}
+  .pin.van{background:var(--green);}
+  .pin.home{background:var(--gold-dark);}
+
+  /* ימים */
+  .day{background:#fff;border:1px solid var(--line);border-radius:18px;margin-bottom:12px;box-shadow:var(--shadow-soft);overflow:hidden;}
+  .day.van{border-color:#cfe3c9;}
+  .day summary{list-style:none;cursor:pointer;display:flex;gap:12px;align-items:center;padding:12px 14px;}
+  .day summary::-webkit-details-marker{display:none;}
+  .dnum{flex:0 0 auto;width:48px;text-align:center;border-radius:12px;padding:4px 0;background:var(--red-soft);color:var(--red-dark);}
+  .day.van .dnum{background:var(--green-soft);color:var(--green);}
+  .dnum b{display:block;font-size:17px;line-height:1.2;}
+  .dnum span{font-size:11px;font-weight:600;}
+  .dtitle{flex:1;min-width:0;}
+  .dtitle h3{font-size:18px;line-height:1.3;}
+  .dtitle .tag{font-size:12.5px;color:var(--muted);}
+  .chev{color:var(--muted);transition:transform .2s;}
+  .day[open] .chev{transform:rotate(180deg);}
+  .dbody{padding:0 14px 14px;border-top:1px dashed var(--line);}
+  .dbody ul{margin:10px 0 0;padding-inline-start:20px;}
+  .dbody li{margin:4px 0;}
+  .meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;}
+  .chip{font-size:12.5px;font-weight:600;padding:3px 10px;border-radius:999px;background:#F6F1EF;color:var(--ink);}
+  .chip.sleep{background:var(--blue-soft);color:var(--blue);}
+  .chip.drive{background:var(--gold-soft);color:var(--gold-dark);}
+  .kids{margin-top:10px;font-size:14px;background:var(--gold-soft);border-radius:10px;padding:8px 10px;}
+  .vanbadge{font-size:11.5px;font-weight:800;color:#fff;background:var(--green);padding:1px 8px;border-radius:999px;margin-inline-start:4px;vertical-align:middle;}
+
+  .cards{display:grid;gap:10px;}
+  .card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px 14px;}
+  .card h3{font-size:17px;margin-bottom:4px;}
+  .card p{margin:0;font-size:14.5px;}
+  .card ul{margin:4px 0 0;padding-inline-start:20px;font-size:14.5px;}
+
+  .q{display:flex;gap:10px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 12px;margin-bottom:8px;font-size:14.5px;}
+  .q .ic{font-size:18px;line-height:1.4;}
+  footer{text-align:center;color:var(--muted);font-size:12.5px;margin-top:36px;}
+</style>
+</head>
+<body>
+
+<header>
+  <a class="allTrips" href="../">→ כל הטיולים</a>
+  <div class="eyebrow">רוזנבלום ✕ אפרת</div>
+  <h1>🚐 פולין 2027</h1>
+  <div class="sub">קרקוב · הרי הטטרה · פייניני — 9 ימים בסוף יוני, 3 מהם בקרוואן</div>
+  <span class="countdown" id="countdown" hidden></span>
+  <span class="draft">✏️ סקיצה ראשונה — הכול פתוח לשינוי</span>
+</header>
+
+<main>
+  <div class="hero" role="img" aria-label="איור: שני קרוואנים על רקע הרי הטטרה ואגם"></div>
+
+  <div class="facts">
+    <div class="fact"><div class="k">תאריכים (הצעה)</div><div class="v">23.6–1.7.2027</div></div>
+    <div class="fact"><div class="k">משך</div><div class="v">9 ימים · 8 לילות</div></div>
+    <div class="fact"><div class="k">קבוצה</div><div class="v">10 נפשות · 6 ילדים</div></div>
+    <div class="fact"><div class="k">טיסה</div><div class="v">ת״א ⇄ קרקוב</div></div>
+  </div>
+
+  <section>
+    <h2>🧭 הרעיון בקצרה</h2>
+    <p class="lead">טיסה הלוך-חזור לקרקוב, בלי לינה כפולה בדרך. מתחילים ומסיימים בעיר, ובאמצע שלושה ימים בקרוואנים בהרים.</p>
+    <div class="blocks">
+      <div class="blk city"><div class="n">🏰</div><b>קרקוב</b><span>3 לילות · ימים 1–3</span></div>
+      <div class="blk van"><div class="n">🚐</div><b>קרוואנים בהרים</b><span>3 לילות · ימים 4–6</span></div>
+      <div class="blk city2"><div class="n">🎢</div><b>קרקוב</b><span>2 לילות · ימים 7–9</span></div>
+    </div>
+    <div class="note">💡 למה ככה: איסוף והחזרה של הקרוואנים באותה נקודה בקרקוב (בלי דמי החזרה במקום אחר), והנסיעה הארוכה (~2 שעות לכל כיוון) פעם אחת בלבד בכל צד.</div>
+  </section>
+
+  <section>
+    <h2>👨‍👩‍👧‍👦 מי נוסע</h2>
+    <div class="fams">
+      <div class="fam">
+        <h3>רוזנבלום</h3>
+        <ul><li>איתי וימית</li><li>3 ילדים</li></ul>
+      </div>
+      <div class="fam efrat">
+        <h3>אפרת</h3>
+        <ul><li>2 הורים</li><li>דולב (11)</li><li>דותן (8)</li><li>ליה (3)</li></ul>
+      </div>
+    </div>
+    <div class="note">👶 שני ילדים בני 3 בקבוצה — כל יום בסקיצה כולל משהו גם בשבילם, ובמכרה ובמורסקיה אוקו צריך מנשא ולא עגלה.</div>
+  </section>
+
+  <section>
+    <h2>🗺️ המסלול על המפה</h2>
+    <div id="map"></div>
+  </section>
+
+  <section>
+    <h2>📅 יום אחרי יום</h2>
+    <p class="lead">לחיצה על יום פותחת את הפירוט. 🚐 = יום קרוואן.</p>
+    <div id="days"></div>
+  </section>
+
+  <section>
+    <h2>🚐 על ימי הקרוואן</h2>
+    <div class="cards">
+      <div class="card"><h3>שני קרוואנים, אחד לכל משפחה</h3><p>כל משפחה צריכה 5 מקומות שינה ו-5 מקומות ישיבה עם חגורה. כדאי לחפש דגם של 6 מקומות — מרווח יותר לשלושה ימים.</p></div>
+      <div class="card"><h3>רישיון ומשקל</h3><p>רוב הקרוואנים המשפחתיים הם עד 3.5 טון, ואז רישיון B רגיל מספיק. לוודא בהזמנה, וגם מה צריך כדי שהרישיון הישראלי יתקבל (רישיון בינלאומי).</p></div>
+      <div class="card"><h3>מושבי בטיחות</h3><p>לליה ולצעירה של רוזנבלום צריך מושב בטיחות, ולשאר הילדים בוסטר לפי גובה. לבדוק מראש שבמושבים שמיועדים להם יש עיגון מתאים.</p></div>
+      <div class="card"><h3>להזמין מוקדם</h3><p>סוף יוני הוא תחילת העונה. קרוואנים גדולים וחניוני קמפינג טובים ליד זקופנה מתמלאים — כדאי לסגור כבר בחורף.</p></div>
+      <div class="card"><h3>מה לחפש בקמפינג</h3><ul><li>חשמל ומים בחלקה</li><li>מגרש משחקים או בריכה</li><li>הליכה קצרה לאוכל או לתחבורה, כדי לא להזיז את הקרוואן כל ערב</li></ul></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>⏱️ אם רוצים קצר או ארוך יותר</h2>
+    <div class="cards">
+      <div class="card"><h3>7 ימים</h3><p>מוותרים על יום 8, ומכרה המלח עובר לאחר הנחיתה ביום 1 (אם הטיסה בבוקר). ימי הקרוואן נשארים כמו שהם.</p></div>
+      <div class="card"><h3>8 ימים</h3><p>מוותרים על יום 8 (אויצוב), וקז׳ימייז׳ נשאר בצהרי יום 7.</p></div>
+      <div class="card"><h3>10 ימים</h3><p>מוסיפים יום רגוע אחרי Energylandia: פארק הדינוזאורים Zatorland שליד הפארק, או פארק המים של קרקוב. אפשרות אחרת היא לילה רביעי בקרוואן.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>❓ פתוח להחלטה</h2>
+    <div id="open"></div>
+  </section>
+
+  <footer>סקיצה ראשונה · אוקטובר 2026 · זמני נסיעה ומחירים הם הערכה ועוד לא נבדקו</footer>
+</main>
+
+<script>
+/* ===== נקודות על המפה ===== */
+const PLACES = [
+  { n:"1", name:"קרקוב — העיר העתיקה", lat:50.0617, lng:19.9373, kind:"home" },
+  { n:"2", name:"מכרה המלח Wieliczka", lat:49.9833, lng:20.0550 },
+  { n:"3", name:"Energylandia, Zator", lat:49.9995, lng:19.4100 },
+  { n:"4", name:"טירת Niedzica ואגם Czorsztyn", lat:49.4239, lng:20.3195, kind:"van" },
+  { n:"5", name:"רפטינג Dunajec (Sromowce)", lat:49.4107, lng:20.3626, kind:"van" },
+  { n:"5", name:"Termy Bania, Białka Tatrzańska", lat:49.3946, lng:20.1050, kind:"van" },
+  { n:"6", name:"זקופנה — Gubałówka וקרופובקי", lat:49.2990, lng:19.9450, kind:"van" },
+  { n:"6", name:"Morskie Oko", lat:49.2013, lng:20.0711, kind:"van" },
+  { n:"8", name:"פארק לאומי Ojców", lat:50.2120, lng:19.8280 },
+];
+const ROUTE = [[50.0617,19.9373],[49.4239,20.3195],[49.4107,20.3626],[49.3946,20.1050],[49.2990,19.9450],[50.0617,19.9373]];
+
+/* ===== הימים ===== */
+const DAYS = [
+  { d:"23.6", wd:"רביעי", title:"נחיתה בקרקוב", tag:"טיסה · העיר העתיקה בערב",
+    plan:["טיסה ישירה מת״א לקרקוב, איסוף רכבים שכורים בשדה","צ׳ק-אין, ובערב טיול ברחבת השוק הגדולה (Rynek)","ארוחת ערב פולנית — פיירוגי לכולם"],
+    kids:"ערב קצר. הכרכרות ברחבה הן להיט אצל הקטנים.", sleep:"קרקוב (דירה/מלון ל-10)", drive:"שדה ← עיר ~30 דק׳" },
+  { d:"24.6", wd:"חמישי", title:"מכרה המלח + הדרקון של ואוול", tag:"Wieliczka · Wawel",
+    plan:["בוקר: מכרה המלח Wieliczka — סיור מודרך באנגלית, כ-3 שעות מתחת לאדמה, כולל כנסייה מגולפת כולה במלח","צהריים: חזרה לעיר, גבעת ואוול והטירה","מערת הדרקון ופסל הדרקון שיורק אש — חובה לילדים"],
+    kids:"במכרה הרבה מדרגות בירידה ועגלה לא נכנסת — מנשא לבני ה-3. לבדוק את הסיור הקצר המיועד למשפחות.", sleep:"קרקוב", drive:"~30 דק׳ לכל כיוון" },
+  { d:"25.6", wd:"שישי", title:"Energylandia — יום מלא", tag:"הפארק הגדול בפולין",
+    plan:["יוצאים מוקדם — הפארק נפתח בבוקר ויש תורים בשעות הצהריים","הגדולים (11, 8): רכבות הרים ואזור המים","הקטנים (3): אזור הילדים — מתקנים, הצגות ומגלשות מים קטנות","אפשר להתפצל לשתי קבוצות ולהיפגש בארוחות"],
+    kids:"לכל מתקן יש הגבלת גובה. כדאי למדוד את הילדים מראש ולבדוק באתר מה מתאים לכל אחד.", sleep:"קרקוב", drive:"~50 דק׳ לכל כיוון" },
+  { van:true, d:"26.6", wd:"שבת", title:"איסוף הקרוואנים ← פייניני", tag:"Niedzica · אגם Czorsztyn",
+    plan:["בוקר: מחזירים את הרכבים השכורים ואוספים את הקרוואנים בקרקוב, הדרכה וקניות בסופר גדול","נסיעה דרומה לאגם Czorsztyn","טירת Niedzica מעל האגם, ושיט קצר באגם","ערב ראשון בקמפינג — על האש"],
+    kids:"הערב הראשון בקרוואן הוא חוויה בפני עצמו — לא להעמיס את היום.", sleep:"קמפינג ליד Czorsztyn / Sromowce", drive:"~2 שעות" },
+  { van:true, d:"27.6", wd:"ראשון", title:"רפטינג בדונאיץ + בריכות חמות", tag:"Dunajec · Termy Bania",
+    plan:["בוקר: שיט ברפסודות עץ במורד נהר הדונאיץ בין הצוקים של פייניני, כשעתיים (שיט רגוע, לא אתגרי)","חוזרים לקרוואנים ונוסעים ל-Białka Tatrzańska","אחר הצהריים: Termy Bania — בריכות מים חמים ומגלשות, עם נוף להרים","לילה בקמפינג באזור Białka או זקופנה"],
+    kids:"ברפסודות יש חגורות הצלה גם לקטנים. בבריכות התרמיות יש אזור פעוטות.", sleep:"קמפינג Białka / זקופנה", drive:"~45 דק׳" },
+  { van:true, d:"28.6", wd:"שני", title:"הרי הטטרה", tag:"Morskie Oko או Gubałówka",
+    plan:["אפשרות א׳ — Morskie Oko: האגם המפורסם של הטטרה. כ-9 ק״מ בכביש סלול לכל כיוון, ואפשר לעלות ברובו בכרכרת סוסים. חניה מזמינים מראש","אפשרות ב׳ (קלה): רכבל Gubałówka מעל זקופנה, מגלשת הרים ומגרשי משחקים למעלה, וערב ברחוב קרופובקי","ערב אחרון בקרוואן — מדורה ומרשמלו"],
+    kids:"עם בני 3, אפשרות ב׳ רגועה יותר. אפשר גם להתפצל: הגדולים למורסקיה אוקו והקטנים ל-Gubałówka.", sleep:"קמפינג בזקופנה", drive:"עד 40 דק׳" },
+  { d:"29.6", wd:"שלישי", title:"החזרת הקרוואנים ← קז׳ימייז׳", tag:"חזרה לקרקוב",
+    plan:["בוקר: ניקוי, ריקון מיכלים ונסיעה לקרקוב (הכביש מזקופנה עמוס — לצאת מוקדם)","החזרת הקרוואנים ואיסוף רכבים שכורים","אחר הצהריים: הרובע היהודי קז׳ימייז׳ — בתי הכנסת, הסמטאות וזאפיינקה בכיכר"],
+    kids:"יום עם הרבה לוגיסטיקה — הסיור בקז׳ימייז׳ קצר.", sleep:"קרקוב", drive:"~2 שעות" },
+  { d:"30.6", wd:"רביעי", title:"יום טבע רגוע", tag:"פארק לאומי Ojców",
+    plan:["פארק לאומי קטן 30 דק׳ מקרקוב: מצוקי גיר, מערת המלך לוקייטק והטירה Pieskowa Skała","מסלולים קצרים ושטוחים שמתאימים גם לקטנים","ערב: קניות אחרונות וארוחת פרידה"],
+    kids:"אפשרות חלופית ליום גשום: פארק המים של קרקוב.", sleep:"קרקוב", drive:"~30 דק׳" },
+  { d:"1.7", wd:"חמישי", title:"טיסה הביתה", tag:"שדה התעופה קרקוב",
+    plan:["לפי שעת הטיסה: בוקר חופשי בעיר או ישר לשדה","החזרת הרכבים השכורים"],
+    kids:"", sleep:"בבית 🏠", drive:"עיר ← שדה ~30 דק׳" },
+];
+
+/* ===== שאלות פתוחות ===== */
+const OPEN = [
+  ["✈️","תאריכים מדויקים וטיסות — אילו חברות טסות ישיר לקרקוב ביוני 2027, ובאיזה שעות. זה קובע אם 7, 9 או 10 ימים."],
+  ["🚐","חברת השכרת הקרוואנים ונקודת האיסוף בקרקוב: גודל, מחיר ליום, ביטוח, ציוד מטבח ומצעים."],
+  ["🚗","רכבים בימי העיר: שני רכבים שכורים, או מיניבוס 9 מקומות ועוד רכב קטן."],
+  ["🏕️","אילו קמפינגים ספציפיים — ואם לישון 2 לילות באותו מקום במקום להזיז כל ערב."],
+  ["🏔️","יום 6: Morskie Oko לכולם, Gubałówka לכולם, או להתפצל."],
+  ["🕯️","האם המבוגרים רוצים ביקור באושוויץ (כשעה מקרקוב). לא מתאים לילדים, אז רק אם יש מי שנשאר איתם."],
+  ["💶","תקציב — אחרי שיהיו הצעות מחיר, נפתח עמוד עלויות לכל משפחה כמו באוסטריה."],
+];
+
+/* ===== רינדור ===== */
+function esc(s){ return String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+
+document.getElementById("days").innerHTML = DAYS.map((x,i) => `
+  <details class="day${x.van ? " van" : ""}"${i === 0 ? " open" : ""}>
+    <summary>
+      <div class="dnum"><b>${esc(x.d)}</b><span>יום ${i+1}</span></div>
+      <div class="dtitle"><h3>${esc(x.title)}${x.van ? '<span class="vanbadge">🚐 קרוואן</span>' : ""}</h3><div class="tag">${esc(x.wd)} · ${esc(x.tag)}</div></div>
+      <span class="chev">▾</span>
+    </summary>
+    <div class="dbody">
+      <ul>${x.plan.map(p => `<li>${esc(p)}</li>`).join("")}</ul>
+      ${x.kids ? `<div class="kids">👧 ${esc(x.kids)}</div>` : ""}
+      <div class="meta"><span class="chip sleep">🛏️ ${esc(x.sleep)}</span><span class="chip drive">🚗 ${esc(x.drive)}</span></div>
+    </div>
+  </details>`).join("");
+
+document.getElementById("open").innerHTML = OPEN.map(([ic,t]) =>
+  `<div class="q"><span class="ic">${ic}</span><span>${esc(t)}</span></div>`).join("");
+
+/* ספירה לאחור */
+(function(){
+  const start = new Date(2027, 5, 23), n = new Date();
+  const today = new Date(n.getFullYear(), n.getMonth(), n.getDate());
+  const days = Math.round((start - today) / 86400000);
+  if (days > 0){
+    const el = document.getElementById("countdown");
+    el.textContent = `⏳ עוד ${days} ימים`;
+    el.hidden = false;
+  }
+})();
+
+/* מפה */
+(function(){
+  if (!window.L) return;
+  const map = L.map("map", { scrollWheelZoom:false });
+  L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
+    attribution:'&copy; OpenStreetMap &copy; CARTO', subdomains:"abcd", maxZoom:18
+  }).addTo(map);
+  L.polyline(ROUTE, { color:"#3d7a3f", weight:4, opacity:.7, dashArray:"8 8" }).addTo(map);
+  const pts = PLACES.map(p => {
+    const icon = L.divIcon({ className:"", html:`<div class="pin ${p.kind || ""}">${p.n}</div>`, iconSize:[24,24], iconAnchor:[12,12] });
+    L.marker([p.lat, p.lng], { icon }).addTo(map).bindPopup(`<b>יום ${p.n}</b><br>${esc(p.name)}`);
+    return [p.lat, p.lng];
+  });
+  map.fitBounds(pts, { padding:[24,24] });
+})();
+
+/* ===== אופליין + עדכון אוטומטי ===== */
+if ("serviceWorker" in navigator){
+  let hadController = !!navigator.serviceWorker.controller;
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("sw.js", { updateViaCache:"none" }).then((reg) => {
+      reg.update().catch(()=>{});
+      document.addEventListener("visibilitychange", () => {
+        if (document.visibilityState === "visible") reg.update().catch(()=>{});
+      });
+    }).catch(()=>{});
+  });
+  let swRefreshed = false;
+  navigator.serviceWorker.addEventListener("controllerchange", () => {
+    if (!hadController){ hadController = true; return; }
+    if (swRefreshed) return;
+    swRefreshed = true;
+    window.location.reload();
+  });
+}
+</script>
+</body>
+</html>
