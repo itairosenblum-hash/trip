@@ -960,6 +960,8 @@
   .camBtn:active{transform:scale(.97);}
   .camNote{margin-top:10px;font-size:12px;color:var(--muted,#78706c);line-height:1.5;}
   @media (max-width:860px){.camBtn{padding:9px 13px;font-size:13.5px;}}
+  .appTable td:last-child{width:1%;vertical-align:middle;}
+  .appDl{display:block;white-space:nowrap;margin:3px 0;padding:5px 10px;border-radius:999px;background:#fff;border:1px solid var(--line,#EFE1E1);color:var(--red-dark,#8A0E22);font-weight:700;font-size:12px;text-decoration:none;text-align:center;}
 </style>
 </head>
 <body>
@@ -1566,18 +1568,15 @@ const DAYS = [
       <tr><td><b>שבת</b> — בקרקוב יש בית חב״ד שמארח ארוחות שבת. ליל שבת שלנו — 25.6, אחרי Energylandia.</td><td>להזמין מראש</td></tr>
     </table>
     <div class="sectionLabel">📱 אפליקציות מומלצות</div>
-    <table class="kids" style="margin-bottom:18px;">
-      <tr><td><b>🧭 Waze</b> — ניווט, כמו בארץ. כל כפתור 🧭 באתר פותח אותו ישר ליעד.</td><td>ניווט</td></tr>
-      <tr><td><b>🗺️ Google Maps</b> — להוריד מראש את אזור קרקוב והטטרה כמפה אופליין. בהרים הקליטה חלשה, ו-Waze לא עובד בלי אינטרנט.</td><td>גיבוי בלי קליטה</td></tr>
-      <tr><td><b>🚕 Bolt / Uber</b> — מוניות בקרקוב ובזקופנה, במחיר ידוע מראש.</td><td>ערבים בעיר</td></tr>
-      <tr><td><b>🚋 Jakdojade</b> — תחבורה ציבורית בקרקוב: מסלולים, זמנים וקניית כרטיסים לחשמלית ולאוטובוס.</td><td>חשמליות</td></tr>
-      <tr><td><b>🅿️ mobiParking / SkyCash</b> — תשלום על חניה באזורים בתשלום בקרקוב ובזקופנה, בלי לחפש מדחן.</td><td>חניה</td></tr>
-      <tr><td><b>🔤 Google Translate</b> — להוריד פולנית לשימוש אופליין. מצב המצלמה מתרגם תפריטים ושלטים.</td><td>תפריטים</td></tr>
-      <tr><td><b>🏕️ park4night / Campercontact</b> — מפות של קמפינגים וחניוני לילה לקרוואנים, עם ביקורות ותמונות.</td><td>ימי הקרוואן</td></tr>
-      <tr><td><b>🌦️ Windy</b> — תחזית מפורטת לפי שעות, כולל סופות רעמים בהרים.</td><td>לפני יום בטבע</td></tr>
-      <tr><td><b>✈️ Wizz Air</b> — כרטיסי עלייה למטוס, צ׳ק-אין וקניית כבודה.</td><td>טיסות</td></tr>
-      <tr><td><b>🎢 האפליקציה של Energylandia</b> — מפת הפארק ומידע על המתקנים.</td><td>יום 3</td></tr>
-      <tr><td><b>💬 WhatsApp</b> — קבוצת הטיול, בכפתור בסרגל התחתון.</td><td>תיאום</td></tr>
+    <div class="box tan">בנוסף לאפליקציות שכבר יש לכולם — Waze, Google Maps (להוריד מפה אופליין של הטטרה), Google Translate (להוריד פולנית אופליין) ו-WhatsApp. הכפתור פותח את חנות האפליקציות בטלפון על החיפוש של האפליקציה.</div>
+    <table class="kids appTable" style="margin-bottom:18px;">
+      <tr><td><b>🚕 Bolt / Uber</b> — מוניות בקרקוב ובזקופנה, במחיר ידוע מראש.</td><td><a class="appDl" href="#" data-app="Bolt">⬇️ Bolt</a> <a class="appDl" href="#" data-app="Uber">⬇️ Uber</a></td></tr>
+      <tr><td><b>🚋 Jakdojade</b> — תחבורה ציבורית בקרקוב: מסלולים, זמנים וקניית כרטיסים לחשמלית ולאוטובוס.</td><td><a class="appDl" href="#" data-app="Jakdojade">⬇️ Jakdojade</a></td></tr>
+      <tr><td><b>🅿️ mobiParking / SkyCash</b> — תשלום על חניה באזורים בתשלום בקרקוב ובזקופנה, בלי לחפש מדחן.</td><td><a class="appDl" href="#" data-app="mobiParking">⬇️ mobiParking</a> <a class="appDl" href="#" data-app="SkyCash">⬇️ SkyCash</a></td></tr>
+      <tr><td><b>🏕️ park4night / Campercontact</b> — מפות של קמפינגים וחניוני לילה לקרוואנים, עם ביקורות ותמונות.</td><td><a class="appDl" href="#" data-app="park4night">⬇️ park4night</a> <a class="appDl" href="#" data-app="Campercontact">⬇️ Campercontact</a></td></tr>
+      <tr><td><b>🌦️ Windy</b> — תחזית מפורטת לפי שעות, כולל סופות רעמים בהרים.</td><td><a class="appDl" href="#" data-app="Windy">⬇️ Windy</a></td></tr>
+      <tr><td><b>✈️ Wizz Air</b> — כרטיסי עלייה למטוס, צ׳ק-אין וקניית כבודה.</td><td><a class="appDl" href="#" data-app="Wizz Air">⬇️ Wizz Air</a></td></tr>
+      <tr><td><b>🎢 Energylandia</b> — האפליקציה של הפארק — מפה ומידע על המתקנים.</td><td><a class="appDl" href="#" data-app="Energylandia">⬇️ Energylandia</a></td></tr>
     </table>
     <div class="sectionLabel">🔄 חלופות</div>
     <ul class="altlist">
@@ -1884,7 +1883,7 @@ const CHECKLIST = [
     {t:"מתאם חשמל", s:"מטענים עם תקע דו-פיני דק מתאימים; לתקע ישראלי משולש צריך מתאם"},
     {t:"סוללה ניידת"},
     {t:"Google Maps — מפה אופליין של קרקוב והטטרה", s:"הקליטה בהרים חלשה, ו-Waze לא עובד בלי אינטרנט"},
-    {t:"להוריד את האפליקציות המומלצות", s:"הרשימה בעמוד מידע"},
+    {t:"להוריד את האפליקציות המומלצות", s:"בעמוד מידע — עם כפתור הורדה לכל אחת"},
     {t:"eSIM או חבילת גלישה לחו״ל"},
     {t:"כרטיס אשראי בלי עמלת המרה, ומעט זלוטי במזומן"},
   ]},
@@ -3139,6 +3138,21 @@ function addShekels(root){
     });
   });
 }
+
+
+/* ---------- App download buttons: open the phone's own store on a search for the app ---------- */
+document.addEventListener("click", (e) => {
+  const a = e.target.closest("a.appDl");
+  if (!a) return;
+  e.preventDefault();
+  const q = encodeURIComponent(a.dataset.app);
+  const ua = navigator.userAgent;
+  const isIOS = /iPhone|iPad|iPod/.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  const url = isIOS
+    ? "itms-apps://search.itunes.apple.com/WebObjects/MZSearch.woa/wa/search?media=software&term=" + q
+    : "https://play.google.com/store/search?q=" + q + "&c=apps";
+  if (isIOS) location.href = url; else window.open(url, "_blank", "noopener");
+});
 
 function selectDay(id){
   const day = DAYS.find(d=>d.id===id);
