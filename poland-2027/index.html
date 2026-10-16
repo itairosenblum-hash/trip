@@ -1136,6 +1136,8 @@ function renderVan(){
       <li><b>תנאי ביטול ומקדמה:</b> חלק מהחברות לוקחות 30% מקדמה, ואת היתרה 14 ימים לפני האיסוף.</li>
     </ol>
 
+    <div class="box green"><b>🚗 ההמלצה: לא להחזיר את הרכב השכור בימי הקרוואן</b>שוכרים רכב לכל 9 הימים — איסוף בשדה בנחיתה, החזרה בשדה לפני הטיסה — ומשאירים אותו בבסיס של חברת הקרוואנים בזמן שבהרים. היתרונות: איסוף והחזרה אחת במקום ארבע; המזוודות נשארות נעולות באוטו, ולקרוואן לוקחים רק תיק לשלושה ימים; מושבי הבטיחות לא זזים; והשכרה שבועית זולה ליום מהשכרה קצרה. לוודא בהזמנה שחברת הקרוואנים מאפשרת להשאיר רכב (ב-Krecik Camp זה חינם), ולבקש מחברת הרכב הצעה ל-9 ימים רצופים.</div>
+
     <div class="sectionLabel">🔑 ביום האיסוף</div>
     <div class="boxes">
       <div class="box tan"><b>לצלם הכול</b>סרטון של כל הקרוואן מבחוץ ומבפנים לפני היציאה, כולל שריטות קיימות, מד הדלק והקילומטרים.</div>
@@ -2018,14 +2020,23 @@ const COST_FAMILIES = [
   {name:"אפרת",     who:"2 הורים · דולב (11) · דותן (8) · ליה (3)"},
 ];
 
-// Rough per-family logistics, so the attraction total isn't mistaken for the trip's cost.
-const LOGISTICS = [
-  {label:"קרוואן ל-3 ימים (כולל דמי שירות וניקוי)", v:"~2,500-3,500 zł"},
-  {label:"קמפינג, 3 לילות (חלקה + חשמל + 5 נפשות)", v:"~500-750 zł"},
-  {label:"דלק לקרוואן (כ-350 ק״מ)", v:"~250-350 zł"},
-  {label:"רכב שכור ל-6 ימי עיר", v:"לפי הצעת מחיר"},
-  {label:"חניות ואגרות (ראו בכל יום)", v:"~150-250 zł"},
+// Whole-trip estimate per family. lo/hi in złoty; the flights are a fixed budget in dollars.
+// Totals are computed here, so changing one line updates the sum.
+const USD_ILS = 3.10;                 // OFX, 15.10.2026
+const FLIGHT_BUDGET_USD = 2500;       // per family, the agreed cap
+const TRIP_EST = [
+  {label:"אטרקציות (הטבלה למעלה)", lo:2910, hi:2910},
+  {label:"קרוואן ל-3 ימים + דמי שירות", lo:1650, hi:3300},
+  {label:"קמפינג, 3 לילות", lo:350, hi:600},
+  {label:"דלק לקרוואן (כ-350 ק״מ)", lo:250, hi:350},
+  {label:"רכב שכור ל-9 ימים, כולל מושבי בטיחות", lo:1600, hi:2700},
+  {label:"דלק לרכב (כ-300 ק״מ)", lo:150, hi:250},
+  {label:"לינה בקרקוב, 5 לילות (חצי דירה ל-10)", lo:1500, hi:2500},
+  {label:"אוכל, 9 ימים (סופר + מסעדות)", lo:2700, hi:4000},
+  {label:"חניות ואגרות", lo:150, hi:250},
+  {label:"ביטוח נסיעות, גלישה ושונות", lo:1000, hi:1800},
 ];
+function ils(n){ return "₪" + (Math.round(n/100)*100).toLocaleString("en-US"); }
 
 function eur(n){
   return n.toLocaleString("en-US", {minimumFractionDigits:0, maximumFractionDigits:2}) + " zł";
@@ -2048,7 +2059,7 @@ function renderCosts(){
 
   return `
     <div class="tag">תכנון תקציב</div>
-    <h2 class="title">עלויות האטרקציות</h2>
+    <h2 class="title">עלויות הטיול</h2>
     <div class="meta">לכל משפחה בנפרד. לשתי המשפחות אותו הרכב — 2 מבוגרים וילדים בני 11, 8 ו-3 — ולכן אותו סכום. מחירי כניסה בלבד, בזלוטי. ליד כל סכום מופיעה המרה משוערת לשקלים, לפי זלוטי אחד ≈ ₪0.80 (שער אוקטובר 2026).</div>
 
     <div class="costFam">
@@ -2061,13 +2072,20 @@ function renderCosts(){
     </div>
     <div class="box tan">* מחיר משוער — לא מצאנו מחיר מאומת לעונת 2026. שורה בסוגריים היא אפשרות ולא נכללת בסה״כ.</div>
 
-    <div class="sectionLabel">🚐 הערכה גסה ללוגיסטיקה — לכל משפחה</div>
+    <div class="sectionLabel">💼 כמה יעלה כל הטיול — לכל משפחה</div>
     <div class="costFam">
+      <h3>הערכה ל-2 מבוגרים + 3 ילדים, 9 ימים</h3>
       <table>
-        ${LOGISTICS.map(l => `<tr><td><bdi>${l.label}</bdi></td><td>${l.v}</td></tr>`).join("")}
+        <tr><td><bdi>טיסות (תקציב)</bdi></td><td>עד $${FLIGHT_BUDGET_USD.toLocaleString("en-US")} (≈${ils(FLIGHT_BUDGET_USD*USD_ILS)})</td></tr>
+        ${TRIP_EST.map(r => `<tr><td><bdi>${r.label}</bdi></td><td>${r.lo === r.hi ? eur(r.lo) : "~" + r.lo.toLocaleString("en-US") + "-" + r.hi.toLocaleString("en-US") + " zł"}</td></tr>`).join("")}
+        <tr class="sum"><td>סה״כ משוער לכל משפחה</td><td>${ils(FLIGHT_BUDGET_USD*USD_ILS + TRIP_EST.reduce((t,r)=>t+r.lo,0)*PLN_ILS)} – ${ils(FLIGHT_BUDGET_USD*USD_ILS + TRIP_EST.reduce((t,r)=>t+r.hi,0)*PLN_ILS)}</td></tr>
       </table>
     </div>
-    <div class="box yellow"><b>עוד לא בפנים</b>טיסות, הדירה בקרקוב, ארוחות, ועגלת סוסים ל-Morskie Oko (המחיר נקבע במקום). את ההערכות ללוגיסטיקה נחליף במספרים אמיתיים כשיגיעו הצעות מחיר.</div>
+    <div class="boxes">
+      <div class="box yellow"><b>אם חייבים 7 ימי קרוואן</b>אם לא נמצא קרוואן להשכרה של 3 ימים ונצטרך לשלם על 7 (ראו עמוד "קרוואן"), התוספת היא כ-1,500-3,700 zł למשפחה, והסה״כ עולה בהתאם.</div>
+      <div class="box tan"><b>על מה ההערכה מבוססת</b>הטיסות — התקציב שהוגדר, $2,500 למשפחה. האטרקציות — המחירים בטבלה למעלה. הקרוואן — מחירי השכרה ב-2026. הרכב — רכב סטיישן ל-9 ימים רצופים, בלי להחזיר בימי הקרוואן. הלינה והאוכל — הערכה בלבד. שערים: דולר ≈ ₪3.10, זלוטי ≈ ₪0.80 (אוקטובר 2026).</div>
+    </div>
+    <div class="box tan"><b>עוד לא בפנים</b>עגלת סוסים ל-Morskie Oko (המחיר נקבע במקום), מזכרות, ומלון ליד השדה אם בוחרים בו ללילה האחרון. נחליף את ההערכות במספרים אמיתיים כשיגיעו הצעות מחיר.</div>
 
     <div class="sectionLabel">💰 איפה אפשר לחסוך</div>
     <div class="boxes">
