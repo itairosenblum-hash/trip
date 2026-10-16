@@ -1,6 +1,6 @@
 // כל טיול מקבל מטמון משלו עם קידומת משלו, כדי שלא ימחק את המטמון של הלובי או של טיולים אחרים.
 const PREFIX = "poland2027-";
-const CACHE = PREFIX + "v7";
+const CACHE = PREFIX + "v8";
 const ASSETS = [
   "./",
   "./index.html",

@@ -3005,24 +3005,6 @@ tabbarEl.appendChild(searchTabBtn);
 const waEl = document.querySelector(".waFab");
 if (waEl) tabbarEl.appendChild(waEl);
 
-// Share: the phone's native share sheet (WhatsApp, Messages…); WhatsApp on desktops without one.
-const SHARE_URL  = "https://itairosenblum-hash.github.io/trip/poland-2027/";
-const SHARE_TEXT = "🚐 פולין 2027 — טיול הקרוואנים של רוזנבלום ואפרת. הסקיצה, יום אחרי יום:";
-const shareTabBtn = document.createElement("button");
-shareTabBtn.id = "nav-share";
-shareTabBtn.type = "button";
-shareTabBtn.title = "שיתוף האתר";
-shareTabBtn.setAttribute("aria-label", "שיתוף האתר");
-shareTabBtn.innerHTML = `<span class="icon">📤</span><span class="lbl">שיתוף</span>`;
-shareTabBtn.addEventListener("click", async () => {
-  if (navigator.share){
-    try { await navigator.share({ title:"פולין 2027 — טיול קרוואנים", text:SHARE_TEXT, url:SHARE_URL }); } catch(e){}
-    return;
-  }
-  window.open("https://wa.me/?text=" + encodeURIComponent(SHARE_TEXT + "\n" + SHARE_URL), "_blank", "noopener");
-});
-tabbarEl.appendChild(shareTabBtn);
-
 /* ---------- Day scroller arrows: step to the previous/next day chip ----------
    Tracked with its own index (not tied to which day is currently selected/active),
    so repeated arrow clicks keep advancing even if the user hasn't tapped a chip yet. */
