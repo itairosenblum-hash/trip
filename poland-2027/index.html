@@ -1037,6 +1037,159 @@
 
 
 <script>
+/* ---------- Caravan page: rental companies, how to run the van, costs, rules ---------- */
+const VAN_COMPANIES = [
+  {n:"Indie Campers — שדה התעופה קרקוב", t:"רשת בינלאומית",
+   d:"תחנה ליד שדה התעופה של קרקוב, עם הסעה מהשדה. דגמים: ואן קטן ל-4 ודגם חצי-אינטגרלי (Comfort Standard) עם 5 מקומות שינה — זה שמתאים לנו. אין מינימום ימים קבוע, אבל בעונה החברה רשאית לקבוע מינימום. איסוף הרכבים: 15:00-17:00 בלבד.",
+   u:"https://indiecampers.com/", ul:"האתר"},
+  {n:"McRent — קרקוב", t:"רשת גרמנית גדולה",
+   d:"תחנת השכרה בקרקוב, עם קרוואנים משפחתיים גדולים. אפשר גם להחזיר בעיר אחרת בפולין. מחירים ומינימום ימים — רק בהצעת מחיר.",
+   u:"https://www.mcrent.eu/motorhome-rv-rental/poland/krakow/", ul:"התחנה בקרקוב"},
+  {n:"Krecik Camp (Kampery Małopolska)", t:"חברה מקומית",
+   d:"ב-Rzozów, ממש על הדרך לזקופנה. Rapido ו-Adria. ביוני-יולי: 690-1,100 zł ליום, מינימום 7 ימים, פיקדון 4,000 zł. דמי שירות 300 zł (בוטלו בהשכרה מעל 7 ימים). העונה הגבוהה ב-2027 מתחילה ב-12.6. משאירים את הרכב השכור בבסיס בחינם.",
+   u:"https://www.kamperymalopolska.pl/cennik", ul:"מחירון"},
+  {n:"Booking Camper", t:"אתר השוואה פולני",
+   d:"אוסף הצעות מכמה חברות השכרה מאומתות. בקרקוב היו 19 הצעות, 350-900 zł ליום. אצל חלק מהחברות אפשר להזמין 3 ימים — כאן הכי סביר למצוא השכרה קצרה.",
+   u:"https://bookingcamper.pl/wynajem-kampera-krakow", ul:"הצעות בקרקוב"},
+  {n:"Motorhome Republic", t:"אתר השוואה בינלאומי",
+   d:"משווה בין Anywhere Campers ו-McRent בקרקוב, באנגלית, כולל אפשרות להחזרה בעיר אחרת.",
+   u:"https://www.motorhomerepublic.com/poland/krakow-motorhome-rental", ul:"השוואה"},
+];
+
+const VAN_CAMPS = [
+  {n:"Camping Polana Sosny", w:"Niedzica — לילה 1",
+   d:"קמפינג גדול על גדת הדונאיץ, ליד אגם ומעגן הרפסודות. 60 חלקות, פתוח כל השנה. מחיר מנחה בעונה כ-€27-33 ללילה.", q:"Polana Sosny, Niedzica, Poland"},
+  {n:"Camp Gorący Potok", w:"Szaflary — ליד זקופנה",
+   d:"קמפינג עם מים וחשמל בחלקה, ממש ליד מתחם הבריכות התרמיות Gorący Potok, ויש חבילה של לינה + בריכות. כ-15 דק׳ מזקופנה. אפשרות מעניינת במקום Termy Bania.", q:"Camp Gorący Potok, Szaflary, Poland"},
+  {n:"Gubałówka Camper Park", w:"זקופנה",
+   d:"חניון קרוואנים למעלה בגובאלובקה, עם נוף לטטרה.", q:"Gubałówka Camper Park, Zakopane, Poland"},
+  {n:"Camping Pod Krokwią", w:"זקופנה",
+   d:"הכי קרוב למרכז (כ-2.6 ק״מ), כ-119 zł ללילה לשניים בלי תוספות. הביקורות חלשות: חלקות משופעות ומקלחות ישנות.", q:"Camping Pod Krokwią, Zakopane, Poland"},
+  {n:"Camping Smok", w:"קרקוב",
+   d:"קמפינג בקרקוב, פתוח כל השנה — אם רוצים לישון בקרוואן כבר בלילה של האיסוף או ההחזרה.", q:"Camping Smok, Kraków, Poland"},
+];
+
+function renderVan(){
+  const companies = VAN_COMPANIES.map(c => `
+    <div class="eat">
+      <div class="body">
+        <div class="nm">${c.n}<span class="tagline">${c.t}</span></div>
+        <div class="ds">${c.d}</div>
+        <div class="lk"><a href="${c.u}" target="_blank" rel="noopener">${c.ul}</a></div>
+      </div>
+    </div>`).join("");
+  const camps = VAN_CAMPS.map(c => `
+    <div class="eat">
+      <div class="body">
+        <div class="nm">${c.n}<span class="tagline">${c.w}</span></div>
+        <div class="ds">${c.d}</div>
+      </div>
+      <a class="nav" href="${eatsLink(c.q)}" target="_blank" rel="noopener" title="נווט ב-Waze ל-${c.n}">🧭</a>
+    </div>`).join("");
+
+  return `
+    <div class="tag">🚐 ימים 4-6 · 26.6-29.6</div>
+    <h2 class="title">הקרוואן</h2>
+    <div class="meta">איפה שוכרים, כמה זה עולה, ואיך מתנהלים עם בית על גלגלים — שלושה ימים, שני קרוואנים, אחד לכל משפחה.</div>
+
+    <div class="box red"><b>⚠️ הבעיה הכי חשובה: מינימום 7 ימים בעונה</b>רוב חברות ההשכרה בפולין דורשות בעונה הגבוהה (מאמצע יוני עד אמצע ספטמבר) השכרה של 7 ימים לפחות, ובעונה הנמוכה 3 ימים. סוף יוני כבר בעונה הגבוהה. יש ארבע דרכים להתמודד:
+      <ol style="margin:8px 0 0;padding-inline-start:20px;">
+        <li>למצוא חברה שמאפשרת 3 לילות — הכי סביר דרך Booking Camper או Indie Campers.</li>
+        <li>לשלם על 7 ימים ולהשתמש ב-3 — יקר מאוד.</li>
+        <li>להאריך את חלק הקרוואן ל-5-7 ימים ולקצר את קרקוב — לבנות את הטיול מחדש.</li>
+        <li>להקדים את הטיול לפני 12.6, לעונת הביניים.</li>
+      </ol>
+      זו ההחלטה הראשונה שצריך לקבל, כי היא משנה את כל השלד של הטיול.
+    </div>
+
+    <div class="sectionLabel">🏢 איפה שוכרים</div>
+    <div class="eats">${companies}</div>
+    <div class="box tan"><b>מה לבקש בהצעת המחיר</b>שני קרוואנים לאותם תאריכים · 5 מקומות שינה ו-5 מושבים עם חגורת 3 נקודות · משקל עד 3.5 טון · ערכת מטבח ומצעים · כבל חשמל לקמפינג · מחיר כולל ביטוח מקיף · שעות איסוף והחזרה · חניה לרכב השכור בזמן ההשכרה.</div>
+
+    <div class="sectionLabel">💶 כמה זה עולה — לכל משפחה</div>
+    <div class="costFam">
+      <table>
+        <tr><td><bdi>השכרה ליום בעונה הגבוהה</bdi></td><td>~450-1,000 zł</td></tr>
+        <tr><td><bdi>3 ימים (אם מוצאים חברה שמאפשרת)</bdi></td><td>~1,350-3,000 zł</td></tr>
+        <tr><td><bdi>7 ימים (אם חייבים מינימום)</bdi></td><td>~3,200-7,000 zł</td></tr>
+        <tr><td><bdi>דמי שירות (גז, נוזלים, הדרכה)</bdi></td><td>~250-350 zł</td></tr>
+        <tr><td><bdi>קמפינג, 3 לילות</bdi></td><td>~350-600 zł</td></tr>
+        <tr><td><bdi>דלק (כ-350 ק״מ)</bdi></td><td>~250-350 zł</td></tr>
+        <tr class="sum"><td>פיקדון (מוחזר)</td><td>4,000-7,000 zł</td></tr>
+      </table>
+    </div>
+    <div class="boxes">
+      <div class="box yellow"><b>פיקדון</b>4,000-7,000 zł שנחסמים בכרטיס האשראי, לכל קרוואן. לוודא שיש מספיק מסגרת בשני כרטיסים. נזק קטן מנוכה מהפיקדון גם כשיש ביטוח.</div>
+      <div class="box tan"><b>חיובים נוספים שכדאי להכיר</b>ניקוי חיצוני 100-150 zł · ניקוי פנימי 150-350 zł · ריקון שירותים כימיים 150-200 zł · איחור בהחזרה כ-100 zł לכל שעה · מילוי דלק על ידי החברה כ-100 zł פלוס הדלק.</div>
+    </div>
+
+    <div class="sectionLabel">📋 לפני החתימה</div>
+    <ol class="checklist">
+      <li><b>גיל ורישיון:</b> אצל רוב החברות הנהג צריך להיות בן 25 לפחות (חלקן 26-30), עם רישיון B של 3 שנים ומעלה. להוסיף נהג שני.</li>
+      <li><b>משקל:</b> עם רישיון B אסור לנהוג ברכב מעל 3.5 טון משקל כולל. גם בקרוואן של 3.5 טון נשארים כ-450-500 ק״ג למשפחה, למים ולמזוודות — לא להעמיס מים מלאים בנסיעות ארוכות.</li>
+      <li><b>ביטוח:</b> ביטוח חובה כלול. לבדוק אם יש ביטוח מקיף, מה ההשתתפות העצמית, ואם נזק קטן יורד מהפיקדון.</li>
+      <li><b>הגבלת ק״מ:</b> לבדוק אם יש. אנחנו נוסעים כ-350 ק״מ, כך שרוב ההגבלות לא יפריעו.</li>
+      <li><b>יציאה לסלובקיה:</b> הגבול ליד פייניני וזקופנה קרוב. אם אולי חוצים — לוודא שמותר בחוזה.</li>
+      <li><b>תנאי ביטול ומקדמה:</b> חלק מהחברות לוקחות 30% מקדמה, ואת היתרה 14 ימים לפני האיסוף.</li>
+    </ol>
+
+    <div class="sectionLabel">🔑 ביום האיסוף</div>
+    <div class="boxes">
+      <div class="box tan"><b>לצלם הכול</b>סרטון של כל הקרוואן מבחוץ ומבפנים לפני היציאה, כולל שריטות קיימות, מד הדלק והקילומטרים.</div>
+      <div class="box tan"><b>מה לבקש שיראו לכם</b>חיבור החשמל בקמפינג · פתיחת הגז והחלפת בלון · מילוי מים · ריקון מיכל המים האפורים · ריקון קסטת השירותים · הפעלת המקרר והחימום · סידור המיטות · נעילת ארונות לפני נסיעה.</div>
+      <div class="box yellow"><b>מושבי הבטיחות</b>לבדוק שבמושבים האחוריים יש חגורת 3 נקודות שאפשר לעגן בה מושב בטיחות (ISOFIX בקרוואנים לא תמיד קיים). מאיה וליה — מושב בטיחות. דן, דולב, עומר ודותן — בוסטר לפי גובה. אפשר לשכור מהחברה או להביא מהבית.</div>
+    </div>
+    <div class="box red"><b>שעת האיסוף משפיעה על הלו״ז</b>ב-Indie Campers האיסוף רק אחר הצהריים (15:00-17:00). אם בוחרים בהם, יום 4 משתנה: את הבוקר מבלים בקרקוב, נוסעים להרים אחר הצהריים, ואת הלילה הראשון ישנים בקמפינג קרוב יותר.</div>
+
+    <div class="sectionLabel">🛣️ נהיגה בפולין</div>
+    <table class="kids">
+      <tr><td><b>מהירות</b> — קרוואן עד 3.5 טון נוהג כמו רכב פרטי: 50 בעיר, 90 בכביש בין-עירוני, 120 בכביש מהיר (S), 140 באוטוסטרדה (A).</td><td>הקרוואן כבד וגבוה — נוסעים לאט מהמותר.</td></tr>
+      <tr><td><b>אורות</b> — דולקים כל הזמן, גם ביום.</td><td>חובה כל השנה</td></tr>
+      <tr><td><b>אלכוהול</b> — המגבלה 0.2 פרומיל, כמעט אפס.</td><td>לא לשתות ולנהוג</td></tr>
+      <tr><td><b>ציוד חובה</b> — משולש אזהרה ומטף. אפוד זוהר מומלץ לכל נוסע.</td><td>לבדוק שיש ברכב</td></tr>
+      <tr><td><b>גובה ואורך</b> — קרוואן משפחתי בגובה כ-3 מ׳ ובאורך 6-7.5 מ׳. להיזהר מחניונים מקורים, גשרים נמוכים ורחובות צרים בזקופנה.</td><td>לרשום את הגובה על מדבקה ליד ההגה</td></tr>
+      <tr><td><b>אגרות</b> — עד 3.5 טון: רק A4 קרקוב–קטוביץ בתשלום, ולא נוסעים בו. מעל 3.5 טון — רישום ל-e-TOLL ותשלום בכבישים רבים.</td><td>עוד סיבה להישאר עד 3.5 טון</td></tr>
+      <tr><td><b>חירום</b> — 112. מספר הסיוע בדרכים של חברת ההשכרה — לשמור בטלפון.</td><td>&nbsp;</td></tr>
+    </table>
+
+    <div class="sectionLabel">🏕️ איפה ישנים</div>
+    <div class="eats">${camps}</div>
+    <div class="boxes">
+      <div class="box green"><b>מותר לישון גם מחוץ לקמפינג</b>בפולין החוק מאפשר לישון בקרוואן כמעט בכל מקום — חוץ מפארקים לאומיים (כולל פארק הטטרה) ואזורי חניה בתשלום בערים. בשטח פרטי — לבקש רשות. בפועל, עם 6 ילדים, קמפינג עם מקלחות, חשמל ושירותים שווה כל זלוטי.</div>
+      <div class="box tan"><b>אפליקציות שכדאי להוריד</b>park4night ו-Campercontact — מפות של קמפינגים וחניוני לילה עם ביקורות. ACSI — מדריך קמפינגים באירופה.</div>
+    </div>
+
+    <div class="sectionLabel">🔄 השגרה היומית בקרוואן</div>
+    <table class="kids">
+      <tr><td><b>בבוקר</b> — לסגור גז, לנעול ארונות ומקרר, לקפל גגון ומדרגה, לנתק חשמל.</td><td>לפני כל נסיעה</td></tr>
+      <tr><td><b>מים</b> — למלא מיכל מים נקיים בקמפינג. לשתייה — מים מבקבוקים.</td><td>כל יום</td></tr>
+      <tr><td><b>מים אפורים</b> — לרוקן בעמדת הריקון של הקמפינג, לא בטבע.</td><td>כל יום-יומיים</td></tr>
+      <tr><td><b>שירותים כימיים</b> — לרוקן את הקסטה בעמדה המיועדת בקמפינג. עם 5 נפשות — כל יום.</td><td>כל יום</td></tr>
+      <tr><td><b>חשמל</b> — בקמפינג מתחברים לעמדת החשמל. בלי חיבור, הסוללה מספיקה לתאורה ולטעינת טלפונים, לא למזגן.</td><td>בכל לילה בקמפינג</td></tr>
+      <tr><td><b>שינה</b> — מסדרים מראש מי ישן איפה: לרוב מיטה כפולה מאחור, מיטה מעל תא הנהג, ופינת האוכל שנפתחת למיטה. הקטנות לא ישנות במיטה העליונה בלי מעקה.</td><td>בערב הראשון</td></tr>
+    </table>
+
+    <div class="sectionLabel">🏁 ההחזרה</div>
+    <ol class="checklist">
+      <li>מיכל דלק מלא — לתדלק בתחנה האחרונה לפני ההחזרה.</li>
+      <li>מיכל מים אפורים וקסטת שירותים ריקים.</li>
+      <li>ניקוי בפנים: רצפה, כיור, מקרר. להוציא את כל האוכל.</li>
+      <li>להגיע בזמן — איחור עולה כ-100 zł לשעה.</li>
+      <li>סרטון של הקרוואן בהחזרה, כמו באיסוף.</li>
+    </ol>
+
+    <div class="sectionLabel">🎒 מה להביא מהבית לקרוואן</div>
+    <ul class="altlist">
+      <li>פנס ראש לכל משפחה, ומפצל USB לטעינה בנסיעה.</li>
+      <li>מגבות ושקי שינה קלים, אם המצעים לא כלולים.</li>
+      <li>סל קטן לכל ילד עם הבגדים של היום — בקרוואן אין מקום למזוודות פתוחות.</li>
+      <li>מזוודות רכות שמתקפלות. מזוודות קשיחות לא נכנסות לארונות.</li>
+      <li>משחקי קופסה קטנים לערבים, ומרשמלו למדורה.</li>
+    </ul>
+    <div class="footerbar">💡 הנתונים נאספו מאתרי החברות וממדריכים פולניים לשנת 2026. מחירים ותנאים ל-2027 — רק בהצעת מחיר.</div>
+  `;
+}
+
 /* ---------- Coordinates ---------- */
 const LOC = {
   krk_airport: {lat:50.0777, lon:19.7848, label:"שדה התעופה קרקוב (KRK)", address:"Kraków Airport, Balice, Poland"},
@@ -1372,6 +1525,7 @@ const DAYS = [
       <tr><td><b>קמפינג בזקופנה</b> — שני לילות באותו מקום, בהליכה למרכז העיר.</td><td><span dir="ltr">27.6 – 29.6</span></td></tr>
     </table>
     <div class="sectionLabel">🚐 על הקרוואנים</div>
+    <div class="box red"><b>הכול על הקרוואן — בעמוד "קרוואן" בתפריט התחתון</b>חברות השכרה, מחירים, מינימום ימים, נהיגה, קמפינגים והשגרה היומית.</div>
     <div class="boxes">
       <div class="box tan"><b>שני קרוואנים</b>אחד לכל משפחה: 5 מקומות שינה ו-5 מקומות ישיבה עם חגורה. דגם של 6 מקומות מרווח יותר.</div>
       <div class="box tan"><b>רישיון ומשקל</b>עד 3.5 טון — רישיון B רגיל. מעל 3.5 טון צריך רישיון אחר וגם מערכת אגרה אלקטרונית (e-TOLL) על חלק מהכבישים. לבחור קרוואן עד 3.5 טון.</div>
@@ -1406,6 +1560,11 @@ const DAYS = [
     </ol>
     <div class="box tan"><b>מחירים ושעות</b>המחירים בעמוד "עלויות" נאספו ממקורות פומביים לעונת 2026 (חלקם 2025), ולכן הם הערכה ל-2027. כדאי לאמת מול אתרי האטרקציות כשמזמינים.</div>
   `
+},
+{
+  id:"van", nav:"קרוואן", navSub:"השכרה ושימוש",
+  segment: [],
+  render: () => renderVan(),
 },
 {
   id:"forecast", nav:"תחזית", navSub:"עד 16 יום קדימה",
@@ -1868,7 +2027,7 @@ function renderCosts(){
   return `
     <div class="tag">תכנון תקציב</div>
     <h2 class="title">עלויות האטרקציות</h2>
-    <div class="meta">לכל משפחה בנפרד. לשתי המשפחות אותו הרכב — 2 מבוגרים וילדים בני 11, 8 ו-3 — ולכן אותו סכום. מחירי כניסה בלבד, בזלוטי. זלוטי אחד שווה בערך שקל אחד — לבדוק את השער לפני הנסיעה.</div>
+    <div class="meta">לכל משפחה בנפרד. לשתי המשפחות אותו הרכב — 2 מבוגרים וילדים בני 11, 8 ו-3 — ולכן אותו סכום. מחירי כניסה בלבד, בזלוטי. ליד כל סכום מופיעה המרה משוערת לשקלים, לפי זלוטי אחד ≈ ₪0.80 (שער אוקטובר 2026).</div>
 
     <div class="costFam">
       <h3>${COST_FAMILIES.map(f => f.name).join(" · ")}</h3>
@@ -1963,7 +2122,7 @@ function renderGallery(id){
 /* ---------- Map (Google Maps, no key) + Waze navigation ---------- */
 const DAY_ICON = {
   checklist:"✅", forecast:"🌦️", d1:"✈️", d2:"⛏️", d3:"🎢", d4:"🏰", d5:"🛶",
-  d6:"🏔️", d7:"🔁", d8:"🌲", d9:"✈️", alt:"📋", costs:"💶", trivia:"🎯",
+  d6:"🏔️", d7:"🔁", d8:"🌲", d9:"✈️", alt:"📋", van:"🚐", costs:"💶", trivia:"🎯",
 };
 const LOC_ICON = {
   krk_airport:"✈️", krakow:"🏡", rynek:"🏛️", wieliczka:"⛏️", wawel:"🏰", smok:"🐉", energylandia:"🎢",
@@ -2804,7 +2963,7 @@ updateCountdown();
 
 // Top strip: the 10 trip days in a horizontal scroller (see the arrow handlers below).
 // Bottom tab bar: the four reference pages, always one tap away regardless of scroll position.
-const TOP_NAV_IDS = ["checklist", "forecast", "alt", "costs", "trivia"];
+const TOP_NAV_IDS = ["checklist", "forecast", "alt", "van", "costs", "trivia"];
 DAYS.forEach(d=>{
   if (TOP_NAV_IDS.includes(d.id)) return;   // tab-bar pages are built below, in TOP_NAV_IDS order
   const btn = document.createElement("button");
@@ -2895,6 +3054,35 @@ function renderWebcams(id){
     `<div class="camNote">הקישורים נפתחים בחלון חדש באתרי צד שלישי (תיירות מקומית, bergfex, Panomax ועוד). בלילה המצלמות חשוכות, ולפעמים מצלמה בודדת מושבתת — לכן יש כמה לכל אזור.</div>`;
 }
 
+
+/* ---------- Shekel estimate next to every złoty amount ----------
+   Prices stay in złoty (that's what you pay on the spot); each amount gets "(≈₪…)" appended.
+   Done on the rendered panel's text nodes after all injections, so the data tables stay in zł
+   and only this rate needs updating. Rate: Wise mid-market, October 2026. */
+const PLN_ILS = 0.80;
+function ilsRound(n){
+  const v = n * PLN_ILS;
+  return v < 20 ? Math.round(v) : v < 200 ? Math.round(v/5)*5 : Math.round(v/10)*10;
+}
+function ilsFmt(n){ return ilsRound(n).toLocaleString("en-US"); }
+const ZL_RE = /(\d{1,3}(?:,\d{3})*(?:\.\d+)?)(?:\s?[-–]\s?(\d{1,3}(?:,\d{3})*(?:\.\d+)?))?\s?zł/g;
+function addShekels(root){
+  if (!root) return;
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+  const nodes = [];
+  while (walker.nextNode()) nodes.push(walker.currentNode);
+  nodes.forEach(node => {
+    const t = node.nodeValue;
+    if (!t.includes("zł")) return;
+    const next = node.nextSibling;
+    node.nodeValue = t.replace(ZL_RE, (m, a, b, off, str) => {
+      if (str.slice(off + m.length, off + m.length + 4).includes("₪")) return m;   // already converted
+      const x = parseFloat(a.replace(/,/g, "")), y = b ? parseFloat(b.replace(/,/g, "")) : null;
+      return m + ` (≈₪${ilsFmt(x)}${y !== null ? "-" + ilsFmt(y) : ""})`;
+    });
+  });
+}
+
 function selectDay(id){
   const day = DAYS.find(d=>d.id===id);
   if(!day) return;
@@ -2904,6 +3092,7 @@ function selectDay(id){
   injectRowWaze(id);
   injectTraffic(id);
   injectToll(id);
+  addShekels(panelEl);
   document.querySelectorAll("nav.daynav button, nav.tabbar button").forEach(b=>b.classList.remove("active"));
   document.getElementById("nav-"+id).classList.add("active");
   if (DAY_SCROLL_IDS.includes(id)){
@@ -2914,7 +3103,7 @@ function selectDay(id){
   const isTrivia = (id === "trivia");
   // Trivia and the costs table are reference pages, not places — a map, a forecast and a
   // "navigate now" button would all be noise there, so hide the whole strip.
-  const noMap = isTrivia || ["costs","checklist","forecast"].includes(id);
+  const noMap = isTrivia || ["costs","checklist","forecast","van"].includes(id);
   const segment = day.segment.length ? day.segment : FULL_ROUTE;
 
   const mapCardEl = document.getElementById("mapCard");
@@ -2963,7 +3152,7 @@ const SEARCH_SECTIONS = [
 ];
 // Pages built by their own JS (checklist state, live forecast, quiz) aren't indexable from
 // a detached render, so they stay out.
-const SEARCH_SKIP_DAYS = ["trivia", "forecast", "checklist", "costs"];
+const SEARCH_SKIP_DAYS = ["trivia", "forecast", "checklist", "costs"];   // "van" is static, so it stays searchable
 
 // Hebrew transliterations, so "הלשטט" finds Hallstatt and "vienna" finds וינה.
 const SEARCH_SYNONYMS = [
