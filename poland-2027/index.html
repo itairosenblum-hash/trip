@@ -5,15 +5,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>פולין 2027 — טיול קרוואנים</title>
 
+<!-- Open Graph / WhatsApp / Facebook link-preview tags. og:image must be an absolute URL —
+     WhatsApp's crawler fetches it directly and won't resolve a relative path. -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://itairosenblum-hash.github.io/trip/poland-2027/">
 <meta property="og:title" content="🚐 פולין 2027 — טיול קרוואנים">
-<meta property="og:description" content="סקיצה ראשונה: קרקוב, הרי הטטרה ופייניני — רוזנבלום ואפרת, 9 ימים בסוף יוני, 3 מהם בקרוואן.">
+<meta property="og:description" content="קרקוב, הרי הטטרה ופייניני — רוזנבלום ואפרת, 9 ימים בסוף יוני 2027, 3 מהם בקרוואן. לו״ז יומי, מפות עם Waze, פקקים ועלויות.">
 <meta property="og:image" content="https://itairosenblum-hash.github.io/trip/poland-2027/cover.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:locale" content="he_IL">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="🚐 פולין 2027 — טיול קרוואנים">
+<meta name="twitter:description" content="קרקוב, הרי הטטרה ופייניני — רוזנבלום ואפרת, 9 ימים בסוף יוני 2027, 3 מהם בקרוואן. לו״ז יומי, מפות עם Waze, פקקים ועלויות.">
+<meta name="twitter:image" content="https://itairosenblum-hash.github.io/trip/poland-2027/cover.jpg">
 
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#8A0E22">
@@ -29,462 +34,3134 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <style>
   :root{
-    --red:#C8102E; --red-dark:#8A0E22; --red-soft:#FBEAEC;
-    --gold:#C89B3C; --gold-dark:#8f6d24; --gold-soft:#FBF3E1;
-    --green:#3d7a3f; --green-soft:#EFF6EC;
-    --blue:#1F5E73; --blue-soft:#E7F2F6;
-    --ink:#2B2320; --muted:#78706c; --line:#EFE1E1;
+    --red:#C8102E;
+    --red-dark:#8A0E22;
+    --red-pop:#E63950;
+    --red-soft:#FBEAEC;
+    --gold:#C89B3C;
+    --gold-dark:#8f6d24;
+    --gold-soft:#FBF3E1;
+    --cream:#FFFFFF;
+    --cream-2:#FBEEEF;
+    --ink:#2B2320;
+    --muted:#78706c;
+    --line:#EFE1E1;
+    --red-bg:#FBEAEC;
+    --green-bg:#EFF6EC;
+    --green-txt:#3d7a3f;
+    --yellow-bg:#FDF6E3;
+    --radius-lg:20px;
+    --radius-md:14px;
     --shadow-soft:0 4px 16px rgba(43,35,32,.09);
+    --shadow-pop:0 6px 20px rgba(43,35,32,.16);
   }
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
-  body{background:#FFFAF9;color:var(--ink);font-family:'Heebo',sans-serif;line-height:1.6;font-size:15.5px;}
+  body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Heebo',sans-serif;
+    font-weight:400;
+    line-height:1.6;
+    font-size:15.5px;
+  }
   h1,h2,h3{font-family:'Frank Ruhl Libre',serif;margin:0;}
-  header{
-    padding:22px 18px 20px;
+  header.top{
+    position:relative;
+    padding:26px 28px 22px;
     background:
       radial-gradient(circle at 92% -10%, rgba(200,16,46,.10), transparent 55%),
       radial-gradient(circle at 6% 120%, rgba(200,155,60,.14), transparent 50%),
-      linear-gradient(180deg,#fff,#FFFAF9);
+      linear-gradient(180deg,#fff, #FFFAF9);
     border-bottom:3px solid var(--red);
   }
-  .allTrips{display:inline-block;margin-bottom:10px;font-size:13px;font-weight:700;color:var(--red-dark);text-decoration:none;background:var(--red-soft);padding:4px 12px;border-radius:999px;}
-  .eyebrow{color:var(--red);font-size:14px;font-weight:700;margin-bottom:2px;}
-  header h1{font-size:32px;color:var(--red-dark);font-weight:700;}
-  header .sub{color:var(--muted);font-size:14.5px;margin-top:4px;}
-  .draft{display:inline-block;margin-top:10px;margin-inline-start:6px;background:#fff;color:var(--muted);font-weight:700;font-size:12.5px;padding:5px 12px;border-radius:999px;border:1.5px dashed var(--muted);}
-  .countdown{display:inline-block;margin-top:10px;background:var(--gold-soft);color:var(--gold-dark);font-weight:700;font-size:13px;padding:5px 14px;border-radius:999px;border:1px solid var(--gold);}
+  header.top .allTrips{display:inline-block;margin-bottom:8px;font-size:13px;font-weight:700;color:var(--red-dark);text-decoration:none;background:var(--red-soft);padding:4px 12px;border-radius:999px;}
+  header.top .eyebrow{color:var(--red);font-size:14px;font-weight:700;margin-bottom:4px;letter-spacing:.2px;}
+  header.top h1{font-size:32px;color:var(--red-dark);font-weight:700;}
+  header.top .sub{color:var(--muted);font-size:14.5px;margin-top:6px;}
+  .countdown{
+    display:inline-block;margin-top:10px;
+    background:var(--gold-soft);color:var(--gold-dark);
+    font-weight:700;font-size:13px;
+    padding:6px 14px;border-radius:999px;border:1px solid var(--gold);
+  }
+  .countdown[hidden]{display:none;}
 
-  main{max-width:760px;margin:0 auto;padding:18px 16px 60px;}
-  .hero{border-radius:20px;overflow:hidden;box-shadow:var(--shadow-soft);aspect-ratio:1200/630;background:#A9D1EE center/cover no-repeat url('cover.jpg');}
+  .layout{
+    display:flex;
+    flex-direction:column;
+    max-width:1280px;
+    margin:0 auto;
+    padding:22px 28px 96px;
+    gap:26px;
+  }
 
-  .facts{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:16px 0 4px;}
-  .fact{background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 12px;}
-  .fact .k{font-size:12px;color:var(--muted);font-weight:600;}
-  .fact .v{font-size:15px;font-weight:700;}
-  @media (min-width:620px){ .facts{grid-template-columns:repeat(4,1fr);} }
+  /* ---------- Nav: row 1 = overview/info/trivia pills, row 2 = horizontal day scroller ----------
+     Pinned to the top of the viewport at all times (position:sticky). The ::after strip is a
+     thin gold fade-line, and the box-shadow gives it a subtle "floating shelf" look, so content
+     scrolling underneath has a clean, deliberate edge instead of an abrupt flat cutoff. */
+  nav.daynav{
+    position:sticky;
+    top:0;
+    z-index:1500;
+    background:var(--cream);
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    padding:8px 0 12px;
+    box-shadow:0 12px 14px -12px rgba(43,35,32,.20);
+  }
+  nav.daynav::after{
+    content:"";
+    position:absolute;
+    left:0;right:0;bottom:0;
+    height:2px;
+    background:linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity:.75;
+  }
+  nav.daynav button{
+    all:unset;
+    cursor:pointer;
+    color:var(--ink);
+    display:flex;
+    align-items:center;
+    position:relative;
+    border:2px solid transparent;
+    transition:background .15s ease, border-color .15s ease, transform .1s ease;
+  }
+  nav.daynav button .icon{font-size:18px;line-height:1;flex:0 0 auto;}
+  nav.daynav button .label{display:flex;flex-direction:column;gap:1px;min-width:0;}
+  nav.daynav button .wd{color:var(--muted);font-size:10.5px;font-weight:600;letter-spacing:.2px;}
+  nav.daynav button.active .wd{color:rgba(255,255,255,.8);}
+  nav.daynav button .d{font-weight:700;color:var(--red-dark);font-size:13.5px;}
+  nav.daynav button .t{color:var(--muted);font-size:11.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  nav.daynav button:active{transform:scale(.97);}
+  nav.daynav button.active{background:var(--red-dark);border-color:var(--gold);box-shadow:var(--shadow-pop);}
+  nav.daynav button.active .d,nav.daynav button.active .t{color:#fff;}
+  nav.daynav button.isToday:not(.active){border-color:var(--gold);}
+  nav.daynav button .todayDot{
+    position:absolute;top:-6px;inset-inline-end:-4px;
+    background:var(--gold);color:#fff;font-size:9px;font-weight:800;
+    padding:1px 6px;border-radius:999px;letter-spacing:.3px;
+  }
 
-  section{margin-top:30px;}
-  section > h2{font-size:22px;color:var(--red-dark);display:flex;align-items:center;gap:8px;margin-bottom:12px;}
-  .lead{color:var(--muted);font-size:14.5px;margin:-6px 0 12px;}
-
-  /* מבנה הטיול: שלושה גושים */
-  .blocks{display:flex;gap:8px;}
-  .blk{flex:1;border-radius:14px;padding:10px 10px 12px;text-align:center;}
-  .blk .n{font-size:22px;}
-  .blk b{display:block;font-size:14.5px;}
-  .blk span{font-size:12.5px;color:var(--muted);}
-  .blk.city{background:var(--red-soft);}
-  .blk.van{background:var(--green-soft);flex:1.1;border:2px solid var(--green);}
-  .blk.city2{background:var(--gold-soft);}
-
-  /* משפחות */
-  .fams{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-  .fam{background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px 14px;border-top:5px solid var(--red);}
-  .fam.efrat{border-top-color:var(--gold);}
-  .fam h3{font-size:18px;}
-  .fam ul{margin:6px 0 0;padding:0;list-style:none;font-size:14.5px;}
-  .fam li{padding:2px 0;}
-  .note{background:var(--blue-soft);color:var(--blue);border-radius:12px;padding:10px 12px;font-size:14px;margin-top:10px;}
-
-  #map{height:300px;border-radius:18px;border:1px solid var(--line);box-shadow:var(--shadow-soft);z-index:0;}
-  .pin{background:var(--red);color:#fff;font-weight:800;font-size:12px;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.3);}
-  .pin.van{background:var(--green);}
-  .pin.home{background:var(--gold-dark);}
-
-  /* ימים */
-  .day{background:#fff;border:1px solid var(--line);border-radius:18px;margin-bottom:12px;box-shadow:var(--shadow-soft);overflow:hidden;}
-  .day.van{border-color:#cfe3c9;}
-  .day summary{list-style:none;cursor:pointer;display:flex;gap:12px;align-items:center;padding:12px 14px;}
-  .day summary::-webkit-details-marker{display:none;}
-  .dnum{flex:0 0 auto;width:48px;text-align:center;border-radius:12px;padding:4px 0;background:var(--red-soft);color:var(--red-dark);}
-  .day.van .dnum{background:var(--green-soft);color:var(--green);}
-  .dnum b{display:block;font-size:17px;line-height:1.2;}
-  .dnum span{font-size:11px;font-weight:600;}
-  .dtitle{flex:1;min-width:0;}
-  .dtitle h3{font-size:18px;line-height:1.3;}
-  .dtitle .tag{font-size:12.5px;color:var(--muted);}
-  .chev{color:var(--muted);transition:transform .2s;}
-  .day[open] .chev{transform:rotate(180deg);}
-  .dbody{padding:0 14px 14px;border-top:1px dashed var(--line);}
-  .dbody ul{margin:10px 0 0;padding-inline-start:20px;}
-  .dbody li{margin:4px 0;}
-  .meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;}
-  .chip{font-size:12.5px;font-weight:600;padding:3px 10px;border-radius:999px;background:#F6F1EF;color:var(--ink);}
-  .chip.sleep{background:var(--blue-soft);color:var(--blue);}
-  .chip.drive{background:var(--gold-soft);color:var(--gold-dark);}
-  .kids{margin-top:10px;font-size:14px;background:var(--gold-soft);border-radius:10px;padding:8px 10px;}
-  .vanbadge{font-size:11.5px;font-weight:800;color:#fff;background:var(--green);padding:1px 8px;border-radius:999px;margin-inline-start:4px;vertical-align:middle;}
-
-  .cards{display:grid;gap:10px;}
-  .card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px 14px;}
-  .card h3{font-size:17px;margin-bottom:4px;}
-  .card p{margin:0;font-size:14.5px;}
-  .card ul{margin:4px 0 0;padding-inline-start:20px;font-size:14.5px;}
-
-  .q{display:flex;gap:10px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 12px;margin-bottom:8px;font-size:14.5px;}
-  .q .ic{font-size:18px;line-height:1.4;}
-
-  /* ===== תפריט כמו באתר של אוסטריה: פס ימים דביק למעלה + סרגל עמודים קבוע למטה ===== */
-  nav.daynav{position:sticky;top:0;z-index:1500;background:#FFFAF9;padding:8px 12px 6px;box-shadow:0 12px 14px -12px rgba(43,35,32,.20);}
-  nav.daynav::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.75;}
-  nav.daynav button,.tabbar button{all:unset;cursor:pointer;position:relative;-webkit-tap-highlight-color:transparent;}
-  .dayScrollWrap{display:flex;align-items:center;gap:6px;max-width:760px;margin:0 auto;}
-  .dayScrollArrow{flex:0 0 auto;width:28px;height:28px;border-radius:50%;display:flex !important;align-items:center;justify-content:center;background:#fff;border:1px solid var(--line) !important;color:var(--red-dark);font-size:15px;font-weight:800;box-shadow:0 2px 6px rgba(0,0,0,.08);}
-  .dayScroll{flex:1;min-width:0;display:flex;gap:8px;overflow-x:auto;scroll-behavior:smooth;scroll-snap-type:x proximity;padding:6px 2px 8px;scrollbar-width:none;}
-  .dayScroll::-webkit-scrollbar{display:none;}
-  nav.daynav .dayScroll button{flex:0 0 auto;scroll-snap-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;min-width:60px;padding:7px 6px;border-radius:14px;border:2px solid var(--line);background:#fff;text-align:center;transition:background .15s, border-color .15s;}
-  nav.daynav .dayScroll button .icon{font-size:17px;line-height:1.1;}
-  nav.daynav .dayScroll button .wd{color:var(--muted);font-size:10.5px;font-weight:600;}
-  nav.daynav .dayScroll button .d{font-weight:700;color:var(--red-dark);font-size:12.5px;}
-  nav.daynav .dayScroll button.vanDay{border-color:#cfe3c9;background:var(--green-soft);}
-  nav.daynav .dayScroll button.active{background:var(--red-dark);border-color:var(--gold);box-shadow:0 6px 20px rgba(43,35,32,.16);}
-  nav.daynav nav.daynav .dayScroll button.active .d,nav.daynav .dayScroll button.active .wd{color:#fff;}
-  nav.daynav .dayScroll button.isToday:not(.active){border-color:var(--gold);}
-  .todayDot{position:absolute;top:-5px;inset-inline-end:-3px;background:var(--gold);color:#fff;font-size:9px;font-weight:800;padding:1px 6px;border-radius:999px;}
-
-  .tabbar{position:fixed;left:0;right:0;bottom:0;z-index:1400;display:flex;background:rgba(255,255,255,.97);backdrop-filter:saturate(180%) blur(8px);border-top:1px solid var(--line);box-shadow:0 -6px 16px -8px rgba(43,35,32,.28);padding-bottom:env(safe-area-inset-bottom);}
-  .tabbar button{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 2px 9px;color:var(--muted);font-size:10.5px;font-weight:700;text-align:center;}
-  .tabbar button .icon{font-size:19px;line-height:1;transition:transform .15s;}
+  /* ---------- Bottom tab bar: the four reference pages (overview / info / costs / trivia).
+     Fixed to the bottom of the viewport so it sits in thumb reach and leaves the top of the
+     screen to the day strip and the content. Sits below the fullscreen map (z-index 3000)
+     so expanding the map still covers everything. ---------- */
+  .tabbar{
+    position:fixed;
+    left:0;right:0;bottom:0;
+    z-index:1400;
+    display:flex;
+    background:rgba(255,255,255,.97);
+    backdrop-filter:saturate(180%) blur(8px);
+    border-top:1px solid var(--line);
+    box-shadow:0 -6px 16px -8px rgba(43,35,32,.28);
+    padding-bottom:env(safe-area-inset-bottom);
+  }
+  .tabbar button{
+    all:unset;
+    flex:1;
+    cursor:pointer;
+    position:relative;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:2px;
+    padding:9px 2px 10px;
+    color:var(--muted);
+    font-size:11px;
+    font-weight:700;
+    text-align:center;
+    transition:color .15s ease;
+  }
+  .tabbar button .icon{font-size:19px;line-height:1;transition:transform .15s ease;}
+  .tabbar button .t{display:none;}
+  .tabbar button:active{transform:scale(.96);}
   .tabbar button.active{color:var(--red-dark);}
   .tabbar button.active .icon{transform:translateY(-1px) scale(1.08);}
-  .tabbar button.active::before{content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);width:28px;height:3px;border-radius:0 0 3px 3px;background:var(--gold);}
+  .tabbar button.active::before{
+    content:"";
+    position:absolute;top:0;left:50%;transform:translateX(-50%);
+    width:28px;height:3px;
+    border-radius:0 0 3px 3px;
+    background:var(--gold);
+  }
 
-  main{padding-bottom:96px !important;}
-  .page[hidden],#mapCard[hidden]{display:none !important;}
-  .page > section:first-child{margin-top:4px;}
-  #mapCard{margin-bottom:14px;}
-  #mapCard h2{font-size:19px;color:var(--red-dark);margin-bottom:8px;}
-  .dayHead{background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px 16px;box-shadow:var(--shadow-soft);}
-  .dayHead.van{border-color:#cfe3c9;}
-  .dayHead .when{font-size:13px;color:var(--muted);font-weight:700;}
-  .dayHead h2{font-size:24px;color:var(--red-dark);margin:2px 0 2px;}
-  .dayHead .tag{font-size:14px;color:var(--muted);}
-  .dayHead ul{margin:12px 0 0;padding-inline-start:20px;}
-  .dayHead li{margin:5px 0;}
-  .dayNav{display:flex;justify-content:space-between;gap:8px;margin-top:14px;}
-  .dayNav button{all:unset;cursor:pointer;font-size:13.5px;font-weight:700;color:var(--red-dark);background:var(--red-soft);padding:7px 14px;border-radius:999px;}
-  .dayNav button[disabled]{visibility:hidden;}
-  footer{text-align:center;color:var(--muted);font-size:12.5px;margin-top:36px;}
+  .dayScrollWrap{
+    display:flex;
+    align-items:center;
+    gap:6px;
+  }
+  .dayScrollArrow{
+    all:unset;
+    flex:0 0 auto;
+    cursor:pointer;
+    width:30px;height:30px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    background:#fff;border:1px solid var(--line);color:var(--red-dark);
+    font-size:16px;font-weight:800;line-height:1;
+    box-shadow:0 2px 6px rgba(0,0,0,.08);
+    transition:transform .12s ease;
+  }
+  .dayScrollArrow:hover{transform:scale(1.08);}
+  .dayScrollArrow:active{transform:scale(.92);}
+  .dayScroll{
+    flex:1;
+    min-width:0;
+    display:flex;
+    gap:8px;
+    overflow-x:auto;
+    scroll-behavior:smooth;
+    scroll-snap-type:x proximity;
+    padding:2px 2px 8px;
+    scrollbar-width:none;
+  }
+  .dayScroll::-webkit-scrollbar{display:none;}
+  .dayScroll button{
+    flex:0 0 auto;
+    scroll-snap-align:center;
+    flex-direction:column;
+    justify-content:center;
+    text-align:center;
+    gap:3px;
+    min-width:70px;
+    padding:9px 8px;
+    border-radius:14px;
+    border:2px solid var(--line);
+    background:#fff;
+  }
+  .dayScroll button:hover{background:var(--cream-2);}
+  .dayScroll button .label{align-items:center;}
+  .dayScroll button .t{white-space:normal;line-height:1.2;max-width:70px;}
+
+  main.content{flex:1;min-width:0;}
+
+  .nowBar{
+    display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+    background:linear-gradient(135deg, var(--gold-dark), var(--gold));
+    color:#fff;border-radius:var(--radius-lg);
+    padding:14px 18px;margin-bottom:16px;
+    box-shadow:var(--shadow-pop);
+  }
+  .nowBar[hidden]{display:none;}
+  .nowBar-text{display:flex;flex-direction:column;gap:2px;}
+  .nowBar-label{font-size:12px;font-weight:700;opacity:.9;letter-spacing:.2px;}
+  .nowBar-place{font-size:18px;font-weight:800;font-family:'Frank Ruhl Libre',serif;}
+  .nowBar-btn{
+    background:#fff;color:var(--gold-dark);text-decoration:none;
+    font-weight:800;font-size:14.5px;padding:11px 20px;border-radius:999px;
+    white-space:nowrap;box-shadow:0 3px 10px rgba(0,0,0,.15);
+    transition:transform .12s ease;
+  }
+  .nowBar-btn:hover{transform:translateY(-1px) scale(1.02);}
+
+  .installBanner{
+    display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+    background:linear-gradient(135deg, var(--red-dark), var(--red));
+    color:#fff;padding:10px 24px;font-size:14px;
+  }
+  .installBanner[hidden]{display:none;}
+  .installBanner-icon{font-size:19px;line-height:1;}
+  .installBanner-text{flex:1;min-width:200px;}
+  .installBanner-btn{
+    background:#fff;color:var(--red-dark);border:none;font-weight:800;
+    padding:8px 18px;border-radius:999px;cursor:pointer;font-size:13.5px;
+    white-space:nowrap;transition:transform .12s ease;
+  }
+  .installBanner-btn:hover{transform:scale(1.04);}
+  .installBanner-btn[hidden]{display:none;}
+  .installBanner-close{
+    background:transparent;border:none;color:#fff;font-size:16px;cursor:pointer;
+    opacity:.85;padding:4px 6px;line-height:1;
+  }
+  .installBanner-close:hover{opacity:1;}
+
+  .weatherCard{
+    display:block;
+    background:#fff;border:1px solid var(--line);border-radius:var(--radius-md);
+    padding:12px 16px;margin-bottom:20px;box-shadow:var(--shadow-soft);
+    font-size:14px;
+  }
+  .weatherCard[hidden]{display:none;}
+  .wxTop{display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+  /* Hourly strip. The hours the day's schedule actually covers are tinted gold, so the
+     forecast reads against the plan rather than as a standalone weather widget. */
+  .wxHours{
+    display:flex;gap:5px;overflow-x:auto;scrollbar-width:none;
+    padding:10px 0 2px;margin-top:9px;border-top:1px solid #F6EDED;
+  }
+  .wxHours::-webkit-scrollbar{display:none;}
+  .wxHour{flex:0 0 auto;width:50px;text-align:center;padding:5px 2px;border-radius:10px;}
+  .wxHour.out{background:var(--gold-soft);}
+  .wxHour .hr{font-size:11px;color:var(--muted);font-weight:700;}
+  .wxHour .ic{font-size:16px;line-height:1.3;}
+  .wxHour .tp{font-size:13.5px;font-weight:800;color:var(--red-dark);}
+  .wxHour .rn{font-size:10.5px;color:#3d7a9e;font-weight:600;}
+  .wxHour .rn.wet{color:var(--red);font-weight:800;}
+  .wxNote{font-size:11px;color:var(--muted);margin-top:7px;}
+  .weatherIcon{font-size:26px;line-height:1;}
+  .weatherTemps{font-weight:700;color:var(--ink);}
+  .weatherTemps b{color:var(--red-dark);font-size:16.5px;}
+  .weatherRain{color:#3d7a9e;font-weight:600;}
+  .weatherLoc{margin-inline-start:auto;color:var(--muted);font-size:12.5px;}
+  .weatherLoading,.weatherNA{color:var(--muted);font-size:13px;}
+
+  /* ---------- "Did you know?" carousel, shown per trip day ---------- */
+  .funFactCard{
+    background:linear-gradient(135deg, #eaf4fb, #f7f0ff);
+    border:1px solid #dfe7f5;border-radius:var(--radius-md);
+    padding:14px 16px 12px;margin-bottom:20px;box-shadow:var(--shadow-soft);
+    text-align:center;
+  }
+  .funFactCard[hidden]{display:none;}
+  .funFact-head{font-weight:800;color:#4a5fb0;font-size:13.5px;margin-bottom:6px;}
+  .funFact-body{display:flex;align-items:center;gap:10px;}
+  .funFactText{
+    flex:1;margin:0;font-size:14.5px;color:var(--ink);line-height:1.55;
+    min-height:1.6em;
+  }
+  .funFactArrow{
+    flex:0 0 auto;width:32px;height:32px;border-radius:50%;
+    border:none;background:#fff;color:#4a5fb0;font-size:19px;font-weight:800;
+    cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.1);
+    display:flex;align-items:center;justify-content:center;line-height:1;
+    transition:transform .12s ease;
+  }
+  .funFactArrow:hover{transform:scale(1.1);}
+  .funFactArrow:active{transform:scale(.92);}
+  .funFactDots{display:flex;justify-content:center;gap:6px;margin-top:10px;}
+  .funFactDots span{
+    width:6px;height:6px;border-radius:50%;background:#c8d2ea;transition:.2s;
+  }
+  .funFactDots span.on{background:#4a5fb0;width:16px;border-radius:4px;}
+
+  /* ---------- Trivia game page — brighter, bigger, kid-facing ---------- */
+  .tabbar button#nav-trivia{overflow:visible;}
+  .tabbar button#nav-trivia .icon{
+    animation:kidBounce 2.2s ease-in-out infinite;
+  }
+  @keyframes kidBounce{
+    0%,100%{transform:translateY(0) rotate(0deg);}
+    25%{transform:translateY(-3px) rotate(-6deg);}
+    75%{transform:translateY(-1px) rotate(6deg);}
+  }
+  .kidTag{color:#7a3fc9 !important;}
+  .kidTitle{
+    background:linear-gradient(90deg, var(--red), #7a3fc9, var(--gold-dark));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    font-size:26px !important;
+  }
+  .quizIntro{font-size:15px;color:var(--muted);margin:6px 0 18px;}
+  .quizRoot{max-width:640px;}
+  .quizCard{
+    background:#fff;border:2px solid var(--gold);border-radius:22px;
+    padding:22px 20px;box-shadow:var(--shadow-pop);
+  }
+  .quizProgress{
+    display:flex;justify-content:space-between;align-items:center;
+    font-size:12.5px;color:var(--muted);font-weight:700;margin-bottom:12px;
+  }
+  .quizScore{color:var(--gold-dark);}
+  .quizQuestion{
+    font-family:'Frank Ruhl Libre',serif;font-size:19px;font-weight:700;
+    color:var(--red-dark);margin:0 0 18px;line-height:1.4;
+  }
+  .quizOptions{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .quizOption{
+    background:var(--gold-soft);border:2px solid transparent;border-radius:14px;
+    padding:15px 12px;font-size:15px;font-weight:700;color:var(--ink);
+    cursor:pointer;transition:transform .12s ease, box-shadow .12s ease;
+    font-family:inherit;text-align:center;
+  }
+  .quizOption:hover{transform:scale(1.03);box-shadow:var(--shadow-soft);}
+  .quizOption.correct{background:var(--green-bg);border-color:#3d7a3f;color:#2c5c2e;}
+  .quizOption.wrong{background:var(--red-soft);border-color:var(--red);color:var(--red-dark);}
+  .quizOption.disabled{pointer-events:none;opacity:.9;}
+  .quizOption.disabled:not(.correct):not(.wrong){opacity:.55;}
+  .quizFeedback{margin-top:16px;font-size:16px;font-weight:800;text-align:center;}
+  .quizFeedback.correct{color:#2c5c2e;}
+  .quizFeedback.wrong{color:var(--red-dark);}
+  .quizFact{
+    margin-top:10px;background:var(--gold-soft);border-radius:12px;
+    padding:12px 14px;font-size:13.5px;color:var(--ink);text-align:center;
+  }
+  .quizNextBtn{
+    display:block;margin:18px auto 0;background:var(--red-dark);color:#fff;
+    border:none;padding:12px 30px;border-radius:999px;font-weight:800;
+    font-size:15px;cursor:pointer;font-family:inherit;
+    transition:transform .12s ease;
+  }
+  .quizNextBtn:hover{transform:scale(1.04);}
+  .quizSummary{text-align:center;padding:10px 6px;}
+  .quizSummary .emoji{font-size:52px;line-height:1;margin-bottom:10px;}
+  .quizSummary .scoreLine{
+    font-family:'Frank Ruhl Libre',serif;font-size:24px;font-weight:800;
+    color:var(--red-dark);margin-bottom:8px;
+  }
+  .quizSummary .msg{font-size:15px;color:var(--ink);margin-bottom:20px;}
+  .quizAgainBtn{
+    background:linear-gradient(135deg, var(--red-dark), var(--red));color:#fff;
+    border:none;padding:13px 32px;border-radius:999px;font-weight:800;
+    font-size:15.5px;cursor:pointer;font-family:inherit;
+    box-shadow:var(--shadow-pop);transition:transform .12s ease;
+  }
+  .quizAgainBtn:hover{transform:scale(1.05);}
+
+  /* Sits as the last item in the tab bar. Keeps the WhatsApp green so it reads as an
+     outbound link rather than another page of the site. */
+  .waFab{
+    flex:1;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+    padding:9px 2px 10px;
+    text-decoration:none;
+    color:#128C4A;font-size:11px;font-weight:700;
+    transition:transform .12s ease;
+  }
+  .waFab:active{transform:scale(.96);}
+  .waFab svg{width:19px;height:19px;fill:#25D366;display:block;}
+
+  .mapCard{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:var(--radius-lg);
+    padding:16px 16px 14px;
+    margin-bottom:20px;
+    box-shadow:var(--shadow-soft);
+  }
+  .mapCard .mapTitle{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    margin-bottom:6px;
+  }
+  .mapCard .mapTitle h2{font-size:17px;color:var(--red-dark);}
+  .mapCard .mapTitle span{font-size:12.5px;color:var(--muted);}
+  .mapWrap{position:relative;}
+  #mapDiv{
+    width:100%;
+    height:340px;
+    border-radius:var(--radius-md);
+    overflow:hidden;
+    direction:ltr;
+    background:var(--cream-2);
+  }
+  .mapControls{
+    position:absolute;top:10px;right:10px;z-index:1000;
+    display:flex;flex-direction:column;gap:6px;
+  }
+  .mapCtrlBtn{
+    width:34px;height:34px;border-radius:8px;
+    border:1px solid var(--line);background:#fff;
+    box-shadow:0 2px 6px rgba(0,0,0,.18);
+    font-size:16px;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    transition:transform .12s ease;
+  }
+  .mapCtrlBtn:hover{transform:scale(1.07);}
+  .mapCtrlBtn:active{transform:scale(.95);}
+  .mapRouteInfo{
+    margin-top:8px;font-size:12.5px;color:var(--muted);
+    display:flex;gap:16px;flex-wrap:wrap;
+  }
+  .mapRouteInfo[hidden]{display:none;}
+  .mapRouteInfo b{color:var(--red-dark);}
+  .mapCard.fullscreen{
+    position:fixed;inset:0;z-index:3000;
+    margin:0;border-radius:0;
+    height:100vh;display:flex;flex-direction:column;
+    padding:14px;
+  }
+  .mapCard.fullscreen .mapWrap{flex:1;min-height:0;}
+  .mapCard.fullscreen #mapDiv{height:100%;}
+  body.mapFsOpen{overflow:hidden;}
+  .map-marker{
+    width:12px;height:12px;border-radius:50%;
+    background:#cbb9ba;border:2px solid #fff;
+    box-shadow:0 1px 3px rgba(0,0,0,.35);
+    transition:all .15s ease;
+  }
+  .map-marker.active{
+    width:17px;height:17px;
+    background:var(--red);
+    margin:-2.5px 0 0 -2.5px;
+  }
+  .map-marker.base{
+    width:0;height:0;
+    border-left:9px solid transparent;
+    border-right:9px solid transparent;
+    border-bottom:14px solid var(--red-dark);
+    background:none;border-width:0;box-shadow:none;
+    filter:drop-shadow(0 1px 2px rgba(0,0,0,.4));
+  }
+  .leaflet-tooltip.map-tooltip{
+    direction:ltr;text-align:left;
+    font-family:'Heebo',sans-serif;
+    font-size:12px;
+    color:var(--ink);
+    background:#fff;
+    border:1px solid var(--line);
+    box-shadow:0 2px 6px rgba(0,0,0,.12);
+  }
+  .leaflet-tooltip.map-tooltip.base-tooltip{font-weight:700;color:var(--red-dark);}
+  .leaflet-tooltip.map-tooltip.active-tooltip{font-weight:700;color:var(--red-dark);}
+
+  .rowWaze{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:24px;height:24px;margin-inline-start:8px;
+    border-radius:50%;background:var(--gold-soft);
+    font-size:13px;text-decoration:none;vertical-align:middle;line-height:1;
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .rowWaze:hover{box-shadow:var(--shadow-soft);transform:scale(1.12);}
+
+  /* Traffic-congestion badge: same pill shape as the Waze button so schedule rows stay
+     visually even, but tinted red so a jam warning reads differently from a nav action.
+     It's a <button> (not a link) — tapping toggles the detail line underneath the row. */
+  .rowTraffic{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:24px;height:24px;margin-inline-start:6px;padding:0;
+    border:none;border-radius:50%;background:var(--red-soft);
+    font-size:13px;line-height:1;vertical-align:middle;cursor:pointer;
+    font-family:inherit;
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .rowTraffic:hover{box-shadow:var(--shadow-soft);transform:scale(1.12);}
+  .rowTraffic[aria-expanded="true"]{background:var(--red);}
+  .trafficNote{
+    margin-top:6px;font-size:12.8px;line-height:1.5;
+    color:var(--red-dark);background:var(--red-soft);
+    border-radius:10px;padding:8px 11px;text-align:start;
+  }
+  .trafficNote[hidden]{display:none;}
+  .trafficNote b{font-weight:800;}
+  /* Toll / parking-cost badge: same pill as the Waze and traffic buttons, tinted gold so
+     "this costs money" reads differently from "this is a jam" and from "navigate here". */
+  .rowToll{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:24px;height:24px;margin-inline-start:6px;padding:0;
+    border:none;border-radius:50%;background:var(--gold-soft);
+    font-size:13px;line-height:1;vertical-align:middle;cursor:pointer;
+    font-family:inherit;
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .rowToll:hover{box-shadow:var(--shadow-soft);transform:scale(1.12);}
+  .rowToll[aria-expanded="true"]{background:var(--gold);}
+  .tollNote{
+    margin-top:6px;font-size:12.8px;line-height:1.5;
+    color:var(--gold-dark);background:var(--gold-soft);
+    border-radius:10px;padding:8px 11px;text-align:start;
+  }
+  .tollNote[hidden]{display:none;}
+  .tollNote b{font-weight:800;}
+  .tollBox{
+    background:var(--gold-soft);border:1px solid var(--gold);
+    border-radius:var(--radius-md);padding:13px 16px 11px;margin:16px 0;
+    font-size:14px;
+  }
+  .tollBox > b{display:block;color:var(--gold-dark);font-size:14.5px;margin-bottom:6px;}
+  .tollBox ul{margin:0;padding-inline-start:20px;line-height:1.65;}
+  .tollBox li{margin-bottom:4px;}
+  .tollBox .none{color:var(--green-txt);font-weight:700;}
+  .trafficList{padding-inline-start:20px;margin:0 0 16px;font-size:14.3px;line-height:1.7;}
+  .trafficList li{margin-bottom:7px;}
+  .trafficList .when{color:var(--red-dark);font-weight:700;}
+
+  .photoGallery{display:flex;gap:12px;margin-bottom:18px;flex-wrap:wrap;}
+  .photoGallery figure{
+    margin:0;flex:1 1 260px;position:relative;
+    border-radius:var(--radius-md);overflow:hidden;
+    height:190px;
+    background:var(--cream-2);
+    box-shadow:var(--shadow-soft);
+  }
+  .photoGallery figure a{display:block;width:100%;height:100%;}
+  .photoGallery img{
+    width:100%;height:100%;object-fit:cover;display:block;
+    transition:transform .3s ease;
+  }
+  .photoGallery figure:hover img{transform:scale(1.06);}
+  .photoGallery figcaption{
+    position:absolute;inset-inline-start:0;bottom:0;width:100%;
+    background:linear-gradient(0deg, rgba(60,20,24,.80), rgba(60,20,24,0));
+    color:#fff;font-size:12.5px;padding:22px 12px 8px;
+    text-align:start;
+  }
+
+  .panel{background:#fff;border:1px solid var(--line);border-radius:var(--radius-lg);padding:24px 26px 26px;box-shadow:var(--shadow-soft);}
+  .panel .tag{color:var(--red);font-weight:700;font-size:14.5px;margin-bottom:4px;}
+  .panel h2.title{font-size:28px;color:var(--red-dark);margin-bottom:6px;}
+  .panel .meta{color:var(--muted);font-size:13.5px;margin-bottom:16px;}
+
+  table.sched{width:100%;border-collapse:collapse;margin-bottom:18px;font-size:14.5px;}
+  table.sched td{padding:11px 12px;border-bottom:1px solid #F3E7E7;}
+  table.sched td:last-child{width:120px;font-weight:700;background:var(--cream-2);text-align:center;border-radius:10px;color:var(--red-dark);}
+  table.sched tr:last-child td{border-bottom:none;}
+
+  .sectionLabel{font-family:'Frank Ruhl Libre',serif;font-weight:700;color:var(--red-dark);font-size:16.5px;margin:18px 0 8px;}
+
+  .places{display:flex;flex-direction:column;gap:8px;margin-bottom:8px;}
+  .places .p{font-size:14px;line-height:1.6;}
+  .places .p b{color:var(--red);}
+  .places .p a{color:var(--red-dark);font-weight:700;text-decoration:underline;}
+
+  .boxes{display:flex;gap:14px;margin:16px 0;flex-wrap:wrap;}
+  .box{flex:1 1 220px;border-radius:var(--radius-md);padding:14px 16px;font-size:14px;}
+  .box b{display:block;margin-bottom:4px;font-size:14px;}
+  .box.green{background:var(--gold-soft);}
+  .box.green b{color:var(--gold-dark);}
+  .box.red{background:var(--red-soft);}
+  .box.red b{color:var(--red-dark);}
+  .box.yellow{background:var(--yellow-bg);}
+  .box.tan{background:var(--cream-2);}
+
+  table.kids{width:100%;border-collapse:collapse;font-size:13.8px;margin-bottom:6px;}
+  table.kids td{padding:8px 10px;border-bottom:1px solid #F3E7E7;vertical-align:top;}
+  table.kids td:last-child{width:150px;background:var(--cream-2);border-radius:8px;font-size:12.8px;color:var(--muted);}
+
+  /* ---------- Costs page: one block per family rather than a wide matrix, because a
+     6-column table is unreadable on a phone and this site is used mostly on mobile. ---------- */
+  .costFam{
+    background:#fff;border:1px solid var(--line);border-inline-start:4px solid var(--gold);
+    border-radius:var(--radius-md);padding:14px 16px;margin-bottom:14px;
+    box-shadow:var(--shadow-soft);
+  }
+  .costFam h3{font-size:17px;color:var(--red-dark);margin-bottom:2px;}
+  .costFam .who{color:var(--muted);font-size:12.8px;margin-bottom:10px;}
+  .costFam table{width:100%;border-collapse:collapse;font-size:14px;}
+  .costFam td{padding:6px 2px;border-bottom:1px solid #F6EDED;}
+  .costFam td:last-child{text-align:end;font-weight:700;white-space:nowrap;width:80px;}
+  .costFam td .dnum{display:inline-block;min-width:32px;color:var(--muted);font-size:11.5px;margin-inline-end:6px;}
+  .costFam tr.sum td{border-bottom:none;border-top:2px solid var(--gold);padding-top:9px;font-weight:800;color:var(--red-dark);font-size:15.5px;}
+  .costFam tr.free td:last-child{color:var(--green-txt);}
+  /* ---------- Boarding-pass card for the flight details ----------
+     Laid out LTR because the whole content is airline data (codes, times, flight numbers)
+     that reads left-to-right even on a Hebrew page. The dashed rule plus the two notches
+     cut into the sides are the tear-off perforation. */
+  .bpass{
+    direction:ltr;
+    background:linear-gradient(160deg,#fff 0%,#FFFBFB 55%,var(--cream-2) 100%);
+    border:1px solid var(--line);
+    border-radius:var(--radius-md);
+    margin-bottom:14px;
+    box-shadow:var(--shadow-soft);
+    overflow:hidden;
+  }
+  .bpass-head{
+    display:flex;align-items:center;justify-content:space-between;
+    background:var(--red-dark);color:#fff;
+    padding:9px 16px;
+  }
+  .bpass-airline{font-size:12.5px;font-weight:700;letter-spacing:.4px;}
+  .bpass-no{
+    font-family:'Frank Ruhl Libre',serif;
+    font-size:17px;font-weight:800;color:var(--gold-soft);
+  }
+  .bpass-route{
+    display:flex;align-items:center;justify-content:space-between;gap:10px;
+    padding:16px 16px 12px;
+  }
+  .bpass-end{display:flex;flex-direction:column;gap:1px;min-width:0;}
+  .bpass-end.arr{text-align:right;align-items:flex-end;}
+  .bpass-code{
+    font-family:'Frank Ruhl Libre',serif;
+    font-size:30px;font-weight:900;color:var(--red-dark);line-height:1;
+  }
+  .bpass-city{font-size:11.5px;color:var(--muted);}
+  .bpass-time{font-size:19px;font-weight:800;color:var(--ink);margin-top:5px;}
+  .bpass-mid{
+    flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;
+    color:var(--gold-dark);min-width:70px;
+  }
+  .bpass-dur{font-size:11.5px;font-weight:700;}
+  .bpass-path{
+    position:relative;width:100%;height:14px;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .bpass-path::before{
+    content:"";position:absolute;left:0;right:0;top:50%;
+    border-top:2px dotted var(--gold);
+  }
+  .bpass-plane{
+    position:relative;background:var(--cream-2);
+    padding:0 5px;font-size:14px;line-height:1;
+  }
+  .bpass-tear{
+    position:relative;
+    border-top:2px dashed var(--line);
+    margin:0 12px;
+  }
+  .bpass-tear::before,.bpass-tear::after{
+    content:"";position:absolute;top:-9px;
+    width:16px;height:16px;border-radius:50%;
+    background:var(--cream);
+    border:1px solid var(--line);
+  }
+  .bpass-tear::before{left:-20px;}
+  .bpass-tear::after{right:-20px;}
+  .bpass-meta{
+    display:flex;flex-wrap:wrap;gap:12px 22px;
+    padding:12px 16px 14px;
+  }
+  .bpass-meta div{display:flex;flex-direction:column;gap:1px;}
+  .bpass-meta .k{font-size:10.5px;color:var(--muted);font-weight:600;}
+  .bpass-meta .v{font-size:13.5px;font-weight:700;color:var(--ink);}
+  .bpass-bars{
+    height:26px;margin:0 16px 14px;border-radius:3px;
+    background-image:repeating-linear-gradient(90deg,
+      var(--ink) 0 2px, transparent 2px 4px,
+      var(--ink) 4px 5px, transparent 5px 9px,
+      var(--ink) 9px 12px, transparent 12px 14px);
+    opacity:.55;
+  }
+  /* ---------- Checklist page: collapsible sections of tick-boxes. State lives in
+     localStorage, so each family ticks their own copy on their own device — there is no
+     backend here, and nothing syncs between phones. ---------- */
+  .ckProgress{
+    background:linear-gradient(135deg, var(--red-dark), var(--red));
+    color:#fff;border-radius:var(--radius-lg);padding:15px 18px;margin-bottom:18px;
+    box-shadow:var(--shadow-pop);
+  }
+  .ckProgress .row{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:9px;}
+  .ckProgress .big{font-family:'Frank Ruhl Libre',serif;font-size:27px;font-weight:800;line-height:1;}
+  .ckProgress .cap{font-size:12.5px;opacity:.9;}
+  .ckBar{height:8px;border-radius:99px;background:rgba(255,255,255,.28);overflow:hidden;}
+  .ckBar i{display:block;height:100%;background:var(--gold);border-radius:99px;transition:width .35s ease;}
+  .ckSec{
+    background:#fff;border:1px solid var(--line);border-radius:var(--radius-md);
+    margin-bottom:12px;box-shadow:var(--shadow-soft);overflow:hidden;
+  }
+  .ckHead{
+    all:unset;display:flex;align-items:center;gap:10px;width:100%;
+    cursor:pointer;padding:12px 15px;box-sizing:border-box;
+  }
+  .ckHead .ic{font-size:19px;line-height:1;flex:0 0 auto;}
+  .ckHead .nm{font-weight:800;font-size:15.5px;color:var(--red-dark);flex:1;min-width:0;}
+  .ckHead .cnt{
+    font-size:11.5px;font-weight:800;color:var(--gold-dark);
+    background:var(--gold-soft);border-radius:99px;padding:2px 9px;flex:0 0 auto;
+  }
+  .ckSec.done .ckHead .cnt{background:var(--green-bg);color:var(--green-txt);}
+  .ckHead .car{color:var(--muted);font-size:13px;transition:transform .2s ease;flex:0 0 auto;}
+  .ckSec.open .ckHead .car{transform:rotate(180deg);}
+  .ckBody{display:none;padding:0 15px 12px;}
+  .ckSec.open .ckBody{display:block;}
+  .ckItem{
+    display:flex;align-items:flex-start;gap:10px;
+    padding:9px 0;border-top:1px solid #F6EDED;cursor:pointer;
+  }
+  .ckBox{
+    flex:0 0 auto;width:21px;height:21px;margin-top:1px;border-radius:6px;
+    border:2px solid var(--line);background:#fff;
+    display:flex;align-items:center;justify-content:center;
+    font-size:13px;color:#fff;line-height:1;transition:.15s;
+  }
+  .ckItem.on .ckBox{background:var(--green-txt);border-color:var(--green-txt);}
+  .ckItem .txt{font-size:14.2px;line-height:1.5;}
+  .ckItem .txt small{display:block;color:var(--muted);font-size:12.3px;margin-top:1px;}
+  .ckItem.on .txt{color:var(--muted);text-decoration:line-through;text-decoration-color:var(--line);}
+  .ckItem.on .txt small{text-decoration:none;}
+  .ckTools{display:flex;gap:9px;margin-top:16px;flex-wrap:wrap;}
+  .ckTools button{
+    all:unset;cursor:pointer;font-size:13px;font-weight:700;
+    padding:9px 16px;border-radius:99px;border:1px solid var(--line);
+    background:var(--cream-2);color:var(--ink);
+  }
+  .ckTools button:hover{background:#f5dfe1;}
+  /* ---------- Forecast page: destinations down the side, days across the top.
+     The table scrolls sideways on a phone rather than shrinking to unreadable columns,
+     and the place column is pinned so you always know which row you're reading. ---------- */
+  .fcLoading{color:var(--muted);font-size:14px;padding:14px 2px;}
+  .fcWrap{overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
+  .fcWrap::-webkit-scrollbar{display:none;}
+  .fcTable{border-collapse:separate;border-spacing:0;width:100%;}
+  .fcTable th,.fcTable td{padding:8px 6px;text-align:center;vertical-align:middle;}
+  .fcTable thead th{
+    border-bottom:2px solid var(--line);
+    min-width:64px;
+  }
+  .fcTable thead th .wd{display:block;font-size:11px;font-weight:800;color:var(--red-dark);}
+  .fcTable thead th .dt{display:block;font-size:10.5px;color:var(--muted);font-weight:600;}
+  .fcTable th.fcPlace .nm{display:block;white-space:nowrap;}
+  .fcTable th.fcPlace .nt{display:block;font-size:10px;color:var(--muted);font-weight:600;}
+  .fcTable thead th .trip{
+    display:block;margin-top:3px;font-size:8.5px;font-weight:800;max-width:60px;
+    margin-inline:auto;
+    color:var(--gold-dark);background:var(--gold-soft);border-radius:99px;
+    padding:1px 4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  }
+  .fcTable th.fcPlace{
+    position:sticky;inset-inline-start:0;z-index:2;
+    background:var(--cream);
+    text-align:start;font-size:12.5px;font-weight:700;color:var(--ink);
+    min-width:92px;max-width:92px;
+    border-bottom:1px solid #F6EDED;
+    box-shadow:6px 0 8px -8px rgba(43,35,32,.35);
+  }
+  .fcTable tbody td{border-bottom:1px solid #F6EDED;}
+  .fcTable tbody tr:last-child td,.fcTable tbody tr:last-child th{border-bottom:none;}
+  .fcTable .fcToday{background:var(--gold-soft);}
+  .fcTable td .ic{display:block;font-size:17px;line-height:1.2;}
+  .fcTable td .tm{display:block;font-size:12px;color:var(--muted);}
+  .fcTable td .tm b{color:var(--red-dark);font-size:13.5px;margin-inline-end:3px;}
+  .fcTable td .rn{display:block;font-size:10.5px;color:#3d7a9e;font-weight:600;}
+  .fcTable td .rn.wet{color:var(--red);font-weight:800;}
+  .fcLegend{margin-top:9px;font-size:11.5px;color:var(--muted);}
+  /* ---------- Restaurant recommendations, appended to each day ---------- */
+  .eats{display:flex;flex-direction:column;gap:9px;margin-bottom:8px;}
+  .eat{
+    display:flex;align-items:flex-start;gap:10px;
+    background:#fff;border:1px solid var(--line);border-inline-start:3px solid var(--gold);
+    border-radius:var(--radius-md);padding:11px 13px;
+  }
+  .eat .body{flex:1;min-width:0;}
+  .eat .nm{font-weight:800;font-size:14.5px;color:var(--red-dark);}
+  .eat .nm .tagline{
+    font-weight:700;font-size:10.5px;color:var(--gold-dark);
+    background:var(--gold-soft);border-radius:99px;padding:1px 7px;margin-inline-start:6px;
+    white-space:nowrap;
+  }
+  .eat .ds{font-size:13.3px;line-height:1.5;margin-top:2px;}
+  .eat .lk{margin-top:5px;font-size:12.5px;}
+  .eat .lk a{color:var(--red-dark);font-weight:700;text-decoration:underline;}
+  .eat .nav{
+    flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;
+    width:30px;height:30px;border-radius:50%;background:var(--gold-soft);
+    font-size:15px;text-decoration:none;line-height:1;
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .eat .nav:hover{box-shadow:var(--shadow-soft);transform:scale(1.1);}
+  .footerbar{background:var(--red-dark);color:#fff;padding:13px 16px;border-radius:var(--radius-md);font-size:14px;font-weight:500;margin-top:16px;display:flex;align-items:center;gap:8px;}
+
+  ul.altlist{padding-inline-start:20px;margin:0 0 16px;font-size:14.3px;line-height:1.7;}
+  ol.checklist{padding-inline-start:20px;margin:0 0 16px;font-size:14.3px;line-height:1.75;}
+
+  /* ---------- Site-wide search: a 🔍 tab opens a full-screen search sheet.
+     The index is built once, lazily, by rendering every day into a detached element. ---------- */
+  .searchSheet{
+    position:fixed;inset:0;z-index:4000;
+    background:var(--cream);
+    display:flex;flex-direction:column;
+  }
+  .searchSheet[hidden]{display:none;}
+  body.searchOpen{overflow:hidden;}
+  .searchBar{
+    display:flex;align-items:center;gap:8px;
+    padding:14px 16px;
+    background:linear-gradient(180deg,#fff,#FFFAF9);
+    border-bottom:3px solid var(--red);
+  }
+  .searchBar input{
+    flex:1;min-width:0;
+    font-family:'Heebo',sans-serif;font-size:16px;
+    padding:11px 16px;border-radius:999px;
+    border:2px solid var(--line);background:#fff;color:var(--ink);
+  }
+  .searchBar input:focus{outline:none;border-color:var(--gold);}
+  .searchClose{
+    all:unset;cursor:pointer;flex:0 0 auto;
+    width:40px;height:40px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:17px;color:var(--red-dark);background:var(--cream-2);
+  }
+  .searchClose:active{transform:scale(.94);}
+  .searchResults{flex:1;overflow-y:auto;padding:14px 16px 50px;}
+  .searchHint,.searchEmpty{color:var(--muted);font-size:14px;line-height:1.7;padding:10px 2px;}
+  .searchGroup{margin-bottom:20px;}
+  .searchGroupHead{
+    font-family:'Frank Ruhl Libre',serif;font-weight:700;
+    color:var(--red-dark);font-size:16px;margin:0 0 8px;
+  }
+  .searchItem{
+    display:block;width:100%;text-align:start;
+    background:#fff;border:1px solid var(--line);border-radius:var(--radius-md);
+    padding:11px 13px;margin-bottom:8px;cursor:pointer;
+    font-family:inherit;font-size:14px;color:var(--ink);line-height:1.55;
+  }
+  .searchItem:hover{background:var(--cream-2);}
+  .searchItem .kind{display:block;font-size:11.5px;font-weight:700;color:var(--gold-dark);margin-bottom:3px;}
+  .searchItem mark,.searchPlaceRow mark{background:var(--gold-soft);color:var(--red-dark);font-weight:700;border-radius:3px;padding:0 2px;}
+  .searchPlaceRow{
+    display:flex;align-items:center;gap:6px;
+    background:#fff;border:1px solid var(--line);border-radius:var(--radius-md);
+    padding:11px 13px;margin-bottom:8px;font-size:14px;
+  }
+  .searchPlaceRow .nm{flex:1;min-width:0;}
+  .searchHit{animation:searchFlash 2.2s ease;scroll-margin-top:120px;}
+  @keyframes searchFlash{
+    0%,55%{background:var(--gold-soft);}
+    100%{background:transparent;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .searchHit{animation:none;outline:2px solid var(--gold);outline-offset:2px;}
+  }
+
+  @media (max-width: 860px){
+    body{font-size:16px;}
+    header.top{padding:20px 18px 18px;}
+    header.top h1{font-size:27px;}
+    .countdown{font-size:12px;padding:5px 12px;}
+    .layout{padding:16px 14px 88px;gap:16px;}
+    nav.daynav{top:0;padding:8px 0 4px;gap:8px;}
+    .tabbar button{padding:8px 2px 9px;font-size:10.5px;}
+    .tabbar button .icon{font-size:18px;}
+    .costFam{padding:12px 13px;}
+    .costFam table{font-size:13.5px;}
+    .bpass-code{font-size:26px;}
+    .bpass-time{font-size:17px;}
+    .bpass-route{padding:14px 13px 10px;gap:6px;}
+    .bpass-mid{min-width:56px;}
+    .bpass-meta{padding:11px 13px 12px;gap:10px 16px;}
+    .bpass-bars{margin:0 13px 12px;height:22px;}
+    .bpass-tear::before{left:-19px;}
+    .bpass-tear::after{right:-19px;}
+    .dayScroll button{min-width:60px;padding:8px 6px;}
+    .dayScroll button .icon{font-size:17px;}
+    .dayScroll button .d{font-size:12.5px;}
+    .dayScroll button .t{display:none;}
+    .dayScrollArrow{width:26px;height:26px;font-size:14px;}
+    nav.daynav button .todayDot{top:-5px;inset-inline-end:-3px;}
+    .nowBar{padding:12px 14px;}
+    .nowBar-place{font-size:16px;}
+    .installBanner{padding:9px 14px;font-size:13px;}
+    .installBanner-text{min-width:0;}
+    .weatherCard{padding:10px 14px;font-size:13.5px;gap:10px;}
+    .funFactCard{padding:12px 14px 10px;}
+    .funFactText{font-size:14px;}
+    .quizCard{padding:18px 14px;border-radius:18px;}
+    .quizQuestion{font-size:17px;}
+    .quizOptions{grid-template-columns:1fr;}
+    .kidTitle{font-size:22px !important;}
+    .weatherLoc{font-size:12px;}
+    .waFab{padding:8px 2px 9px;font-size:10.5px;}
+    .waFab svg{width:18px;height:18px;}
+    .panel{padding:18px 16px 20px;}
+    .panel h2.title{font-size:23px;}
+    #mapDiv{height:260px;}
+    .mapCtrlBtn{width:32px;height:32px;font-size:15px;}
+    .mapRouteInfo{font-size:12px;gap:12px;}
+    .boxes{flex-direction:column;}
+    .photoGallery figure{height:150px;flex:1 1 45%;}
+    table.sched td{padding:12px 10px;font-size:14.5px;}
+  }
+
+  .camCard{background:#fff;border:1px solid var(--line,#EFE1E1);border-radius:var(--radius-md,14px);
+    padding:14px 16px 12px;margin-bottom:20px;box-shadow:var(--shadow-soft,0 4px 16px rgba(43,35,32,.09));}
+  .camCard[hidden]{display:none;}
+  .camHead{display:flex;align-items:center;gap:8px;font-weight:800;color:var(--red-dark,#8A0E22);font-size:15px;margin-bottom:8px;}
+  .camHead .live{background:#e53935;color:#fff;font-size:10.5px;font-weight:800;padding:2px 8px;border-radius:999px;letter-spacing:.4px;}
+  .camGroup{margin:10px 0 2px;font-size:13px;font-weight:700;color:var(--muted,#78706c);}
+  .camList{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;}
+  .camBtn{display:inline-flex;align-items:center;gap:6px;text-decoration:none;
+    background:var(--cream-2,#FBEEEF);color:var(--ink,#2B2320);border:1px solid var(--line,#EFE1E1);
+    border-radius:999px;padding:8px 14px;font-size:13.5px;font-weight:600;transition:transform .12s ease,background .12s ease;}
+  .camBtn:hover{background:#f5dfe1;transform:translateY(-1px);}
+  .camBtn:active{transform:scale(.97);}
+  .camNote{margin-top:10px;font-size:12px;color:var(--muted,#78706c);line-height:1.5;}
+  @media (max-width:860px){.camBtn{padding:9px 13px;font-size:13.5px;}}
 </style>
 </head>
 <body>
 
-<header>
+<header class="top">
   <a class="allTrips" href="../">→ כל הטיולים</a>
-  <div class="eyebrow">רוזנבלום ✕ אפרת</div>
-  <h1>🚐 פולין 2027</h1>
-  <div class="sub">קרקוב · הרי הטטרה · פייניני — 9 ימים בסוף יוני, 3 מהם בקרוואן</div>
+  <div class="eyebrow">רוזנבלום ✕ אפרת • סוף יוני 2027 • סקיצה</div>
+  <h1>🚐 פולין בקרוואנים</h1>
   <span class="countdown" id="countdown" hidden></span>
-  <span class="draft">✏️ סקיצה ראשונה — הכול פתוח לשינוי</span>
+  
 </header>
 
-<nav class="daynav" aria-label="ימי הטיול">
-  <div class="dayScrollWrap">
-    <button type="button" class="dayScrollArrow" id="dayScrollPrev" aria-label="היום הקודם">›</button>
-    <div class="dayScroll" id="dayScroll"></div>
-    <button type="button" class="dayScrollArrow" id="dayScrollNext" aria-label="היום הבא">‹</button>
-  </div>
-</nav>
+<div class="installBanner" id="installBanner" hidden>
+  <span class="installBanner-icon">📲</span>
+  <span class="installBanner-text" id="installBannerText">התקינו את האתר כאפליקציה למסך הבית — גישה מהירה גם בלי אינטרנט</span>
+  <button class="installBanner-btn" id="installBannerBtn" type="button">התקן</button>
+  <button class="installBanner-close" id="installBannerClose" type="button" aria-label="סגור" title="סגור">✕</button>
+</div>
 
-<main>
-  <div class="page" data-page="overview">
-  <div class="hero" role="img" aria-label="איור: שני קרוואנים על רקע הרי הטטרה ואגם"></div>
-
-  <div class="facts">
-    <div class="fact"><div class="k">תאריכים (הצעה)</div><div class="v">23.6–1.7.2027</div></div>
-    <div class="fact"><div class="k">משך</div><div class="v">9 ימים · 8 לילות</div></div>
-    <div class="fact"><div class="k">קבוצה</div><div class="v">10 נפשות · 6 ילדים</div></div>
-    <div class="fact"><div class="k">טיסה</div><div class="v">ת״א ⇄ קרקוב</div></div>
-  </div>
-
-  <section>
-    <h2>🧭 הרעיון בקצרה</h2>
-    <p class="lead">טיסה הלוך-חזור לקרקוב, בלי לינה כפולה בדרך. מתחילים ומסיימים בעיר, ובאמצע שלושה ימים בקרוואנים בהרים.</p>
-    <div class="blocks">
-      <div class="blk city"><div class="n">🏰</div><b>קרקוב</b><span>3 לילות · ימים 1–3</span></div>
-      <div class="blk van"><div class="n">🚐</div><b>קרוואנים בהרים</b><span>3 לילות · ימים 4–6</span></div>
-      <div class="blk city2"><div class="n">🎢</div><b>קרקוב</b><span>2 לילות · ימים 7–9</span></div>
+<div class="layout">
+  <nav class="daynav" id="daynav">
+    <div class="dayScrollWrap">
+      <button type="button" class="dayScrollArrow" id="dayScrollPrev" aria-label="היום הקודם">‹</button>
+      <div class="dayScroll" id="dayScroll"></div>
+      <button type="button" class="dayScrollArrow" id="dayScrollNext" aria-label="היום הבא">›</button>
     </div>
-    <div class="note">💡 למה ככה: איסוף והחזרה של הקרוואנים באותה נקודה בקרקוב (בלי דמי החזרה במקום אחר), והנסיעה הארוכה (~2 שעות לכל כיוון) פעם אחת בלבד בכל צד.</div>
-  </section>
-
-  <section>
-    <h2>👨‍👩‍👧‍👦 מי נוסע</h2>
-    <div class="fams">
-      <div class="fam">
-        <h3>רוזנבלום</h3>
-        <ul><li>איתי וימית</li><li>דן (11)</li><li>עומר (8)</li><li>מאיה (3)</li></ul>
+  </nav>
+  <main class="content">
+    <div class="nowBar" id="nowBar" hidden>
+      <div class="nowBar-text">
+        <span class="nowBar-label" id="nowBarLabel">🧭 עכשיו בלו״ז</span>
+        <span class="nowBar-place" id="nowBarPlace">—</span>
       </div>
-      <div class="fam efrat">
-        <h3>אפרת</h3>
-        <ul><li>2 הורים</li><li>דולב (11)</li><li>דותן (8)</li><li>ליה (3)</li></ul>
+      <a class="nowBar-btn" id="nowBarBtn" href="#" target="_blank" rel="noopener">נווט עכשיו ב-Waze</a>
+    </div>
+    <div class="mapCard" id="mapCard">
+      <div class="mapTitle">
+        <h2 id="mapTitle">🗺️ מפת היום</h2>
+        <span id="mapSub">ממורכזת אוטומטית ביעד היום</span>
       </div>
+      <div class="mapWrap">
+        <div id="mapDiv"></div>
+        <div class="mapControls">
+          <button type="button" class="mapCtrlBtn" id="mapLayerBtn" title="החלף שכבת מפה">🛰️</button>
+          <button type="button" class="mapCtrlBtn" id="mapFullBtn" title="הרחב למסך מלא">⛶</button>
+        </div>
+      </div>
+      <div class="mapRouteInfo" id="mapRouteInfo" hidden></div>
     </div>
-    <div class="note">🤝 הילדים מתחלקים יפה לזוגות: דן ודולב (11), עומר ודותן (8), מאיה וליה (3). כל יום בסקיצה כולל משהו גם לקטנות, ובמכרה ובמורסקיה אוקו צריך מנשא ולא עגלה.</div>
-  </section>
-
-  </div>
-
-  <div id="mapCard"><h2 id="mapTitle">🗺️ המסלול על המפה</h2><div id="map"></div></div>
-
-  <div class="page" data-page="day" id="dayPage" hidden></div>
-
-  <div class="page" data-page="caravan" hidden>
-  <section>
-    <h2>🚐 על ימי הקרוואן</h2>
-    <div class="cards">
-      <div class="card"><h3>שני קרוואנים, אחד לכל משפחה</h3><p>כל משפחה צריכה 5 מקומות שינה ו-5 מקומות ישיבה עם חגורה. כדאי לחפש דגם של 6 מקומות — מרווח יותר לשלושה ימים.</p></div>
-      <div class="card"><h3>רישיון ומשקל</h3><p>רוב הקרוואנים המשפחתיים הם עד 3.5 טון, ואז רישיון B רגיל מספיק. לוודא בהזמנה, וגם מה צריך כדי שהרישיון הישראלי יתקבל (רישיון בינלאומי).</p></div>
-      <div class="card"><h3>מושבי בטיחות</h3><p>למאיה ולליה צריך מושב בטיחות, ולשאר הילדים בוסטר לפי גובה. לבדוק מראש שבמושבים שמיועדים להם יש עיגון מתאים.</p></div>
-      <div class="card"><h3>להזמין מוקדם</h3><p>סוף יוני הוא תחילת העונה. קרוואנים גדולים וחניוני קמפינג טובים ליד זקופנה מתמלאים — כדאי לסגור כבר בחורף.</p></div>
-      <div class="card"><h3>מה לחפש בקמפינג</h3><ul><li>חשמל ומים בחלקה</li><li>מגרש משחקים או בריכה</li><li>הליכה קצרה לאוכל או לתחבורה, כדי לא להזיז את הקרוואן כל ערב</li></ul></div>
+    <div class="weatherCard" id="weatherCard" hidden></div>
+    <div class="camCard" id="camCard" hidden></div>
+    <div class="funFactCard" id="funFactCard" hidden>
+      <div class="funFact-head">🎈 הידעת?</div>
+      <div class="funFact-body">
+        <button type="button" class="funFactArrow" id="funFactPrev" aria-label="העובדה הקודמת">‹</button>
+        <p class="funFactText" id="funFactText"></p>
+        <button type="button" class="funFactArrow" id="funFactNext" aria-label="העובדה הבאה">›</button>
+      </div>
+      <div class="funFactDots" id="funFactDots"></div>
     </div>
-  </section>
+    <div class="panel" id="panel"></div>
+  </main>
+</div>
 
+<div class="searchSheet" id="searchSheet" hidden>
+  <div class="searchBar">
+    <input type="search" id="searchInput" enterkeyhint="search" autocomplete="off"
+           placeholder="חיפוש באתר — מקום, מלון, שעה…" aria-label="חיפוש באתר">
+    <button type="button" class="searchClose" id="searchClose" aria-label="סגירת החיפוש" title="סגירת החיפוש">✕</button>
   </div>
-
-  <div class="page" data-page="options" hidden>
-  <section>
-    <h2>⏱️ אם רוצים קצר או ארוך יותר</h2>
-    <div class="cards">
-      <div class="card"><h3>7 ימים</h3><p>מוותרים על יום 8, ומכרה המלח עובר לאחר הנחיתה ביום 1 (אם הטיסה בבוקר). ימי הקרוואן נשארים כמו שהם.</p></div>
-      <div class="card"><h3>8 ימים</h3><p>מוותרים על יום 8 (אויצוב), וקז׳ימייז׳ נשאר בצהרי יום 7.</p></div>
-      <div class="card"><h3>10 ימים</h3><p>מוסיפים יום רגוע אחרי Energylandia: פארק הדינוזאורים Zatorland שליד הפארק, או פארק המים של קרקוב. אפשרות אחרת היא לילה רביעי בקרוואן.</p></div>
-    </div>
-  </section>
-
-  </div>
-
-  <div class="page" data-page="open" hidden>
-  <section>
-    <h2>❓ פתוח להחלטה</h2>
-    <div id="open"></div>
-  </section>
-
-  </div>
-
-  <footer>סקיצה ראשונה · אוקטובר 2026 · זמני נסיעה ומחירים הם הערכה ועוד לא נבדקו</footer>
-</main>
+  <div class="searchResults" id="searchResults"></div>
+</div>
 
 <nav class="tabbar" id="tabbar" aria-label="עמודי האתר"></nav>
 
+
 <script>
-/* ===== נקודות על המפה ===== */
-const PLACES = [
-  { n:"1", name:"קרקוב — העיר העתיקה", lat:50.0617, lng:19.9373, kind:"home" },
-  { n:"2", name:"מכרה המלח Wieliczka", lat:49.9833, lng:20.0550 },
-  { n:"3", name:"Energylandia, Zator", lat:49.9995, lng:19.4100 },
-  { n:"4", name:"טירת Niedzica ואגם Czorsztyn", lat:49.4239, lng:20.3195, kind:"van" },
-  { n:"5", name:"רפטינג Dunajec (Sromowce)", lat:49.4107, lng:20.3626, kind:"van" },
-  { n:"5", name:"Termy Bania, Białka Tatrzańska", lat:49.3946, lng:20.1050, kind:"van" },
-  { n:"6", name:"זקופנה — Gubałówka וקרופובקי", lat:49.2990, lng:19.9450, kind:"van" },
-  { n:"6", name:"Morskie Oko", lat:49.2013, lng:20.0711, kind:"van" },
-  { n:"8", name:"פארק לאומי Ojców", lat:50.2120, lng:19.8280 },
-];
-const ROUTE = [[50.0617,19.9373],[49.4239,20.3195],[49.4107,20.3626],[49.3946,20.1050],[49.2990,19.9450],[50.0617,19.9373]];
+/* ---------- Coordinates ---------- */
+const LOC = {
+  krk_airport: {lat:50.0777, lon:19.7848, label:"שדה התעופה קרקוב (KRK)", address:"Kraków Airport, Balice, Poland"},
+  krakow:      {lat:50.0560, lon:19.9390, label:"קרקוב — הבסיס (הדירה עוד לא נבחרה)"},
+  rynek:       {lat:50.0617, lon:19.9373, label:"רחבת השוק — Rynek Główny", address:"Rynek Główny, Kraków, Poland"},
+  wieliczka:   {lat:49.9836, lon:20.0547, label:"מכרה המלח Wieliczka", address:"Kopalnia Soli Wieliczka, Daniłowicza 10, Wieliczka, Poland"},
+  wawel:       {lat:50.0541, lon:19.9354, label:"גבעת ואוול", address:"Wawel, Kraków, Poland"},
+  smok:        {lat:50.0533, lon:19.9338, label:"מערת הדרקון ופסל הדרקון", address:"Smok Wawelski, Kraków, Poland"},
+  energylandia:{lat:49.9993, lon:19.4103, label:"Energylandia", address:"Energylandia, Zator, Poland"},
+  zatorland:   {lat:49.9947, lon:19.4304, label:"Zatorland — פארק הדינוזאורים", address:"Zatorland, Zator, Poland"},
+  van_rental:  {lat:50.0710, lon:19.8090, label:"השכרת הקרוואנים (החברה עוד לא נבחרה)"},
+  niedzica:    {lat:49.4238, lon:20.3195, label:"טירת Niedzica (Zamek Dunajec)", address:"Zamek Dunajec, Niedzica, Poland"},
+  camp1:       {lat:49.4148, lon:20.3360, label:"קמפינג ליד Niedzica / Sromowce (לדוגמה)", address:"Polana Sosny, Niedzica, Poland"},
+  dunajec:     {lat:49.4107, lon:20.3626, label:"מעגן הרפסודות Sromowce-Kąty", address:"Przystań Flisacka Sromowce Wyżne-Kąty, Poland"},
+  szczawnica:  {lat:49.4262, lon:20.4870, label:"סוף השיט — Szczawnica"},
+  bania:       {lat:49.3946, lon:20.1050, label:"Termy Bania", address:"Termy Bania, Białka Tatrzańska, Poland"},
+  camp_zak:    {lat:49.2860, lon:19.9640, label:"קמפינג בזקופנה (לדוגמה: Pod Krokwią)", address:"Camping Pod Krokwią, Zakopane, Poland"},
+  gubalowka:   {lat:49.2995, lon:19.9496, label:"תחנת הרכבל לגובאלובקה", address:"Gubałówka funicular, Zakopane, Poland"},
+  krupowki:    {lat:49.2964, lon:19.9524, label:"רחוב Krupówki", address:"Krupówki, Zakopane, Poland"},
+  palenica:    {lat:49.2536, lon:20.1013, label:"חניון Palenica Białczańska", address:"Palenica Białczańska, Poland"},
+  morskie_oko: {lat:49.2013, lon:20.0711, label:"Morskie Oko"},
+  kazimierz:   {lat:50.0517, lon:19.9465, label:"קז׳ימייז׳ — רחוב Szeroka", address:"Szeroka, Kraków, Poland"},
+  plac_nowy:   {lat:50.0515, lon:19.9447, label:"כיכר Plac Nowy (זאפיינקות)", address:"Plac Nowy, Kraków, Poland"},
+  ojcow:       {lat:50.2158, lon:19.8238, label:"מערת לוקייטק — פארק לאומי Ojców", address:"Jaskinia Łokietka, Ojców, Poland"},
+  pieskowa:    {lat:50.2440, lon:19.7790, label:"טירת Pieskowa Skała", address:"Zamek Pieskowa Skała, Sułoszowa, Poland"},
+  park_wodny:  {lat:50.0880, lon:19.9930, label:"Park Wodny Kraków", address:"Park Wodny, Dobrego Pasterza 126, Kraków, Poland"},
+  auschwitz:   {lat:50.0270, lon:19.2040, label:"מוזיאון אושוויץ-בירקנאו", address:"Auschwitz-Birkenau Memorial, Oświęcim, Poland"},
+  chocholow:   {lat:49.2985, lon:19.8330, label:"Chochołowskie Termy", address:"Chochołowskie Termy, Chochołów, Poland"},
+};
+const FULL_ROUTE = ["krk_airport","krakow","wieliczka","krakow","energylandia","krakow","van_rental",
+  "niedzica","camp1","dunajec","szczawnica","bania","camp_zak","gubalowka","camp_zak",
+  "van_rental","krakow","ojcow","pieskowa","krakow","krk_airport"];
 
-/* ===== הימים ===== */
+/* ---------- Day content ---------- */
 const DAYS = [
-  { d:"23.6", wd:"רביעי", title:"נחיתה בקרקוב", tag:"טיסה · העיר העתיקה בערב",
-    plan:["טיסה ישירה מת״א לקרקוב, איסוף רכבים שכורים בשדה","צ׳ק-אין, ובערב טיול ברחבת השוק הגדולה (Rynek)","ארוחת ערב פולנית — פיירוגי לכולם"],
-    kids:"ערב קצר. הכרכרות ברחבה הן להיט אצל הקטנים.", sleep:"קרקוב (דירה/מלון ל-10)", drive:"שדה ← עיר ~30 דק׳" },
-  { d:"24.6", wd:"חמישי", title:"מכרה המלח + הדרקון של ואוול", tag:"Wieliczka · Wawel",
-    plan:["בוקר: מכרה המלח Wieliczka — סיור מודרך באנגלית, כ-3 שעות מתחת לאדמה, כולל כנסייה מגולפת כולה במלח","צהריים: חזרה לעיר, גבעת ואוול והטירה","מערת הדרקון ופסל הדרקון שיורק אש — חובה לילדים"],
-    kids:"במכרה הרבה מדרגות בירידה ועגלה לא נכנסת — מנשא למאיה ולליה. לבדוק את הסיור הקצר המיועד למשפחות.", sleep:"קרקוב", drive:"~30 דק׳ לכל כיוון" },
-  { d:"25.6", wd:"שישי", title:"Energylandia — יום מלא", tag:"הפארק הגדול בפולין",
-    plan:["יוצאים מוקדם — הפארק נפתח בבוקר ויש תורים בשעות הצהריים","דן, דולב, עומר ודותן: רכבות הרים ואזור המים","מאיה וליה: אזור הילדים — מתקנים, הצגות ומגלשות מים קטנות","אפשר להתפצל לשתי קבוצות ולהיפגש בארוחות"],
-    kids:"לכל מתקן יש הגבלת גובה. כדאי למדוד את הילדים מראש ולבדוק באתר מה מתאים לכל אחד.", sleep:"קרקוב", drive:"~50 דק׳ לכל כיוון" },
-  { van:true, d:"26.6", wd:"שבת", title:"איסוף הקרוואנים ← פייניני", tag:"Niedzica · אגם Czorsztyn",
-    plan:["בוקר: מחזירים את הרכבים השכורים ואוספים את הקרוואנים בקרקוב, הדרכה וקניות בסופר גדול","נסיעה דרומה לאגם Czorsztyn","טירת Niedzica מעל האגם, ושיט קצר באגם","ערב ראשון בקמפינג — על האש"],
-    kids:"הערב הראשון בקרוואן הוא חוויה בפני עצמו — לא להעמיס את היום.", sleep:"קמפינג ליד Czorsztyn / Sromowce", drive:"~2 שעות" },
-  { van:true, d:"27.6", wd:"ראשון", title:"רפטינג בדונאיץ + בריכות חמות", tag:"Dunajec · Termy Bania",
-    plan:["בוקר: שיט ברפסודות עץ במורד נהר הדונאיץ בין הצוקים של פייניני, כשעתיים (שיט רגוע, לא אתגרי)","חוזרים לקרוואנים ונוסעים ל-Białka Tatrzańska","אחר הצהריים: Termy Bania — בריכות מים חמים ומגלשות, עם נוף להרים","לילה בקמפינג באזור Białka או זקופנה"],
-    kids:"ברפסודות יש חגורות הצלה גם לקטנים. בבריכות התרמיות יש אזור פעוטות.", sleep:"קמפינג Białka / זקופנה", drive:"~45 דק׳" },
-  { van:true, d:"28.6", wd:"שני", title:"הרי הטטרה", tag:"Morskie Oko או Gubałówka",
-    plan:["אפשרות א׳ — Morskie Oko: האגם המפורסם של הטטרה. כ-9 ק״מ בכביש סלול לכל כיוון, ואפשר לעלות ברובו בכרכרת סוסים. חניה מזמינים מראש","אפשרות ב׳ (קלה): רכבל Gubałówka מעל זקופנה, מגלשת הרים ומגרשי משחקים למעלה, וערב ברחוב קרופובקי","ערב אחרון בקרוואן — מדורה ומרשמלו"],
-    kids:"עם מאיה וליה, אפשרות ב׳ רגועה יותר. אפשר גם להתפצל: ארבעת הגדולים למורסקיה אוקו, והקטנות ל-Gubałówka.", sleep:"קמפינג בזקופנה", drive:"עד 40 דק׳" },
-  { d:"29.6", wd:"שלישי", title:"החזרת הקרוואנים ← קז׳ימייז׳", tag:"חזרה לקרקוב",
-    plan:["בוקר: ניקוי, ריקון מיכלים ונסיעה לקרקוב (הכביש מזקופנה עמוס — לצאת מוקדם)","החזרת הקרוואנים ואיסוף רכבים שכורים","אחר הצהריים: הרובע היהודי קז׳ימייז׳ — בתי הכנסת, הסמטאות וזאפיינקה בכיכר"],
-    kids:"יום עם הרבה לוגיסטיקה — הסיור בקז׳ימייז׳ קצר.", sleep:"קרקוב", drive:"~2 שעות" },
-  { d:"30.6", wd:"רביעי", title:"יום טבע רגוע", tag:"פארק לאומי Ojców",
-    plan:["פארק לאומי קטן 30 דק׳ מקרקוב: מצוקי גיר, מערת המלך לוקייטק והטירה Pieskowa Skała","מסלולים קצרים ושטוחים שמתאימים גם לקטנים","ערב: קניות אחרונות וארוחת פרידה"],
-    kids:"אפשרות חלופית ליום גשום: פארק המים של קרקוב.", sleep:"קרקוב", drive:"~30 דק׳" },
-  { d:"1.7", wd:"חמישי", title:"טיסה הביתה", tag:"שדה התעופה קרקוב",
-    plan:["לפי שעת הטיסה: בוקר חופשי בעיר או ישר לשדה","החזרת הרכבים השכורים"],
-    kids:"", sleep:"בבית 🏠", drive:"עיר ← שדה ~30 דק׳" },
+{
+  id:"checklist", nav:"צ׳קליסט", navSub:"לפני שיוצאים",
+  segment: [],
+  render: () => renderChecklist(),
+},
+{
+  id:"d1", nav:"23.6", navSub:"נחיתה בקרקוב",
+  segment: ["krk_airport","krakow","rynek","krakow"],
+  render: () => `
+    <div class="tag">יום ד׳, 23.6 · יום הגעה • לא מעמיסים</div>
+    <h2 class="title">נחיתה בקרקוב</h2>
+    <div class="meta">נסיעה: שדה התעופה → קרקוב כ-25-35 דק׳ · שעות הטיסה עוד לא ידועות — הלו״ז מניח נחיתה בצהריים</div>
+    <table class="sched">
+      <tr><td>טיסה ישירה מנתב״ג לקרקוב (KRK), כ-4 שעות</td><td>בוקר</td></tr>
+      <tr><td>נחיתה, איסוף מזוודות ואיסוף 2 רכבים שכורים בשדה</td><td>~12:30-13:30</td></tr>
+      <tr><td>נסיעה לדירה בקרקוב וצ׳ק-אין</td><td>~13:30-14:30</td></tr>
+      <tr><td>קנייה בסופר ליד הדירה ומנוחה</td><td>14:30-16:30</td></tr>
+      <tr><td>הליכה לרחבת השוק Rynek Główny — כנסיית מריה, אולם הבדים Sukiennice והכרכרות</td><td>17:00-19:00</td></tr>
+      <tr><td>החצוצרן ממגדל כנסיית מריה — מנגן בכל שעה עגולה</td><td>18:00 / 19:00</td></tr>
+      <tr><td>ארוחת ערב פולנית ליד הרחבה — פיירוגי לכולם</td><td>19:00-20:30</td></tr>
+      <tr><td>חזרה לדירה</td><td>~20:45</td></tr>
+    </table>
+    <div class="sectionLabel">📍 מה יש שם</div>
+    <div class="places">
+      <div class="p"><b>Rynek Główny — </b>אחת הכיכרות העירוניות הגדולות באירופה מימי הביניים. כולה להולכי רגל — הילדים יכולים לרוץ, לרדוף אחרי יונים ולהסתכל על הכרכרות הלבנות.</div>
+      <div class="p"><b>Sukiennice — </b>אולם הבדים באמצע הכיכר. בקומת הקרקע דוכני מזכרות, עבודות עץ ותכשיטי ענבר.</div>
+      <div class="p"><b>החצוצרן (Hejnał) — </b>בכל שעה עגולה חצוצרן מנגן מראש המגדל הגבוה של כנסיית מריה ועוצר באמצע המנגינה. הסיפור מאחורי זה הוא שאלה בטריוויה של האתר.</div>
+    </div>
+    <div class="boxes">
+      <div class="box tan"><b>המטרה</b>להגיע בנחת, להתמקם ולטעום את העיר. ערב קצר — מחר יוצאים מוקדם למכרה.</div>
+      <div class="box yellow"><b>רכבים</b>שני רכבים של 5 מקומות, אחד לכל משפחה, עם 2 בוסטרים ומושב בטיחות לכל רכב. להזמין מראש ולציין את גילאי הילדים.</div>
+    </div>
+    <div class="box red"><b>חניה בקרקוב</b>מרכז העיר הוא אזור חניה בתשלום, והעיר העתיקה עצמה סגורה לרכבים. כדאי לבחור דירה עם חניה, ולהגיע לרחבה ברגל או בחשמלית.</div>
+    <div class="footerbar">מטבע: זלוטי פולני (zł). כרטיס אשראי מתקבל כמעט בכל מקום, ושווה להחזיק מעט מזומן לדוכנים.</div>
+  `
+},
+{
+  id:"d2", nav:"24.6", navSub:"מכרה המלח + ואוול",
+  segment: ["krakow","wieliczka","krakow","wawel","smok","krakow"],
+  render: () => `
+    <div class="tag">יום ה׳, 24.6 · מתחת לאדמה בבוקר, דרקון אחר הצהריים</div>
+    <h2 class="title">מכרה המלח + הדרקון של ואוול</h2>
+    <div class="meta">נסיעות: קרקוב → Wieliczka כ-30 דק׳ לכל כיוון; ואוול בהליכה או בנסיעה קצרה מהדירה</div>
+    <table class="sched">
+      <tr><td>יציאה מהדירה לכיוון Wieliczka</td><td>08:45</td></tr>
+      <tr><td>הגעה למכרה המלח, חניה ואיסוף כרטיסים</td><td>~09:15</td></tr>
+      <tr><td>סיור מודרך באנגלית במסלול התיירים — כ-3 שעות מתחת לאדמה</td><td>09:45-12:30</td></tr>
+      <tr><td>צהריים בווליצ׳קה</td><td>12:30-13:30</td></tr>
+      <tr><td>חזרה לקרקוב ומנוחה בדירה</td><td>13:30-15:30</td></tr>
+      <tr><td>גבעת ואוול — חצר הטירה והקתדרלה (הכניסה לחצר חינם)</td><td>16:00-17:00</td></tr>
+      <tr><td>מערת הדרקון ופסל הדרקון שיורק אש</td><td>17:00-17:45</td></tr>
+      <tr><td>טיילת הוויסלה מתחת לגבעה — דשא, ברבורים ומגרש משחקים</td><td>17:45-19:00</td></tr>
+      <tr><td>חזרה לדירה</td><td>~19:30</td></tr>
+    </table>
+    <div class="sectionLabel">📍 מה יש שם</div>
+    <div class="places">
+      <div class="p"><b>מכרה המלח Wieliczka — </b>מכרה בן מאות שנים עם מסדרונות, אגמים תת-קרקעיים ופסלים שגולפו כולם מסלע מלח. השיא הוא קפלה ענקית שהכול בה — כולל הנברשות — עשוי מלח. בתחילת הסיור יורדים כ-380 מדרגות, ובסוף עולים במעלית.</div>
+      <div class="p"><b>גבעת ואוול — </b>הטירה של מלכי פולין והקתדרלה, על גבעה מעל נהר הוויסלה. החצר הפנימית פתוחה בחינם, והתערוכות בתשלום נפרד ולא חובה.</div>
+      <div class="p"><b>הדרקון של ואוול — </b>לפי האגדה דרקון גר במערה מתחת לגבעה, עד שסנדלר ערמומי האכיל אותו בכבש ממולא גופרית. יוצאים מהמערה אל פסל ברונזה של הדרקון שיורק אש כל כמה דקות. הילדים ישתגעו.</div>
+    </div>
+    <div class="boxes">
+      <div class="box green"><b>למה בסדר הזה</b>המכרה בבוקר, כשהילדים רעננים ולפני התורים של הקבוצות המאורגנות. אחר הצהריים משהו קצר וכיפי בעיר.</div>
+      <div class="box tan"><b>כרטיסים</b>מזמינים מראש באתר הרשמי של המכרה (wieliczka-saltmine.com), לשעה מסוימת ובשפה מסוימת. ילדים עד גיל 4 נכנסים בחינם.</div>
+    </div>
+    <div class="box red"><b>מאיה וליה</b>עגלה לא מתאימה לסיור — הרבה מדרגות ומעברים צרים. מביאים מנשא. בתוך המכרה קריר (כ-15 מעלות) כל השנה, אז לוקחים סווטשירט גם ביוני.</div>
+    <div class="sectionLabel">🧒 אופציות לילדים נוספות בסביבה</div>
+    <table class="kids">
+      <tr><td><b>מסלול המכורים (Miners' Route)</b> — מסלול חלופי במכרה עם קסדות ופנסים, בסגנון "כורים אמיתיים".</td><td>יש הגבלת גיל — לא מתאים לבנות ה-3. לבדוק באתר.</td></tr>
+      <tr><td><b>תערוכות הטירה בוואוול</b> — אולמות המלכים ואוסף הנשק.</td><td>אופציונלי, בכרטיס נפרד לכל תערוכה.</td></tr>
+    </table>
+    <div class="footerbar">💡 אם הטיסה ביום הראשון נוחתת מוקדם בבוקר, אפשר להעביר את המכרה כבר לאחר הנחיתה ולקצר את הטיול ביום.</div>
+  `
+},
+{
+  id:"d3", nav:"25.6", navSub:"Energylandia",
+  segment: ["krakow","energylandia","krakow"],
+  render: () => `
+    <div class="tag">יום ו׳, 25.6 · יום WOW לילדים • פארק השעשועים הגדול בפולין</div>
+    <h2 class="title">Energylandia — יום מלא</h2>
+    <div class="meta">נסיעה: קרקוב → Zator כ-50-60 דק׳ לכל כיוון</div>
+    <table class="sched">
+      <tr><td>יציאה מהדירה ל-Energylandia</td><td>08:45</td></tr>
+      <tr><td>הגעה ל-Energylandia, חניה ותור בכניסה</td><td>~09:45</td></tr>
+      <tr><td>פתיחת הפארק — הגדולים רצים ישר למתקנים הפופולריים לפני התורים</td><td>10:00</td></tr>
+      <tr><td>מאיה וליה: אזור הילדים הקטנים, עם מתקנים קטנים והצגות</td><td>10:00-13:00</td></tr>
+      <tr><td>צהריים ביחד</td><td>13:00-14:00</td></tr>
+      <tr><td>אזור מתקני המים — להביא בגדים להחלפה</td><td>14:00-16:00</td></tr>
+      <tr><td>סבב חופשי אחרון — כל אחד חוזר למתקן שהכי אהב</td><td>16:00-18:00</td></tr>
+      <tr><td>יציאה חזרה לקרקוב</td><td>~18:30</td></tr>
+      <tr><td>הגעה לדירה וארוחת ערב קלה</td><td>~19:30</td></tr>
+    </table>
+    <div class="sectionLabel">📍 מה יש שם</div>
+    <div class="places">
+      <div class="p"><b>Energylandia — </b>פארק השעשועים הגדול בפולין, עם עשרות מתקנים בכמה אזורים לפי גילאים: אזור משפחתי, אזור אקסטרים לגדולים, אזור מים ואזור לילדים קטנים. מספיק ליום שלם ואפילו יותר.</div>
+      <div class="p"><b>לכל גיל משהו — </b>דן ודולב (11) יכולים לעלות על רוב רכבות ההרים הגדולות. עומר ודותן (8) על רכבות ההרים המשפחתיות. מאיה וליה ייהנו מאזור הקטנים — קרוסלות, רכבות קטנות ומשחקים.</div>
+    </div>
+    <div class="boxes">
+      <div class="box green"><b>למה יום שישי</b>25.6 עדיין בעונה הנמוכה של הפארק (עד 26.6) — המחיר זול יותר והעומס קטן יותר מאשר בסופ״ש ובחופש הגדול, שמתחיל בפולין ממש בימים האלה.</div>
+      <div class="box tan"><b>להתפצל</b>הכי יעיל: הורה אחד עם ארבעת הגדולים במתקנים, והורה אחד עם מאיה וליה. נפגשים בצהריים ומחליפים תפקידים.</div>
+    </div>
+    <div class="box red"><b>גובה קובע, לא גיל</b>לכל מתקן יש גובה מינימלי. כדאי למדוד את כל הילדים לפני הנסיעה ולבדוק באפליקציה של הפארק מה פתוח לכל אחד, כדי לא לעמוד בתור סתם. גם המחיר נקבע לפי גובה: כרטיס מוזל עד 140 ס״מ.</div>
+    <div class="sectionLabel">🧒 אופציות לילדים נוספות בסביבה</div>
+    <table class="kids">
+      <tr><td><b>Zatorland</b> — פארק דינוזאורים עם פסלים בגודל טבעי, ממש ליד Energylandia.</td><td>מתאים ליום עשירי, או לקטנות אם נמאס להן מהפארק.</td></tr>
+    </table>
+    <div class="footerbar">כרטיסים אונליין מראש — זולים יותר מהקופה וחוסכים תור.</div>
+  `
+},
+{
+  id:"d4", nav:"26.6", navSub:"קרוואנים ← פייניני",
+  segment: ["krakow","van_rental","niedzica","camp1"],
+  render: () => `
+    <div class="tag">שבת, 26.6 · 🚐 יום קרוואן 1 • מעבר להרים</div>
+    <h2 class="title">איסוף הקרוואנים ← טירה על האגם</h2>
+    <div class="meta">נסיעה: קרקוב → Niedzica כ-2:00-2:15 שעות (S7, DK47 ו-DW969); טירה → קמפינג כ-10 דק׳</div>
+    <table class="sched">
+      <tr><td>אריזה ויציאה מהדירה</td><td>08:30</td></tr>
+      <tr><td>החזרת הרכבים השכורים ואיסוף הקרוואנים, כולל הדרכה של כשעה</td><td>09:00-10:30</td></tr>
+      <tr><td>קנייה גדולה בסופר לשלושה ימים</td><td>10:30-11:30</td></tr>
+      <tr><td>נסיעה דרומה לכיוון אגם Czorsztyn</td><td>11:30-13:45</td></tr>
+      <tr><td>צהריים בקרוואן מול האגם</td><td>13:45-14:30</td></tr>
+      <tr><td>טירת Niedzica (Zamek Dunajec) מעל אגם Czorsztyn</td><td>14:30-16:00</td></tr>
+      <tr><td>אופציונלי: שיט קצר באגם Czorsztyn מהמעגן שליד הטירה</td><td>16:00-16:45</td></tr>
+      <tr><td>הגעה לקמפינג, חיבור לחשמל ולמים</td><td>~17:15</td></tr>
+      <tr><td>ערב ראשון בקרוואן — על האש</td><td>ערב</td></tr>
+    </table>
+    <div class="sectionLabel">📍 מה יש שם</div>
+    <div class="places">
+      <div class="p"><b>טירת Niedzica — </b>טירה מימי הביניים על צוק מעל אגם מלאכותי, עם חצרות, מרתפים ונוף פתוח. הביקור קצר ונוח לילדים, ויש סביבה אגדות על אוצר אינקה שהוחבא בטירה.</div>
+      <div class="p"><b>אגם Czorsztyn — </b>אגם בין הרים ירוקים, ובצד השני של המים נראית חורבת טירת Czorsztyn. הסכר שיצר את האגם נמצא ממש ליד, ויש גשר הולכי רגל.</div>
+      <div class="p"><b>פייניני — </b>רכס הרים נמוך וירוק ליד הגבול עם סלובקיה, וזה מה שרואים מכל הכיוונים היום ומחר.</div>
+    </div>
+    <div class="boxes">
+      <div class="box green"><b>למה יום קצר</b>היום הראשון בקרוואן הוא חוויה בפני עצמו: ללמוד את הרכב, לסדר מקום לכל ילד ולהתרגל לנהיגה. לא מעמיסים.</div>
+      <div class="box tan"><b>בהדרכה בקבלת הקרוואן</b>לבקש להראות: חיבור חשמל וגז, מילוי מים, ריקון מיכלים, פתיחת גגון ומיטות, ואיפה עוגני המושבים. לצלם את מצב הרכב מבחוץ לפני היציאה.</div>
+    </div>
+    <div class="box red"><b>שבת על הזקופיאנקה</b>הכביש הראשי דרומה מקרקוב (S7/Zakopianka) עמוס מאוד בשבת בבוקר — כל קרקוב נוסעת להרים. יציאה עד 11:30 מקלה, ושווה להפעיל Waze.</div>
+    <div class="footerbar">מהיום ועד יום שלישי בבוקר — נוסעים וישנים בקרוואנים.</div>
+  `
+},
+{
+  id:"d5", nav:"27.6", navSub:"רפטינג + בריכות חמות",
+  segment: ["camp1","dunajec","szczawnica","dunajec","bania","camp_zak"],
+  render: () => `
+    <div class="tag">יום א׳, 27.6 · 🚐 יום קרוואן 2 • על המים ובתוך המים</div>
+    <h2 class="title">רפטינג בדונאיץ + בריכות חמות</h2>
+    <div class="meta">נסיעות: קמפינג → מעגן כ-10 דק׳; מעגן → Białka Tatrzańska כ-40-45 דק׳; Białka → זקופנה כ-30-40 דק׳</div>
+    <table class="sched">
+      <tr><td>יציאה מהקמפינג למעגן הרפסודות Sromowce-Kąty</td><td>08:30</td></tr>
+      <tr><td>הגעה למעגן, חניה וקניית כרטיסים</td><td>~08:45</td></tr>
+      <tr><td>שיט ברפסודות עץ במורד הדונאיץ, בין הצוקים של פייניני, עד Szczawnica</td><td>09:15-11:30</td></tr>
+      <tr><td>חזרה במיניבוס של הרפסודאים למעגן ולקרוואנים</td><td>11:30-12:15</td></tr>
+      <tr><td>צהריים</td><td>12:15-13:00</td></tr>
+      <tr><td>נסיעה ל-Białka Tatrzańska</td><td>13:00-13:45</td></tr>
+      <tr><td>Termy Bania — בריכות חמות ומגלשות מול ההרים (כרטיס 4.5 שעות)</td><td>14:00-18:30</td></tr>
+      <tr><td>נסיעה לקמפינג בזקופנה</td><td>18:30-19:15</td></tr>
+      <tr><td>ערב בקמפינג</td><td>ערב</td></tr>
+    </table>
+    <div class="sectionLabel">📍 מה יש שם</div>
+    <div class="places">
+      <div class="p"><b>שיט הרפסודות בדונאיץ — </b>שיט רגוע, לא אתגרי. רפסודות עץ מסורתיות שמשיטים אותן רפסודאים בתלבושת עממית, לאורך קניון שהנהר חצב בין צוקי פייניני. בחלק מהדרך הנהר הוא הגבול עם סלובקיה. כשעתיים.</div>
+      <div class="p"><b>Termy Bania — </b>מתחם בריכות מים חמים מינרליים, פנימיות וחיצוניות, עם מגלשות ואזור פעוטות, ונוף לטטרה. סיום מושלם אחרי בוקר על הנהר.</div>
+    </div>
+    <div class="boxes">
+      <div class="box green"><b>למה מוקדם</b>ביום ראשון בקיץ יש תורים ארוכים לרפסודות בשעות הצהריים. מי שמגיע עד 09:00 עולה כמעט מיד.</div>
+      <div class="box tan"><b>השיט הוא בכיוון אחד</b>השיט מסתיים בעיירה אחרת, ולכן חוזרים לקרוואנים במיניבוסים שממתינים בסוף השיט, בתשלום. לא לשכוח לקחת את המפתחות ואת התיקים הקטנים.</div>
+    </div>
+    <div class="box red"><b>בטיחות</b>על הרפסודות מקבלים חגורות הצלה, גם לקטנים. לבדוק מראש מאיזה גיל מותר לעלות ואם הקטנות יושבות על הברכיים. בבריכות התרמיות: מאיה וליה עם מצופים כל הזמן.</div>
+    <div class="footerbar">הערב עוברים לקמפינג בזקופנה — שני לילות באותו מקום.</div>
+  `
+},
+{
+  id:"d6", nav:"28.6", navSub:"הרי הטטרה",
+  segment: ["camp_zak","gubalowka","krupowki","camp_zak"],
+  render: () => `
+    <div class="tag">יום ב׳, 28.6 · 🚐 יום קרוואן 3 • שני מסלולים לבחירה</div>
+    <h2 class="title">הרי הטטרה</h2>
+    <div class="meta">הקרוואנים נשארים בקמפינג — מתניידים ברגל, במונית או במיניבוסים המקומיים</div>
+    <table class="sched">
+      <tr><td>בוקר רגוע בקמפינג</td><td>עד 09:30</td></tr>
+      <tr><td>הגעה לתחנת הרכבל לגובאלובקה</td><td>09:45</td></tr>
+      <tr><td>עלייה ברכבל על המסילה לגובאלובקה</td><td>10:00</td></tr>
+      <tr><td>למעלה: נוף פתוח לכל רכס הטטרה, מגלשת הרים, מגרשי משחקים ודוכנים</td><td>10:15-13:00</td></tr>
+      <tr><td>ירידה ברכבל ורחוב Krupówki — צהריים, גבינת אוסצ׳יפק ומזכרות</td><td>13:00-15:30</td></tr>
+      <tr><td>מנוחה בקמפינג</td><td>15:30-18:00</td></tr>
+      <tr><td>ערב אחרון בקרוואן — מדורה ומרשמלו</td><td>ערב</td></tr>
+    </table>
+    <div class="sectionLabel">📍 מה יש שם</div>
+    <div class="places">
+      <div class="p"><b>גובאלובקה — </b>רכס מעל זקופנה שעולים אליו ברכבל על מסילה (פוניקולר) בכמה דקות. למעלה יש נוף פנורמי לטטרה, מגלשות, מתקנים קטנים ודוכני אוכל. היום הכי קל ומתאים לכל הגילים.</div>
+      <div class="p"><b>Krupówki — </b>רחוב הולכי הרגל הראשי של זקופנה, עם מסעדות בסגנון הררי, דוכני אוסצ׳יפק (גבינה מעושנת מחלב כבשים) וחנויות.</div>
+      <div class="p"><b>אפשרות ב׳: Morskie Oko — </b>האגם המפורסם של הטטרה, מוקף צוקים. מחניון Palenica Białczańska הולכים כ-9 ק״מ בכביש סלול ומתון לכל כיוון (כ-2.5 שעות בעלייה), או עולים ברובו בעגלת סוסים. יום מלא ומאומץ.</div>
+    </div>
+    <div class="boxes">
+      <div class="box green"><b>ההצעה: להתפצל</b>הורה אחד עם דן, דולב, עומר ודותן ל-Morskie Oko, והשאר עם מאיה וליה לגובאלובקה. נפגשים בערב בקמפינג.</div>
+      <div class="box tan"><b>אם הולכים ל-Morskie Oko</b>לא נוסעים לשם בקרוואן. לוקחים מיניבוס מזקופנה ל-Palenica (יוצאים בתדירות גבוהה), או רכב אם יש, עם חניה שמוזמנת אונליין מראש. יוצאים עד 07:30. כרטיס כניסה לפארק הלאומי, וילדים עד גיל 7 פטורים.</div>
+    </div>
+    <div class="box red"><b>מזג אוויר</b>בטטרה מזג האוויר משתנה מהר. אם יורד גשם — מחליפים ל-Chochołowskie Termy (בריכות חמות ליד זקופנה) ושומרים את הנוף ליום אחר.</div>
+    <div class="footerbar">בערב: לארוז ולסדר את הקרוואנים — מחר מחזירים אותם.</div>
+  `
+},
+{
+  id:"d7", nav:"29.6", navSub:"החזרה ← קז׳ימייז׳",
+  segment: ["camp_zak","van_rental","krakow","plac_nowy","kazimierz","krakow"],
+  render: () => `
+    <div class="tag">יום ג׳, 29.6 · יום לוגיסטי • חזרה לקרקוב</div>
+    <h2 class="title">החזרת הקרוואנים ← קז׳ימייז׳</h2>
+    <div class="meta">נסיעה: זקופנה → קרקוב כ-2:00-2:30 שעות (Zakopianka); נקודת ההחזרה → הדירה כ-20-30 דק׳</div>
+    <table class="sched">
+      <tr><td>ניקוי, ריקון מיכלים ויציאה מהקמפינג</td><td>08:00</td></tr>
+      <tr><td>נסיעה לקרקוב</td><td>08:15-10:30</td></tr>
+      <tr><td>תדלוק, החזרת הקרוואנים ואיסוף הרכבים השכורים</td><td>10:30-12:00</td></tr>
+      <tr><td>צ׳ק-אין בדירה בקרקוב</td><td>~12:30</td></tr>
+      <tr><td>צהריים ב-Plac Nowy — זאפיינקה, הבאגט הפולני הפתוח</td><td>13:30-14:30</td></tr>
+      <tr><td>סיור בקז׳ימייז׳: רחוב Szeroka ובתי הכנסת העתיקים</td><td>14:30-16:30</td></tr>
+      <tr><td>ערב חופשי</td><td>ערב</td></tr>
+    </table>
+    <div class="sectionLabel">📍 מה יש שם</div>
+    <div class="places">
+      <div class="p"><b>קז׳ימייז׳ — </b>הרובע היהודי ההיסטורי של קרקוב. ברחוב Szeroka עומדים בית הכנסת הישן ובית הכנסת של הרמ״א, עם בית הקברות שלידו. היום זה גם אחד האזורים התוססים בעיר, עם בתי קפה ומסעדות.</div>
+      <div class="p"><b>Plac Nowy — </b>כיכר עם ביתן עגול באמצע, שבו מוכרים זאפיינקות — חצי באגט עם גבינה מותכת ותוספות. ארוחה זולה שכל הילדים אוהבים.</div>
+    </div>
+    <div class="boxes">
+      <div class="box green"><b>למה יום קצר</b>בוקר שלם של נהיגה ולוגיסטיקה. אחר הצהריים רק מה שקל ונעים.</div>
+      <div class="box tan"><b>החזרת הקרוואן</b>מחזירים עם מיכל דלק מלא, מיכל שפכים ריק וקרוואן נקי — אחרת יש חיובים נוספים. לבדוק את התנאים המדויקים בחוזה.</div>
+    </div>
+    <div class="box red"><b>Zakopianka בבוקר</b>בימי חול הכביש לכיוון קרקוב עמוס פחות מאשר בסופ״ש, אבל הכניסה לקרקוב בבוקר איטית. יציאה ב-08:00 נותנת מרווח.</div>
+    <div class="footerbar">שני לילות אחרונים בקרקוב.</div>
+  `
+},
+{
+  id:"d8", nav:"30.6", navSub:"פארק לאומי Ojców",
+  segment: ["krakow","ojcow","pieskowa","krakow"],
+  render: () => `
+    <div class="tag">יום ד׳, 30.6 · יום טבע רגוע • 30 דק׳ מהעיר</div>
+    <h2 class="title">פארק לאומי Ojców</h2>
+    <div class="meta">נסיעות: קרקוב → Ojców כ-30-40 דק׳; Ojców → Pieskowa Skała כ-10 דק׳; חזרה כ-40 דק׳</div>
+    <table class="sched">
+      <tr><td>יציאה לאויצוב</td><td>09:30</td></tr>
+      <tr><td>הגעה למערת המלך לוקייטק (Jaskinia Łokietka) וסיור קצר</td><td>10:15-11:15</td></tr>
+      <tr><td>הליכה קלה בעמק Prądnik</td><td>11:15-12:15</td></tr>
+      <tr><td>טירת Pieskowa Skała וצוק "אלת הרקולס"</td><td>12:30-13:30</td></tr>
+      <tr><td>צהריים ליד הטירה</td><td>13:30-14:30</td></tr>
+      <tr><td>חזרה לקרקוב</td><td>14:30-15:15</td></tr>
+      <tr><td>קניות אחרונות, או פארק המים של קרקוב</td><td>15:30-18:30</td></tr>
+      <tr><td>ארוחת פרידה</td><td>19:00</td></tr>
+    </table>
+    <div class="sectionLabel">📍 מה יש שם</div>
+    <div class="places">
+      <div class="p"><b>פארק לאומי Ojców — </b>הפארק הלאומי הקטן בפולין: עמק ירוק עם מצוקי גיר לבנים, מערות וטירות. מסלולים קצרים ומישוריים שמתאימים גם לקטנות.</div>
+      <div class="p"><b>מערת לוקייטק — </b>לפי האגדה המלך ולדיסלב לוקייטק התחבא כאן מאויביו, ועכביש טווה קורים על פתח המערה כדי שלא ימצאו אותו. סיור מודרך קצר, כחצי שעה.</div>
+      <div class="p"><b>Pieskowa Skała — </b>טירה לבנה על צוק, ולידה עמוד סלע מוזר בצורת אלה, שנקרא "אלת הרקולס".</div>
+    </div>
+    <div class="boxes">
+      <div class="box green"><b>ליום גשום</b>Park Wodny Kraków — פארק מים מקורה עם מגלשות, בתוך העיר.</div>
+      <div class="box tan"><b>מוותרים אם רוצים 8 ימים</b>זה היום הראשון שמורידים אם מקצרים את הטיול.</div>
+    </div>
+    <div class="footerbar">בערב: לארוז, להכין דרכונים ובגדים לטיסה.</div>
+  `
+},
+{
+  id:"d9", nav:"1.7", navSub:"טיסה הביתה",
+  segment: ["krakow","krk_airport"],
+  render: () => `
+    <div class="tag">יום ה׳, 1.7 · יום חזרה</div>
+    <h2 class="title">טיסה הביתה</h2>
+    <div class="meta">נסיעה: הדירה → שדה התעופה כ-25-35 דק׳</div>
+    <table class="sched">
+      <tr><td>ארוחת בוקר, אריזה ופינוי הדירה</td><td>עד 09:30</td></tr>
+      <tr><td>בוקר חופשי בעיר — לפי שעת הטיסה</td><td>בוקר</td></tr>
+      <tr><td>נסיעה לשדה התעופה, תדלוק והחזרת הרכבים</td><td>3 שעות לפני הטיסה</td></tr>
+      <tr><td>טיסה ישירה לתל אביב</td><td>לפי הטיסה</td></tr>
+    </table>
+    <div class="boxes">
+      <div class="box green"><b>היתרון</b>השדה קרוב לעיר, אז גם טיסה בצהריים משאירה בוקר נינוח.</div>
+      <div class="box yellow"><b>בלילה שלפני</b>להכין מזוודות, דרכונים, כרטיסי טיסה ובגדים לטיסה.</div>
+    </div>
+    <div class="footerbar">סיום נעים ובטוח של הטיול.</div>
+  `
+},
+{
+  id:"alt", nav:"מידע", navSub:"טיסות, לינה וחלופות",
+  segment: [],
+  render: () => `
+    <div class="tag">לשמור בטלפון</div>
+    <h2 class="title">מידע כללי לטיול</h2>
+    <div class="sectionLabel">👨‍👩‍👧‍👦 מי נוסע</div>
+    <table class="kids" style="margin-bottom:18px;">
+      <tr><td><b>רוזנבלום</b> — איתי וימית · דן (11) · עומר (8) · מאיה (3)</td><td>5 נפשות</td></tr>
+      <tr><td><b>אפרת</b> — 2 הורים · דולב (11) · דותן (8) · ליה (3)</td><td>5 נפשות</td></tr>
+    </table>
+    <div class="sectionLabel">✈️ הטיסות שלנו</div>
+    ${FLIGHTS.length ? renderFlights() : `<div class="box yellow"><b>עוד לא הוזמנו</b>מחפשים טיסה ישירה הלוך-חזור ת״א ⇄ קרקוב, 23.6 עד 1.7.2027. כשתהיה הזמנה — כרטיסי העלייה למטוס יופיעו כאן.</div>`}
+    <div class="sectionLabel">🏠 איפה ישנים</div>
+    <table class="kids" style="margin-bottom:18px;">
+      <tr><td><b>קרקוב</b> — דירה גדולה ל-10, או שתי דירות צמודות, עם חניה. עדיף בקז׳ימייז׳ או ליד העיר העתיקה.</td><td><span dir="ltr">23.6 – 26.6, 29.6 – 1.7</span></td></tr>
+      <tr><td><b>קמפינג ליד Niedzica / Sromowce</b> — לילה אחד, קרוב למעגן הרפסודות.</td><td><span dir="ltr">26.6</span></td></tr>
+      <tr><td><b>קמפינג בזקופנה</b> — שני לילות באותו מקום, בהליכה למרכז העיר.</td><td><span dir="ltr">27.6 – 29.6</span></td></tr>
+    </table>
+    <div class="sectionLabel">🚐 על הקרוואנים</div>
+    <div class="boxes">
+      <div class="box tan"><b>שני קרוואנים</b>אחד לכל משפחה: 5 מקומות שינה ו-5 מקומות ישיבה עם חגורה. דגם של 6 מקומות מרווח יותר.</div>
+      <div class="box tan"><b>רישיון ומשקל</b>עד 3.5 טון — רישיון B רגיל. מעל 3.5 טון צריך רישיון אחר וגם מערכת אגרה אלקטרונית (e-TOLL) על חלק מהכבישים. לבחור קרוואן עד 3.5 טון.</div>
+      <div class="box tan"><b>מושבי בטיחות</b>למאיה ולליה מושב בטיחות, לשאר בוסטר לפי גובה. לוודא שבמושבים שלהם יש עיגון מתאים.</div>
+      <div class="box yellow"><b>להזמין מוקדם</b>סוף יוני הוא תחילת החופש הגדול בפולין. קרוואנים משפחתיים וקמפינגים טובים ליד זקופנה נסגרים — כדאי להזמין כבר בחורף.</div>
+    </div>
+    <div class="sectionLabel">🔄 חלופות</div>
+    <ul class="altlist">
+      <li><b>Zatorland</b> — פארק דינוזאורים ליד Energylandia. מתאים ליום עשירי.
+        <a class="rowWaze" href="${wazeLink("zatorland")}" target="_blank" rel="noopener" title="נווט ב-Waze ל-Zatorland">🧭</a></li>
+      <li><b>Park Wodny Kraków</b> — פארק מים מקורה בעיר, טוב ליום גשום.
+        <a class="rowWaze" href="${wazeLink("park_wodny")}" target="_blank" rel="noopener" title="נווט ב-Waze ל-Park Wodny">🧭</a></li>
+      <li><b>Chochołowskie Termy</b> — בריכות חמות ליד זקופנה. חלופה ליום גשום בטטרה.
+        <a class="rowWaze" href="${wazeLink("chocholow")}" target="_blank" rel="noopener" title="נווט ב-Waze ל-Chochołowskie Termy">🧭</a></li>
+      <li><b>אושוויץ-בירקנאו</b> — כשעה מקרקוב. לא מתאים לילדים, אז רק אם המבוגרים רוצים ויש מי שנשאר איתם. הכניסה בהזמנה מראש.
+        <a class="rowWaze" href="${wazeLink("auschwitz")}" target="_blank" rel="noopener" title="נווט ב-Waze למוזיאון">🧭</a></li>
+    </ul>
+    <div class="sectionLabel">⏱️ 7, 8 או 10 ימים</div>
+    <ul class="altlist">
+      <li><b>8 ימים</b> — מורידים את יום 8 (Ojców). קז׳ימייז׳ נשאר בצהרי יום 7.</li>
+      <li><b>7 ימים</b> — מורידים את יום 8, ומכרה המלח עובר לאחר הנחיתה ביום 1 (אם הטיסה נוחתת בבוקר). ימי הקרוואן נשארים.</li>
+      <li><b>10 ימים</b> — מוסיפים יום רגוע אחרי Energylandia (Zatorland או פארק המים), או לילה רביעי בקרוואן.</li>
+    </ul>
+    <div class="sectionLabel">✅ מה צריך לסגור</div>
+    <ol class="checklist">
+      <li>תאריכים מדויקים וטיסות ישירות לקרקוב — זה קובע אם הטיול 7, 9 או 10 ימים.</li>
+      <li>חברת השכרת הקרוואנים ונקודת האיסוף: גודל, מחיר ליום, ביטוח, ציוד מטבח ומצעים.</li>
+      <li>רכבים לימי העיר: שני רכבים שכורים, או מיניבוס 9 מקומות ועוד רכב קטן.</li>
+      <li>קמפינגים ספציפיים לשני הלילות.</li>
+      <li>יום 6: Morskie Oko, גובאלובקה, או להתפצל.</li>
+      <li>דירה בקרקוב עם חניה.</li>
+    </ol>
+    <div class="box tan"><b>מחירים ושעות</b>המחירים בעמוד "עלויות" נאספו ממקורות פומביים לעונת 2026 (חלקם 2025), ולכן הם הערכה ל-2027. כדאי לאמת מול אתרי האטרקציות כשמזמינים.</div>
+  `
+},
+{
+  id:"forecast", nav:"תחזית", navSub:"עד 16 יום קדימה",
+  segment: [],
+  render: () => renderForecast(),
+},
+{
+  id:"costs", nav:"עלויות", navSub:"מי משלם כמה",
+  segment: [],
+  render: () => renderCosts(),
+},
+{
+  id:"trivia", nav:"טריוויה", navSub:"בואו לשחק!",
+  segment: [],
+  render: () => `
+    <div class="tag kidTag">🎮 פינת המשחק</div>
+    <h2 class="title kidTitle">🎯 טריוויה פולין</h2>
+    <p class="quizIntro">כמה אתם מכירים את פולין ואת הטיול שלנו? ${TRIVIA.length} שאלות כיפיות — בואו לבדוק! 🐉</p>
+    <div id="quizRoot" class="quizRoot"></div>
+  `
+},
 ];
 
-/* ===== שאלות פתוחות ===== */
-const OPEN = [
-  ["✈️","תאריכים מדויקים וטיסות — אילו חברות טסות ישיר לקרקוב ביוני 2027, ובאיזה שעות. זה קובע אם 7, 9 או 10 ימים."],
-  ["🚐","חברת השכרת הקרוואנים ונקודת האיסוף בקרקוב: גודל, מחיר ליום, ביטוח, ציוד מטבח ומצעים."],
-  ["🚗","רכבים בימי העיר: שני רכבים שכורים, או מיניבוס 9 מקומות ועוד רכב קטן."],
-  ["🏕️","אילו קמפינגים ספציפיים — ואם לישון 2 לילות באותו מקום במקום להזיז כל ערב."],
-  ["🏔️","יום 6: Morskie Oko לכולם, Gubałówka לכולם, או להתפצל."],
-  ["🕯️","האם המבוגרים רוצים ביקור באושוויץ (כשעה מקרקוב). לא מתאים לילדים, אז רק אם יש מי שנשאר איתם."],
-  ["💶","תקציב — אחרי שיהיו הצעות מחיר, נפתח עמוד עלויות לכל משפחה כמו באוסטריה."],
-];
+/* ---------- "Did you know?" facts, 3-5 per trip day ---------- */
+const FUN_FACTS = {
+  d1: [
+    "קרקוב הייתה בירת פולין במשך מאות שנים, לפני שהבירה עברה לוורשה.",
+    "רחבת השוק של קרקוב היא אחת הכיכרות הגדולות שנשארו מימי הביניים באירופה.",
+    "החצוצרן במגדל כנסיית מריה מנגן בכל שעה עגולה — ועוצר באמצע המנגינה!",
+    "פיירוגי הם כיסונים פולניים במילויים של תפוח אדמה, גבינה, בשר או אפילו פירות.",
+  ],
+  d2: [
+    "במכרה המלח Wieliczka יש קפלה שלמה — כולל הנברשות — שגולפה מסלע מלח!",
+    "אפשר ללקק את הקירות במכרה — הם באמת מלוחים (אבל עדיף לא...).",
+    "לפי האגדה, הדרקון של ואוול נוצח בזכות כבש ממולא גופרית — הוא שתה כל כך הרבה מים מהנהר שהתפוצץ!",
+    "פסל הדרקון ליד המערה יורק אש אמיתית כל כמה דקות.",
+  ],
+  d3: [
+    "Energylandia הוא פארק השעשועים הגדול בפולין.",
+    "בפארק יש אזורים שונים לפי גילאים — מאזור לקטנטנים ועד אזור אקסטרים.",
+    "לכל מתקן יש גובה מינימלי — לכן שווה למדוד את עצמכם לפני שנוסעים!",
+  ],
+  d4: [
+    "טירת Niedzica נבנתה לפני יותר מ-700 שנה על צוק מעל הנהר.",
+    "לפי אגדה מקומית, בטירה הוחבא אוצר של מלכי האינקה מדרום אמריקה!",
+    "אגם Czorsztyn נוצר כשבנו סכר על נהר הדונאיץ — מתחת למים יש כפר ישן.",
+    "הלילה ישנים בפעם הראשונה בקרוואן — בית על גלגלים!",
+  ],
+  d5: [
+    "הרפסודאים של הדונאיץ לובשים תלבושת עממית מסורתית עם כובע שחור קטן.",
+    "בחלק מהשיט, צד אחד של הנהר הוא פולין והצד השני סלובקיה!",
+    "המים בבריכות של Termy Bania מגיעים חמים מעומק האדמה.",
+  ],
+  d6: [
+    "הטטרה הם ההרים הגבוהים בפולין — הפסגה הגבוהה בצד הפולני היא Rysy, 2,499 מטר.",
+    "Morskie Oko פירושו 'עין הים' — לפי אגדה האגם מחובר במחילה סודית לים!",
+    "אוסצ׳יפק היא גבינה מעושנת מחלב כבשים, בצורת ציר מקושט.",
+    "ברכבל לגובאלובקה עולים על מסילה ולא על כבל באוויר.",
+  ],
+  d7: [
+    "קז׳ימייז׳ היה במשך מאות שנים מרכז החיים היהודיים בקרקוב.",
+    "בית הכנסת של הרמ״א נקרא על שם רבי משה איסרליש, אחד מגדולי הרבנים של פולין.",
+    "זאפיינקה היא המצאה פולנית — חצי באגט עם פטריות וגבינה מותכת.",
+  ],
+  d8: [
+    "פארק לאומי Ojców הוא הפארק הלאומי הקטן בפולין.",
+    "לפי האגדה, עכביש הציל את המלך לוקייטק כשטווה קורים על פתח המערה!",
+    "ליד טירת Pieskowa Skała עומד עמוד סלע בצורת אלה ענקית — 'אלת הרקולס'.",
+  ],
+  d9: [
+    "פולין היא אחת המדינות הגדולות באיחוד האירופי — ועדיין משתמשים בה בזלוטי ולא ביורו.",
+    "בפולנית 'דזיינקויה' זה תודה — שווה להגיד לפני שעולים למטוס!",
+  ],
+};
 
-/* ===== רינדור ===== */
-function esc(s){ return String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
-
-document.getElementById("open").innerHTML = OPEN.map(([ic,t]) =>
-  `<div class="q"><span class="ic">${ic}</span><span>${esc(t)}</span></div>`).join("");
-
-/* ספירה לאחור */
-(function(){
-  const start = new Date(2027, 5, 23), n = new Date();
-  const today = new Date(n.getFullYear(), n.getMonth(), n.getDate());
-  const days = Math.round((start - today) / 86400000);
-  if (days > 0){
-    const el = document.getElementById("countdown");
-    el.textContent = `⏳ עוד ${days} ימים`;
-    el.hidden = false;
-  }
-})();
-
-/* ===== תאריכים, אייקונים ונקודות לכל יום ===== */
-const DAY_ISO  = ["2027-06-23","2027-06-24","2027-06-25","2027-06-26","2027-06-27","2027-06-28","2027-06-29","2027-06-30","2027-07-01"];
-const DAY_ICON = ["✈️","⛏️","🎢","🏰","🛶","🏔️","🔁","🌲","🏠"];
-const DAY_PTS  = [[0],[0,1],[2],[3],[4,5],[6,7],[0],[8],[0]];
-const WD_SHORT = ["א׳","ב׳","ג׳","ד׳","ה׳","ו׳","שבת"];
-const TABS = [
-  { id:"overview", icon:"🧭", label:"סקירה" },
-  { id:"caravan",  icon:"🚐", label:"קרוואנים" },
-  { id:"options",  icon:"⏱️", label:"7/8/10 ימים" },
-  { id:"open",     icon:"❓", label:"פתוח" },
-];
-function isoToday(){ const n=new Date(); return `${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,"0")}-${String(n.getDate()).padStart(2,"0")}`; }
-const TODAY_IDX = DAY_ISO.indexOf(isoToday());
-
-/* ===== מפה משותפת: כל המסלול בסקירה, נקודות היום בעמוד יום ===== */
-let map=null, layer=null;
-function drawMap(idxs, withRoute){
-  if (!window.L) return;
-  if (!map){
-    map = L.map("map", { scrollWheelZoom:false });
-    L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
-      attribution:'&copy; OpenStreetMap &copy; CARTO', subdomains:"abcd", maxZoom:18
-    }).addTo(map);
-  }
-  if (layer) layer.remove();
-  layer = L.layerGroup().addTo(map);
-  if (withRoute) L.polyline(ROUTE, { color:"#3d7a3f", weight:4, opacity:.7, dashArray:"8 8" }).addTo(layer);
-  const pts = idxs.map(i => {
-    const p = PLACES[i];
-    const icon = L.divIcon({ className:"", html:`<div class="pin ${p.kind || ""}">${p.n}</div>`, iconSize:[24,24], iconAnchor:[12,12] });
-    L.marker([p.lat, p.lng], { icon }).addTo(layer).bindPopup(`<b>${esc(p.name)}</b><br><a href="https://waze.com/ul?ll=${p.lat},${p.lng}&navigate=yes" target="_blank" rel="noopener">ניווט ב-Waze</a>`);
-    return [p.lat, p.lng];
-  });
-  setTimeout(() => {
-    map.invalidateSize();
-    if (pts.length === 1) map.setView(pts[0], 12);
-    else map.fitBounds(pts, { padding:[28,28], maxZoom:12 });
-  }, 30);
+/* ---------- Restaurant recommendations ----------
+   `q` is a Waze *search* string, not a street address. Waze resolves "name, town, country"
+   reliably, and it avoids the worse failure of navigating the whole family to a street
+   number that turned out to be wrong. Where an address was verifiable it's in the `q`.
+   `w` is only set where an official site was actually confirmed — no guessed URLs. */
+function eatsLink(q){
+  return `https://waze.com/ul?q=${encodeURIComponent(q)}&navigate=yes`;
 }
 
-/* ===== עמוד יום ===== */
-function renderDay(i){
-  const x = DAYS[i];
-  document.getElementById("dayPage").innerHTML = `
-    <div class="dayHead${x.van ? " van" : ""}">
-      <div class="when">יום ${i+1} מתוך ${DAYS.length} · ${esc(x.wd)} ${esc(x.d)}${x.van ? ' <span class="vanbadge">🚐 קרוואן</span>' : ""}</div>
-      <h2>${DAY_ICON[i]} ${esc(x.title)}</h2>
-      <div class="tag">${esc(x.tag)}</div>
-      <ul>${x.plan.map(p => `<li>${esc(p)}</li>`).join("")}</ul>
-      ${x.kids ? `<div class="kids">👧 ${esc(x.kids)}</div>` : ""}
-      <div class="meta"><span class="chip sleep">🛏️ ${esc(x.sleep)}</span><span class="chip drive">🚗 ${esc(x.drive)}</span></div>
-      <div class="dayNav">
-        <button type="button" data-go="${i-1}" ${i===0?"disabled":""}>→ יום ${i}</button>
-        <button type="button" data-go="${i+1}" ${i===DAYS.length-1?"disabled":""}>יום ${i+2} ←</button>
+const EATS = {
+  d1: {
+    title:"פיירוגי ליד הרחבה",
+    list:[
+      {n:"Pierogarnia Krakowiacy", t:"פיירוגי", d:"רשת מסעדות פיירוגי בסגנון כפרי, עם תפריט ארוך של מילויים מלוחים ומתוקים. אחד הסניפים קרוב לרחבת השוק.", q:"Pierogarnia Krakowiacy, Szewska, Kraków, Poland"},
+      {n:"Przypiecek", t:"פתוח מאוחר", d:"פיירוגייה פשוטה ומהירה ליד העיר העתיקה. טובה לערב הראשון, כשכולם עייפים ורעבים.", q:"Przypiecek, Sławkowska, Kraków, Poland"},
+    ],
+    note:"ליד הרחבה המחירים גבוהים יותר. כמה רחובות הצידה יש מסעדות זולות יותר עם אותו אוכל."
+  },
+  d2: {note:"בסוף מסלול התיירים במכרה יש מזנון ומסעדה מתחת לאדמה — אפשר לאכול צהריים שם לפני שעולים. אחר הצהריים, ליד ואוול ולאורך טיילת הוויסלה יש דוכנים ובתי קפה."},
+  d3: {note:"בפארק יש הרבה מסעדות ודוכנים, אבל המחירים של פארק שעשועים. אפשר להביא חטיפים ושתייה (לבדוק בתקנון מה מותר להכניס), ולאכול ארוחה אחת בפארק."},
+  d4: {note:"היום מתבשלים בקרוואן: קנייה גדולה בבוקר, צהריים מול האגם, ובערב על האש בקמפינג. ליד הטירה יש גם מסעדה ובית קפה."},
+  d5: {note:"ב-Szczawnica, בסוף השיט, יש דוכני אוכל ובתי קפה לאורך הטיילת. ב-Termy Bania יש מסעדות בתוך המתחם."},
+  d6: {
+    title:"בזקופנה",
+    list:[
+      {n:"דוכני אוסצ׳יפק ב-Krupówki", t:"חובה", d:"גבינת כבשים מעושנת, צלויה על גריל ומוגשת עם ריבת חמוציות. נמכרת בדוכנים לאורך הרחוב וגם למעלה בגובאלובקה.", q:"Krupówki, Zakopane, Poland"},
+    ],
+    note:"לאורך Krupówki יש הרבה מסעדות בסגנון הררי (Karczma) — בנייני עץ, מרק בתוך כיכר לחם וצלי. המחירים ברחוב הראשי גבוהים יותר מאשר ברחובות הצדדיים."
+  },
+  d7: {
+    title:"בקז׳ימייז׳",
+    list:[
+      {n:"Endzior", t:"זאפיינקה", d:"הדוכן הוותיק והמפורסם בביתן העגול של Plac Nowy. זאפיינקה ענקית במחיר נמוך — ארוחת צהריים לכל הילדים.", q:"Endzior, Plac Nowy, Kraków, Poland"},
+    ],
+    note:"ברחוב Szeroka ובסביבה יש מסעדות בסגנון יהודי-פולני, אבל רובן לא כשרות. אם צריך כשר — לבדוק מראש."
+  },
+  d8: {note:"ליד טירת Pieskowa Skała יש מסעדה ובית קפה. בערב — ארוחת פרידה בקרקוב."},
+  d9: {note:"בשדה התעופה של קרקוב יש בתי קפה ומזנונים אחרי הבידוק."},
+};
+
+function renderEats(id){
+  const e = EATS[id];
+  if (!e) return "";
+  const cards = (e.list || []).map(r => `
+    <div class="eat">
+      <div class="body">
+        <div class="nm">${r.n}${r.t?`<span class="tagline">${r.t}</span>`:""}</div>
+        <div class="ds">${r.d}</div>
+        ${r.w?`<div class="lk"><a href="${r.w}" target="_blank" rel="noopener">האתר הרשמי</a></div>`:""}
       </div>
-    </div>`;
-  document.querySelectorAll("#dayPage [data-go]").forEach(b => b.addEventListener("click", () => select("d"+(+b.dataset.go+1))));
+      <a class="nav" href="${eatsLink(r.q)}" target="_blank" rel="noopener" title="נווט ב-Waze ל-${r.n}">🧭</a>
+    </div>`).join("");
+  return `
+    <div class="sectionLabel">🍽️ איפה אוכלים${e.title?` — ${e.title}`:""}</div>
+    ${cards?`<div class="eats">${cards}</div>`:""}
+    ${e.note?`<div class="box tan">${e.note}</div>`:""}
+  `;
 }
 
-/* ===== בחירת עמוד ===== */
-function select(id, fromHash){
-  const isDay = /^d\d+$/.test(id);
-  const idx = isDay ? +id.slice(1) - 1 : -1;
-  if (isDay && !DAYS[idx]) id = "overview";
-  document.querySelectorAll(".page").forEach(pg => pg.hidden = pg.dataset.page !== (isDay ? "day" : id));
-  document.querySelectorAll(".dayScroll button, .tabbar button").forEach(b => b.classList.toggle("active", b.dataset.id === id));
-  const mc = document.getElementById("mapCard");
-  if (isDay){
-    renderDay(idx);
-    mc.hidden = false;
-    document.getElementById("mapTitle").textContent = "🗺️ מפת היום";
-    drawMap(DAY_PTS[idx], false);
-    document.querySelector(`.dayScroll button[data-id="${id}"]`)?.scrollIntoView({behavior:"smooth", inline:"center", block:"nearest"});
-    // המפה מתחת לכרטיס היום
-    document.getElementById("dayPage").after(mc);
-  } else if (id === "overview"){
-    mc.hidden = false;
-    document.getElementById("mapTitle").textContent = "🗺️ המסלול על המפה";
-    document.querySelector('.page[data-page="overview"]').after(mc);
-    drawMap(PLACES.map((_,i) => i), true);
-  } else {
-    mc.hidden = true;
+/* ---------- Forecast page: today + 5 days for several destinations at once ----------
+   One Open-Meteo request covers all of them (the API accepts comma-separated coordinates
+   and returns an array in the same order). Destinations were picked to be the ones the
+   itinerary is flexible about — Grossglockner and Hallstatt in particular are swapped to
+   the clearest day, so seeing them side by side is the whole point. */
+const FORECAST_LOCS = [
+  {k:"krakow",      nm:"קרקוב",         note:"הבסיס"},
+  {k:"energylandia",nm:"Energylandia",  note:""},
+  {k:"dunajec",     nm:"פייניני",        note:"רפטינג"},
+  {k:"gubalowka",   nm:"זקופנה",         note:""},
+  {k:"morskie_oko", nm:"Morskie Oko",    note:"1,395 מ׳"},
+];
+
+const FORECAST_DAYS = 16;   // Open-Meteo's maximum; the window reaches the trip from ~8.9 onward
+
+function renderForecast(){
+  return `
+    <div class="tag">מזג אוויר</div>
+    <h2 class="title">🌦️ תחזית לאזור הטיול</h2>
+    <div class="meta">עד 16 ימים קדימה, בכמה יעדים במקביל — כדי להחליט איזה יום מקדישים לאיזה מקום. גללו לצדדים.</div>
+    <div id="fcRoot"><div class="fcLoading">טוען תחזית…</div></div>
+    <div class="box tan" style="margin-top:16px;"><b>איך להשתמש בזה</b>ימי הקרוואן בהרים (26-28.6) הכי רגישים למזג האוויר. אם צפוי גשם ביום של הטטרה — מחליפים בין הימים או עוברים לבריכות החמות. ימים ששייכים לטיול מסומנים בכותרת בשם היעד של אותו יום.</div>
+    <div class="box yellow" style="margin-top:12px;"><b>עד כמה לסמוך על זה</b>התחזית נמתחת 16 יום קדימה, אבל הדיוק יורד ככל שמתרחקים: 1-3 ימים אמינים מאוד, 4-7 ימים סבירים, ומעבר ל-10 ימים זו יותר מגמה מאשר תחזית. אל תקבעו סופית את יום הטטרה לפני שהוא נכנס לטווח של 3-4 ימים.</div>
+  `;
+}
+
+async function initForecast(){
+  const root = document.getElementById("fcRoot");
+  if (!root) return;
+  const lats = FORECAST_LOCS.map(o=>LOC[o.k].lat).join(",");
+  const lons = FORECAST_LOCS.map(o=>LOC[o.k].lon).join(",");
+  const url = `https://api.open-meteo.com/v1/forecast?latitude=${lats}&longitude=${lons}`
+    + `&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_probability_max`
+    + `&timezone=Europe%2FWarsaw&forecast_days=${FORECAST_DAYS}`;
+  try {
+    const resp = await fetch(url);
+    if (!resp.ok) throw new Error("http " + resp.status);
+    let data = await resp.json();
+    if (!Array.isArray(data)) data = [data];   // a single-location query returns a bare object
+    const dates = data[0]?.daily?.time || [];
+    if (!dates.length) throw new Error("no data");
+
+    // Column headers: weekday + date, flagged when the date is one of our trip days.
+    const heads = dates.map((iso,i)=>{
+      const wd = WEEKDAY_HE_SHORT[new Date(iso+"T00:00:00").getDay()];
+      const [ , m, d ] = iso.split("-");
+      const tripId = Object.keys(DAY_DATES).find(k=>DAY_DATES[k]===iso);
+      const tripDay = tripId ? DAYS.find(x=>x.id===tripId) : null;
+      return `<th class="${i===0?"fcToday":""}">
+        <span class="wd">${i===0?"היום":wd}</span>
+        <span class="dt">${+d}.${+m}</span>
+        ${tripDay?`<span class="trip">${tripDay.navSub}</span>`:""}
+      </th>`;
+    }).join("");
+
+    const rows = FORECAST_LOCS.map((o,li)=>{
+      const d = data[li]?.daily;
+      if (!d) return "";
+      const cells = dates.map((_,i)=>{
+        const max = Math.round(d.temperature_2m_max[i]);
+        const min = Math.round(d.temperature_2m_min[i]);
+        const rain = d.precipitation_probability_max[i];
+        const wet = rain >= 50;
+        return `<td class="${i===0?"fcToday":""}">
+          <span class="ic">${weatherEmoji(d.weathercode[i])}</span>
+          <span class="tm"><b>${max}°</b>${min}°</span>
+          <span class="rn${wet?" wet":""}">${rain}%</span>
+        </td>`;
+      }).join("");
+      return `<tr><th scope="row" class="fcPlace">
+        <span class="nm">${LOC_ICON[o.k]||"📍"} ${o.nm}</span>
+        ${o.note?`<span class="nt">${o.note}</span>`:""}
+      </th>${cells}</tr>`;
+    }).join("");
+
+    const covered = dates.filter(d => Object.values(DAY_DATES).includes(d)).length;
+    const coverMsg = covered
+      ? `התחזית כבר מכסה ${covered} מתוך 9 ימי הטיול.`
+      : "התחזית עדיין לא מגיעה לימי הטיול — חזרו לכאן קרוב יותר לתאריך.";
+
+    root.innerHTML = `<div class="fcWrap"><table class="fcTable">
+      <thead><tr><th class="fcPlace"></th>${heads}</tr></thead>
+      <tbody>${rows}</tbody>
+    </table></div>
+    <div class="fcLegend">${coverMsg} גללו לצדדים לימים נוספים · אחוז = סיכוי למשקעים · אדום = מעל 50%</div>`;
+  } catch(e){
+    root.innerHTML = `<div class="fcLoading">התחזית לא נטענה כרגע — נסו שוב מאוחר יותר. שאר האתר פועל כרגיל.</div>`;
   }
-  if (!fromHash) history.replaceState(null, "", "#" + id);
-  window.scrollTo({ top:0, behavior: fromHash ? "auto" : "smooth" });
 }
 
-const dayScrollEl = document.getElementById("dayScroll");
-DAYS.forEach((x,i) => {
-  const b = document.createElement("button");
-  b.type = "button"; b.dataset.id = "d"+(i+1);
-  if (x.van) b.classList.add("vanDay");
-  if (i === TODAY_IDX) b.classList.add("isToday");
-  const wd = WD_SHORT[new Date(DAY_ISO[i]+"T00:00:00").getDay()];
-  b.innerHTML = `<span class="icon">${DAY_ICON[i]}</span><span class="wd">${wd}</span><span class="d">${esc(x.d)}</span>${i===TODAY_IDX?'<span class="todayDot">היום</span>':""}`;
-  b.addEventListener("click", () => select(b.dataset.id));
-  dayScrollEl.appendChild(b);
+/* ---------- Checklist ---------- */
+const CHECKLIST = [
+  {id:"docs", ic:"🛂", name:"מסמכים", items:[
+    {t:"דרכונים בתוקף לכל בני המשפחה", s:"לוודא תוקף של לפחות 6 חודשים מיום החזרה"},
+    {t:"ביטוח נסיעות כולל כיסוי לילדים ולנהיגה בקרוואן"},
+    {t:"רישיון נהיגה בינלאומי", s:"לנהגים — לצד הרישיון הישראלי, גם לרכב השכור וגם לקרוואן"},
+    {t:"אישורי הטיסות שמורים בטלפון"},
+    {t:"אישור הזמנה — הדירה בקרקוב"},
+    {t:"אישור הזמנה — השכרת הקרוואנים, כולל תנאי ההחזרה"},
+    {t:"אישורי הזמנה — הקמפינגים"},
+    {t:"אישור הזמנת רכב שכור"},
+    {t:"כרטיסים שהוזמנו מראש", s:"מכרה המלח, Energylandia, חניה ל-Morskie Oko אם הולכים"},
+  ]},
+  {id:"cloth", ic:"🧥", name:"ביגוד אישי", items:[
+    {t:"בגדים קלים לימים חמים", s:"סוף יוני בקרקוב יכול להגיע ל-25-30 מעלות"},
+    {t:"סווטשירט או פליז לכל אחד", s:"למכרה המלח (כ-15 מעלות) ולערבים בהרים"},
+    {t:"מעיל גשם קל או פונצ׳ו", s:"גשמי קיץ קצרים נפוצים בטטרה"},
+    {t:"נעלי הליכה נוחות", s:"למכרה, ל-Ojców ול-Morskie Oko"},
+    {t:"בגדי ים", s:"ל-Energylandia ול-Termy Bania"},
+    {t:"כובע ומשקפי שמש"},
+    {t:"פיג׳מות חמות לקרוואן", s:"הלילות בהרים קרירים"},
+  ]},
+  {id:"toilet", ic:"🧴", name:"תמרוקים והיגיינה", items:[
+    {t:"קרם הגנה"},
+    {t:"דוחה יתושים", s:"ליד האגמים והנהר בערב"},
+    {t:"תרופות קבועות ותרופות בסיסיות", s:"נגד חום, כאבים, בחילות בנסיעה, פלסטרים"},
+    {t:"מגבות לבריכה", s:"ב-Termy Bania אפשר גם לשכור"},
+  ]},
+  {id:"kids", ic:"👶", name:"לקטנות", items:[
+    {t:"מנשא למאיה ולליה", s:"עגלה לא מתאימה למכרה ול-Morskie Oko"},
+    {t:"מצופים וגלגלי ים"},
+    {t:"חטיפים ומשחקים לנסיעות"},
+    {t:"שמיכה ובובה מהבית לשינה בקרוואן"},
+  ]},
+  {id:"van", ic:"🚐", name:"לקרוואן", items:[
+    {t:"פנס ראש לכל משפחה"},
+    {t:"מטען לרכב ומפצל USB"},
+    {t:"מצית, נייר כסף ומלקחיים לעל האש"},
+    {t:"מרשמלו ושיפודים למדורה"},
+    {t:"שקיות זבל וכביסה"},
+    {t:"כבל מאריך קצר", s:"לבדוק מה כלול בקרוואן"},
+  ]},
+  {id:"gear", ic:"🎒", name:"ציוד וגאדג׳טים", items:[
+    {t:"מתאם חשמל", s:"מטענים עם תקע דו-פיני דק מתאימים; לתקע ישראלי משולש צריך מתאם"},
+    {t:"סוללה ניידת"},
+    {t:"Waze ומפות שמורות אופליין לאזור הטטרה", s:"הקליטה בהרים חלשה"},
+    {t:"eSIM או חבילת גלישה לחו״ל"},
+    {t:"כרטיס אשראי בלי עמלת המרה, ומעט זלוטי במזומן"},
+  ]},
+  {id:"last", ic:"⏰", name:"ביום היציאה", items:[
+    {t:"צ׳ק-אין לטיסה"},
+    {t:"לשקול מזוודות"},
+    {t:"להוריד את האתר הזה למסך הבית", s:"עובד גם בלי אינטרנט"},
+  ]},
+];
+
+const CK_KEY = "poland2027_checklist_v1";
+let ckState = {};
+try { ckState = JSON.parse(localStorage.getItem(CK_KEY) || "{}"); } catch(e){ ckState = {}; }
+function ckSave(){ try { localStorage.setItem(CK_KEY, JSON.stringify(ckState)); } catch(e){} }
+function ckKey(si, ii){ return CHECKLIST[si].id + ":" + ii; }
+
+function renderChecklist(){
+  return `
+    <div class="tag">לפני שיוצאים</div>
+    <h2 class="title">✅ הצ׳קליסט שלנו</h2>
+    <div class="meta">כל משפחה מסמנת לעצמה. הסימון נשמר במכשיר — אפשר לסגור ולחזור.</div>
+    <div class="ckProgress">
+      <div class="row">
+        <span class="big" id="ckPct">0%</span>
+        <span class="cap" id="ckCap">0 מתוך 0 בוצעו</span>
+      </div>
+      <div class="ckBar"><i id="ckFill" style="width:0%"></i></div>
+    </div>
+    <div id="ckRoot">${CHECKLIST.map((sec, si) => {
+      const done = sec.items.filter((_,ii)=>ckState[ckKey(si,ii)]).length;
+      return `<div class="ckSec${done===sec.items.length?" done":""}${si===0?" open":""}" data-s="${si}">
+        <button type="button" class="ckHead">
+          <span class="ic">${sec.ic}</span>
+          <span class="nm">${sec.name}</span>
+          <span class="cnt">${done}/${sec.items.length}</span>
+          <span class="car">▾</span>
+        </button>
+        <div class="ckBody">${sec.items.map((it,ii)=>{
+          const on = !!ckState[ckKey(si,ii)];
+          return `<div class="ckItem${on?" on":""}" data-s="${si}" data-i="${ii}">
+            <span class="ckBox">${on?"✓":""}</span>
+            <span class="txt">${it.t}${it.s?`<small>${it.s}</small>`:""}</span>
+          </div>`;
+        }).join("")}</div>
+      </div>`;
+    }).join("")}</div>
+    <div class="ckTools">
+      <button type="button" id="ckOpenAll">פתח הכל</button>
+      <button type="button" id="ckCloseAll">סגור הכל</button>
+      <button type="button" id="ckReset">אפס סימונים</button>
+    </div>
+    <div class="box tan" style="margin-top:16px;"><b>איך זה עובד</b>הסימונים נשמרים בדפדפן של המכשיר שסימנתם בו, ולא משותפים בין המשפחות — לכל משפחה רשימה משלה. אם תפתחו את האתר בטלפון אחר, הרשימה שם תהיה ריקה.</div>
+  `;
+}
+
+function ckUpdateProgress(){
+  let total=0, done=0;
+  CHECKLIST.forEach((sec,si)=>sec.items.forEach((_,ii)=>{ total++; if(ckState[ckKey(si,ii)]) done++; }));
+  const pct = total ? Math.round(done/total*100) : 0;
+  const p = document.getElementById("ckPct");
+  if (!p) return;
+  p.textContent = pct + "%";
+  document.getElementById("ckCap").textContent = `${done} מתוך ${total} בוצעו`;
+  document.getElementById("ckFill").style.width = pct + "%";
+}
+
+// Wired once per render of the checklist page, via delegation on #ckRoot.
+function initChecklist(){
+  const root = document.getElementById("ckRoot");
+  if (!root) return;
+  ckUpdateProgress();
+  root.addEventListener("click", e => {
+    const head = e.target.closest(".ckHead");
+    if (head){ head.parentElement.classList.toggle("open"); return; }
+    const item = e.target.closest(".ckItem");
+    if (!item) return;
+    const si = +item.dataset.s, ii = +item.dataset.i, k = ckKey(si,ii);
+    ckState[k] = !ckState[k];
+    ckSave();
+    // repaint just this row and its section counter, so open/closed state is preserved
+    const sec = item.closest(".ckSec");
+    item.classList.toggle("on", !!ckState[k]);
+    item.querySelector(".ckBox").textContent = ckState[k] ? "✓" : "";
+    const secDone = CHECKLIST[si].items.filter((_,j)=>ckState[ckKey(si,j)]).length;
+    sec.querySelector(".cnt").textContent = secDone + "/" + CHECKLIST[si].items.length;
+    sec.classList.toggle("done", secDone === CHECKLIST[si].items.length);
+    ckUpdateProgress();
+  });
+  document.getElementById("ckOpenAll")?.addEventListener("click", ()=>
+    root.querySelectorAll(".ckSec").forEach(s=>s.classList.add("open")));
+  document.getElementById("ckCloseAll")?.addEventListener("click", ()=>
+    root.querySelectorAll(".ckSec").forEach(s=>s.classList.remove("open")));
+  document.getElementById("ckReset")?.addEventListener("click", ()=>{
+    if(!confirm("לאפס את כל הסימונים?")) return;
+    ckState = {}; ckSave(); selectDay("checklist");
+  });
+}
+
+/* ---------- Flights, rendered as boarding-pass cards ----------
+   Durations account for the one-hour offset between Israel (UTC+3 in September) and
+   Vienna (UTC+2), so they don't match a naive subtraction of the printed clock times. */
+const FLIGHTS = [];   // עוד לא הוזמנו — כשיהיו, אותו מבנה כמו באוסטריה
+
+function renderFlights(){
+  return FLIGHTS.map(f => `
+    <div class="bpass">
+      <div class="bpass-head">
+        <span class="bpass-airline">${f.airline}</span>
+        <span class="bpass-no">${f.no}</span>
+      </div>
+      <div class="bpass-route">
+        <div class="bpass-end">
+          <span class="bpass-code">${f.from.code}</span>
+          <span class="bpass-city">${f.from.city}</span>
+          <span class="bpass-time">${f.from.time}</span>
+        </div>
+        <div class="bpass-mid">
+          <span class="bpass-dur">${f.dur}</span>
+          <span class="bpass-path"><span class="bpass-plane">✈</span></span>
+        </div>
+        <div class="bpass-end arr">
+          <span class="bpass-code">${f.to.code}</span>
+          <span class="bpass-city">${f.to.city}</span>
+          <span class="bpass-time">${f.to.time}</span>
+        </div>
+      </div>
+      <div class="bpass-tear"></div>
+      <div class="bpass-meta">
+        <div><span class="k">תאריך</span><span class="v">${f.date}</span></div>
+        <div><span class="k">יום</span><span class="v">${f.weekday}</span></div>
+        <div><span class="k">מחלקה</span><span class="v">${f.cls}</span></div>
+        <div><span class="k">כבודה</span><span class="v">${f.bag}</span></div>
+      </div>
+      <div class="bpass-bars" aria-hidden="true"></div>
+    </div>`).join("");
+}
+
+/* ---------- Cost model ----------
+   Both families have the same make-up (2 adults + 11 + 8 + 3), so one card covers both.
+   Prices are per person in złoty: a = adult, k11 / k8 / k3 = the three kids. Each attraction's
+   own child bracket decides who pays what (Energylandia goes by height: reduced only up to
+   140 cm, so the 11-year-olds are counted at the adult rate). est:true marks a number we
+   couldn't confirm for 2026 and estimated instead. opt:true rows are shown but not summed. */
+const COST_ROWS = [
+  {day:"24.6", label:"מכרה המלח Wieliczka (סיור באנגלית, עונה גבוהה)", a:159, k11:131, k8:131, k3:0},
+  {day:"24.6", label:"מערת הדרקון בוואוול", a:10, k11:10, k8:10, k3:0, est:true},
+  {day:"25.6", label:"Energylandia (עונה נמוכה, אונליין)", a:209, k11:209, k8:169, k3:169},
+  {day:"26.6", label:"טירת Niedzica", a:35, k11:25, k8:25, k3:0, est:true},
+  {day:"27.6", label:"רפטינג בדונאיץ (מחירי 2025)", a:105, k11:74, k8:74, k3:0},
+  {day:"27.6", label:"מיניבוס חזרה מסוף השיט", a:25, k11:25, k8:25, k3:0, est:true},
+  {day:"27.6", label:"Termy Bania (4.5 שעות, אונליין)", a:125, k11:105, k8:105, k3:1, est:true},
+  {day:"28.6", label:"רכבל לגובאלובקה הלוך-חזור", a:44, k11:34, k8:34, k3:0, est:true},
+  {day:"30.6", label:"מערת לוקייטק + Pieskowa Skała", a:40, k11:25, k8:25, k3:0, est:true},
+  {day:"28.6", label:"אפשרות ב׳: כניסה ל-Morskie Oko (פארק לאומי)", a:11, k11:5.5, k8:5.5, k3:0, opt:true},
+];
+
+const COST_FAMILIES = [
+  {name:"רוזנבלום", who:"איתי וימית · דן (11) · עומר (8) · מאיה (3)"},
+  {name:"אפרת",     who:"2 הורים · דולב (11) · דותן (8) · ליה (3)"},
+];
+
+// Rough per-family logistics, so the attraction total isn't mistaken for the trip's cost.
+const LOGISTICS = [
+  {label:"קרוואן ל-3 ימים (כולל דמי שירות וניקוי)", v:"~2,500-3,500 zł"},
+  {label:"קמפינג, 3 לילות (חלקה + חשמל + 5 נפשות)", v:"~500-750 zł"},
+  {label:"דלק לקרוואן (כ-350 ק״מ)", v:"~250-350 zł"},
+  {label:"רכב שכור ל-6 ימי עיר", v:"לפי הצעת מחיר"},
+  {label:"חניות ואגרות (ראו בכל יום)", v:"~150-250 zł"},
+];
+
+function eur(n){
+  return n.toLocaleString("en-US", {minimumFractionDigits:0, maximumFractionDigits:2}) + " zł";
+}
+
+function famRowCost(row){
+  return 2*row.a + row.k11 + row.k8 + row.k3;
+}
+
+function renderCosts(){
+  const fixed = COST_ROWS.filter(r => !r.opt);
+  const total = fixed.reduce((s,r) => s + famRowCost(r), 0);
+  const rowsHtml = COST_ROWS.map(r => {
+    const v = famRowCost(r);
+    return `<tr${r.opt ? ' class="free"' : ""}>
+      <td><span class="dnum">${r.day}</span><bdi>${r.label}${r.est ? " *" : ""}</bdi></td>
+      <td>${r.opt ? "(" + eur(v) + ")" : (v === 0 ? "—" : eur(v))}</td>
+    </tr>`;
+  }).join("");
+
+  return `
+    <div class="tag">תכנון תקציב</div>
+    <h2 class="title">עלויות האטרקציות</h2>
+    <div class="meta">לכל משפחה בנפרד. לשתי המשפחות אותו הרכב — 2 מבוגרים וילדים בני 11, 8 ו-3 — ולכן אותו סכום. מחירי כניסה בלבד, בזלוטי. זלוטי אחד שווה בערך שקל אחד — לבדוק את השער לפני הנסיעה.</div>
+
+    <div class="costFam">
+      <h3>${COST_FAMILIES.map(f => f.name).join(" · ")}</h3>
+      <div class="who">${COST_FAMILIES.map(f => f.who).join("<br>")}</div>
+      <table>
+        ${rowsHtml}
+        <tr class="sum"><td>סה״כ לכל משפחה</td><td>${eur(total)}</td></tr>
+      </table>
+    </div>
+    <div class="box tan">* מחיר משוער — לא מצאנו מחיר מאומת לעונת 2026. שורה בסוגריים היא אפשרות ולא נכללת בסה״כ.</div>
+
+    <div class="sectionLabel">🚐 הערכה גסה ללוגיסטיקה — לכל משפחה</div>
+    <div class="costFam">
+      <table>
+        ${LOGISTICS.map(l => `<tr><td><bdi>${l.label}</bdi></td><td>${l.v}</td></tr>`).join("")}
+      </table>
+    </div>
+    <div class="box yellow"><b>עוד לא בפנים</b>טיסות, הדירה בקרקוב, ארוחות, ועגלת סוסים ל-Morskie Oko (המחיר נקבע במקום). את ההערכות ללוגיסטיקה נחליף במספרים אמיתיים כשיגיעו הצעות מחיר.</div>
+
+    <div class="sectionLabel">💰 איפה אפשר לחסוך</div>
+    <div class="boxes">
+      <div class="box tan"><b>Energylandia — לפני 27.6</b>עד 26.6 הפארק בעונה הנמוכה, ומ-27.6 המחיר עולה בכ-20 zł לכרטיס. היום שלנו (25.6) נופל בעונה הזולה. ילדים עד 140 ס״מ משלמים מחיר מוזל — אם דן או דולב נמוכים מזה, החיסכון גדל.</div>
+      <div class="box tan"><b>מכרה המלח — סיור בפולנית</b>סיור בפולנית זול בכ-40 zł למבוגר מסיור באנגלית, אבל הילדים לא יבינו את ההסבר. כדאי רק אם יש מדריך פרטי או אפליקציה בעברית.</div>
+      <div class="box tan"><b>הקטנות בחינם כמעט בכל מקום</b>מאיה וליה נכנסות בחינם למכרה, לרפטינג, לרכבל ולפארק הלאומי, ובזלוטי אחד ל-Termy Bania (עד 104 ס״מ). ב-Energylandia הן כבר משלמות מחיר מוזל.</div>
+      <div class="box tan"><b>מזמינים אונליין</b>ב-Energylandia, ב-Termy Bania ובחניה ל-Morskie Oko המחיר אונליין זול יותר מהקופה.</div>
+    </div>
+    <div class="footerbar">💡 המחירים נאספו ממקורות פומביים לעונת 2026 (הרפטינג מ-2025). ל-2027 צפויה עלייה קטנה — לאמת מול אתרי האטרקציות כשמזמינים.</div>
+  `;
+}
+
+/* ---------- Trivia quiz: multiple-choice questions about Poland + this trip ---------- */
+const TRIVIA = [
+  { q:"מה הבירה של פולין?", options:["ורשה","קרקוב","גדנסק","ורוצלב"], correct:0,
+    fact:"ורשה היא הבירה היום, אבל קרקוב — העיר שלנו — הייתה הבירה במשך מאות שנים!" },
+  { q:"באיזה מטבע משלמים בפולין?", options:["זלוטי","יורו","קורונה","פורינט"], correct:0,
+    fact:"פולין באיחוד האירופי, אבל שומרת על מטבע משלה — הזלוטי (zł)." },
+  { q:"מה הצבעים של דגל פולין?", options:["לבן ואדום","אדום-לבן-אדום","כחול וצהוב","ירוק-לבן-אדום"], correct:0,
+    fact:"פס לבן למעלה ופס אדום למטה — כמו האתר הזה!" },
+  { q:"איזו חיה אגדית גרה לפי האגדה במערה מתחת לטירת ואוול?", options:["דרקון","חד-קרן","גריפון","ענק"], correct:0,
+    fact:"הדרקון של ואוול! היום יש ליד המערה פסל דרקון שיורק אש אמיתית." },
+  { q:"ממה עשויים הפסלים והנברשות בתוך המכרה ב-Wieliczka?", options:["מלח","זכוכית","שיש","קרח"], correct:0,
+    fact:"הכול גולף מסלע מלח — אפילו הנברשות בקפלה הגדולה." },
+  { q:"איך קוראים לכיסונים הפולניים הממולאים?", options:["פיירוגי","פיצה","סושי","טאקו"], correct:0,
+    fact:"פיירוגי יכולים להיות ממולאים בתפוח אדמה וגבינה, בבשר, בכרוב — ואפילו באוכמניות." },
+  { q:"מה עושה החצוצרן במגדל כנסיית מריה בקרקוב בכל שעה עגולה?", options:["מנגן ועוצר באמצע","מצלצל בפעמון","יורה בתותח","שר שיר"], correct:0,
+    fact:"לפי האגדה, חצוצרן שהזהיר את העיר מפני פולשים נפגע מחץ באמצע המנגינה — ולכן היא נקטעת עד היום." },
+  { q:"באילו הרים נישן בקרוואן?", options:["הטטרה","האלפים","הפירנאים","הקרפטים הרומניים"], correct:0,
+    fact:"הטטרה הם ההרים הגבוהים בפולין, על הגבול עם סלובקיה." },
+  { q:"מה פירוש השם Morskie Oko?", options:["עין הים","אגם הדובים","ההר הלבן","מים קרים"], correct:0,
+    fact:"לפי אגדה, האגם מחובר במחילה תת-קרקעית לים." },
+  { q:"על מה נשוט בנהר הדונאיץ?", options:["רפסודות עץ","קיאקים","ספינת קיטור","צוללת"], correct:0,
+    fact:"רפסודות עץ מסורתיות, שהרפסודאים משיטים במוטות ארוכים." },
+  { q:"איך אומרים 'תודה' בפולנית?", options:["Dziękuję (דזיינקויה)","Danke","Merci","Gracias"], correct:0,
+    fact:"דזיינקויה! ו'שלום' זה Dzień dobry (ג׳ן דוברי)." },
+  { q:"מה זה אוסצ׳יפק?", options:["גבינה מעושנת מחלב כבשים","סוג של לחם","ריקוד עממי","כובע הררי"], correct:0,
+    fact:"גבינה בצורת ציר מקושט, שמוכרים צלויה בזקופנה עם ריבת חמוציות." },
+  { q:"כמה ימים נישן בקרוואן?", options:["3 לילות","לילה אחד","שבוע","אף לילה"], correct:0,
+    fact:"מ-26.6 עד 29.6 — שלושה לילות של בית על גלגלים!" },
+  { q:"איזו מדינה נמצאת מעבר לנהר בזמן הרפטינג?", options:["סלובקיה","גרמניה","אוסטריה","אוקראינה"], correct:0,
+    fact:"בחלק מהשיט, צד אחד של הנהר בפולין והצד השני בסלובקיה." },
+  { q:"איזה מדען מפורסמת נולדה בפולין וזכתה בשני פרסי נובל?", options:["מארי קירי","אלברט איינשטיין","אייזק ניוטון","ניקולה טסלה"], correct:0,
+    fact:"מארי קירי (מריה סקלודובסקה) נולדה בוורשה." },
+];
+
+/* ---------- Destination photos (Wikimedia Commons) ---------- */
+function wmFile(name, width){
+  return "https://commons.wikimedia.org/wiki/Special:FilePath/" + encodeURIComponent(name.replace(/ /g,"_")) + "?width=" + (width||1400);
+}
+function wmPage(name){
+  return "https://commons.wikimedia.org/wiki/File:" + encodeURIComponent(name.replace(/ /g,"_"));
+}
+const IMAGES = {
+  d1:  [ {f:"Kraków - Sukiennice 1.jpg", alt:"Sukiennice ברחבת השוק, קרקוב"} ],
+  d2:  [ {f:"Wawel castle.jpg", alt:"גבעת ואוול"} ],
+  d6:  [ {f:"Morskie Oko Tatry.JPG", alt:"Morskie Oko"} ],
+  d7:  [ {f:"Szeroka street, Kazimierz, Krakow, Poland.jpg", alt:"רחוב Szeroka, קז׳ימייז׳"} ],
+};
+
+function renderGallery(id){
+  const imgs = IMAGES[id];
+  if(!imgs || !imgs.length) return "";
+  return `<div class="photoGallery">${imgs.map(im => `
+    <figure>
+      <a href="${wmPage(im.f)}" target="_blank" rel="noopener">
+        <img src="${wmFile(im.f)}" alt="${im.alt}" loading="lazy"
+             onerror="this.closest('figure').style.display='none'">
+      </a>
+      <figcaption>${im.alt}</figcaption>
+    </figure>`).join("")}</div>`;
+}
+
+/* ---------- Map (Google Maps, no key) + Waze navigation ---------- */
+const DAY_ICON = {
+  checklist:"✅", forecast:"🌦️", d1:"✈️", d2:"⛏️", d3:"🎢", d4:"🏰", d5:"🛶",
+  d6:"🏔️", d7:"🔁", d8:"🌲", d9:"✈️", alt:"📋", costs:"💶", trivia:"🎯",
+};
+const LOC_ICON = {
+  krk_airport:"✈️", krakow:"🏡", rynek:"🏛️", wieliczka:"⛏️", wawel:"🏰", smok:"🐉", energylandia:"🎢",
+  zatorland:"🦖", van_rental:"🚐", niedzica:"🏰", camp1:"🏕️", dunajec:"🛶", szczawnica:"🛶", bania:"♨️",
+  camp_zak:"🏕️", gubalowka:"🚞", krupowki:"🧀", palenica:"🅿️", morskie_oko:"🏞️", kazimierz:"🕍",
+  plac_nowy:"🥖", ojcow:"🦇", pieskowa:"🏰", park_wodny:"🌊", auschwitz:"🕯️", chocholow:"♨️",
+};
+
+/* ---------- Weather: per-day forecast (Open-Meteo, no key needed) for the day's
+   main destination, shown between the map and the schedule. ---------- */
+const WEATHER_LOC = {
+  d1:"krakow", d2:"wieliczka", d3:"energylandia", d4:"niedzica", d5:"dunajec",
+  d6:"gubalowka", d7:"krakow", d8:"ojcow", d9:"krk_airport",
+};
+
+const WEATHER_CACHE = {};
+let weatherSeq = 0;
+
+function weatherEmoji(code){
+  if (code === 0) return "☀️";
+  if (code === 1 || code === 2) return "🌤️";
+  if (code === 3) return "☁️";
+  if (code === 45 || code === 48) return "🌫️";
+  if ([51,53,55,56,57,80,81,82].includes(code)) return "🌦️";
+  if ([61,63,65,66,67].includes(code)) return "🌧️";
+  if ([71,73,75,77,85,86].includes(code)) return "❄️";
+  if ([95,96,99].includes(code)) return "⛈️";
+  return "🌡️";
+}
+
+/* Which clock hours a given day's schedule actually spans, read straight from that day's
+   table so it can never drift out of sync when times are edited. Used to tint the hours
+   the family is out of the hotel. */
+function dayHourRange(id){
+  const day = DAYS.find(d=>d.id===id);
+  if (!day) return null;
+  const tmp = document.createElement("div");
+  tmp.innerHTML = day.render();
+  const hours = [];
+  tmp.querySelectorAll("table.sched tr").forEach(tr=>{
+    const tds = tr.querySelectorAll("td");
+    if (tds.length < 2) return;
+    for (const m of tds[1].textContent.matchAll(/(\d{1,2}):(\d{2})/g)){
+      hours.push(parseInt(m[1],10));
+    }
+  });
+  if (!hours.length) return null;
+  return [Math.min(...hours), Math.max(...hours)];
+}
+
+const HOUR_FROM = 6, HOUR_TO = 22;   // outside this the strip is just padding
+
+function renderHourly(hourly, id){
+  if (!hourly || !hourly.time || !hourly.time.length) return "";
+  const range = dayHourRange(id);
+  const cells = [];
+  hourly.time.forEach((iso, i) => {
+    const h = parseInt(iso.slice(11,13), 10);
+    if (h < HOUR_FROM || h > HOUR_TO) return;
+    const t = Math.round(hourly.temperature_2m[i]);
+    const r = hourly.precipitation_probability?.[i];
+    const out = range && h >= range[0] && h <= range[1];
+    cells.push(`<div class="wxHour${out?" out":""}">
+      <div class="hr">${String(h).padStart(2,"0")}</div>
+      <div class="ic">${weatherEmoji(hourly.weathercode[i])}</div>
+      <div class="tp">${t}°</div>
+      <div class="rn${r>=50?" wet":""}">${r==null?"–":r+"%"}</div>
+    </div>`);
+  });
+  if (!cells.length) return "";
+  return `<div class="wxHours">${cells.join("")}</div>
+    <div class="wxNote">${range?"מודגש בזהב: השעות שאתם בחוץ לפי הלו״ז של היום. ":""}גללו לצדדים לשעות נוספות.</div>`;
+}
+
+async function injectWeather(id){
+  const card = document.getElementById("weatherCard");
+  const locKey = WEATHER_LOC[id];
+  const date = DAY_DATES[id];
+  if (!locKey || !date){
+    card.hidden = true;
+    return;
+  }
+  const mySeq = ++weatherSeq;
+  card.hidden = false;
+  card.innerHTML = `<div class="wxTop"><span class="weatherLoading">🌦️ טוען תחזית ל-${LOC[locKey].label}…</span></div>`;
+
+  const cacheKey = locKey + "_" + date;
+  try {
+    let data = WEATHER_CACHE[cacheKey];
+    if (!data){
+      const loc = LOC[locKey];
+      const url = `https://api.open-meteo.com/v1/forecast?latitude=${loc.lat}&longitude=${loc.lon}`
+        + `&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_probability_max`
+        + `&hourly=temperature_2m,precipitation_probability,weathercode`
+        + `&timezone=Europe%2FWarsaw&start_date=${date}&end_date=${date}`;
+      const resp = await fetch(url);
+      if (!resp.ok) throw new Error("weather http " + resp.status);
+      data = await resp.json();
+      WEATHER_CACHE[cacheKey] = data;
+    }
+    if (mySeq !== weatherSeq) return; // a newer day was selected meanwhile — drop this result
+    const d = data.daily;
+    if (!d || !d.time || !d.time.length){
+      card.innerHTML = `<div class="wxTop"><span class="weatherNA">📅 התחזית ל-${LOC[locKey].label} עדיין לא זמינה — תופיע כאן כשבועיים-שלושה לפני התאריך.</span></div>`;
+      return;
+    }
+    const code = d.weathercode[0];
+    const max = Math.round(d.temperature_2m_max[0]);
+    const min = Math.round(d.temperature_2m_min[0]);
+    const rain = d.precipitation_probability_max[0];
+    card.innerHTML = `
+      <div class="wxTop">
+        <span class="weatherIcon">${weatherEmoji(code)}</span>
+        <span class="weatherTemps"><b>${max}°</b> / ${min}°</span>
+        <span class="weatherRain">🌧️ ${rain}%</span>
+        <span class="weatherLoc">${LOC[locKey].label}</span>
+      </div>
+      ${renderHourly(data.hourly, id)}
+    `;
+    scrollHoursIntoView(card);
+  } catch(e){
+    if (mySeq !== weatherSeq) return;
+    card.innerHTML = `<div class="wxTop"><span class="weatherNA">מזג האוויר לא נטען כרגע — שאר האתר פועל כרגיל.</span></div>`;
+  }
+}
+
+// The strip starts at 06:00, but the hours worth looking at are the ones on the schedule —
+// so nudge it to the first gold cell instead of leaving the user on an empty dawn.
+// scrollIntoView is used rather than setting scrollLeft: horizontal scroll offsets are
+// mirrored (and inconsistently signed) in RTL, and this sidesteps that entirely.
+// block:"nearest" keeps it from scrolling the page vertically as a side effect.
+function scrollHoursIntoView(card){
+  const first = card.querySelector(".wxHour.out");
+  if (first) first.scrollIntoView({inline:"start", block:"nearest"});
+}
+
+/* ---------- Leaflet map: full route (muted) + today's highlighted segment,
+   drawn as the real driving road (via OSRM, no key) with a straight-line fallback,
+   plus a base-layer toggle (street/topo) and a fullscreen mode. ---------- */
+let leafletMap = null;
+let mapLayers = []; // markers/polylines currently on the map, cleared+rebuilt on each render
+let mapGen = 0;      // bumped on every updateMap() call so stale async work (routes, animations) can bail out
+let streetLayer = null, topoLayer = null;
+let currentLayerMode = "street";
+
+const ROUTE_CACHE = {};
+async function fetchRoute(keys){
+  const cacheKey = keys.join(",");
+  if (ROUTE_CACHE[cacheKey]) return ROUTE_CACHE[cacheKey];
+  const coordStr = keys.map(k => `${LOC[k].lon},${LOC[k].lat}`).join(";");
+  const url = `https://router.project-osrm.org/route/v1/driving/${coordStr}?overview=full&geometries=geojson`;
+  const resp = await fetch(url);
+  if (!resp.ok) throw new Error("osrm http " + resp.status);
+  const data = await resp.json();
+  if (data.code !== "Ok" || !data.routes || !data.routes.length) throw new Error("osrm no route");
+  const route = data.routes[0];
+  const result = {
+    latlngs: route.geometry.coordinates.map(c => [c[1], c[0]]),
+    distanceKm: route.distance / 1000,
+    durationMin: route.duration / 60,
+  };
+  ROUTE_CACHE[cacheKey] = result;
+  return result;
+}
+
+// Reveals a polyline progressively (a light "drawing" animation) rather than popping in at once.
+// `gen` is the mapGen snapshot at call time — if a newer updateMap() has since run, we quietly stop.
+function animatePolyline(latlngs, options, gen, duration){
+  const line = L.polyline([], options).addTo(leafletMap);
+  mapLayers.push(line);
+  const total = latlngs.length;
+  if (total < 2){ line.setLatLngs(latlngs); return line; }
+  const start = performance.now();
+  function step(now){
+    if (gen !== mapGen) return;
+    const t = Math.min(1, (now - start) / duration);
+    const count = Math.max(2, Math.round(total * t));
+    line.setLatLngs(latlngs.slice(0, count));
+    if (t < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+  return line;
+}
+
+function initMap(){
+  if (typeof L === "undefined"){
+    document.getElementById("mapDiv").innerHTML =
+      '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--muted);font-size:13px;padding:12px;text-align:center;">המפה לא נטענה (בעיית רשת) — שאר האתר פועל כרגיל.</div>';
+    return;
+  }
+  leafletMap = L.map("mapDiv", {scrollWheelZoom:false});
+  streetLayer = L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
+    subdomains:"abcd",
+    maxZoom:19,
+    attribution:"© CARTO © OpenStreetMap contributors"
+  });
+  topoLayer = L.tileLayer("https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png", {
+    subdomains:"abc",
+    maxZoom:17,
+    attribution:"© OpenTopoMap (CC-BY-SA) © OpenStreetMap contributors"
+  });
+  streetLayer.addTo(leafletMap);
+
+  const layerBtn = document.getElementById("mapLayerBtn");
+  if (layerBtn){
+    layerBtn.addEventListener("click", () => {
+      if (currentLayerMode === "street"){
+        leafletMap.removeLayer(streetLayer);
+        topoLayer.addTo(leafletMap);
+        currentLayerMode = "topo";
+        layerBtn.textContent = "🗺️";
+        layerBtn.title = "עבור לתצוגת רחוב";
+      } else {
+        leafletMap.removeLayer(topoLayer);
+        streetLayer.addTo(leafletMap);
+        currentLayerMode = "street";
+        layerBtn.textContent = "🛰️";
+        layerBtn.title = "עבור לתצוגה טופוגרפית";
+      }
+    });
+  }
+
+  const fullBtn = document.getElementById("mapFullBtn");
+  const mapCardEl = document.getElementById("mapCard");
+  if (fullBtn && mapCardEl){
+    fullBtn.addEventListener("click", () => {
+      const isFull = mapCardEl.classList.toggle("fullscreen");
+      document.body.classList.toggle("mapFsOpen", isFull);
+      fullBtn.textContent = isFull ? "✕" : "⛶";
+      fullBtn.title = isFull ? "סגור מסך מלא" : "הרחב למסך מלא";
+      setTimeout(() => leafletMap.invalidateSize(), 260);
+    });
+  }
+}
+
+function fmtRouteInfo(distanceKm, durationMin){
+  const km = Math.round(distanceKm);
+  const h = Math.floor(durationMin / 60), m = Math.round(durationMin % 60);
+  const timeStr = h > 0 ? `${h}:${String(m).padStart(2,"0")} שעות` : `${m} דק׳`;
+  return `<span>🛣️ <b>${km}</b> ק"מ</span><span>⏱️ <b>${timeStr}</b> נסיעה</span>`;
+}
+
+async function updateMap(segment, isOverview){
+  if (!leafletMap) return;
+  mapLayers.forEach(l=>leafletMap.removeLayer(l));
+  mapLayers = [];
+  const gen = ++mapGen;
+
+  const routeInfoEl = document.getElementById("mapRouteInfo");
+  if (routeInfoEl) routeInfoEl.hidden = true;
+
+  const keys = segment.length ? segment : FULL_ROUTE;
+  const uniqueKeys = [...new Set(keys)];
+
+  // Straight-line coordinates — drawn immediately so the map never waits on the network,
+  // then swapped for the real road route (via OSRM) if/when that resolves.
+  const fullStraight = FULL_ROUTE.map(k=>[LOC[k].lat, LOC[k].lon]);
+  const segStraight = keys.map(k=>[LOC[k].lat, LOC[k].lon]);
+
+  let fullLine = animatePolyline(fullStraight, {color:"#cbb9ba", weight:3, dashArray:"2,8", opacity:.8}, gen, 500);
+  let segLine = null;
+  if (!isOverview && keys.length > 1){
+    segLine = animatePolyline(segStraight, {color:"#C8102E", weight:5, opacity:.9}, gen, 650);
+  }
+
+  // Markers: Wagrain (home base) gets a pin shape; today's other stops are highlighted red dots;
+  // in overview mode all stops are plain muted dots. Clicking a marker pops up its name + a Waze link.
+  uniqueKeys.forEach(k=>{
+    const loc = LOC[k];
+    const isBase = (k === "krakow" || k === "camp1" || k === "camp_zak");
+    const isActive = !isOverview && !isBase;
+    const cls = isBase ? "map-marker base" : (isActive ? "map-marker active" : "map-marker");
+    const size = isBase ? [18,14] : (isActive ? [17,17] : [12,12]);
+    const anchor = isBase ? [9,14] : (isActive ? [9,9] : [6,6]);
+    const icon = L.divIcon({className:"", html:`<div class="${cls}"></div>`, iconSize:size, iconAnchor:anchor});
+    const marker = L.marker([loc.lat, loc.lon], {icon}).addTo(leafletMap);
+    const tClass = "map-tooltip" + (isBase ? " base-tooltip" : (isActive ? " active-tooltip" : ""));
+    marker.bindTooltip(loc.label, {className:tClass, direction:"top", offset:[0,-10]});
+    marker.bindPopup(
+      `<div style="font-family:Heebo,sans-serif;text-align:center;">
+        <b>${loc.label}</b><br>
+        <a href="${wazeLink(k)}" target="_blank" rel="noopener" style="color:#C8102E;font-weight:700;text-decoration:none;">🧭 נווט ב-Waze</a>
+      </div>`
+    );
+    mapLayers.push(marker);
+  });
+
+  // Fit bounds to the relevant set of points (based on the straight-line coordinates —
+  // available immediately, and close enough even once the real route comes in).
+  const boundsKeys = isOverview ? FULL_ROUTE : uniqueKeys;
+  const bounds = L.latLngBounds(boundsKeys.map(k=>[LOC[k].lat, LOC[k].lon]));
+  leafletMap.fitBounds(bounds, {padding:[30,30], maxZoom: isOverview ? 9 : 12});
+  setTimeout(()=>leafletMap.invalidateSize(), 50);
+
+  // Upgrade to the real driving route in the background; silently keep the straight
+  // lines if the routing service is unreachable.
+  fetchRoute(FULL_ROUTE).then(r => {
+    if (gen !== mapGen) return;
+    leafletMap.removeLayer(fullLine);
+    const idx = mapLayers.indexOf(fullLine);
+    if (idx !== -1) mapLayers.splice(idx, 1);
+    fullLine = animatePolyline(r.latlngs, {color:"#cbb9ba", weight:3, dashArray:"2,8", opacity:.8}, gen, 500);
+  }).catch(()=>{});
+
+  if (!isOverview && keys.length > 1){
+    fetchRoute(keys).then(r => {
+      if (gen !== mapGen) return;
+      leafletMap.removeLayer(segLine);
+      const idx = mapLayers.indexOf(segLine);
+      if (idx !== -1) mapLayers.splice(idx, 1);
+      segLine = animatePolyline(r.latlngs, {color:"#C8102E", weight:5, opacity:.9}, gen, 800);
+      if (routeInfoEl){
+        routeInfoEl.innerHTML = fmtRouteInfo(r.distanceKm, r.durationMin);
+        routeInfoEl.hidden = false;
+      }
+    }).catch(()=>{});
+  }
+}
+
+function wazeLink(k){
+  const loc = LOC[k];
+  if (loc.address){
+    return `https://waze.com/ul?q=${encodeURIComponent(loc.address)}&navigate=yes`;
+  }
+  return `https://waze.com/ul?ll=${loc.lat}%2C${loc.lon}&navigate=yes`;
+}
+
+/* Per-day map of [substring appearing in a schedule row's first cell -> LOC key],
+   used to attach an inline Waze button to the specific row that marks arrival/start
+   at that destination. Substrings are exact fragments of the existing row text. */
+const ROW_WAZE = {
+  d1: [ ["נחיתה, איסוף מזוודות","krk_airport"], ["נסיעה לדירה בקרקוב","krakow"], ["הליכה לרחבת השוק","rynek"], ["חזרה לדירה","krakow"] ],
+  d2: [ ["הגעה למכרה המלח","wieliczka"], ["גבעת ואוול","wawel"], ["מערת הדרקון","smok"], ["חזרה לדירה","krakow"] ],
+  d3: [ ["הגעה ל-Energylandia","energylandia"], ["הגעה לדירה","krakow"] ],
+  d4: [ ["החזרת הרכבים השכורים ואיסוף הקרוואנים","van_rental"], ["טירת Niedzica","niedzica"], ["הגעה לקמפינג","camp1"] ],
+  d5: [ ["הגעה למעגן","dunajec"], ["Termy Bania","bania"], ["נסיעה לקמפינג בזקופנה","camp_zak"] ],
+  d6: [ ["הגעה לתחנת הרכבל","gubalowka"], ["רחוב Krupówki","krupowki"], ["מנוחה בקמפינג","camp_zak"] ],
+  d7: [ ["תדלוק, החזרת הקרוואנים","van_rental"], ["צ׳ק-אין בדירה","krakow"], ["צהריים ב-Plac Nowy","plac_nowy"], ["סיור בקז׳ימייז׳","kazimierz"] ],
+  d8: [ ["הגעה למערת המלך לוקייטק","ojcow"], ["טירת Pieskowa Skała","pieskowa"], ["חזרה לקרקוב","krakow"] ],
+  d9: [ ["נסיעה לשדה התעופה","krk_airport"] ],
+};
+
+function injectRowWaze(id){
+  const rules = ROW_WAZE[id];
+  if(!rules) return;
+  panelEl.querySelectorAll("table.sched td:first-child").forEach(td=>{
+    const text = td.textContent;
+    const rule = rules.find(([sub])=> text.includes(sub));
+    if(!rule) return;
+    const [, locKey] = rule;
+    const a = document.createElement("a");
+    a.href = wazeLink(locKey);
+    a.target = "_blank";
+    a.rel = "noopener";
+    a.className = "rowWaze";
+    a.title = "נווט ב-Waze ל-" + LOC[locKey].label;
+    a.textContent = "🧭";
+    td.appendChild(a);
+  });
+}
+
+/* Per-day map of [substring in a schedule row -> congestion warning], mirroring ROW_WAZE.
+   Each flagged row gets a 🚦 badge; tapping it opens a short note with the peak window and
+   what to do about it. Only genuine choke points are listed — badging every drive would
+   make the schedule unreadable and train people to ignore the icon. */
+const TRAFFIC = {
+  d1: [ ["נסיעה לדירה בקרקוב", {
+    peak:"ימי חול 15:00-18:00 בכניסה לעיר",
+    text:"הדרך מהשדה לעיר קצרה, אבל אחר הצהריים הכבישים לתוך קרקוב והטבעת סביב המרכז נעשים איטיים. בנחיתה בצהריים זה בסדר. אם הטיסה נוחתת מאוחר יותר, כדאי לתכנן 15-20 דק׳ תוספת."
+  }] ],
+  d2: [ ["יציאה מהדירה לכיוון Wieliczka", {
+    peak:"07:30-09:00 ביציאה מקרקוב",
+    text:"Wieliczka היא עיר לווין של קרקוב, והכביש בין השתיים עמוס בשעת השיא של הבוקר. ביציאה ב-08:45 השיא כבר נגמר — צפוי עיכוב של כמה דקות לכל היותר."
+  }] ],
+  d3: [ ["הגעה ל-Energylandia", {
+    peak:"תור לחניה 09:30-10:30",
+    text:"הכבישים לזאטור הם כבישים כפריים פנויים, והפקק היחיד הוא בכניסה לחניון ולשערים סביב שעת הפתיחה. הגעה עד 09:45 מכניסה אתכם בתחילת הגל. יום שישי בסוף יוני עמוס פחות מסופ״ש."
+  }] ],
+  d4: [ ["נסיעה דרומה לכיוון אגם Czorsztyn", {
+    peak:"שבת 08:00-13:00 דרומה על Zakopianka",
+    text:"הכביש מקרקוב להרים (S7 ואז DK47) הוא אחד הכבישים העמוסים בפולין בסופ״ש בקיץ — תושבי קרקוב נוסעים להרים בשבת בבוקר. אפשר להוסיף 30-60 דק׳. הקטע האחרון (DK47 עד Nowy Targ) הוא צוואר הבקבוק. אפשרות: לנסוע דרך Limanowa ו-Nowy Sącz (DK28/DW969) — ארוך יותר בקילומטרים, אבל לפעמים זורם יותר. Waze יחליט ביום."
+  }] ],
+  d5: [ ["הגעה למעגן", {
+    peak:"ראשון 10:00-14:00 — תור לרפסודות",
+    text:"הכביש עצמו פנוי. העומס הוא במעגן: ביום ראשון בקיץ התור לרפסודות בצהריים יכול להגיע לשעה ויותר. הגעה עד 09:00 כמעט מבטלת אותו."
+  }] ],
+  d6: [ ["עלייה ברכבל", {
+    peak:"תור לרכבל 10:30-15:00",
+    text:"תחנת הרכבל לגובאלובקה היא מהמקומות העמוסים בזקופנה. עלייה ב-10:00 היא לפני רוב התור. בזקופנה עצמה התנועה זוחלת כמעט כל היום — עדיף ללכת ברגל או במונית ולא להזיז את הקרוואן. למי שהולך ל-Morskie Oko: החניון ב-Palenica מתמלא מוקדם, והכביש אליו נסתם בבוקר — יוצאים עד 07:30."
+  }] ],
+  d7: [ ["נסיעה לקרקוב", {
+    peak:"07:00-09:30 בכניסה לקרקוב",
+    text:"ביום חול הכביש צפונה מזקופנה פנוי יחסית, אבל הכניסה לקרקוב בבוקר איטית. יציאה ב-08:15 מביאה אתכם לעיר אחרי השיא. אם נקודת ההחזרה בצד המערבי של העיר (ליד השדה), Waze יעקוף את המרכז דרך הטבעת."
+  }] ],
+  d9: [ ["נסיעה לשדה התעופה", {
+    peak:"ימי חול 07:00-09:00 ו-15:00-18:00",
+    text:"הדרך לשדה קצרה, אבל בשעות השיא הטבעת המערבית של קרקוב איטית. לתכנן מרווח של 20 דק׳ אם הנסיעה נופלת על השיא."
+  }] ],
+};
+
+function injectTraffic(id){
+  const rules = TRAFFIC[id];
+  if(!rules) return;
+  panelEl.querySelectorAll("table.sched td:first-child").forEach(td=>{
+    const text = td.textContent;
+    const rule = rules.find(([sub])=> text.includes(sub));
+    if(!rule) return;
+    const [, info] = rule;
+    const note = document.createElement("div");
+    note.className = "trafficNote";
+    note.hidden = true;
+    note.innerHTML = `<b>🚦 שעת שיא: ${info.peak}</b><br>${info.text}`;
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "rowTraffic";
+    btn.textContent = "🚦";
+    btn.title = "צפוי עומס - " + info.peak;
+    btn.setAttribute("aria-label", "פרטי עומס תנועה");
+    btn.setAttribute("aria-expanded", "false");
+    btn.addEventListener("click", ()=>{
+      const open = note.hidden;
+      note.hidden = !open;
+      btn.setAttribute("aria-expanded", String(open));
+    });
+    td.appendChild(btn);
+    td.appendChild(note);
+  });
+}
+
+/* Per-day road money: Vignette, point tolls (Sondermaut) and paid parking at the stops,
+   mirroring the TRAFFIC structure. Each flagged row gets a 💶 badge that opens the detail,
+   and renderToll() prints the day's summary at the bottom of the page. Only real payments
+   are listed; days that cost nothing say so explicitly, so silence is never ambiguous. */
+const TOLL = {
+  d1: {
+    rows: [
+      ["נסיעה לדירה בקרקוב", {t:"חניה בעיר", c:"בתשלום במרכז", x:"מרכז קרקוב מחולק לאזורי חניה בתשלום בימי חול ובשבת בשעות היום. משלמים במדחן או באפליקציה (למשל mobiParking או SkyCash). העיר העתיקה עצמה סגורה לרכב. הכי פשוט: דירה עם חניה פרטית, ולהסתובב ברגל ובחשמלית."}],
+    ],
+    sum: ["<span class=\"none\">אין אגרות</span> — הדרך מהשדה לעיר לא עוברת בכביש אגרה.",
+          "<b>חניה</b> — במרכז בתשלום לפי שעה. לבחור דירה עם חניה."],
+  },
+  d2: {
+    rows: [
+      ["הגעה למכרה המלח", {t:"חניה", c:"~20-30 zł", x:"סביב פיר Daniłowicz יש כמה חניונים פרטיים בתשלום, במחיר קבוע ליום. ככל שקרובים יותר לכניסה המחיר גבוה יותר. מחיר משוער."}],
+      ["גבעת ואוול", {t:"חניה", c:"בתשלום", x:"ליד ואוול יש חניונים בתשלום, אבל הם מתמלאים. אם הדירה קרובה — עדיף ברגל או בחשמלית."}],
+    ],
+    sum: ["<span class=\"none\">אין אגרות</span> היום.",
+          "<b>חניה ב-Wieliczka</b> — ~20-30 zł לרכב (משוער). בוואוול — חניה בתשלום, או ברגל."],
+  },
+  d3: {
+    rows: [
+      ["יציאה מהדירה ל-Energylandia", {t:"אגרת A4", c:"אפשר גם בלי", x:"Waze עשוי להציע את A4 מערבה. בקטע קרקוב–קטוביץ יש אגרה: בתחנת Balice משלמים כמחצית מהמחיר המלא (המחיר המלא לרכב פרטי ב-2026: 36 zł), כלומר כ-18 zł לכל כיוון. משלמים בכרטיס בתחנה או באפליקציה. החלופה בלי אגרה היא דרך Skawina (כביש 44) — כמעט באותו זמן."}],
+      ["הגעה ל-Energylandia", {t:"חניה", c:"בתשלום", x:"החניון של הפארק בתשלום יומי קבוע לרכב. המחיר לא פורסם במקורות שבדקנו — לבדוק באתר הפארק."}],
+    ],
+    sum: ["<b>A4</b> — אופציונלי: כ-18 zł לכל כיוון בתחנת Balice. דרך כביש 44 אין אגרה.",
+          "<b>חניה ב-Energylandia</b> — בתשלום יומי לרכב."],
+  },
+  d4: {
+    rows: [
+      ["החזרת הרכבים השכורים ואיסוף הקרוואנים", {t:"משקל הקרוואן", c:"עד 3.5 טון = בלי אגרה", x:"בפולין רכבים מעל 3.5 טון משלמים אגרה אלקטרונית (e-TOLL) על אוטוסטרדות ועל כבישים לאומיים רבים, וצריך להירשם מראש. קרוואן עד 3.5 טון נחשב רכב פרטי — והכבישים שלנו היום (S7, DK47) חינמיים לגמרי."}],
+      ["טירת Niedzica", {t:"חניה", c:"~10-20 zł", x:"חניון ליד הטירה בתשלום קטן. לקרוואן עדיף החניון הגדול. מחיר משוער."}],
+    ],
+    sum: ["<span class=\"none\">אין אגרות</span> — S7 ו-DK47 חינמיים לקרוואן עד 3.5 טון.",
+          "<b>חניה בטירה</b> — ~10-20 zł (משוער).",
+          "<b>קמפינג</b> — ראו בעמוד \"עלויות\"."],
+  },
+  d5: {
+    rows: [
+      ["הגעה למעגן", {t:"חניה", c:"~20-30 zł", x:"ליד מעגן Sromowce-Kąty יש חניונים בתשלום, גם לקרוואנים. מחיר משוער."}],
+      ["חזרה במיניבוס", {t:"הסעה", c:"לאדם", x:"המיניבוסים מסוף השיט חזרה למעגן גובים מחיר לאדם (בעמוד העלויות הערכנו כ-25 zł). משלמים לנהג."}],
+      ["Termy Bania", {t:"חניה", c:"לבדוק", x:"ל-Termy Bania יש חניון גדול. לבדוק מראש אם הוא בתשלום ואם יש מקום לקרוואנים."}],
+    ],
+    sum: ["<span class=\"none\">אין אגרות</span> היום.",
+          "<b>חניה במעגן</b> — ~20-30 zł (משוער). <b>מיניבוס חזרה</b> — לפי אדם."],
+  },
+  d6: {
+    rows: [
+      ["הגעה לתחנת הרכבל", {t:"תחבורה", c:"מונית או ברגל", x:"הקרוואן נשאר בקמפינג — חניה בזקופנה יקרה וקשה למצוא. מונית קצרה או הליכה."}],
+    ],
+    sum: ["<span class=\"none\">אין אגרות ואין חניה</span> — הקרוואן נשאר בקמפינג.",
+          "<b>אם הולכים ל-Morskie Oko ברכב</b> — חניה ב-Palenica Białczańska רק בהזמנה אונליין מראש: 36-75 zł לרכב פרטי לפי עונה ומועד הקנייה (2026), וקנייה ביום עצמו יקרה יותר. במיניבוס מזקופנה — משלמים לפי אדם."],
+  },
+  d7: {
+    rows: [
+      ["תדלוק, החזרת הקרוואנים", {t:"דלק", c:"מיכל מלא", x:"מחזירים עם מיכל מלא, אחרת חברת ההשכרה גובה דלק במחיר גבוה. לתדלק בתחנה האחרונה לפני נקודת ההחזרה."}],
+    ],
+    sum: ["<span class=\"none\">אין אגרות</span> — Zakopianka חינמית.",
+          "<b>דלק</b> — מילוי מיכל לפני ההחזרה."],
+  },
+  d8: {
+    rows: [
+      ["הגעה למערת המלך לוקייטק", {t:"חניה", c:"~10-20 zł", x:"בפארק הלאומי Ojców יש חניונים בתשלום קטן ליד המערות והטירה. מחיר משוער."}],
+    ],
+    sum: ["<span class=\"none\">אין אגרות</span> היום.",
+          "<b>חניה ב-Ojców</b> — ~10-20 zł (משוער)."],
+  },
+  d9: {
+    rows: [
+      ["נסיעה לשדה התעופה", {t:"דלק", c:"מיכל מלא", x:"להחזיר את הרכבים השכורים עם מיכל מלא, לפי תנאי ההשכרה."}],
+    ],
+    sum: ["<span class=\"none\">אין אגרות</span> — רק לתדלק לפני החזרת הרכבים."],
+  },
+};
+
+function injectToll(id){
+  const data = TOLL[id];
+  if(!data || !data.rows) return;
+  panelEl.querySelectorAll("table.sched td:first-child").forEach(td=>{
+    const text = td.textContent;
+    const rule = data.rows.find(([sub])=> text.includes(sub));
+    if(!rule) return;
+    const [, info] = rule;
+    const note = document.createElement("div");
+    note.className = "tollNote";
+    note.hidden = true;
+    note.innerHTML = `<b>💶 ${info.t}: ${info.c}</b><br>${info.x}`;
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "rowToll";
+    btn.textContent = "💶";
+    btn.title = info.t + " - " + info.c;
+    btn.setAttribute("aria-label", "פרטי עלות בשורה זו");
+    btn.setAttribute("aria-expanded", "false");
+    btn.addEventListener("click", ()=>{
+      const open = note.hidden;
+      note.hidden = !open;
+      btn.setAttribute("aria-expanded", String(open));
+    });
+    td.appendChild(btn);
+    td.appendChild(note);
+  });
+}
+
+// The day's road-money summary, printed at the bottom of the day page.
+function renderToll(id){
+  const data = TOLL[id];
+  if(!data || !data.sum) return "";
+  return `<div class="tollBox"><b>💶 עלויות דרך ביום הזה</b><ul>${
+    data.sum.map(li => `<li>${li}</li>`).join("")
+  }</ul></div>`;
+}
+
+/* ---------- Smart Waze target: reads today's schedule + the clock, and figures out
+   which point on today's route makes sense to navigate to right now. ---------- */
+function parseTimeToMinutes(text){
+  const m = text.match(/(\d{1,2}):(\d{2})/);
+  if(!m) return null;
+  return parseInt(m[1],10)*60 + parseInt(m[2],10);
+}
+
+function getRowTimes(id){
+  const rules = ROW_WAZE[id];
+  if(!rules) return [];
+  const day = DAYS.find(d=>d.id===id);
+  if(!day) return [];
+  const tmp = document.createElement("div");
+  tmp.innerHTML = day.render();
+  const out = [];
+  tmp.querySelectorAll("table.sched tr").forEach(tr=>{
+    const tds = tr.querySelectorAll("td");
+    if(tds.length < 2) return;
+    const text = tds[0].textContent;
+    const rule = rules.find(([sub])=> text.includes(sub));
+    if(!rule) return;
+    const [, locKey] = rule;
+    out.push({loc:locKey, label:text.split("—")[0].trim(), minutes: parseTimeToMinutes(tds[1].textContent)});
+  });
+  return out;
+}
+
+function getSmartTarget(id){
+  const rows = getRowTimes(id);
+  if(!rows.length) return null;
+  const now = new Date();
+  const nowMin = now.getHours()*60 + now.getMinutes();
+  // rows are already in schedule (chronological) order — pick the first one that hasn't
+  // happened yet; if the whole day already passed, fall back to the last stop (usually the hotel).
+  const upcoming = rows.find(r => r.minutes === null || r.minutes >= nowMin);
+  return upcoming || rows[rows.length - 1];
+}
+
+function updateNowBar(viewingId){
+  const bar = document.getElementById("nowBar");
+  const today = todaysDayId();
+  if (!today || viewingId !== today){
+    bar.hidden = true;
+    return;
+  }
+  const target = getSmartTarget(today);
+  if (!target){
+    bar.hidden = true;
+    return;
+  }
+  bar.hidden = false;
+  document.getElementById("nowBarLabel").textContent = "🧭 עכשיו בלו״ז: " + target.label;
+  document.getElementById("nowBarPlace").textContent = LOC[target.loc].label;
+  document.getElementById("nowBarBtn").href = wazeLink(target.loc);
+}
+
+/* ---------- "Did you know?" carousel ---------- */
+let funFactList = [];
+let funFactIndex = 0;
+
+function renderFunFactDots(){
+  const dotsEl = document.getElementById("funFactDots");
+  if (!dotsEl) return;
+  dotsEl.innerHTML = funFactList.map((_, i) =>
+    `<span class="${i === funFactIndex ? "on" : ""}"></span>`
+  ).join("");
+}
+
+function renderFunFactView(){
+  const textEl = document.getElementById("funFactText");
+  if (!textEl || !funFactList.length) return;
+  textEl.textContent = funFactList[funFactIndex];
+  renderFunFactDots();
+}
+
+function updateFunFacts(id){
+  const card = document.getElementById("funFactCard");
+  if (!card) return;
+  const facts = FUN_FACTS[id];
+  if (!facts || !facts.length){
+    card.hidden = true;
+    funFactList = [];
+    return;
+  }
+  funFactList = facts;
+  funFactIndex = 0;
+  card.hidden = false;
+  renderFunFactView();
+}
+
+document.getElementById("funFactPrev")?.addEventListener("click", () => {
+  if (!funFactList.length) return;
+  funFactIndex = (funFactIndex - 1 + funFactList.length) % funFactList.length;
+  renderFunFactView();
 });
+document.getElementById("funFactNext")?.addEventListener("click", () => {
+  if (!funFactList.length) return;
+  funFactIndex = (funFactIndex + 1) % funFactList.length;
+  renderFunFactView();
+});
+
+/* ---------- Trivia quiz ---------- */
+function shuffleArr(arr){
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+let quizOrder = [];
+let quizPos = 0;
+let quizScore = 0;
+
+function initTrivia(){
+  const root = document.getElementById("quizRoot");
+  if (!root) return;
+  quizOrder = shuffleArr(TRIVIA.map((_, i) => i));
+  quizPos = 0;
+  quizScore = 0;
+  root.addEventListener("click", onQuizClick);
+  renderQuizQuestion();
+}
+
+function onQuizClick(e){
+  const optBtn = e.target.closest(".quizOption");
+  if (optBtn && !optBtn.classList.contains("disabled")){
+    handleQuizAnswer(optBtn);
+    return;
+  }
+  const nextBtn = e.target.closest(".quizNextBtn");
+  if (nextBtn){
+    quizPos++;
+    renderQuizQuestion();
+    return;
+  }
+  const againBtn = e.target.closest(".quizAgainBtn");
+  if (againBtn){
+    quizOrder = shuffleArr(TRIVIA.map((_, i) => i));
+    quizPos = 0;
+    quizScore = 0;
+    renderQuizQuestion();
+  }
+}
+
+function renderQuizQuestion(){
+  const root = document.getElementById("quizRoot");
+  if (!root) return;
+  if (quizPos >= quizOrder.length){
+    renderQuizSummary();
+    return;
+  }
+  const item = TRIVIA[quizOrder[quizPos]];
+  const optOrder = shuffleArr(item.options.map((_, i) => i));
+  root.innerHTML = `
+    <div class="quizCard">
+      <div class="quizProgress">
+        <span>שאלה ${quizPos + 1} מתוך ${quizOrder.length}</span>
+        <span class="quizScore">⭐ ${quizScore}</span>
+      </div>
+      <p class="quizQuestion">${item.q}</p>
+      <div class="quizOptions">
+        ${optOrder.map(i => `<button type="button" class="quizOption" data-idx="${i}">${item.options[i]}</button>`).join("")}
+      </div>
+    </div>
+  `;
+}
+
+function handleQuizAnswer(optBtn){
+  const item = TRIVIA[quizOrder[quizPos]];
+  const chosen = Number(optBtn.dataset.idx);
+  const isCorrect = chosen === item.correct;
+  if (isCorrect) quizScore++;
+
+  document.querySelectorAll(".quizOption").forEach(b => {
+    b.classList.add("disabled");
+    const idx = Number(b.dataset.idx);
+    if (idx === item.correct) b.classList.add("correct");
+    else if (b === optBtn) b.classList.add("wrong");
+  });
+
+  const card = document.querySelector(".quizCard");
+  if (card){
+    const scoreEl = card.querySelector(".quizScore");
+    if (scoreEl) scoreEl.textContent = "⭐ " + quizScore;
+    const feedback = document.createElement("div");
+    feedback.className = "quizFeedback " + (isCorrect ? "correct" : "wrong");
+    feedback.textContent = isCorrect ? "🎉 נכון מאוד!" : "❌ לא בדיוק...";
+    card.appendChild(feedback);
+    const fact = document.createElement("div");
+    fact.className = "quizFact";
+    fact.textContent = "💡 " + item.fact;
+    card.appendChild(fact);
+    const isLast = quizPos + 1 >= quizOrder.length;
+    const nextBtn = document.createElement("button");
+    nextBtn.type = "button";
+    nextBtn.className = "quizNextBtn";
+    nextBtn.textContent = isLast ? "לתוצאה הסופית 🏁" : "השאלה הבאה ⟵";
+    card.appendChild(nextBtn);
+  }
+}
+
+function renderQuizSummary(){
+  const root = document.getElementById("quizRoot");
+  if (!root) return;
+  const total = quizOrder.length;
+  let emoji, msg;
+  if (quizScore === total){
+    emoji = "🏆"; msg = "מושלם! אתם ממש מומחי פולין!";
+  } else if (quizScore >= total * 0.7){
+    emoji = "🥳"; msg = "כל הכבוד! אתם מכירים את פולין מצוין.";
+  } else if (quizScore >= total * 0.4){
+    emoji = "😊"; msg = "יפה מאוד! אחרי הטיול תדעו עוד יותר.";
+  } else {
+    emoji = "🌟"; msg = "התחלה נהדרת — בואו נגלה עוד בפולין ביחד!";
+  }
+  root.innerHTML = `
+    <div class="quizCard quizSummary">
+      <div class="emoji">${emoji}</div>
+      <div class="scoreLine">הניקוד שלכם: ${quizScore} מתוך ${total} ⭐</div>
+      <div class="msg">${msg}</div>
+      <button type="button" class="quizAgainBtn">🔁 לשחק שוב</button>
+    </div>
+  `;
+}
+
+/* ---------- Nav + panel rendering ---------- */
 const tabbarEl = document.getElementById("tabbar");
-TABS.forEach(t => {
-  const b = document.createElement("button");
-  b.type = "button"; b.dataset.id = t.id;
-  b.innerHTML = `<span class="icon">${t.icon}</span><span>${t.label}</span>`;
-  b.addEventListener("click", () => select(t.id));
-  tabbarEl.appendChild(b);
+const dayScrollEl = document.getElementById("dayScroll");
+const panelEl = document.getElementById("panel");
+const mapTitleEl = document.getElementById("mapTitle");
+const mapSubEl = document.getElementById("mapSub");
+
+/* ---------- Auto-open today's day during the trip ---------- */
+const DAY_DATES = {
+  d1:"2027-06-23", d2:"2027-06-24", d3:"2027-06-25", d4:"2027-06-26", d5:"2027-06-27",
+  d6:"2027-06-28", d7:"2027-06-29", d8:"2027-06-30", d9:"2027-07-01",
+};
+function todaysDayId(){
+  const now = new Date();
+  const y = now.getFullYear(), m = String(now.getMonth()+1).padStart(2,"0"), dd = String(now.getDate()).padStart(2,"0");
+  const todayStr = `${y}-${m}-${dd}`;
+  for (const id in DAY_DATES){
+    if (DAY_DATES[id] === todayStr) return id;
+  }
+  return null;
+}
+const TODAY_ID = todaysDayId();
+
+/* ---------- Weekday label (e.g. "יום ה׳", "שבת") for a trip-day id, from DAY_DATES ---------- */
+const WEEKDAY_HE = ["יום א׳","יום ב׳","יום ג׳","יום ד׳","יום ה׳","יום ו׳","שבת"]; // index = Date#getDay()
+const WEEKDAY_HE_SHORT = ["א׳","ב׳","ג׳","ד׳","ה׳","ו׳","שבת"];
+function weekdayLabel(id){
+  const iso = DAY_DATES[id];
+  if (!iso) return "";
+  return WEEKDAY_HE[new Date(iso + "T00:00:00").getDay()];
+}
+function weekdayShort(id){
+  const iso = DAY_DATES[id];
+  if (!iso) return "";
+  return WEEKDAY_HE_SHORT[new Date(iso + "T00:00:00").getDay()];
+}
+
+/* ---------- Countdown badge in the header: days left, or which trip day we're on. ---------- */
+function updateCountdown(){
+  const el = document.getElementById("countdown");
+  if (!el) return;
+  const now = new Date();
+  const today0 = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const tripStart = new Date(2027, 5, 23);
+  const tripEnd = new Date(2027, 6, 1);
+  const diffDays = Math.round((tripStart - today0) / 86400000);
+
+  if (today0 > tripEnd){
+    el.hidden = true;
+    return;
+  }
+  if (diffDays > 1){
+    el.textContent = `⏳ עוד ${diffDays} ימים לטיסה!`;
+  } else if (diffDays === 1){
+    el.textContent = `⏳ מחר טסים!`;
+  } else if (diffDays === 0){
+    el.textContent = `🎉 היום זה קורה — טיסה טובה!`;
+  } else if (TODAY_ID && /^d\d+$/.test(TODAY_ID)){
+    const n = TODAY_ID.slice(1);
+    el.textContent = `📍 יום ${n} מתוך 9 בטיול`;
+  } else {
+    el.hidden = true;
+    return;
+  }
+  el.hidden = false;
+}
+updateCountdown();
+
+// Top strip: the 10 trip days in a horizontal scroller (see the arrow handlers below).
+// Bottom tab bar: the four reference pages, always one tap away regardless of scroll position.
+const TOP_NAV_IDS = ["checklist", "forecast", "alt", "costs", "trivia"];
+DAYS.forEach(d=>{
+  if (TOP_NAV_IDS.includes(d.id)) return;   // tab-bar pages are built below, in TOP_NAV_IDS order
+  const btn = document.createElement("button");
+  btn.id = "nav-"+d.id;
+  btn.type = "button";
+  const isToday = (d.id === TODAY_ID);
+  if (isToday) btn.classList.add("isToday");
+  const wd = weekdayShort(d.id);
+  btn.innerHTML = `<span class="icon">${DAY_ICON[d.id]||"📍"}</span><span class="label">${wd ? `<span class="wd">${wd}</span>` : ""}<span class="d">${d.nav}</span><span class="t">${d.navSub}</span></span>${isToday ? '<span class="todayDot">היום</span>' : ''}`;
+  btn.addEventListener("click", ()=> selectDay(d.id));
+  dayScrollEl.appendChild(btn);
 });
-/* ===== כפתור שיתוף בסרגל התחתון =====
-   בטלפון פותח את חלון השיתוף של המכשיר (וואטסאפ, הודעות וכו׳). במחשב בלי שיתוף מובנה — וואטסאפ. */
+TOP_NAV_IDS.forEach(id=>{
+  const d = DAYS.find(x=>x.id===id);
+  if (!d) return;
+  const btn = document.createElement("button");
+  btn.id = "nav-"+id;
+  btn.type = "button";
+  btn.innerHTML = `<span class="icon">${DAY_ICON[id]||"📍"}</span><span class="lbl">${d.nav}</span>`;
+  btn.addEventListener("click", ()=> selectDay(id));
+  tabbarEl.appendChild(btn);
+});
+// Search sits in the tab bar like any other page button — same size, same icon+label shape —
+// except that it opens the search sheet instead of switching pages.
+const searchTabBtn = document.createElement("button");
+searchTabBtn.id = "nav-search";
+searchTabBtn.type = "button";
+searchTabBtn.title = "חיפוש באתר";
+searchTabBtn.setAttribute("aria-label", "חיפוש באתר");
+searchTabBtn.innerHTML = `<span class="icon">🔍</span><span class="lbl">חיפוש</span>`;
+searchTabBtn.addEventListener("click", () => openSearch());
+tabbarEl.appendChild(searchTabBtn);
+
+// The WhatsApp link lives in the markup near the header for no-JS fallback, but belongs
+// at the end of the tab bar — move the existing node rather than duplicating it.
+const waEl = document.querySelector(".waFab");
+if (waEl) tabbarEl.appendChild(waEl);
+
+// Share: the phone's native share sheet (WhatsApp, Messages…); WhatsApp on desktops without one.
 const SHARE_URL  = "https://itairosenblum-hash.github.io/trip/poland-2027/";
 const SHARE_TEXT = "🚐 פולין 2027 — טיול הקרוואנים של רוזנבלום ואפרת. הסקיצה, יום אחרי יום:";
-const shareBtn = document.createElement("button");
-shareBtn.type = "button"; shareBtn.id = "nav-share";
-shareBtn.setAttribute("aria-label", "שיתוף האתר");
-shareBtn.innerHTML = `<span class="icon">📤</span><span>שיתוף</span>`;
-shareBtn.addEventListener("click", async () => {
+const shareTabBtn = document.createElement("button");
+shareTabBtn.id = "nav-share";
+shareTabBtn.type = "button";
+shareTabBtn.title = "שיתוף האתר";
+shareTabBtn.setAttribute("aria-label", "שיתוף האתר");
+shareTabBtn.innerHTML = `<span class="icon">📤</span><span class="lbl">שיתוף</span>`;
+shareTabBtn.addEventListener("click", async () => {
   if (navigator.share){
-    try { await navigator.share({ title:"פולין 2027 — טיול קרוואנים", text:SHARE_TEXT, url:SHARE_URL }); }
-    catch(e){ /* המשתמש סגר את החלון */ }
+    try { await navigator.share({ title:"פולין 2027 — טיול קרוואנים", text:SHARE_TEXT, url:SHARE_URL }); } catch(e){}
     return;
   }
   window.open("https://wa.me/?text=" + encodeURIComponent(SHARE_TEXT + "\n" + SHARE_URL), "_blank", "noopener");
 });
-tabbarEl.appendChild(shareBtn);
-document.getElementById("dayScrollPrev").addEventListener("click", () => dayScrollEl.scrollBy({ left: 160 }));
-document.getElementById("dayScrollNext").addEventListener("click", () => dayScrollEl.scrollBy({ left: -160 }));
+tabbarEl.appendChild(shareTabBtn);
 
-const startId = location.hash.slice(1) || (TODAY_IDX >= 0 ? "d"+(TODAY_IDX+1) : "overview");
-select(TABS.some(t => t.id === startId) || /^d\d+$/.test(startId) ? startId : "overview", true);
-window.addEventListener("hashchange", () => select(location.hash.slice(1) || "overview", true));
+/* ---------- Day scroller arrows: step to the previous/next day chip ----------
+   Tracked with its own index (not tied to which day is currently selected/active),
+   so repeated arrow clicks keep advancing even if the user hasn't tapped a chip yet. */
+const DAY_SCROLL_IDS = DAYS.map(d=>d.id).filter(id => !TOP_NAV_IDS.includes(id));
+let dayScrollIdx = Math.max(0, DAY_SCROLL_IDS.indexOf(TODAY_ID));
+function scrollDayIntoView(id){
+  const btn = document.getElementById("nav-"+id);
+  if (btn) btn.scrollIntoView({behavior:"smooth", inline:"center", block:"nearest"});
+}
+function stepDayScroll(dir){
+  dayScrollIdx = Math.min(DAY_SCROLL_IDS.length - 1, Math.max(0, dayScrollIdx + dir));
+  scrollDayIntoView(DAY_SCROLL_IDS[dayScrollIdx]);
+}
+document.getElementById("dayScrollPrev")?.addEventListener("click", () => stepDayScroll(-1));
+document.getElementById("dayScrollNext")?.addEventListener("click", () => stepDayScroll(1));
 
-/* ===== אופליין + עדכון אוטומטי ===== */
+/* ---------- Live webcams per day ---------- */
+  const WEBCAMS = {};   // אפשר להוסיף מצלמות חיות לזקופנה ולקרקוב בהמשך
+
+function renderWebcams(id){
+  const card = document.getElementById("camCard");
+  if (!card) return;
+  const groups = WEBCAMS[id];
+  if (!groups){ card.hidden = true; return; }
+  const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"&quot;");
+  card.hidden = false;
+  card.innerHTML =
+    `<div class="camHead"><span class="live">LIVE</span>📹 מצלמות חיות באזור</div>` +
+    groups.map(g => `<div class="camGroup">${esc(g.t)}</div><div class="camList">` +
+      g.cams.map(c => `<a class="camBtn" href="${esc(c.u)}" target="_blank" rel="noopener">📷 ${esc(c.n)}</a>`).join("") +
+      `</div>`).join("") +
+    `<div class="camNote">הקישורים נפתחים בחלון חדש באתרי צד שלישי (תיירות מקומית, bergfex, Panomax ועוד). בלילה המצלמות חשוכות, ולפעמים מצלמה בודדת מושבתת — לכן יש כמה לכל אזור.</div>`;
+}
+
+function selectDay(id){
+  const day = DAYS.find(d=>d.id===id);
+  if(!day) return;
+  // Restaurant picks are injected rather than written into each day's template, so all the
+  // food data lives in one place (EATS) instead of scattered across ten render functions.
+  panelEl.innerHTML = renderGallery(id) + day.render() + renderToll(id) + renderEats(id);
+  injectRowWaze(id);
+  injectTraffic(id);
+  injectToll(id);
+  document.querySelectorAll("nav.daynav button, nav.tabbar button").forEach(b=>b.classList.remove("active"));
+  document.getElementById("nav-"+id).classList.add("active");
+  if (DAY_SCROLL_IDS.includes(id)){
+    dayScrollIdx = DAY_SCROLL_IDS.indexOf(id);
+    scrollDayIntoView(id);
+  }
+  const isOverview = (id === "alt");
+  const isTrivia = (id === "trivia");
+  // Trivia and the costs table are reference pages, not places — a map, a forecast and a
+  // "navigate now" button would all be noise there, so hide the whole strip.
+  const noMap = isTrivia || ["costs","checklist","forecast"].includes(id);
+  const segment = day.segment.length ? day.segment : FULL_ROUTE;
+
+  const mapCardEl = document.getElementById("mapCard");
+  if (mapCardEl) mapCardEl.hidden = noMap;
+
+  if (!noMap){
+    try { updateMap(segment, isOverview); } catch(e) { console.error("map update failed", e); }
+    updateNowBar(id);
+    injectWeather(id);
+    const wdLabel = weekdayShort(id);
+    mapTitleEl.textContent = (DAY_ICON[id]||"🗺️") + " מפה — " + (wdLabel ? wdLabel + " " : "") + day.nav;
+    mapSubEl.textContent = isOverview ? "כל המסלול" : "ממורכזת אוטומטית ביעד היום";
+  } else {
+    document.getElementById("nowBar").hidden = true;
+    document.getElementById("weatherCard").hidden = true;
+    if (isTrivia) initTrivia();
+    if (id === "checklist") initChecklist();
+    if (id === "forecast") initForecast();
+  }
+
+  renderWebcams(id);
+  updateFunFacts(id);
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+try { initMap(); } catch(e) { console.error("map init failed", e); }
+selectDay(TODAY_ID || "d1");
+
+/* ---------- Site-wide search ----------
+   Only one day's panel exists in the DOM at a time, so the index is built by rendering
+   every day into a detached element (same trick as getRowTimes) the first time the search
+   is opened. Each entry remembers {day, selector, index-within-selector}, so a result can
+   be re-found in the live panel after selectDay() re-renders it. The rendered string must
+   match what selectDay() builds, or the indexes would point at the wrong element. */
+const SEARCH_SECTIONS = [
+  {sel:".tag",                       kind:"תאריך וכותרת"},
+  {sel:"h2.title",                   kind:"כותרת היום"},
+  {sel:"table.sched td:first-child", kind:"לו״ז"},
+  {sel:".places .p",                 kind:"מה יש שם"},
+  {sel:".box",                       kind:"מידע"},
+  {sel:".tollBox li",                kind:"עלויות דרך"},
+  {sel:".eat .body",                 kind:"מסעדה"},
+  {sel:"table.kids td:first-child",  kind:"פרטים"},
+  {sel:"ul.altlist li",              kind:"חלופה"},
+  {sel:"ol.checklist li",            kind:"בדיקות לפני הנסיעה"},
+];
+// Pages built by their own JS (checklist state, live forecast, quiz) aren't indexable from
+// a detached render, so they stay out.
+const SEARCH_SKIP_DAYS = ["trivia", "forecast", "checklist", "costs"];
+
+// Hebrew transliterations, so "הלשטט" finds Hallstatt and "vienna" finds וינה.
+const SEARCH_SYNONYMS = [
+  ["krakow","קרקוב"], ["kraków","קרקוב"], ["wieliczka","וליצ׳קה ווליצקה מכרה"], ["wawel","ואוול וואוול"],
+  ["energylandia","אנרג׳ילנדיה אנרגילנדיה"], ["zator","זאטור"], ["zatorland","זאטורלנד דינוזאורים"],
+  ["niedzica","ניידז׳יצה נידזיצה"], ["czorsztyn","צ׳ורשטין"], ["dunajec","דונאיץ רפטינג רפסודות"],
+  ["szczawnica","שצ׳בניצה"], ["bania","בניה בריכות"], ["białka","ביאלקה"], ["zakopane","זקופנה"],
+  ["gubałówka","גובאלובקה"], ["krupówki","קרופובקי"], ["morskie oko","מורסקיה אוקו"],
+  ["kazimierz","קז׳ימייז׳ קזימייז"], ["ojców","אויצוב"], ["pieskowa","פייסקובה"],
+  ["termy","טרמה בריכות חמות"], ["camping","קמפינג"], ["waze","וייז"],
+];
+
+function normText(s){
+  return (s||"")
+    .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+    .replace(/ß/g,"ss")
+    .toLowerCase()
+    .replace(/[״׳'"`]/g,"")
+    .replace(/\s+/g," ")
+    .trim();
+}
+function synonymExtra(hay){
+  let extra = "";
+  SEARCH_SYNONYMS.forEach(([lat, heb]) => {
+    if (hay.includes(lat)) extra += " " + heb;
+    else if (heb.split(" ").some(w => hay.includes(w))) extra += " " + lat;
+  });
+  return extra;
+}
+function escHtml(s){
+  return String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+}
+
+let SEARCH_INDEX = null;
+function buildSearchIndex(){
+  if (SEARCH_INDEX) return SEARCH_INDEX;
+  const idx = [];
+  const tmp = document.createElement("div");
+  DAYS.forEach(day => {
+    if (SEARCH_SKIP_DAYS.includes(day.id)) return;
+    tmp.innerHTML = day.render() + renderToll(day.id) + renderEats(day.id);
+    SEARCH_SECTIONS.forEach(sec => {
+      tmp.querySelectorAll(sec.sel).forEach((el, i) => {
+        const text = el.textContent.replace(/\s+/g," ").trim();
+        if (text.length < 3) return;
+        const base = normText(text);
+        idx.push({dayId:day.id, sel:sec.sel, i, kind:sec.kind, text,
+                  hay: base + " " + normText(sec.kind) + synonymExtra(base)});
+      });
+    });
+  });
+  Object.keys(LOC).forEach(k => {
+    const loc = LOC[k];
+    const text = loc.label + (loc.address ? " — " + loc.address : "");
+    const base = normText(text);
+    idx.push({place:k, kind:"מקום", text, hay: base + synonymExtra(base)});
+  });
+  SEARCH_INDEX = idx;
+  return idx;
+}
+
+function runSearch(q){
+  const nq = normText(q);
+  if (nq.length < 2) return null;
+  const tokens = nq.split(" ").filter(Boolean);
+  const out = [];
+  buildSearchIndex().forEach(e => {
+    if (!tokens.every(t => e.hay.includes(t))) return;
+    let score = e.hay.indexOf(tokens[0]);
+    if (e.place) score -= 400;
+    if (e.sel === "h2.title" || e.sel === ".tag") score -= 300;
+    if (e.kind === "לו״ז") score -= 60;
+    out.push({e, score});
+  });
+  out.sort((a,b) => a.score - b.score);
+  return out;
+}
+
+// Highlights the matched term inside a trimmed excerpt, so long info boxes stay scannable.
+function markSnippet(text, rawToken){
+  const MAX = 140;
+  const i = rawToken ? text.toLowerCase().indexOf(rawToken.toLowerCase()) : -1;
+  const start = i > 60 ? i - 50 : 0;
+  const piece = text.slice(start, start + MAX);
+  const pre = start > 0 ? "…" : "";
+  const post = (start + MAX) < text.length ? "…" : "";
+  const rel = i - start;
+  if (i >= 0 && rel >= 0 && rel + rawToken.length <= piece.length){
+    return pre + escHtml(piece.slice(0, rel)) +
+           "<mark>" + escHtml(piece.slice(rel, rel + rawToken.length)) + "</mark>" +
+           escHtml(piece.slice(rel + rawToken.length)) + post;
+  }
+  return pre + escHtml(piece) + post;
+}
+
+function renderSearchResults(q){
+  const box = document.getElementById("searchResults");
+  const results = runSearch(q);
+  if (results === null){
+    box.innerHTML = `<div class="searchHint">הקלידו שתי אותיות ומעלה. אפשר לחפש שם מקום (זקופנה, מכרה מלח, קמפינג), מסעדה, שם מלון, שעה מהלו״ז או כל טקסט מהאתר.</div>`;
+    return;
+  }
+  if (!results.length){
+    box.innerHTML = `<div class="searchEmpty">אין תוצאות ל"${escHtml(q.trim())}". נסו מילה אחת קצרה יותר.</div>`;
+    return;
+  }
+  const token = q.trim().split(/\s+/)[0];
+  const places = results.filter(r => r.e.place).slice(0, 6);
+  const byDay = {};
+  results.filter(r => !r.e.place).forEach(r => {
+    (byDay[r.e.dayId] = byDay[r.e.dayId] || []).push(r);
+  });
+
+  let html = "";
+  if (places.length){
+    html += `<div class="searchGroup"><h3 class="searchGroupHead">📍 מקומות וניווט</h3>` +
+      places.map(r => `<div class="searchPlaceRow">
+        <span class="nm">${LOC_ICON[r.e.place] || "📍"} ${markSnippet(r.e.text, token)}</span>
+        <a class="rowWaze" href="${wazeLink(r.e.place)}" target="_blank" rel="noopener" title="נווט ב-Waze">🧭</a>
+      </div>`).join("") + `</div>`;
+  }
+  DAYS.forEach(d => {
+    const list = byDay[d.id];
+    if (!list) return;
+    html += `<div class="searchGroup"><h3 class="searchGroupHead">${DAY_ICON[d.id] || "📍"} ${d.nav} · ${d.navSub}</h3>` +
+      list.slice(0, 8).map(r => `<button type="button" class="searchItem"
+        data-day="${d.id}" data-sel="${escHtml(r.e.sel)}" data-i="${r.e.i}">
+        <span class="kind">${r.e.kind}</span>${markSnippet(r.e.text, token)}</button>`).join("") + `</div>`;
+  });
+  box.innerHTML = html;
+}
+
+function openSearch(){
+  const sheet = document.getElementById("searchSheet");
+  const input = document.getElementById("searchInput");
+  if (!sheet || !input) return;
+  sheet.hidden = false;
+  document.body.classList.add("searchOpen");
+  renderSearchResults(input.value);
+  setTimeout(() => input.focus(), 60);
+}
+function closeSearch(){
+  const sheet = document.getElementById("searchSheet");
+  if (!sheet) return;
+  sheet.hidden = true;
+  document.body.classList.remove("searchOpen");
+}
+
+// Re-finds the matched element in the freshly rendered panel and flashes it.
+function jumpToResult(dayId, sel, i){
+  closeSearch();
+  selectDay(dayId);
+  setTimeout(() => {
+    const el = panelEl.querySelectorAll(sel)[Number(i)];
+    if (!el) return;
+    const target = el.closest("tr") || el;
+    target.classList.add("searchHit");
+    target.scrollIntoView({behavior:"smooth", block:"center"});
+    setTimeout(() => target.classList.remove("searchHit"), 2400);
+  }, 240);
+}
+
+(function initSearch(){
+  const input = document.getElementById("searchInput");
+  let debounce = null;
+  input?.addEventListener("input", () => {
+    clearTimeout(debounce);
+    debounce = setTimeout(() => renderSearchResults(input.value), 120);
+  });
+  input?.addEventListener("keydown", e => { if (e.key === "Escape") closeSearch(); });
+  document.getElementById("searchClose")?.addEventListener("click", closeSearch);
+  document.addEventListener("keydown", e => { if (e.key === "Escape") closeSearch(); });
+  document.getElementById("searchResults")?.addEventListener("click", e => {
+    const btn = e.target.closest(".searchItem");
+    if (!btn) return;
+    jumpToResult(btn.dataset.day, btn.dataset.sel, btn.dataset.i);
+  });
+})();
+
+/* ---------- PWA auto-refresh: every time the app is opened/foregrounded, actively
+   check for a newer version and, if one takes over, reload automatically so the
+   visitor never has to manually clear the cache. ---------- */
 if ("serviceWorker" in navigator){
+  // Only auto-reload on a REAL update (a newer service worker replacing one that was
+  // already controlling this page) — not on the very first install, where the first
+  // "controllerchange" just means the page has a controller for the first time.
   let hadController = !!navigator.serviceWorker.controller;
+
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("sw.js", { updateViaCache:"none" }).then((reg) => {
+    navigator.serviceWorker.register("sw.js", { updateViaCache: "none" }).then((reg) => {
+      // Re-check for a new version every time the app is opened or comes back to the foreground.
       reg.update().catch(()=>{});
       document.addEventListener("visibilitychange", () => {
         if (document.visibilityState === "visible") reg.update().catch(()=>{});
       });
     }).catch(()=>{});
   });
+
   let swRefreshed = false;
   navigator.serviceWorker.addEventListener("controllerchange", () => {
     if (!hadController){ hadController = true; return; }
@@ -493,6 +3170,74 @@ if ("serviceWorker" in navigator){
     window.location.reload();
   });
 }
+
+/* ---------- Install prompt: proactively offer to install the app, instead of
+   relying on the visitor to find the option in the browser menu themselves. ---------- */
+(function(){
+  const DISMISS_KEY = "poland2027_install_dismissed_v1";
+  const banner = document.getElementById("installBanner");
+  const textEl = document.getElementById("installBannerText");
+  const btnEl = document.getElementById("installBannerBtn");
+  const closeEl = document.getElementById("installBannerClose");
+  let deferredPrompt = null;
+
+  function isStandalone(){
+    return window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
+  }
+  function isIOS(){
+    const ua = window.navigator.userAgent;
+    const iOSDevice = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
+    const iPadOS13Plus = navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1;
+    return iOSDevice || iPadOS13Plus;
+  }
+  function dismissed(){
+    try { return localStorage.getItem(DISMISS_KEY) === "1"; } catch(e){ return false; }
+  }
+
+  function show(mode){
+    if (!banner || isStandalone() || dismissed()) return;
+    if (mode === "ios"){
+      textEl.textContent = "התקינו את האתר כאפליקציה: הקישו שיתוף ⬆️ ואז \"הוסף למסך הבית\"";
+      btnEl.hidden = true;
+    } else {
+      textEl.textContent = "התקינו את האתר כאפליקציה למסך הבית — גישה מהירה גם בלי אינטרנט";
+      btnEl.hidden = false;
+    }
+    banner.hidden = false;
+  }
+  function hide(){
+    if (banner) banner.hidden = true;
+  }
+
+  window.addEventListener("beforeinstallprompt", (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    show("android");
+  });
+
+  window.addEventListener("appinstalled", () => {
+    hide();
+    try { localStorage.setItem(DISMISS_KEY, "1"); } catch(e){}
+  });
+
+  btnEl && btnEl.addEventListener("click", async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    try { await deferredPrompt.userChoice; } catch(e){}
+    deferredPrompt = null;
+    hide();
+  });
+
+  closeEl && closeEl.addEventListener("click", () => {
+    hide();
+    try { localStorage.setItem(DISMISS_KEY, "1"); } catch(e){}
+  });
+
+  if (isIOS() && !isStandalone() && !dismissed()){
+    setTimeout(() => show("ios"), 1500);
+  }
+})();
 </script>
+
 </body>
 </html>
