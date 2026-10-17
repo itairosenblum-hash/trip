@@ -2507,7 +2507,7 @@ function fmtRouteInfo(distanceKm, durationMin){
   const km = Math.round(distanceKm);
   const h = Math.floor(durationMin / 60), m = Math.round(durationMin % 60);
   const timeStr = h > 0 ? `${h}:${String(m).padStart(2,"0")} שעות` : `${m} דק׳`;
-  return `<span>🛣️ <b>${km}</b> ק"מ</span><span>⏱️ <b>${timeStr}</b> נסיעה</span>`;
+  return `<span>🛣️ <b>${km}</b> ק"מ</span><span>⏱️ <b>${timeStr}</b> נסיעה</span><span style="opacity:.75">סה״כ כל הנסיעות של היום, לפי סדר העצירות</span>`;
 }
 
 async function updateMap(segment, isOverview){
