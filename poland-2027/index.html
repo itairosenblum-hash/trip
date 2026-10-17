@@ -2210,10 +2210,45 @@ function wmFile(name, width){
 function wmPage(name){
   return "https://commons.wikimedia.org/wiki/File:" + encodeURIComponent(name.replace(/ /g,"_"));
 }
+// f = an exact Wikimedia Commons file name (verified). w = a Wikipedia article ("en:Title" / "pl:Title"):
+// its lead photo is fetched at runtime from the Wikipedia REST API (CORS-enabled), so the picture is
+// always one that actually exists. Anything that fails to load simply hides itself.
 const IMAGES = {
   d1:  [ {f:"Wawel castle.jpg", alt:"גבעת ואוול"}, {f:"Kraków - Sukiennice 1.jpg", alt:"Sukiennice ברחבת השוק, קרקוב"} ],
-  d2:  [ {f:"Szeroka street, Kazimierz, Krakow, Poland.jpg", alt:"רחוב Szeroka, קז׳ימייז׳"} ],
+  d2:  [ {w:"en:Wieliczka_Salt_Mine", alt:"מכרה המלח Wieliczka"}, {f:"Szeroka street, Kazimierz, Krakow, Poland.jpg", alt:"רחוב Szeroka, קז׳ימייז׳"} ],
+  d3:  [ {f:"Zadra (Energylandia) - First Drop.jpg", alt:"רכבת ההרים Zadra, Energylandia"}, {f:"Energylandia - Mayan 2018.jpg", alt:"Energylandia"} ],
+  d4:  [ {f:"Maczuga Herkulesa (background Castle Pieskowa Skała).jpg", alt:"אלת הרקולס וטירת Pieskowa Skała"}, {w:"en:Ojców_National_Park", alt:"פארק לאומי Ojców"} ],
+  d5:  [ {f:"Niedzica zamek o zachodzie.jpg", alt:"טירת Niedzica בשקיעה"}, {w:"en:Czorsztyn_Lake", alt:"אגם Czorsztyn"} ],
+  d6:  [ {w:"en:Dunajec_River_Gorge", alt:"קניון הדונאיץ"}, {w:"pl:Terma_Bania", alt:"Termy Bania"} ],
+  d7:  [ {w:"en:Gubałówka", alt:"גובאלובקה"}, {w:"en:Krupówki", alt:"רחוב Krupówki"} ],
+  d8:  [ {w:"pl:Park_Wodny_w_Krakowie", alt:"Park Wodny Kraków"} ],
+  d9:  [ {w:"pl:Zatorland", alt:"Zatorland"} ],
+  d10: [ {w:"en:Kraków_Zoo", alt:"גן החיות של קרקוב"} ],
 };
+const WIKI_IMG_CACHE = {};
+async function wikiLeadImage(spec){
+  if (WIKI_IMG_CACHE[spec]) return WIKI_IMG_CACHE[spec];
+  const [lang, title] = spec.split(":");
+  const p = fetch(`https://${lang}.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`)
+    .then(r => r.ok ? r.json() : null)
+    .then(j => j && (j.thumbnail || j.originalimage) ? {
+        src: (j.originalimage && j.originalimage.width <= 1600 ? j.originalimage.source : (j.thumbnail ? j.thumbnail.source.replace(/\/\d+px-/, "/1200px-") : j.originalimage.source)),
+        page: (j.content_urls && j.content_urls.desktop && j.content_urls.desktop.page) || `https://${lang}.wikipedia.org/wiki/${encodeURIComponent(title)}`
+      } : null)
+    .catch(() => null);
+  WIKI_IMG_CACHE[spec] = p;
+  return p;
+}
+function fillWikiImages(root){
+  root.querySelectorAll("figure[data-wiki]").forEach(async fig => {
+    const r = await wikiLeadImage(fig.dataset.wiki);
+    if (!r){ fig.style.display = "none"; return; }
+    const a = fig.querySelector("a"), img = fig.querySelector("img");
+    a.href = r.page;
+    img.onerror = () => { fig.style.display = "none"; };
+    img.src = r.src;
+  });
+}
 
 /* ---------- Ticket / booking links per day (official sites) ---------- */
 const TICKETS = {
@@ -2254,7 +2289,11 @@ function renderTicketList(){
 function renderGallery(id){
   const imgs = IMAGES[id];
   if(!imgs || !imgs.length) return "";
-  return `<div class="photoGallery">${imgs.map(im => `
+  return `<div class="photoGallery">${imgs.map(im => im.w ? `
+    <figure data-wiki="${im.w}">
+      <a href="#" target="_blank" rel="noopener"><img alt="${im.alt}" loading="lazy"></a>
+      <figcaption>${im.alt}</figcaption>
+    </figure>` : `
     <figure>
       <a href="${wmPage(im.f)}" target="_blank" rel="noopener">
         <img src="${wmFile(im.f)}" alt="${im.alt}" loading="lazy"
@@ -3245,6 +3284,7 @@ function selectDay(id){
   injectTraffic(id);
   injectToll(id);
   addShekels(panelEl);
+  fillWikiImages(panelEl);
   document.querySelectorAll("nav.daynav button, nav.tabbar button").forEach(b=>b.classList.remove("active"));
   document.getElementById("nav-"+id).classList.add("active");
   if (DAY_SCROLL_IDS.includes(id)){
