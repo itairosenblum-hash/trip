@@ -2458,10 +2458,11 @@ function initMap(){
     return;
   }
   leafletMap = L.map("mapDiv", {scrollWheelZoom:false});
-  streetLayer = L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
-    subdomains:"abcd",
+  // CARTO started requiring an API key ("API KEY REQUIRED" on every tile), so the street layer
+  // uses OpenStreetMap's standard tiles: no key, just the attribution below.
+  streetLayer = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
     maxZoom:19,
-    attribution:"© CARTO © OpenStreetMap contributors"
+    attribution:'© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>'
   });
   topoLayer = L.tileLayer("https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png", {
     subdomains:"abc",
@@ -2526,7 +2527,8 @@ async function updateMap(segment, isOverview){
   const fullStraight = FULL_ROUTE.map(k=>[LOC[k].lat, LOC[k].lon]);
   const segStraight = keys.map(k=>[LOC[k].lat, LOC[k].lon]);
 
-  let fullLine = animatePolyline(fullStraight, {color:"#cbb9ba", weight:3, dashArray:"2,8", opacity:.8}, gen, 500);
+  const FULL_STYLE = isOverview ? {color:"#C8102E", weight:4, opacity:.85} : {color:"#cbb9ba", weight:3, dashArray:"2,8", opacity:.8};
+  let fullLine = animatePolyline(fullStraight, FULL_STYLE, gen, 500);
   let segLine = null;
   if (!isOverview && keys.length > 1){
     segLine = animatePolyline(segStraight, {color:"#C8102E", weight:5, opacity:.9}, gen, 650);
@@ -2537,7 +2539,7 @@ async function updateMap(segment, isOverview){
   uniqueKeys.forEach(k=>{
     const loc = LOC[k];
     const isBase = (k === "krakow" || k === "camp1" || k === "camp_zak");
-    const isActive = !isOverview && !isBase;
+    const isActive = !isBase;
     const cls = isBase ? "map-marker base" : (isActive ? "map-marker active" : "map-marker");
     const size = isBase ? [18,14] : (isActive ? [17,17] : [12,12]);
     const anchor = isBase ? [9,14] : (isActive ? [9,9] : [6,6]);
@@ -2568,7 +2570,7 @@ async function updateMap(segment, isOverview){
     leafletMap.removeLayer(fullLine);
     const idx = mapLayers.indexOf(fullLine);
     if (idx !== -1) mapLayers.splice(idx, 1);
-    fullLine = animatePolyline(r.latlngs, {color:"#cbb9ba", weight:3, dashArray:"2,8", opacity:.8}, gen, 500);
+    fullLine = animatePolyline(r.latlngs, FULL_STYLE, gen, 500);
   }).catch(()=>{});
 
   if (!isOverview && keys.length > 1){
