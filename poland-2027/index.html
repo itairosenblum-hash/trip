@@ -962,6 +962,10 @@
   @media (max-width:860px){.camBtn{padding:9px 13px;font-size:13.5px;}}
   .appTable td:last-child{width:1%;vertical-align:middle;}
   .appDl{display:block;white-space:nowrap;margin:3px 0;padding:5px 10px;border-radius:999px;background:#fff;border:1px solid var(--line,#EFE1E1);color:var(--red-dark,#8A0E22);font-weight:700;font-size:12px;text-decoration:none;text-align:center;}
+  .ticketBox{background:#fff;border:1.5px solid var(--gold,#C89B3C);border-radius:14px;padding:12px 14px;margin:14px 0;}
+  .ticketBox b{display:block;color:var(--gold-dark,#8f6d24);margin-bottom:6px;}
+  .ticketLinks{display:flex;flex-direction:column;gap:6px;}
+  .ticketLinks a{color:var(--red-dark,#8A0E22);font-weight:700;font-size:14px;text-decoration:none;}
 </style>
 </head>
 <body>
@@ -1298,7 +1302,7 @@ const DAYS = [
       <div class="box green"><b>למה בסדר הזה</b>המכרה בבוקר, כשהילדים רעננים ולפני התורים של הקבוצות המאורגנות. אחרי מנוחה — סיור קצר ונינוח ברובע.</div>
       <div class="box tan"><b>כרטיסים</b>מזמינים מראש באתר הרשמי של המכרה (wieliczka-saltmine.com), לשעה מסוימת ובשפה מסוימת. ילדים עד גיל 4 נכנסים בחינם.</div>
     </div>
-    <div class="box red"><b>מאיה וליה</b>עגלה לא מתאימה לסיור — הרבה מדרגות ומעברים צרים. מביאים מנשא. בתוך המכרה קריר (כ-15 מעלות) כל השנה, אז לוקחים סווטשירט.</div>
+    <div class="box red"><b>מאיה וליה</b>הסיור ארוך לבנות 3: כ-3 שעות, כ-380 מדרגות בירידה ויותר משני ק״מ הליכה, בכ-15 מעלות. עגלה לא נכנסת, אז אם הן באות — רק במנשא, וסווטשירט לכולם. <b>ההצעה:</b> הורה אחד נשאר עם הקטנות למעלה (יש פארק ומזנון ליד הכניסה), ושאר הקבוצה יורדת. הן ממילא נכנסות בחינם, אז אין הפסד.</div>
     <div class="sectionLabel">🧒 אופציות לילדים נוספות בסביבה</div>
     <table class="kids">
       <tr><td><b>מסלול הכורים (Miners' Route)</b> — מסלול חלופי במכרה עם קסדות ופנסים, בסגנון "כורים אמיתיים".</td><td>יש הגבלת גיל — לא מתאים לבנות ה-3. לבדוק באתר.</td></tr>
@@ -1431,7 +1435,7 @@ const DAYS = [
       <div class="box green"><b>למה מוקדם</b>בשבת יש תורים ארוכים לרפסודות בשעות הצהריים. מי שמגיע עד 09:00 עולה כמעט מיד.</div>
       <div class="box tan"><b>השיט הוא בכיוון אחד</b>השיט מסתיים בעיירה אחרת, ולכן חוזרים לקרוואנים במיניבוסים שממתינים בסוף השיט, בתשלום. לא לשכוח לקחת את המפתחות ואת התיקים הקטנים.</div>
     </div>
-    <div class="box red"><b>בטיחות</b>על הרפסודות מקבלים חגורות הצלה, גם לקטנים. לבדוק מראש מאיזה גיל מותר לעלות ואם הקטנות יושבות על הברכיים. בבריכות התרמיות: מאיה וליה עם מצופים כל הזמן.</div>
+    <div class="box red"><b>הרפטינג והקטנות</b>השיט הקצר ביותר הוא עד Szczawnica — כשעתיים ורבע על הרפסודה, בלי שירותים ובלי אפשרות לרדת באמצע. לבדוק מול המפעיל מאיזה גיל מותר לעלות. <b>אם מאיה וליה לא עולות:</b> הורה אחד נוסע איתן בקרוואן ל-Szczawnica (כחצי שעה), מבלה בטיילת ומחכה לשאר בסוף השיט — וכך גם לא צריך את המיניבוס חזרה. על הרפסודות מקבלים חגורות הצלה. בבריכות התרמיות: הקטנות עם מצופים כל הזמן.</div>
     <div class="footerbar">הערב עוברים לקמפינג בזקופנה — שני לילות באותו מקום.</div>
   `
 },
@@ -1455,7 +1459,7 @@ const DAYS = [
     <div class="places">
       <div class="p"><b>גובאלובקה — </b>רכס מעל זקופנה שעולים אליו ברכבל על מסילה (פוניקולר) בכמה דקות. למעלה יש נוף פנורמי לטטרה, מגלשות, מתקנים קטנים ודוכני אוכל. היום הכי קל ומתאים לכל הגילים.</div>
       <div class="p"><b>Krupówki — </b>רחוב הולכי הרגל הראשי של זקופנה, עם מסעדות בסגנון הררי, דוכני אוסצ׳יפק (גבינה מעושנת מחלב כבשים) וחנויות.</div>
-      <div class="p"><b>אפשרות ב׳: Morskie Oko — </b>האגם המפורסם של הטטרה, מוקף צוקים. מחניון Palenica Białczańska הולכים כ-9 ק״מ בכביש סלול ומתון לכל כיוון (כ-2.5 שעות בעלייה), או עולים ברובו בעגלת סוסים. יום מלא ומאומץ.</div>
+      <div class="p"><b>אפשרות ב׳: Morskie Oko — </b>האגם המפורסם של הטטרה, מוקף צוקים. מחניון Palenica Białczańska הולכים כ-9 ק״מ בכביש סלול ומתון לכל כיוון (כ-2.5 שעות בעלייה) — הכביש סלול, אז עגלת ילדים עוברת בו. אפשר גם לעלות ברובו בעגלת סוסים. 18 ק״מ הלוך-חזור הם הרבה לבני 8 — עגלת הסוסים לפחות בכיוון אחד עוזרת. יום מלא ומאומץ.</div>
     </div>
     <div class="boxes">
       <div class="box green"><b>ההצעה: להתפצל</b>הורה אחד עם דן, דולב, עומר ודותן ל-Morskie Oko, והשאר עם מאיה וליה לגובאלובקה. נפגשים בערב בקמפינג.</div>
@@ -1511,7 +1515,7 @@ const DAYS = [
     </table>
     <div class="sectionLabel">📍 מה יש שם</div>
     <div class="places">
-      <div class="p"><b>Zatorland — </b>פארק דינוזאורים ליד Zator, עם עשרות פסלים בגודל טבעי לאורך שבילים בחורש, ולצידם מתקנים קטנים, מגרשי משחקים ופינת חי. מושלם לעומר, דותן, מאיה וליה — והגדולים ייהנו מהגודל.</div>
+      <div class="p"><b>Zatorland — </b>פארק דינוזאורים ליד Zator, עם עשרות דינוזאורים בגודל טבעי — חלקם זזים לאורך שבילים בחורש, ולצידם מתקנים קטנים, מגרשי משחקים ופינת חי. מושלם לעומר, דותן, מאיה וליה — והגדולים ייהנו מהגודל.</div>
     </div>
     <div class="boxes">
       <div class="box green"><b>למה דווקא כאן</b>Zatorland קרוב ל-Energylandia, אבל רגוע ופשוט הרבה יותר. יום שקט אחרי ההרים, שמתאים במיוחד לקטנות.</div>
@@ -1584,6 +1588,8 @@ const DAYS = [
       <div class="box tan"><b>מושבי בטיחות</b>למאיה ולליה מושב בטיחות, לשאר בוסטר לפי גובה. לוודא שבמושבים שלהם יש עיגון מתאים.</div>
       <div class="box yellow"><b>להזמין מוקדם</b>תחילת יוני עוד לפני החופש הגדול, אבל קרוואנים משפחתיים של 5 מקומות נגמרים מוקדם, וזקופנה עמוסה בסופ״ש. כדאי להזמין כבר בחורף.</div>
     </div>
+    <div class="sectionLabel">🎟️ הזמנת כרטיסים — האתרים הרשמיים</div>
+    ${renderTicketList()}
     <div class="sectionLabel">💡 טיפים</div>
     <table class="kids" style="margin-bottom:18px;">
       <tr><td><b>ETIAS</b> — האיחוד האירופי מתכנן להפעיל ב-2027 אישור כניסה מקוון לבעלי דרכון ישראלי. אם יופעל לפני יוני, צריך אישור לכל נוסע, מקושר לדרכון.</td><td>לבדוק באביב 2027</td></tr>
@@ -1899,7 +1905,7 @@ const CHECKLIST = [
     {t:"מגבות לבריכה", s:"ב-Termy Bania אפשר גם לשכור"},
   ]},
   {id:"kids", ic:"👶", name:"לקטנות", items:[
-    {t:"מנשא למאיה ולליה", s:"עגלה לא מתאימה למכרה ול-Morskie Oko"},
+    {t:"מנשא למאיה ולליה", s:"למכרה המלח עגלה לא מתאימה. ב-Morskie Oko הכביש סלול ועגלה דווקא עוברת"},
     {t:"מצופים וגלגלי ים"},
     {t:"חטיפים ומשחקים לנסיעות"},
     {t:"שמיכה ובובה מהבית לשינה בקרוואן"},
@@ -2080,7 +2086,7 @@ const COST_ROWS = [
   {day:"12.6", label:"Termy Bania (4.5 שעות, אונליין)", a:125, k11:105, k8:105, k3:1, est:true},
   {day:"13.6", label:"רכבל לגובאלובקה הלוך-חזור", a:44, k11:34, k8:34, k3:0, est:true},
   {day:"14.6", label:"Park Wodny Kraków (2 שעות)", a:49, k11:45, k8:45, k3:45, est:true},
-  {day:"15.6", label:"Zatorland", a:60, k11:60, k8:60, k3:60, est:true},
+  {day:"15.6", label:"Zatorland (אונליין; עד 90 ס״מ — 3 zł)", a:100, k11:100, k8:100, k3:100},
   {day:"16.6", label:"גן החיות של קרקוב", a:40, k11:30, k8:30, k3:0, est:true},
   {day:"13.6", label:"אפשרות ב׳: כניסה ל-Morskie Oko (פארק לאומי)", a:11, k11:5.5, k8:5.5, k3:0, opt:true},
 ];
@@ -2214,6 +2220,44 @@ const IMAGES = {
   d2:  [ {f:"Szeroka street, Kazimierz, Krakow, Poland.jpg", alt:"רחוב Szeroka, קז׳ימייז׳"} ],
   d7:  [ {f:"Morskie Oko Tatry.JPG", alt:"Morskie Oko"} ],
 };
+
+/* ---------- Ticket / booking links per day (official sites) ---------- */
+const TICKETS = {
+  d1:  [ {n:"ואוול — כרטיסים לתערוכות (החצר ומערת הדרקון בקופה במקום)", u:"https://bilety.wawel.krakow.pl/"} ],
+  d2:  [ {n:"מכרה המלח Wieliczka — כרטיסים אונליין", u:"https://bilety.kopalnia.pl/index.html?lang=en"},
+         {n:"מכרה המלח — סיורים למשפחות", u:"https://www.wieliczka-saltmine.com/individual-tourist/family-tours"} ],
+  d3:  [ {n:"Energylandia — כרטיסים אונליין", u:"https://ticket.energylandia.pl/"},
+         {n:"Energylandia — לוח ימים ושעות פתיחה", u:"https://energylandia.pl/"} ],
+  d4:  [ {n:"פארק לאומי Ojców (מערת לוקייטק)", u:"https://www.ojcowskiparknarodowy.pl/"},
+         {n:"טירת Pieskowa Skała", u:"http://www.pieskowaskala.eu/"} ],
+  d5:  [ {n:"טירת Niedzica — כרטיסים, שעות ומחירים", u:"https://www.zamekniedzica.pl/"} ],
+  d6:  [ {n:"רפטינג בדונאיץ — כרטיסים אונליין", u:"https://flisacy.pl/sklep"},
+         {n:"Termy Bania — כרטיסים", u:"https://www.termabania.pl/kup-bilet"},
+         {n:"Termy Bania — מחירון", u:"https://www.termabania.pl/cennik"} ],
+  d7:  [ {n:"רכבל לגובאלובקה (PKL)", u:"https://www.pkl.pl/gubalowka/gubalowka.html"},
+         {n:"Morskie Oko — כניסה וחניה ב-Palenica (TPN)", u:"https://tpn.pl/zwiedzaj/e-bilety"},
+         {n:"Chochołowskie Termy — ליום גשום", u:"https://chocholowskietermy.pl/"} ],
+  d8:  [ {n:"Park Wodny Kraków", u:"https://parkwodny.pl/"} ],
+  d9:  [ {n:"Zatorland — כרטיסים אונליין (זול מהקופה)", u:"https://bilety.zatorland.pl/"} ],
+  d10: [ {n:"גן החיות של קרקוב", u:"https://zoo-krakow.pl/"},
+         {n:"LOT — הזמנה וצ׳ק-אין", u:"https://www.lot.com/"} ],
+};
+function renderTickets(id){
+  const t = TICKETS[id];
+  if (!t) return "";
+  return `<div class="ticketBox"><b>🎟️ הזמנת כרטיסים</b><div class="ticketLinks">${
+    t.map(x => `<a href="${x.u}" target="_blank" rel="noopener">${x.n} ↗</a>`).join("")
+  }</div></div>`;
+}
+function renderTicketList(){
+  return `<table class="kids" style="margin-bottom:18px;">${
+    Object.keys(TICKETS).map(id => {
+      const d = DAYS.find(x => x.id === id);
+      return TICKETS[id].map(x => `<tr><td><a href="${x.u}" target="_blank" rel="noopener"><b>${x.n}</b> ↗</a></td><td>יום ${id.slice(1)} · ${d ? d.nav : ""}</td></tr>`).join("");
+    }).join("")
+  }</table>`;
+}
+
 function renderGallery(id){
   const imgs = IMAGES[id];
   if(!imgs || !imgs.length) return "";
@@ -3202,7 +3246,7 @@ function selectDay(id){
   if(!day) return;
   // Restaurant picks are injected rather than written into each day's template, so all the
   // food data lives in one place (EATS) instead of scattered across ten render functions.
-  panelEl.innerHTML = renderGallery(id) + day.render() + renderToll(id) + renderEats(id);
+  panelEl.innerHTML = renderGallery(id) + day.render() + renderTickets(id) + renderToll(id) + renderEats(id);
   injectRowWaze(id);
   injectTraffic(id);
   injectToll(id);
