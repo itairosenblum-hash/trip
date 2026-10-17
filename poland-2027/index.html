@@ -495,6 +495,14 @@
     background:none;border-width:0;box-shadow:none;
     filter:drop-shadow(0 1px 2px rgba(0,0,0,.4));
   }
+  .map-num{
+    width:24px;height:24px;border-radius:50%;
+    background:var(--red);color:#fff;border:2px solid #fff;
+    box-shadow:0 1px 4px rgba(0,0,0,.4);
+    font:800 12px/20px 'Heebo',sans-serif;text-align:center;box-sizing:border-box;
+  }
+  .map-num.home{background:var(--red-dark);font-size:13px;line-height:19px;}
+  .map-num.day{background:var(--gold-dark);}
   .leaflet-tooltip.map-tooltip{
     direction:ltr;text-align:left;
     font-family:'Heebo',sans-serif;
@@ -2575,17 +2583,29 @@ async function updateMap(segment, isOverview){
 
   // Markers: Wagrain (home base) gets a pin shape; today's other stops are highlighted red dots;
   // in overview mode all stops are plain muted dots. Clicking a marker pops up its name + a Waze link.
+  // Numbered stops. Day view: 1, 2, 3… in the order the day visits them (the home base — the
+  // apartment or tonight's campsite — gets 🏠 instead of a number). Overview: the number of the
+  // trip day on which each place is first visited, so the whole route reads as days on the map.
+  const HOME_KEYS = ["krakow","camp1","camp_zak"];
+  const stopNo = {};
+  if (isOverview){
+    DAYS.filter(d => /^d\d+$/.test(d.id)).forEach(d => d.segment.forEach(k => {
+      if (!HOME_KEYS.includes(k) && !(k in stopNo)) stopNo[k] = +d.id.slice(1);
+    }));
+  } else {
+    let n = 0;
+    keys.forEach(k => { if (!HOME_KEYS.includes(k) && !(k in stopNo)) stopNo[k] = ++n; });
+  }
   uniqueKeys.forEach(k=>{
     const loc = LOC[k];
-    const isBase = (k === "krakow" || k === "camp1" || k === "camp_zak");
+    const isBase = HOME_KEYS.includes(k);
     const isActive = !isBase;
-    const cls = isBase ? "map-marker base" : (isActive ? "map-marker active" : "map-marker");
-    const size = isBase ? [18,14] : (isActive ? [17,17] : [12,12]);
-    const anchor = isBase ? [9,14] : (isActive ? [9,9] : [6,6]);
-    const icon = L.divIcon({className:"", html:`<div class="${cls}"></div>`, iconSize:size, iconAnchor:anchor});
+    const label = isBase ? "🏠" : (stopNo[k] || "•");
+    const cls = "map-num" + (isBase ? " home" : (isOverview ? " day" : ""));
+    const icon = L.divIcon({className:"", html:`<div class="${cls}">${label}</div>`, iconSize:[24,24], iconAnchor:[12,12]});
     const marker = L.marker([loc.lat, loc.lon], {icon}).addTo(leafletMap);
     const tClass = "map-tooltip" + (isBase ? " base-tooltip" : (isActive ? " active-tooltip" : ""));
-    marker.bindTooltip(loc.label, {className:tClass, direction:"top", offset:[0,-10]});
+    marker.bindTooltip((isBase ? "" : (isOverview ? "יום " + stopNo[k] + " · " : stopNo[k] + ". ")) + loc.label, {className:tClass, direction:"top", offset:[0,-12]});
     marker.bindPopup(
       `<div style="font-family:Heebo,sans-serif;text-align:center;">
         <b>${loc.label}</b><br>
