@@ -1231,6 +1231,7 @@ const LOC = {
   plac_nowy:   {lat:50.0515, lon:19.9447, label:"כיכר Plac Nowy (זאפיינקות)", address:"Plac Nowy, Kraków, Poland"},
   ojcow:       {lat:50.2158, lon:19.8238, label:"מערת לוקייטק — פארק לאומי Ojców", address:"Jaskinia Łokietka, Ojców, Poland"},
   pieskowa:    {lat:50.2440, lon:19.7790, label:"טירת Pieskowa Skała", address:"Zamek Pieskowa Skała, Sułoszowa, Poland"},
+  bonarka:     {lat:50.0290, lon:19.9505, label:"קניון Bonarka City Center", address:"Bonarka City Center, Kamieńskiego 11, Kraków, Poland"},
   zoo:         {lat:50.0540, lon:19.8510, label:"גן החיות של קרקוב (יער Wolski)", address:"Ogród Zoologiczny w Krakowie, Kraków, Poland"},
   park_wodny:  {lat:50.0880, lon:19.9930, label:"Park Wodny Kraków", address:"Park Wodny, Dobrego Pasterza 126, Kraków, Poland"},
   auschwitz:   {lat:50.0270, lon:19.2040, label:"מוזיאון אושוויץ-בירקנאו", address:"Auschwitz-Birkenau Memorial, Oświęcim, Poland"},
@@ -1238,7 +1239,7 @@ const LOC = {
 };
 const FULL_ROUTE = ["krk_airport","wawel","krakow","energylandia","krakow",
   "van_rental","niedzica","camp1","dunajec","szczawnica","bania","camp_zak","gubalowka","camp_zak",
-  "van_rental","zoo","krakow","wieliczka","krakow","ojcow","pieskowa","krakow","krk_airport"];
+  "van_rental","bonarka","krakow","wieliczka","krakow","ojcow","pieskowa","krakow","krk_airport"];
 
 /* ---------- Day content ---------- */
 const DAYS = [
@@ -1412,29 +1413,30 @@ const DAYS = [
   `
 },
 {
-  id:"d6", nav:"12.6", navSub:"החזרה + גן חיות",
-  segment: ["camp_zak","van_rental","zoo","krakow"],
+  id:"d6", nav:"12.6", navSub:"החזרה + קניון",
+  segment: ["camp_zak","van_rental","bonarka","krakow"],
   render: () => `
-    <div class="tag">שבת, 12.6 · חזרה לקרקוב • בבוקר נוסעים, אחר הצהריים חיות</div>
-    <h2 class="title">החזרת הקרוואנים ← גן החיות</h2>
-    <div class="meta">נסיעות: זקופנה → בסיס הקרוואנים כ-2:00-2:30 שעות; משם לגן החיות כ-20-30 דק׳; גן החיות → המלון כ-20-30 דק׳</div>
+    <div class="tag">שבת, 12.6 · חזרה לקרקוב • בבוקר נוסעים, אחר הצהריים קניות</div>
+    <h2 class="title">החזרת הקרוואנים ← קניון Bonarka</h2>
+    <div class="meta">נסיעות: זקופנה → בסיס הקרוואנים כ-2:00-2:30 שעות; משם לקניון Bonarka כ-25-30 דק׳; הקניון → המלון כ-20 דק׳</div>
     <table class="sched">
       <tr><td>ניקוי, ריקון מיכלים ויציאה מהקמפינג</td><td>08:00</td></tr>
       <tr><td>נסיעה לקרקוב</td><td>08:15-10:30</td></tr>
       <tr><td>תדלוק, החזרת הקרוואנים וחזרה לרכבים שחיכו בבסיס — עם המזוודות</td><td>10:30-12:00</td></tr>
-      <tr><td>צהריים</td><td>12:00-13:00</td></tr>
-      <tr><td>גן החיות של קרקוב — בתוך יער, עם שבילים מוצלים</td><td>13:30-16:30</td></tr>
+      <tr><td>נסיעה לקניון Bonarka</td><td>12:00-12:30</td></tr>
+      <tr><td>קניון Bonarka — צהריים במתחם האוכל, קניות, ולקטנים מתחם המשחקים Leopark</td><td>12:30-16:30</td></tr>
       <tr><td>צ׳ק-אין במלון / בדירה בקרקוב — מקלחות ומנוחה</td><td>17:00</td></tr>
       <tr><td>ערב חופשי — ארוחת ערב בעיר</td><td>ערב</td></tr>
     </table>
     <div class="sectionLabel">📍 מה יש שם</div>
     <div class="places">
-      <div class="p"><b>גן החיות של קרקוב — </b>גן חיות בתוך יער Wolski, במערב העיר, לא רחוק מבסיס הקרוואנים. מאות בעלי חיים — כולל פילים — ושבילים מוצלים. מתאים לכל הגילים, ובדיוק הקצב הנכון אחרי בוקר של נהיגה.</div>
+      <div class="p"><b>קניון Bonarka City Center — </b>הקניון הגדול בקרקוב, בדרום העיר: כ-270 חנויות, מתחם אוכל, קולנוע גדול ומתחם המשחקים Leopark לקטנים. לא צריך שפה כדי להתמצא, יש מזגן ושירותים, ואפשר להתפצל — חלק קונים, חלק עם הילדים במשחקייה.</div>
     </div>
     <div class="boxes">
       <div class="box green"><b>שבת בבוקר — הכביש פנוי</b>בשבת בבוקר כולם נוסעים מקרקוב להרים, ואנחנו בכיוון ההפוך. הנסיעה צפונה צפויה לזרום.</div>
       <div class="box tan"><b>החזרת הקרוואן</b>מחזירים עם מיכל דלק מלא, מיכל שפכים ריק וקרוואן נקי — אחרת יש חיובים נוספים. לוודא מראש שהבסיס פתוח בשבת.</div>
     </div>
+    <div class="box yellow"><b>זה יום הקניות של הטיול</b>מחר (יום א׳) הקניונים והסופרים בפולין סגורים לפי חוק — פתוחים רק בתי מרקחת, תחנות דלק, Żabka וחנויות מזכרות. מה שצריך לקנות, קונים היום. המזוודות באוטו — לא להשאיר דברים גלויים בחניון.</div>
     <div class="footerbar">שני לילות אחרונים בקרקוב — במלון או בדירה.</div>
   `
 },
@@ -1522,7 +1524,7 @@ const DAYS = [
       <tr><td><b>יום 3 · ד׳ 9.6</b> — 🚐 איסוף הקרוואנים ← טירת Niedzica</td><td>קמפינג</td></tr>
       <tr><td><b>יום 4 · ה׳ 10.6</b> — 🚐 רפטינג + Termy Bania</td><td>קמפינג</td></tr>
       <tr><td><b>יום 5 · ו׳ 11.6</b> — 🚐 גובאלובקה</td><td>קמפינג</td></tr>
-      <tr><td><b>יום 6 · שבת 12.6</b> — החזרת הקרוואנים ← גן החיות</td><td>מלון/דירה</td></tr>
+      <tr><td><b>יום 6 · שבת 12.6</b> — החזרת הקרוואנים ← קניון Bonarka</td><td>מלון/דירה</td></tr>
       <tr><td><b>יום 7 · א׳ 13.6</b> — מכרה המלח + קז׳ימייז׳</td><td>מלון/דירה</td></tr>
       <tr><td><b>יום 8 · ב׳ 14.6</b> — Ojców, ארוחת ערב, טיסה ב-23:55</td><td>—</td></tr>
     </table>
@@ -1680,7 +1682,8 @@ const FUN_FACTS = {
   ],
   d6: [
     "שלושה ימים בקרוואן — ועכשיו חוזרים לעיר!",
-    "גן החיות של קרקוב נמצא בתוך יער — אחד מגני החיות הירוקים באירופה.",
+    "קניון Bonarka נבנה במקום שבו עמד פעם מפעל כימיקלים — ומכאן השם.",
+    "בפולין רוב החנויות סגורות בימי ראשון — חוק שנכנס לתוקף ב-2018.",
     "קרקוב היא אחת הערים הבודדות בפולין שכמעט לא נהרסה במלחמת העולם השנייה.",
     "בפולנית 'דזיינקויה' זה תודה — שווה להגיד לפני שעולים למטוס!",
   ],
@@ -1718,7 +1721,7 @@ const EATS = {
     ],
     note:"לאורך Krupówki יש הרבה מסעדות בסגנון הררי (Karczma) — בנייני עץ, מרק בתוך כיכר לחם וצלי. המחירים ברחוב הראשי גבוהים יותר מאשר ברחובות הצדדיים."
   },
-  d6: {note:"צהריים ליד בסיס הקרוואנים או בדרך לגן החיות. בגן החיות יש מזנון. בערב — בר מלצ׳ני (Bar mleczny), מסעדה עממית זולה עם פיירוגי ונלשניקי."},
+  d6: {note:"צהריים במתחם האוכל של Bonarka — יש מבחר גדול, גם לבררנים. בערב — בר מלצ׳ני (Bar mleczny), מסעדה עממית זולה עם פיירוגי ונלשניקי."},
 };
 
 function renderEats(id){
@@ -2039,7 +2042,6 @@ const COST_ROWS = [
   {day:"10.6", label:"מיניבוס חזרה מסוף השיט", a:25, k11:25, k8:25, k3:0, est:true},
   {day:"10.6", label:"Termy Bania (4.5 שעות, אונליין)", a:125, k11:105, k8:105, k3:1, est:true},
   {day:"11.6", label:"רכבל לגובאלובקה הלוך-חזור", a:44, k11:34, k8:34, k3:0, est:true},
-  {day:"12.6", label:"גן החיות של קרקוב", a:40, k11:30, k8:30, k3:0, est:true},
   {day:"13.6", label:"מכרה המלח Wieliczka (סיור באנגלית)", a:159, k11:131, k8:131, k3:0},
   {day:"14.6", label:"מערת לוקייטק + Pieskowa Skała", a:40, k11:25, k8:25, k3:0, est:true},
 ];
@@ -2177,7 +2179,7 @@ const IMAGES = {
   d3:  [ {f:"Niedzica zamek o zachodzie.jpg", alt:"טירת Niedzica בשקיעה"}, {w:"en:Czorsztyn_Lake", alt:"אגם Czorsztyn"} ],
   d4:  [ {w:"en:Dunajec_River_Gorge", alt:"קניון הדונאיץ"}, {w:"pl:Terma_Bania", alt:"Termy Bania"} ],
   d5:  [ {w:"en:Gubałówka", alt:"גובאלובקה"}, {w:"en:Krupówki", alt:"רחוב Krupówki"} ],
-  d6:  [ {w:"en:Kraków_Zoo", alt:"גן החיות של קרקוב"} ],
+  d6:  [ {w:"pl:Bonarka_City_Center", alt:"קניון Bonarka City Center"} ],
 };
 const WIKI_IMG_CACHE = {};
 async function wikiLeadImage(spec){
@@ -2220,7 +2222,7 @@ const TICKETS = {
          {n:"Termy Bania — מחירון", u:"https://www.termabania.pl/cennik"} ],
   d5:  [ {n:"רכבל לגובאלובקה (PKL)", u:"https://www.pkl.pl/gubalowka/gubalowka.html"},
          {n:"Chochołowskie Termy — ליום גשום", u:"https://chocholowskietermy.pl/"} ],
-  d6:  [ {n:"גן החיות של קרקוב", u:"https://zoo-krakow.pl/"} ],
+  d6:  [ {n:"קניון Bonarka — שעות פתיחה", u:"https://bonarka.com.pl/"} ],
 };
 function renderTickets(id){
   const t = TICKETS[id];
@@ -2258,20 +2260,20 @@ function renderGallery(id){
 /* ---------- Map (Google Maps, no key) + Waze navigation ---------- */
 const DAY_ICON = {
   checklist:"✅", forecast:"🌦️", d1:"✈️", d2:"🎢", d3:"🏰", d4:"🛶", d5:"🏔️",
-  d6:"🦒", d7:"⛏️", d8:"✈️", alt:"📋", van:"🚐", costs:"💶", trivia:"🎯",
+  d6:"🛍️", d7:"⛏️", d8:"✈️", alt:"📋", van:"🚐", costs:"💶", trivia:"🎯",
 };
 const LOC_ICON = {
   krk_airport:"✈️", krakow:"🏡", rynek:"🏛️", wieliczka:"⛏️", wawel:"🏰", smok:"🐉", energylandia:"🎢",
   zatorland:"🦖", van_rental:"🚐", niedzica:"🏰", camp1:"🏕️", dunajec:"🛶", szczawnica:"🛶", bania:"♨️",
   camp_zak:"🏕️", gubalowka:"🚞", krupowki:"🧀", palenica:"🅿️", morskie_oko:"🏞️", kazimierz:"🕍",
-  plac_nowy:"🥖", zoo:"🦒", ojcow:"🦇", pieskowa:"🏰", park_wodny:"🌊", auschwitz:"🕯️", chocholow:"♨️",
+  plac_nowy:"🥖", zoo:"🦒", bonarka:"🛍️", ojcow:"🦇", pieskowa:"🏰", park_wodny:"🌊", auschwitz:"🕯️", chocholow:"♨️",
 };
 
 /* ---------- Weather: per-day forecast (Open-Meteo, no key needed) for the day's
    main destination, shown between the map and the schedule. ---------- */
 const WEATHER_LOC = {
   d1:"krakow", d2:"energylandia", d3:"niedzica", d4:"dunajec",
-  d5:"gubalowka", d6:"zoo", d7:"wieliczka", d8:"ojcow",
+  d5:"gubalowka", d6:"bonarka", d7:"wieliczka", d8:"ojcow",
 };
 const WEATHER_CACHE = {};
 let weatherSeq = 0;
@@ -2608,7 +2610,7 @@ const ROW_WAZE = {
   d3: [ ["חניית הרכבים בבסיס ואיסוף הקרוואנים","van_rental"], ["טירת Niedzica","niedzica"], ["הגעה לקמפינג","camp1"] ],
   d4: [ ["הגעה למעגן","dunajec"], ["Termy Bania","bania"], ["נסיעה לקמפינג בזקופנה","camp_zak"] ],
   d5: [ ["הגעה לתחנת הרכבל","gubalowka"], ["רחוב Krupówki","krupowki"], ["מנוחה בקמפינג","camp_zak"] ],
-  d6: [ ["תדלוק, החזרת הקרוואנים","van_rental"], ["גן החיות של קרקוב —","zoo"], ["צ׳ק-אין במלון","krakow"] ],
+  d6: [ ["תדלוק, החזרת הקרוואנים","van_rental"], ["קניון Bonarka —","bonarka"], ["צ׳ק-אין במלון","krakow"] ],
   d7: [ ["הגעה למכרה המלח","wieliczka"], ["חזרה לקרקוב ומנוחה","krakow"], ["Plac Nowy","plac_nowy"], ["סיור בקז׳ימייז׳","kazimierz"], ["חזרה לדירה","krakow"] ],
   d8: [ ["הגעה למערת המלך לוקייטק","ojcow"], ["טירת Pieskowa Skała","pieskowa"], ["חזרה לקרקוב","krakow"], ["תדלוק ונסיעה לשדה התעופה","krk_airport"] ],
 };
@@ -2764,11 +2766,11 @@ const TOLL = {
   d6: {
     rows: [
       ["תדלוק, החזרת הקרוואנים", {t:"דלק", c:"מיכל מלא", x:"מחזירים עם מיכל מלא, אחרת חברת ההשכרה גובה דלק במחיר גבוה. לתדלק בתחנה האחרונה לפני נקודת ההחזרה."}],
-      ["גן החיות של קרקוב —", {t:"חניה", c:"בתשלום", x:"החניון של גן החיות ביער Wolski בתשלום יומי קטן."}],
+      ["קניון Bonarka —", {t:"חניה", c:"חניון הקניון", x:"לקניון חניון גדול. לבדוק תנאי חניה בשלט בכניסה."}],
     ],
     sum: ["<span class=\"none\">אין אגרות</span> — Zakopianka חינמית.",
           "<b>דלק</b> — מילוי מיכל לקרוואן לפני ההחזרה.",
-          "<b>חניה בגן החיות</b> — בתשלום קטן."],
+          "<b>חניה</b> — בחניון הקניון."],
   },
 };
 
