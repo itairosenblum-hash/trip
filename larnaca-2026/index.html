@@ -1148,7 +1148,7 @@ const LOC = {
   militzis:     {lat:34.9056, lon:33.6355, label:"Militzis", address:"Militzis Restaurant, Piale Pasha, Larnaca, Cyprus"},
 };
 const FULL_ROUTE = ["lca","sunhall","registration","finikoudes","lefkara","katodrys","lim_old","lim_castle","molos","sunhall",
-  "race_start","fort","skala","mackenzie","sunhall","metropolis","saltlake","lca"];
+  "race_start","fort","skala","mackenzie","sunhall","metropolis","lca"];
 
 /* ---------- Day content ---------- */
 const DAYS = [
@@ -1261,17 +1261,16 @@ const DAYS = [
   `
 },
 {
-  id:"d4", nav:"16.11", navSub:"פלמינגו + טיסה",
-  segment: ["sunhall","metropolis","saltlake","lca"],
+  id:"d4", nav:"16.11", navSub:"קניון + טיסה",
+  segment: ["sunhall","metropolis","lca"],
   render: () => `
     <div class="tag">יום ב׳, 16.11 · יום אחרון • ⚠️ הטיסה ב-15:40</div>
-    <h2 class="title">קניון, פלמינגו והביתה</h2>
-    <div class="meta">טיסה: LY 5142, ‏15:40 → נחיתה 16:45 בטרמינל 3 · המלון → Metropolis כ-15 דק׳ · Metropolis → אגם המלח כ-15 דק׳ · אגם המלח → שדה התעופה כ-5 דק׳</div>
+    <h2 class="title">קניון והביתה</h2>
+    <div class="meta">טיסה: LY 5142, ‏15:40 → נחיתה 16:45 בטרמינל 3 · המלון → Metropolis כ-15 דק׳ · Metropolis → שדה התעופה כ-20 דק׳</div>
     <table class="sched">
       <tr><td>ארוחת בוקר רגועה</td><td>08:00-09:15</td></tr>
       <tr><td>צ׳ק-אאוט — התיקים ברכב</td><td>09:30</td></tr>
-      <tr><td>קניון Metropolis — קניות וצהריים מוקדם</td><td>10:00-12:00</td></tr>
-      <tr><td>אגם המלח ומסגד Hala Sultan Tekke — פלמינגו</td><td>12:15-12:50</td></tr>
+      <tr><td>קניון Metropolis — קניות וצהריים מוקדם</td><td>10:00-12:30</td></tr>
       <tr><td>תדלוק והחזרת הרכב בשדה התעופה</td><td>13:00</td></tr>
       <tr><td>צ׳ק-אין ובידוק ביטחוני</td><td>13:30</td></tr>
       <tr><td>טיסת LY 5142 הביתה</td><td>15:40</td></tr>
@@ -1280,12 +1279,10 @@ const DAYS = [
     <div class="sectionLabel">📍 מה יש שם</div>
     <div class="places">
       <div class="p"><b>קניון Metropolis — </b>הקניון הגדול של לרנקה, עם רשתות אופנה, סופר ומתחם אוכל. מקום טוב לקניות אחרונות ולצהריים מוקדם.</div>
-      <div class="p"><b>אגם המלח — </b>אגם מלוח ענק ממש ליד שדה התעופה. בחורף הוא מתמלא מים ומגיעים אליו פלמינגו — כמה יהיו תלוי בכמות המים באגם.</div>
-      <div class="p"><b>Hala Sultan Tekke — </b>מסגד עם צריח ועצי דקל על שפת האגם, מהאתרים המוסלמים החשובים בקפריסין. הנוף על המים, עם המסגד והפלמינגו, הוא אחת התמונות המוכרות של לרנקה.</div>
     </div>
-    <div class="box red"><b>שינוי מהלו״ז המקורי</b>בכרטיס כתוב שהטיסה חזרה ממריאה ב-15:40, ולא ב-23:00. לכן ירדו מהיום הקפה בחוף אחר הצהריים וארוחת הערב האחרונה, והקניון זז לבוקר — מספיק לשעתיים של קניות וצהריים.</div>
+    <div class="box red"><b>שינוי מהלו״ז המקורי</b>בכרטיס כתוב שהטיסה חזרה ממריאה ב-15:40, ולא ב-23:00. לכן ירדו מהיום הקפה בחוף אחר הצהריים וארוחת הערב האחרונה, והקניון זז לבוקר — שעתיים וחצי של קניות וצהריים, ומשם ישר לשדה.</div>
     <div class="boxes">
-      <div class="box tan"><b>להחזיר עם מיכל מלא</b>יש תחנות דלק בדרך מהאגם לשדה. לשמור קבלה, ולצלם את מד הדלק והקילומטרים בהחזרה.</div>
+      <div class="box tan"><b>להחזיר עם מיכל מלא</b>יש תחנות דלק בדרך מהקניון לשדה. לשמור קבלה, ולצלם את מד הדלק והקילומטרים בהחזרה.</div>
       <div class="box yellow"><b>קניות וכבודת יד</b>בכרטיס אין מזוודה רשומה — לקנות רק מה שנכנס לתיק. נוזלים מעל 100 מ״ל (שמן זית, יין) לא עוברים בבידוק.</div>
     </div>
   `
@@ -1306,7 +1303,7 @@ const DAYS = [
       <tr><td><b>יום 1 · ו׳ 13.11</b> — נחיתה, איסוף מספרים, לפיד המרתון וטברנה</td><td>לרנקה</td></tr>
       <tr><td><b>יום 2 · שבת 14.11</b> — לפקרה, Kato Drys ולימסול</td><td>לרנקה</td></tr>
       <tr><td><b>יום 3 · א׳ 15.11</b> — 🏅 חצי מרתון, המצודה, Mackenzie וארוחת חגיגה</td><td>לרנקה</td></tr>
-      <tr><td><b>יום 4 · ב׳ 16.11</b> — Metropolis, פלמינגו וטיסה ב-15:40</td><td>—</td></tr>
+      <tr><td><b>יום 4 · ב׳ 16.11</b> — Metropolis וטיסה ב-15:40</td><td>—</td></tr>
     </table>
     <div class="sectionLabel">👥 מי נוסע</div>
     <table class="kids" style="margin-bottom:18px;">
@@ -1404,9 +1401,8 @@ const FUN_FACTS = {
     "רובע סקאלה היה הרובע הטורקי של לרנקה, ומפורסם בסדנאות הקרמיקה שלו.",
   ],
   d4: [
-    "בחורף מגיעים לאגם המלח של לרנקה אלפי פלמינגו — ובקיץ האגם כמעט מתייבש.",
+    "בדרך לשדה עוברים ליד אגם המלח — בחורף מגיעים אליו אלפי פלמינגו. שווה להציץ מהחלון!",
     "פלמינגו ורודים בגלל מה שהם אוכלים: סרטנים זעירים עם צבע אדמדם.",
-    "Hala Sultan Tekke נבנה סביב קברה של אום חראם, לפי המסורת קרובת משפחה של הנביא מוחמד.",
     "הטיסה הביתה — שעה וחמש דקות בלבד. פחות מהזמן שלקח לרוץ את החצי!",
   ],
 };
@@ -1766,7 +1762,6 @@ const IMAGES = {
   d1:  [ {w:"en:Larnaca", alt:"לרנקה"}, {w:"en:Finikoudes", alt:"טיילת Finikoudes"} ],
   d2:  [ {w:"en:Lefkara", alt:"לפקרה"}, {w:"en:Limassol_Castle", alt:"טירת לימסול"} ],
   d3:  [ {w:"en:Larnaca_Castle", alt:"המצודה של לרנקה"}, {w:"en:Church_of_Saint_Lazarus,_Larnaca", alt:"כנסיית לזרוס הקדוש"} ],
-  d4:  [ {w:"en:Larnaca_Salt_Lake", alt:"אגם המלח של לרנקה"}, {w:"en:Hala_Sultan_Tekke", alt:"Hala Sultan Tekke"} ],
 };
 const WIKI_IMG_CACHE = {};
 async function wikiLeadImage(spec){
@@ -1836,7 +1831,7 @@ function renderGallery(id){
 
 /* ---------- Map (Google Maps, no key) + Waze navigation ---------- */
 const DAY_ICON = {
-  checklist:"✅", forecast:"🌦️", d1:"✈️", d2:"🏰", d3:"🏅", d4:"🦩",
+  checklist:"✅", forecast:"🌦️", d1:"✈️", d2:"🏰", d3:"🏅", d4:"🛍️",
   alt:"📋", race:"🏃", trivia:"🎯",
 };
 const LOC_ICON = {
@@ -1848,7 +1843,7 @@ const LOC_ICON = {
 /* ---------- Weather: per-day forecast (Open-Meteo, no key needed) for the day's
    main destination, shown between the map and the schedule. ---------- */
 const WEATHER_LOC = {
-  d1:"sunhall", d2:"lim_castle", d3:"race_start", d4:"saltlake",
+  d1:"sunhall", d2:"lim_castle", d3:"race_start", d4:"metropolis",
 };
 const WEATHER_CACHE = {};
 let weatherSeq = 0;
@@ -2183,7 +2178,7 @@ const ROW_WAZE = {
   d1: [ ["נחיתה, ביקורת דרכונים","lca"], ["צ׳ק-אין במלון","sunhall"], ["מרכז הרישום","registration"], ["לפיד המרתון","finikoudes"], ["Kyra Giorgena","kyra"] ],
   d2: [ ["לפקרה: סמטאות","lefkara"], ["Kato Drys","katodrys"], ["ארוחת צהריים בעיר העתיקה","lim_old"], ["טירת לימסול","lim_castle"], ["המרינה וטיילת Molos","lim_marina"], ["חזרה ללרנקה","sunhall"] ],
   d3: [ ["הליכה לאזור הזינוק","race_start"], ["מקלחת ומנוחה","sunhall"], ["המצודה של לרנקה","fort"], ["חוף Mackenzie","mackenzie"], ["ארוחת חגיגה","militzis"] ],
-  d4: [ ["קניון Metropolis","metropolis"], ["אגם המלח","saltlake"], ["החזרת הרכב","lca"] ],
+  d4: [ ["קניון Metropolis","metropolis"], ["החזרת הרכב","lca"] ],
 };
 function injectRowWaze(id){
   const rules = ROW_WAZE[id];
