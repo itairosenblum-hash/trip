@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3D6FA8"/>
+      <stop offset="0.45" stop-color="#E9A06B"/>
+      <stop offset="0.72" stop-color="#F6C98A"/>
+      <stop offset="1" stop-color="#F9DFB0"/>
+    </linearGradient>
+    <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2F7D9A"/>
+      <stop offset="1" stop-color="#174E66"/>
+    </linearGradient>
+    <linearGradient id="sand" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#E8D2A6"/>
+      <stop offset="1" stop-color="#CDB07C"/>
+    </linearGradient>
+    <radialGradient id="sun" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#FFF4D6"/>
+      <stop offset="0.6" stop-color="#FFD27A"/>
+      <stop offset="1" stop-color="#FFB24A" stop-opacity="0"/>
+    </radialGradient>
+    <g id="palm">
+      <path d="M0,0 C6,-60 10,-120 4,-190" stroke="#3A2A20" stroke-width="10" fill="none" stroke-linecap="round"/>
+      <g fill="#2D4A2F" transform="translate(4,-190)">
+        <path d="M0,0 C-30,-20 -70,-14 -100,12 C-66,-4 -34,-2 0,6Z"/>
+        <path d="M0,0 C30,-22 72,-16 104,10 C68,-6 34,-2 0,6Z"/>
+        <path d="M0,0 C-18,-34 -52,-52 -88,-48 C-54,-36 -26,-20 0,4Z"/>
+        <path d="M0,0 C20,-36 56,-54 92,-46 C56,-34 28,-18 0,4Z"/>
+        <path d="M0,0 C-4,-30 4,-60 20,-80 C10,-56 8,-28 2,2Z"/>
+        <path d="M0,0 C-26,10 -50,34 -60,64 C-40,38 -22,22 0,8Z"/>
+        <path d="M0,0 C26,10 50,34 60,64 C40,38 22,22 0,8Z"/>
+      </g>
+    </g>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#sky)"/>
+  <circle cx="820" cy="300" r="150" fill="url(#sun)"/>
+  <circle cx="820" cy="300" r="62" fill="#FFE7A8"/>
+
+  <!-- distant hills (Troodos) -->
+  <path d="M0,330 C120,300 220,312 330,296 C430,282 520,306 640,300 C760,294 860,312 980,300 C1080,290 1150,304 1200,300 L1200,345 L0,345Z" fill="#B98A78" opacity="0.55"/>
+
+  <!-- sea -->
+  <rect y="340" width="1200" height="150" fill="url(#sea)"/>
+  <rect x="740" y="340" width="160" height="150" fill="#FFD27A" opacity="0.25"/>
+  <g stroke="#FFE3A3" stroke-width="3" stroke-linecap="round" opacity="0.7">
+    <line x1="770" y1="362" x2="870" y2="362"/><line x1="785" y1="385" x2="855" y2="385"/>
+    <line x1="760" y1="410" x2="880" y2="410"/><line x1="790" y1="440" x2="850" y2="440"/>
+  </g>
+  <!-- sailboat -->
+  <g transform="translate(330,372)">
+    <path d="M0,0 L60,0 L52,12 L8,12Z" fill="#2B2320"/>
+    <path d="M30,-2 L30,-62 L56,-4Z" fill="#FFF8EC"/>
+    <path d="M28,-4 L28,-48 L8,-4Z" fill="#F3E3C8"/>
+  </g>
+
+  <!-- promenade -->
+  <rect y="478" width="1200" height="152" fill="url(#sand)"/>
+  <rect y="478" width="1200" height="10" fill="#B89868"/>
+  <g fill="#D8BE8E">
+    <rect x="0" y="540" width="1200" height="4"/><rect x="0" y="590" width="1200" height="4"/>
+  </g>
+
+  <!-- palm row (Finikoudes) -->
+  <use href="#palm" x="90" y="500"/>
+  <use href="#palm" x="300" y="505" transform="scale(1)"/>
+  <use href="#palm" x="520" y="500"/>
+  <use href="#palm" x="1010" y="505"/>
+  <use href="#palm" x="1150" y="500"/>
+
+  <!-- flamingos on the left shore -->
+  <g fill="#E8798A" transform="translate(640,445)">
+    <ellipse cx="0" cy="0" rx="16" ry="9"/><path d="M10,-4 C20,-26 8,-40 18,-48" stroke="#E8798A" stroke-width="4" fill="none"/>
+    <circle cx="19" cy="-49" r="4"/><line x1="-2" y1="8" x2="-2" y2="34" stroke="#C25A6B" stroke-width="2.5"/>
+  </g>
+  <g fill="#E8798A" transform="translate(684,452) scale(0.8)">
+    <ellipse cx="0" cy="0" rx="16" ry="9"/><path d="M10,-4 C20,-26 8,-40 18,-48" stroke="#E8798A" stroke-width="4" fill="none"/>
+    <circle cx="19" cy="-49" r="4"/><line x1="-2" y1="8" x2="-2" y2="34" stroke="#C25A6B" stroke-width="2.5"/>
+  </g>
+
+  <!-- runner with bib -->
+  <g transform="translate(800,560)" fill="#C8102E" stroke="#C8102E" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="0" cy="-118" r="14" stroke="none" fill="#2B2320"/>
+    <path d="M-2,-100 L-14,-48" stroke-width="18" fill="none"/>
+    <rect x="-17" y="-92" width="16" height="13" rx="2" fill="#FFF8EC" stroke="none" transform="rotate(14 -9 -85)"/>
+    <path d="M-6,-92 L18,-70 L36,-82" stroke-width="8" fill="none" stroke="#2B2320"/>
+    <path d="M-6,-92 L-30,-74 L-36,-50" stroke-width="8" fill="none" stroke="#2B2320"/>
+    <path d="M-14,-48 L14,-20 L4,12" stroke-width="10" fill="none" stroke="#2B2320"/>
+    <path d="M-14,-48 L-32,-16 L-58,-12" stroke-width="10" fill="none" stroke="#2B2320"/>
+  </g>
+  <!-- finish banner -->
+  <g transform="translate(900,470)">
+    <rect x="0" y="-150" width="10" height="160" fill="#2B2320"/>
+    <rect x="250" y="-150" width="10" height="160" fill="#2B2320"/>
+    <rect x="0" y="-160" width="260" height="44" rx="6" fill="#C8102E"/>
+    <text x="130" y="-129" font-family="Heebo, Arial, sans-serif" font-size="26" font-weight="800" fill="#FFF8EC" text-anchor="middle">21.1 KM</text>
+  </g>
+</svg>

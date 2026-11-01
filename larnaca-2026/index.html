@@ -1,0 +1,3040 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>לרנקה 2026 — חצי מרתון</title>
+
+<!-- Open Graph / WhatsApp / Facebook link-preview tags. og:image must be an absolute URL —
+     WhatsApp's crawler fetches it directly and won't resolve a relative path. -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://itairosenblum-hash.github.io/trip/larnaca-2026/">
+<meta property="og:title" content="🏃 לרנקה 2026 — חצי מרתון">
+<meta property="og:description" content="חצי מרתון לרנקה, לפקרה ולימסול — 13-16 בנובמבר 2026. לו״ז יומי, מפות עם Waze, תחזית וכל מה שצריך ליום המרוץ.">
+<meta property="og:image" content="https://itairosenblum-hash.github.io/trip/larnaca-2026/cover.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="he_IL">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="🏃 לרנקה 2026 — חצי מרתון">
+<meta name="twitter:description" content="חצי מרתון לרנקה, לפקרה ולימסול — 13-16 בנובמבר 2026. לו״ז יומי, מפות עם Waze, תחזית וכל מה שצריך ליום המרוץ.">
+<meta name="twitter:image" content="https://itairosenblum-hash.github.io/trip/larnaca-2026/cover.jpg">
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#8A0E22">
+<link rel="icon" href="../icon-192.png?v=5">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png?v=5">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="לרנקה 2026">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700;900&family=Heebo:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<style>
+  :root{
+    --red:#C8102E;
+    --red-dark:#8A0E22;
+    --red-pop:#E63950;
+    --red-soft:#FBEAEC;
+    --gold:#C89B3C;
+    --gold-dark:#8f6d24;
+    --gold-soft:#FBF3E1;
+    --cream:#FFFFFF;
+    --cream-2:#FBEEEF;
+    --ink:#2B2320;
+    --muted:#78706c;
+    --line:#EFE1E1;
+    --red-bg:#FBEAEC;
+    --green-bg:#EFF6EC;
+    --green-txt:#3d7a3f;
+    --yellow-bg:#FDF6E3;
+    --radius-lg:20px;
+    --radius-md:14px;
+    --shadow-soft:0 4px 16px rgba(43,35,32,.09);
+    --shadow-pop:0 6px 20px rgba(43,35,32,.16);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Heebo',sans-serif;
+    font-weight:400;
+    line-height:1.6;
+    font-size:15.5px;
+  }
+  h1,h2,h3{font-family:'Frank Ruhl Libre',serif;margin:0;}
+  header.top{
+    position:relative;
+    padding:26px 28px 22px;
+    background:
+      radial-gradient(circle at 92% -10%, rgba(200,16,46,.10), transparent 55%),
+      radial-gradient(circle at 6% 120%, rgba(200,155,60,.14), transparent 50%),
+      linear-gradient(180deg,#fff, #FFFAF9);
+    border-bottom:3px solid var(--red);
+  }
+  header.top .allTrips{display:inline-block;margin-bottom:8px;font-size:13px;font-weight:700;color:var(--red-dark);text-decoration:none;background:var(--red-soft);padding:4px 12px;border-radius:999px;}
+  header.top .eyebrow{color:var(--red);font-size:14px;font-weight:700;margin-bottom:4px;letter-spacing:.2px;}
+  header.top h1{font-size:32px;color:var(--red-dark);font-weight:700;}
+  header.top .sub{color:var(--muted);font-size:14.5px;margin-top:6px;}
+  .countdown{
+    display:inline-block;margin-top:10px;
+    background:var(--gold-soft);color:var(--gold-dark);
+    font-weight:700;font-size:13px;
+    padding:6px 14px;border-radius:999px;border:1px solid var(--gold);
+  }
+  .countdown[hidden]{display:none;}
+
+  .layout{
+    display:flex;
+    flex-direction:column;
+    max-width:1280px;
+    margin:0 auto;
+    padding:22px 28px 96px;
+    gap:26px;
+  }
+
+  /* ---------- Nav: row 1 = overview/info/trivia pills, row 2 = horizontal day scroller ----------
+     Pinned to the top of the viewport at all times (position:sticky). The ::after strip is a
+     thin gold fade-line, and the box-shadow gives it a subtle "floating shelf" look, so content
+     scrolling underneath has a clean, deliberate edge instead of an abrupt flat cutoff. */
+  nav.daynav{
+    position:sticky;
+    top:0;
+    z-index:1500;
+    background:var(--cream);
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    padding:8px 0 12px;
+    box-shadow:0 12px 14px -12px rgba(43,35,32,.20);
+  }
+  nav.daynav::after{
+    content:"";
+    position:absolute;
+    left:0;right:0;bottom:0;
+    height:2px;
+    background:linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity:.75;
+  }
+  nav.daynav button{
+    all:unset;
+    cursor:pointer;
+    color:var(--ink);
+    display:flex;
+    align-items:center;
+    position:relative;
+    border:2px solid transparent;
+    transition:background .15s ease, border-color .15s ease, transform .1s ease;
+  }
+  nav.daynav button .icon{font-size:18px;line-height:1;flex:0 0 auto;}
+  nav.daynav button .label{display:flex;flex-direction:column;gap:1px;min-width:0;}
+  nav.daynav button .wd{color:var(--muted);font-size:10.5px;font-weight:600;letter-spacing:.2px;}
+  nav.daynav button.active .wd{color:rgba(255,255,255,.8);}
+  nav.daynav button .d{font-weight:700;color:var(--red-dark);font-size:13.5px;}
+  nav.daynav button .t{color:var(--muted);font-size:11.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  nav.daynav button:active{transform:scale(.97);}
+  nav.daynav button.active{background:var(--red-dark);border-color:var(--gold);box-shadow:var(--shadow-pop);}
+  nav.daynav button.active .d,nav.daynav button.active .t{color:#fff;}
+  nav.daynav button.isToday:not(.active){border-color:var(--gold);}
+  nav.daynav button .todayDot{
+    position:absolute;top:-6px;inset-inline-end:-4px;
+    background:var(--gold);color:#fff;font-size:9px;font-weight:800;
+    padding:1px 6px;border-radius:999px;letter-spacing:.3px;
+  }
+
+  /* ---------- Bottom tab bar: the four reference pages (overview / info / costs / trivia).
+     Fixed to the bottom of the viewport so it sits in thumb reach and leaves the top of the
+     screen to the day strip and the content. Sits below the fullscreen map (z-index 3000)
+     so expanding the map still covers everything. ---------- */
+  .tabbar{
+    position:fixed;
+    left:0;right:0;bottom:0;
+    z-index:1400;
+    display:flex;
+    background:rgba(255,255,255,.97);
+    backdrop-filter:saturate(180%) blur(8px);
+    border-top:1px solid var(--line);
+    box-shadow:0 -6px 16px -8px rgba(43,35,32,.28);
+    padding-bottom:env(safe-area-inset-bottom);
+  }
+  .tabbar button{
+    all:unset;
+    flex:1;
+    cursor:pointer;
+    position:relative;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:2px;
+    padding:9px 2px 10px;
+    color:var(--muted);
+    font-size:11px;
+    font-weight:700;
+    text-align:center;
+    transition:color .15s ease;
+  }
+  .tabbar button .icon{font-size:19px;line-height:1;transition:transform .15s ease;}
+  .tabbar button .t{display:none;}
+  .tabbar button:active{transform:scale(.96);}
+  .tabbar button.active{color:var(--red-dark);}
+  .tabbar button.active .icon{transform:translateY(-1px) scale(1.08);}
+  .tabbar button.active::before{
+    content:"";
+    position:absolute;top:0;left:50%;transform:translateX(-50%);
+    width:28px;height:3px;
+    border-radius:0 0 3px 3px;
+    background:var(--gold);
+  }
+
+  .dayScrollWrap{
+    display:flex;
+    align-items:center;
+    gap:6px;
+  }
+  .dayScrollArrow{
+    all:unset;
+    flex:0 0 auto;
+    cursor:pointer;
+    width:30px;height:30px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    background:#fff;border:1px solid var(--line);color:var(--red-dark);
+    font-size:16px;font-weight:800;line-height:1;
+    box-shadow:0 2px 6px rgba(0,0,0,.08);
+    transition:transform .12s ease;
+  }
+  .dayScrollArrow:hover{transform:scale(1.08);}
+  .dayScrollArrow:active{transform:scale(.92);}
+  .dayScroll{
+    flex:1;
+    min-width:0;
+    display:flex;
+    gap:8px;
+    overflow-x:auto;
+    scroll-behavior:smooth;
+    scroll-snap-type:x proximity;
+    padding:2px 2px 8px;
+    scrollbar-width:none;
+  }
+  .dayScroll::-webkit-scrollbar{display:none;}
+  .dayScroll button{
+    flex:0 0 auto;
+    scroll-snap-align:center;
+    flex-direction:column;
+    justify-content:center;
+    text-align:center;
+    gap:3px;
+    min-width:70px;
+    padding:9px 8px;
+    border-radius:14px;
+    border:2px solid var(--line);
+    background:#fff;
+  }
+  .dayScroll button:hover{background:var(--cream-2);}
+  .dayScroll button .label{align-items:center;}
+  .dayScroll button .t{white-space:normal;line-height:1.2;max-width:70px;}
+
+  main.content{flex:1;min-width:0;}
+
+  .nowBar{
+    display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+    background:linear-gradient(135deg, var(--gold-dark), var(--gold));
+    color:#fff;border-radius:var(--radius-lg);
+    padding:14px 18px;margin-bottom:16px;
+    box-shadow:var(--shadow-pop);
+  }
+  .nowBar[hidden]{display:none;}
+  .nowBar-text{display:flex;flex-direction:column;gap:2px;}
+  .nowBar-label{font-size:12px;font-weight:700;opacity:.9;letter-spacing:.2px;}
+  .nowBar-place{font-size:18px;font-weight:800;font-family:'Frank Ruhl Libre',serif;}
+  .nowBar-btn{
+    background:#fff;color:var(--gold-dark);text-decoration:none;
+    font-weight:800;font-size:14.5px;padding:11px 20px;border-radius:999px;
+    white-space:nowrap;box-shadow:0 3px 10px rgba(0,0,0,.15);
+    transition:transform .12s ease;
+  }
+  .nowBar-btn:hover{transform:translateY(-1px) scale(1.02);}
+
+  .installBanner{
+    display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+    background:linear-gradient(135deg, var(--red-dark), var(--red));
+    color:#fff;padding:10px 24px;font-size:14px;
+  }
+  .installBanner[hidden]{display:none;}
+  .installBanner-icon{font-size:19px;line-height:1;}
+  .installBanner-text{flex:1;min-width:200px;}
+  .installBanner-btn{
+    background:#fff;color:var(--red-dark);border:none;font-weight:800;
+    padding:8px 18px;border-radius:999px;cursor:pointer;font-size:13.5px;
+    white-space:nowrap;transition:transform .12s ease;
+  }
+  .installBanner-btn:hover{transform:scale(1.04);}
+  .installBanner-btn[hidden]{display:none;}
+  .installBanner-close{
+    background:transparent;border:none;color:#fff;font-size:16px;cursor:pointer;
+    opacity:.85;padding:4px 6px;line-height:1;
+  }
+  .installBanner-close:hover{opacity:1;}
+
+  .weatherCard{
+    display:block;
+    background:#fff;border:1px solid var(--line);border-radius:var(--radius-md);
+    padding:12px 16px;margin-bottom:20px;box-shadow:var(--shadow-soft);
+    font-size:14px;
+  }
+  .weatherCard[hidden]{display:none;}
+  .wxTop{display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+  /* Hourly strip. The hours the day's schedule actually covers are tinted gold, so the
+     forecast reads against the plan rather than as a standalone weather widget. */
+  .wxHours{
+    display:flex;gap:5px;overflow-x:auto;scrollbar-width:none;
+    padding:10px 0 2px;margin-top:9px;border-top:1px solid #F6EDED;
+  }
+  .wxHours::-webkit-scrollbar{display:none;}
+  .wxHour{flex:0 0 auto;width:50px;text-align:center;padding:5px 2px;border-radius:10px;}
+  .wxHour.out{background:var(--gold-soft);}
+  .wxHour .hr{font-size:11px;color:var(--muted);font-weight:700;}
+  .wxHour .ic{font-size:16px;line-height:1.3;}
+  .wxHour .tp{font-size:13.5px;font-weight:800;color:var(--red-dark);}
+  .wxHour .rn{font-size:10.5px;color:#3d7a9e;font-weight:600;}
+  .wxHour .rn.wet{color:var(--red);font-weight:800;}
+  .wxNote{font-size:11px;color:var(--muted);margin-top:7px;}
+  .weatherIcon{font-size:26px;line-height:1;}
+  .weatherTemps{font-weight:700;color:var(--ink);}
+  .weatherTemps b{color:var(--red-dark);font-size:16.5px;}
+  .weatherRain{color:#3d7a9e;font-weight:600;}
+  .weatherLoc{margin-inline-start:auto;color:var(--muted);font-size:12.5px;}
+  .weatherLoading,.weatherNA{color:var(--muted);font-size:13px;}
+
+  /* ---------- "Did you know?" carousel, shown per trip day ---------- */
+  .funFactCard{
+    background:linear-gradient(135deg, #eaf4fb, #f7f0ff);
+    border:1px solid #dfe7f5;border-radius:var(--radius-md);
+    padding:14px 16px 12px;margin-bottom:20px;box-shadow:var(--shadow-soft);
+    text-align:center;
+  }
+  .funFactCard[hidden]{display:none;}
+  .funFact-head{font-weight:800;color:#4a5fb0;font-size:13.5px;margin-bottom:6px;}
+  .funFact-body{display:flex;align-items:center;gap:10px;}
+  .funFactText{
+    flex:1;margin:0;font-size:14.5px;color:var(--ink);line-height:1.55;
+    min-height:1.6em;
+  }
+  .funFactArrow{
+    flex:0 0 auto;width:32px;height:32px;border-radius:50%;
+    border:none;background:#fff;color:#4a5fb0;font-size:19px;font-weight:800;
+    cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.1);
+    display:flex;align-items:center;justify-content:center;line-height:1;
+    transition:transform .12s ease;
+  }
+  .funFactArrow:hover{transform:scale(1.1);}
+  .funFactArrow:active{transform:scale(.92);}
+  .funFactDots{display:flex;justify-content:center;gap:6px;margin-top:10px;}
+  .funFactDots span{
+    width:6px;height:6px;border-radius:50%;background:#c8d2ea;transition:.2s;
+  }
+  .funFactDots span.on{background:#4a5fb0;width:16px;border-radius:4px;}
+
+  /* ---------- Trivia game page — brighter, bigger, kid-facing ---------- */
+  .tabbar button#nav-trivia{overflow:visible;}
+  .tabbar button#nav-trivia .icon{
+    animation:kidBounce 2.2s ease-in-out infinite;
+  }
+  @keyframes kidBounce{
+    0%,100%{transform:translateY(0) rotate(0deg);}
+    25%{transform:translateY(-3px) rotate(-6deg);}
+    75%{transform:translateY(-1px) rotate(6deg);}
+  }
+  .kidTag{color:#7a3fc9 !important;}
+  .kidTitle{
+    background:linear-gradient(90deg, var(--red), #7a3fc9, var(--gold-dark));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    font-size:26px !important;
+  }
+  .quizIntro{font-size:15px;color:var(--muted);margin:6px 0 18px;}
+  .quizRoot{max-width:640px;}
+  .quizCard{
+    background:#fff;border:2px solid var(--gold);border-radius:22px;
+    padding:22px 20px;box-shadow:var(--shadow-pop);
+  }
+  .quizProgress{
+    display:flex;justify-content:space-between;align-items:center;
+    font-size:12.5px;color:var(--muted);font-weight:700;margin-bottom:12px;
+  }
+  .quizScore{color:var(--gold-dark);}
+  .quizQuestion{
+    font-family:'Frank Ruhl Libre',serif;font-size:19px;font-weight:700;
+    color:var(--red-dark);margin:0 0 18px;line-height:1.4;
+  }
+  .quizOptions{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .quizOption{
+    background:var(--gold-soft);border:2px solid transparent;border-radius:14px;
+    padding:15px 12px;font-size:15px;font-weight:700;color:var(--ink);
+    cursor:pointer;transition:transform .12s ease, box-shadow .12s ease;
+    font-family:inherit;text-align:center;
+  }
+  .quizOption:hover{transform:scale(1.03);box-shadow:var(--shadow-soft);}
+  .quizOption.correct{background:var(--green-bg);border-color:#3d7a3f;color:#2c5c2e;}
+  .quizOption.wrong{background:var(--red-soft);border-color:var(--red);color:var(--red-dark);}
+  .quizOption.disabled{pointer-events:none;opacity:.9;}
+  .quizOption.disabled:not(.correct):not(.wrong){opacity:.55;}
+  .quizFeedback{margin-top:16px;font-size:16px;font-weight:800;text-align:center;}
+  .quizFeedback.correct{color:#2c5c2e;}
+  .quizFeedback.wrong{color:var(--red-dark);}
+  .quizFact{
+    margin-top:10px;background:var(--gold-soft);border-radius:12px;
+    padding:12px 14px;font-size:13.5px;color:var(--ink);text-align:center;
+  }
+  .quizNextBtn{
+    display:block;margin:18px auto 0;background:var(--red-dark);color:#fff;
+    border:none;padding:12px 30px;border-radius:999px;font-weight:800;
+    font-size:15px;cursor:pointer;font-family:inherit;
+    transition:transform .12s ease;
+  }
+  .quizNextBtn:hover{transform:scale(1.04);}
+  .quizSummary{text-align:center;padding:10px 6px;}
+  .quizSummary .emoji{font-size:52px;line-height:1;margin-bottom:10px;}
+  .quizSummary .scoreLine{
+    font-family:'Frank Ruhl Libre',serif;font-size:24px;font-weight:800;
+    color:var(--red-dark);margin-bottom:8px;
+  }
+  .quizSummary .msg{font-size:15px;color:var(--ink);margin-bottom:20px;}
+  .quizAgainBtn{
+    background:linear-gradient(135deg, var(--red-dark), var(--red));color:#fff;
+    border:none;padding:13px 32px;border-radius:999px;font-weight:800;
+    font-size:15.5px;cursor:pointer;font-family:inherit;
+    box-shadow:var(--shadow-pop);transition:transform .12s ease;
+  }
+  .quizAgainBtn:hover{transform:scale(1.05);}
+
+  /* Sits as the last item in the tab bar. Keeps the WhatsApp green so it reads as an
+     outbound link rather than another page of the site. */
+  .waFab{
+    flex:1;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+    padding:9px 2px 10px;
+    text-decoration:none;
+    color:#128C4A;font-size:11px;font-weight:700;
+    transition:transform .12s ease;
+  }
+  .waFab:active{transform:scale(.96);}
+  .waFab svg{width:19px;height:19px;fill:#25D366;display:block;}
+
+  .mapCard{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:var(--radius-lg);
+    padding:16px 16px 14px;
+    margin-bottom:20px;
+    box-shadow:var(--shadow-soft);
+  }
+  .mapCard .mapTitle{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    margin-bottom:6px;
+  }
+  .mapCard .mapTitle h2{font-size:17px;color:var(--red-dark);}
+  .mapCard .mapTitle span{font-size:12.5px;color:var(--muted);}
+  .mapWrap{position:relative;}
+  #mapDiv{
+    width:100%;
+    height:340px;
+    border-radius:var(--radius-md);
+    overflow:hidden;
+    direction:ltr;
+    background:var(--cream-2);
+  }
+  .mapControls{
+    position:absolute;top:10px;right:10px;z-index:1000;
+    display:flex;flex-direction:column;gap:6px;
+  }
+  .mapCtrlBtn{
+    width:34px;height:34px;border-radius:8px;
+    border:1px solid var(--line);background:#fff;
+    box-shadow:0 2px 6px rgba(0,0,0,.18);
+    font-size:16px;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    transition:transform .12s ease;
+  }
+  .mapCtrlBtn:hover{transform:scale(1.07);}
+  .mapCtrlBtn:active{transform:scale(.95);}
+  .mapRouteInfo{
+    margin-top:8px;font-size:12.5px;color:var(--muted);
+    display:flex;gap:16px;flex-wrap:wrap;
+  }
+  .mapRouteInfo[hidden]{display:none;}
+  .mapRouteInfo b{color:var(--red-dark);}
+  .mapCard.fullscreen{
+    position:fixed;inset:0;z-index:3000;
+    margin:0;border-radius:0;
+    height:100vh;display:flex;flex-direction:column;
+    padding:14px;
+  }
+  .mapCard.fullscreen .mapWrap{flex:1;min-height:0;}
+  .mapCard.fullscreen #mapDiv{height:100%;}
+  body.mapFsOpen{overflow:hidden;}
+  .map-marker{
+    width:12px;height:12px;border-radius:50%;
+    background:#cbb9ba;border:2px solid #fff;
+    box-shadow:0 1px 3px rgba(0,0,0,.35);
+    transition:all .15s ease;
+  }
+  .map-marker.active{
+    width:17px;height:17px;
+    background:var(--red);
+    margin:-2.5px 0 0 -2.5px;
+  }
+  .map-marker.base{
+    width:0;height:0;
+    border-left:9px solid transparent;
+    border-right:9px solid transparent;
+    border-bottom:14px solid var(--red-dark);
+    background:none;border-width:0;box-shadow:none;
+    filter:drop-shadow(0 1px 2px rgba(0,0,0,.4));
+  }
+  .map-num{
+    width:24px;height:24px;border-radius:50%;
+    background:var(--red);color:#fff;border:2px solid #fff;
+    box-shadow:0 1px 4px rgba(0,0,0,.4);
+    font:800 12px/20px 'Heebo',sans-serif;text-align:center;box-sizing:border-box;
+  }
+  .map-num.home{background:var(--red-dark);font-size:13px;line-height:19px;}
+  .map-num.day{background:var(--gold-dark);}
+  .leaflet-tooltip.map-tooltip{
+    direction:ltr;text-align:left;
+    font-family:'Heebo',sans-serif;
+    font-size:12px;
+    color:var(--ink);
+    background:#fff;
+    border:1px solid var(--line);
+    box-shadow:0 2px 6px rgba(0,0,0,.12);
+  }
+  .leaflet-tooltip.map-tooltip.base-tooltip{font-weight:700;color:var(--red-dark);}
+  .leaflet-tooltip.map-tooltip.active-tooltip{font-weight:700;color:var(--red-dark);}
+
+  .rowWaze{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:24px;height:24px;margin-inline-start:8px;
+    border-radius:50%;background:var(--gold-soft);
+    font-size:13px;text-decoration:none;vertical-align:middle;line-height:1;
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .rowWaze:hover{box-shadow:var(--shadow-soft);transform:scale(1.12);}
+
+  /* Traffic-congestion badge: same pill shape as the Waze button so schedule rows stay
+     visually even, but tinted red so a jam warning reads differently from a nav action.
+     It's a <button> (not a link) — tapping toggles the detail line underneath the row. */
+  .rowTraffic{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:24px;height:24px;margin-inline-start:6px;padding:0;
+    border:none;border-radius:50%;background:var(--red-soft);
+    font-size:13px;line-height:1;vertical-align:middle;cursor:pointer;
+    font-family:inherit;
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .rowTraffic:hover{box-shadow:var(--shadow-soft);transform:scale(1.12);}
+  .rowTraffic[aria-expanded="true"]{background:var(--red);}
+  .trafficNote{
+    margin-top:6px;font-size:12.8px;line-height:1.5;
+    color:var(--red-dark);background:var(--red-soft);
+    border-radius:10px;padding:8px 11px;text-align:start;
+  }
+  .trafficNote[hidden]{display:none;}
+  .trafficNote b{font-weight:800;}
+  /* Toll / parking-cost badge: same pill as the Waze and traffic buttons, tinted gold so
+     "this costs money" reads differently from "this is a jam" and from "navigate here". */
+  .rowToll{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:24px;height:24px;margin-inline-start:6px;padding:0;
+    border:none;border-radius:50%;background:var(--gold-soft);
+    font-size:13px;line-height:1;vertical-align:middle;cursor:pointer;
+    font-family:inherit;
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .rowToll:hover{box-shadow:var(--shadow-soft);transform:scale(1.12);}
+  .rowToll[aria-expanded="true"]{background:var(--gold);}
+  .tollNote{
+    margin-top:6px;font-size:12.8px;line-height:1.5;
+    color:var(--gold-dark);background:var(--gold-soft);
+    border-radius:10px;padding:8px 11px;text-align:start;
+  }
+  .tollNote[hidden]{display:none;}
+  .tollNote b{font-weight:800;}
+  .tollBox{
+    background:var(--gold-soft);border:1px solid var(--gold);
+    border-radius:var(--radius-md);padding:13px 16px 11px;margin:16px 0;
+    font-size:14px;
+  }
+  .tollBox > b{display:block;color:var(--gold-dark);font-size:14.5px;margin-bottom:6px;}
+  .tollBox ul{margin:0;padding-inline-start:20px;line-height:1.65;}
+  .tollBox li{margin-bottom:4px;}
+  .tollBox .none{color:var(--green-txt);font-weight:700;}
+  .trafficList{padding-inline-start:20px;margin:0 0 16px;font-size:14.3px;line-height:1.7;}
+  .trafficList li{margin-bottom:7px;}
+  .trafficList .when{color:var(--red-dark);font-weight:700;}
+
+  .photoGallery{display:flex;gap:12px;margin-bottom:18px;flex-wrap:wrap;}
+  .photoGallery figure{
+    margin:0;flex:1 1 260px;position:relative;
+    border-radius:var(--radius-md);overflow:hidden;
+    height:190px;
+    background:var(--cream-2);
+    box-shadow:var(--shadow-soft);
+  }
+  .photoGallery figure a{display:block;width:100%;height:100%;}
+  .photoGallery img{
+    width:100%;height:100%;object-fit:cover;display:block;
+    transition:transform .3s ease;
+  }
+  .photoGallery figure:hover img{transform:scale(1.06);}
+  .photoGallery figcaption{
+    position:absolute;inset-inline-start:0;bottom:0;width:100%;
+    background:linear-gradient(0deg, rgba(60,20,24,.80), rgba(60,20,24,0));
+    color:#fff;font-size:12.5px;padding:22px 12px 8px;
+    text-align:start;
+  }
+
+  .panel{background:#fff;border:1px solid var(--line);border-radius:var(--radius-lg);padding:24px 26px 26px;box-shadow:var(--shadow-soft);}
+  .panel .tag{color:var(--red);font-weight:700;font-size:14.5px;margin-bottom:4px;}
+  .panel h2.title{font-size:28px;color:var(--red-dark);margin-bottom:6px;}
+  .panel .meta{color:var(--muted);font-size:13.5px;margin-bottom:16px;}
+
+  table.sched{width:100%;border-collapse:collapse;margin-bottom:18px;font-size:14.5px;}
+  table.sched td{padding:11px 12px;border-bottom:1px solid #F3E7E7;}
+  table.sched td:last-child{width:120px;font-weight:700;background:var(--cream-2);text-align:center;border-radius:10px;color:var(--red-dark);}
+  table.sched tr:last-child td{border-bottom:none;}
+
+  .sectionLabel{font-family:'Frank Ruhl Libre',serif;font-weight:700;color:var(--red-dark);font-size:16.5px;margin:18px 0 8px;}
+
+  .places{display:flex;flex-direction:column;gap:8px;margin-bottom:8px;}
+  .places .p{font-size:14px;line-height:1.6;}
+  .places .p b{color:var(--red);}
+  .places .p a{color:var(--red-dark);font-weight:700;text-decoration:underline;}
+
+  .boxes{display:flex;gap:14px;margin:16px 0;flex-wrap:wrap;}
+  .box{flex:1 1 220px;border-radius:var(--radius-md);padding:14px 16px;font-size:14px;}
+  .box b{display:block;margin-bottom:4px;font-size:14px;}
+  .box.green{background:var(--gold-soft);}
+  .box.green b{color:var(--gold-dark);}
+  .box.red{background:var(--red-soft);}
+  .box.red b{color:var(--red-dark);}
+  .box.yellow{background:var(--yellow-bg);}
+  .box.tan{background:var(--cream-2);}
+
+  table.kids{width:100%;border-collapse:collapse;font-size:13.8px;margin-bottom:6px;}
+  table.kids td{padding:8px 10px;border-bottom:1px solid #F3E7E7;vertical-align:top;}
+  table.kids td:last-child{width:150px;background:var(--cream-2);border-radius:8px;font-size:12.8px;color:var(--muted);}
+
+  /* ---------- Costs page: one block per family rather than a wide matrix, because a
+     6-column table is unreadable on a phone and this site is used mostly on mobile. ---------- */
+  .costFam{
+    background:#fff;border:1px solid var(--line);border-inline-start:4px solid var(--gold);
+    border-radius:var(--radius-md);padding:14px 16px;margin-bottom:14px;
+    box-shadow:var(--shadow-soft);
+  }
+  .costFam h3{font-size:17px;color:var(--red-dark);margin-bottom:2px;}
+  .costFam .who{color:var(--muted);font-size:12.8px;margin-bottom:10px;}
+  .costFam table{width:100%;border-collapse:collapse;font-size:14px;}
+  .costFam td{padding:6px 2px;border-bottom:1px solid #F6EDED;}
+  .costFam td:last-child{text-align:end;font-weight:700;white-space:nowrap;width:80px;}
+  .costFam td .dnum{display:inline-block;min-width:32px;color:var(--muted);font-size:11.5px;margin-inline-end:6px;}
+  .costFam tr.sum td{border-bottom:none;border-top:2px solid var(--gold);padding-top:9px;font-weight:800;color:var(--red-dark);font-size:15.5px;}
+  .costFam tr.free td:last-child{color:var(--green-txt);}
+  /* ---------- Boarding-pass card for the flight details ----------
+     Laid out LTR because the whole content is airline data (codes, times, flight numbers)
+     that reads left-to-right even on a Hebrew page. The dashed rule plus the two notches
+     cut into the sides are the tear-off perforation. */
+  .bpass{
+    direction:ltr;
+    background:linear-gradient(160deg,#fff 0%,#FFFBFB 55%,var(--cream-2) 100%);
+    border:1px solid var(--line);
+    border-radius:var(--radius-md);
+    margin-bottom:14px;
+    box-shadow:var(--shadow-soft);
+    overflow:hidden;
+  }
+  .bpass-head{
+    display:flex;align-items:center;justify-content:space-between;
+    background:var(--red-dark);color:#fff;
+    padding:9px 16px;
+  }
+  .bpass-airline{font-size:12.5px;font-weight:700;letter-spacing:.4px;}
+  .bpass-no{
+    font-family:'Frank Ruhl Libre',serif;
+    font-size:17px;font-weight:800;color:var(--gold-soft);
+  }
+  .bpass-route{
+    display:flex;align-items:center;justify-content:space-between;gap:10px;
+    padding:16px 16px 12px;
+  }
+  .bpass-end{display:flex;flex-direction:column;gap:1px;min-width:0;}
+  .bpass-end.arr{text-align:right;align-items:flex-end;}
+  .bpass-code{
+    font-family:'Frank Ruhl Libre',serif;
+    font-size:30px;font-weight:900;color:var(--red-dark);line-height:1;
+  }
+  .bpass-city{font-size:11.5px;color:var(--muted);}
+  .bpass-time{font-size:19px;font-weight:800;color:var(--ink);margin-top:5px;}
+  .bpass-mid{
+    flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;
+    color:var(--gold-dark);min-width:70px;
+  }
+  .bpass-dur{font-size:11.5px;font-weight:700;}
+  .bpass-path{
+    position:relative;width:100%;height:14px;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .bpass-path::before{
+    content:"";position:absolute;left:0;right:0;top:50%;
+    border-top:2px dotted var(--gold);
+  }
+  .bpass-plane{
+    position:relative;background:var(--cream-2);
+    padding:0 5px;font-size:14px;line-height:1;
+  }
+  .bpass-tear{
+    position:relative;
+    border-top:2px dashed var(--line);
+    margin:0 12px;
+  }
+  .bpass-tear::before,.bpass-tear::after{
+    content:"";position:absolute;top:-9px;
+    width:16px;height:16px;border-radius:50%;
+    background:var(--cream);
+    border:1px solid var(--line);
+  }
+  .bpass-tear::before{left:-20px;}
+  .bpass-tear::after{right:-20px;}
+  .bpass-meta{
+    display:flex;flex-wrap:wrap;gap:12px 22px;
+    padding:12px 16px 14px;
+  }
+  .bpass-meta div{display:flex;flex-direction:column;gap:1px;}
+  .bpass-meta .k{font-size:10.5px;color:var(--muted);font-weight:600;}
+  .bpass-meta .v{font-size:13.5px;font-weight:700;color:var(--ink);}
+  .bpass-bars{
+    height:26px;margin:0 16px 14px;border-radius:3px;
+    background-image:repeating-linear-gradient(90deg,
+      var(--ink) 0 2px, transparent 2px 4px,
+      var(--ink) 4px 5px, transparent 5px 9px,
+      var(--ink) 9px 12px, transparent 12px 14px);
+    opacity:.55;
+  }
+  /* ---------- Checklist page: collapsible sections of tick-boxes. State lives in
+     localStorage, so each family ticks their own copy on their own device — there is no
+     backend here, and nothing syncs between phones. ---------- */
+  .ckProgress{
+    background:linear-gradient(135deg, var(--red-dark), var(--red));
+    color:#fff;border-radius:var(--radius-lg);padding:15px 18px;margin-bottom:18px;
+    box-shadow:var(--shadow-pop);
+  }
+  .ckProgress .row{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:9px;}
+  .ckProgress .big{font-family:'Frank Ruhl Libre',serif;font-size:27px;font-weight:800;line-height:1;}
+  .ckProgress .cap{font-size:12.5px;opacity:.9;}
+  .ckBar{height:8px;border-radius:99px;background:rgba(255,255,255,.28);overflow:hidden;}
+  .ckBar i{display:block;height:100%;background:var(--gold);border-radius:99px;transition:width .35s ease;}
+  .ckSec{
+    background:#fff;border:1px solid var(--line);border-radius:var(--radius-md);
+    margin-bottom:12px;box-shadow:var(--shadow-soft);overflow:hidden;
+  }
+  .ckHead{
+    all:unset;display:flex;align-items:center;gap:10px;width:100%;
+    cursor:pointer;padding:12px 15px;box-sizing:border-box;
+  }
+  .ckHead .ic{font-size:19px;line-height:1;flex:0 0 auto;}
+  .ckHead .nm{font-weight:800;font-size:15.5px;color:var(--red-dark);flex:1;min-width:0;}
+  .ckHead .cnt{
+    font-size:11.5px;font-weight:800;color:var(--gold-dark);
+    background:var(--gold-soft);border-radius:99px;padding:2px 9px;flex:0 0 auto;
+  }
+  .ckSec.done .ckHead .cnt{background:var(--green-bg);color:var(--green-txt);}
+  .ckHead .car{color:var(--muted);font-size:13px;transition:transform .2s ease;flex:0 0 auto;}
+  .ckSec.open .ckHead .car{transform:rotate(180deg);}
+  .ckBody{display:none;padding:0 15px 12px;}
+  .ckSec.open .ckBody{display:block;}
+  .ckItem{
+    display:flex;align-items:flex-start;gap:10px;
+    padding:9px 0;border-top:1px solid #F6EDED;cursor:pointer;
+  }
+  .ckBox{
+    flex:0 0 auto;width:21px;height:21px;margin-top:1px;border-radius:6px;
+    border:2px solid var(--line);background:#fff;
+    display:flex;align-items:center;justify-content:center;
+    font-size:13px;color:#fff;line-height:1;transition:.15s;
+  }
+  .ckItem.on .ckBox{background:var(--green-txt);border-color:var(--green-txt);}
+  .ckItem .txt{font-size:14.2px;line-height:1.5;}
+  .ckItem .txt small{display:block;color:var(--muted);font-size:12.3px;margin-top:1px;}
+  .ckItem.on .txt{color:var(--muted);text-decoration:line-through;text-decoration-color:var(--line);}
+  .ckItem.on .txt small{text-decoration:none;}
+  .ckTools{display:flex;gap:9px;margin-top:16px;flex-wrap:wrap;}
+  .ckTools button{
+    all:unset;cursor:pointer;font-size:13px;font-weight:700;
+    padding:9px 16px;border-radius:99px;border:1px solid var(--line);
+    background:var(--cream-2);color:var(--ink);
+  }
+  .ckTools button:hover{background:#f5dfe1;}
+  /* ---------- Forecast page: destinations down the side, days across the top.
+     The table scrolls sideways on a phone rather than shrinking to unreadable columns,
+     and the place column is pinned so you always know which row you're reading. ---------- */
+  .fcLoading{color:var(--muted);font-size:14px;padding:14px 2px;}
+  .fcWrap{overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
+  .fcWrap::-webkit-scrollbar{display:none;}
+  .fcTable{border-collapse:separate;border-spacing:0;width:100%;}
+  .fcTable th,.fcTable td{padding:8px 6px;text-align:center;vertical-align:middle;}
+  .fcTable thead th{
+    border-bottom:2px solid var(--line);
+    min-width:64px;
+  }
+  .fcTable thead th .wd{display:block;font-size:11px;font-weight:800;color:var(--red-dark);}
+  .fcTable thead th .dt{display:block;font-size:10.5px;color:var(--muted);font-weight:600;}
+  .fcTable th.fcPlace .nm{display:block;white-space:nowrap;}
+  .fcTable th.fcPlace .nt{display:block;font-size:10px;color:var(--muted);font-weight:600;}
+  .fcTable thead th .trip{
+    display:block;margin-top:3px;font-size:8.5px;font-weight:800;max-width:60px;
+    margin-inline:auto;
+    color:var(--gold-dark);background:var(--gold-soft);border-radius:99px;
+    padding:1px 4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  }
+  .fcTable th.fcPlace{
+    position:sticky;inset-inline-start:0;z-index:2;
+    background:var(--cream);
+    text-align:start;font-size:12.5px;font-weight:700;color:var(--ink);
+    min-width:92px;max-width:92px;
+    border-bottom:1px solid #F6EDED;
+    box-shadow:6px 0 8px -8px rgba(43,35,32,.35);
+  }
+  .fcTable tbody td{border-bottom:1px solid #F6EDED;}
+  .fcTable tbody tr:last-child td,.fcTable tbody tr:last-child th{border-bottom:none;}
+  .fcTable .fcToday{background:var(--gold-soft);}
+  .fcTable td .ic{display:block;font-size:17px;line-height:1.2;}
+  .fcTable td .tm{display:block;font-size:12px;color:var(--muted);}
+  .fcTable td .tm b{color:var(--red-dark);font-size:13.5px;margin-inline-end:3px;}
+  .fcTable td .rn{display:block;font-size:10.5px;color:#3d7a9e;font-weight:600;}
+  .fcTable td .rn.wet{color:var(--red);font-weight:800;}
+  .fcLegend{margin-top:9px;font-size:11.5px;color:var(--muted);}
+  /* ---------- Restaurant recommendations, appended to each day ---------- */
+  .eats{display:flex;flex-direction:column;gap:9px;margin-bottom:8px;}
+  .eat{
+    display:flex;align-items:flex-start;gap:10px;
+    background:#fff;border:1px solid var(--line);border-inline-start:3px solid var(--gold);
+    border-radius:var(--radius-md);padding:11px 13px;
+  }
+  .eat .body{flex:1;min-width:0;}
+  .eat .nm{font-weight:800;font-size:14.5px;color:var(--red-dark);}
+  .eat .nm .tagline{
+    font-weight:700;font-size:10.5px;color:var(--gold-dark);
+    background:var(--gold-soft);border-radius:99px;padding:1px 7px;margin-inline-start:6px;
+    white-space:nowrap;
+  }
+  .eat .ds{font-size:13.3px;line-height:1.5;margin-top:2px;}
+  .eat .lk{margin-top:5px;font-size:12.5px;}
+  .eat .lk a{color:var(--red-dark);font-weight:700;text-decoration:underline;}
+  .eat .nav{
+    flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;
+    width:30px;height:30px;border-radius:50%;background:var(--gold-soft);
+    font-size:15px;text-decoration:none;line-height:1;
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .eat .nav:hover{box-shadow:var(--shadow-soft);transform:scale(1.1);}
+  .footerbar{background:var(--red-dark);color:#fff;padding:13px 16px;border-radius:var(--radius-md);font-size:14px;font-weight:500;margin-top:16px;display:flex;align-items:center;gap:8px;}
+
+  ul.altlist{padding-inline-start:20px;margin:0 0 16px;font-size:14.3px;line-height:1.7;}
+  ol.checklist{padding-inline-start:20px;margin:0 0 16px;font-size:14.3px;line-height:1.75;}
+
+  /* ---------- Site-wide search: a 🔍 tab opens a full-screen search sheet.
+     The index is built once, lazily, by rendering every day into a detached element. ---------- */
+  .searchSheet{
+    position:fixed;inset:0;z-index:4000;
+    background:var(--cream);
+    display:flex;flex-direction:column;
+  }
+  .searchSheet[hidden]{display:none;}
+  body.searchOpen{overflow:hidden;}
+  .searchBar{
+    display:flex;align-items:center;gap:8px;
+    padding:14px 16px;
+    background:linear-gradient(180deg,#fff,#FFFAF9);
+    border-bottom:3px solid var(--red);
+  }
+  .searchBar input{
+    flex:1;min-width:0;
+    font-family:'Heebo',sans-serif;font-size:16px;
+    padding:11px 16px;border-radius:999px;
+    border:2px solid var(--line);background:#fff;color:var(--ink);
+  }
+  .searchBar input:focus{outline:none;border-color:var(--gold);}
+  .searchClose{
+    all:unset;cursor:pointer;flex:0 0 auto;
+    width:40px;height:40px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:17px;color:var(--red-dark);background:var(--cream-2);
+  }
+  .searchClose:active{transform:scale(.94);}
+  .searchResults{flex:1;overflow-y:auto;padding:14px 16px 50px;}
+  .searchHint,.searchEmpty{color:var(--muted);font-size:14px;line-height:1.7;padding:10px 2px;}
+  .searchGroup{margin-bottom:20px;}
+  .searchGroupHead{
+    font-family:'Frank Ruhl Libre',serif;font-weight:700;
+    color:var(--red-dark);font-size:16px;margin:0 0 8px;
+  }
+  .searchItem{
+    display:block;width:100%;text-align:start;
+    background:#fff;border:1px solid var(--line);border-radius:var(--radius-md);
+    padding:11px 13px;margin-bottom:8px;cursor:pointer;
+    font-family:inherit;font-size:14px;color:var(--ink);line-height:1.55;
+  }
+  .searchItem:hover{background:var(--cream-2);}
+  .searchItem .kind{display:block;font-size:11.5px;font-weight:700;color:var(--gold-dark);margin-bottom:3px;}
+  .searchItem mark,.searchPlaceRow mark{background:var(--gold-soft);color:var(--red-dark);font-weight:700;border-radius:3px;padding:0 2px;}
+  .searchPlaceRow{
+    display:flex;align-items:center;gap:6px;
+    background:#fff;border:1px solid var(--line);border-radius:var(--radius-md);
+    padding:11px 13px;margin-bottom:8px;font-size:14px;
+  }
+  .searchPlaceRow .nm{flex:1;min-width:0;}
+  .searchHit{animation:searchFlash 2.2s ease;scroll-margin-top:120px;}
+  @keyframes searchFlash{
+    0%,55%{background:var(--gold-soft);}
+    100%{background:transparent;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .searchHit{animation:none;outline:2px solid var(--gold);outline-offset:2px;}
+  }
+
+  @media (max-width: 860px){
+    body{font-size:16px;}
+    header.top{padding:20px 18px 18px;}
+    header.top h1{font-size:27px;}
+    .countdown{font-size:12px;padding:5px 12px;}
+    .layout{padding:16px 14px 88px;gap:16px;}
+    nav.daynav{top:0;padding:8px 0 4px;gap:8px;}
+    .tabbar button{padding:8px 2px 9px;font-size:10.5px;}
+    .tabbar button .icon{font-size:18px;}
+    .costFam{padding:12px 13px;}
+    .costFam table{font-size:13.5px;}
+    .bpass-code{font-size:26px;}
+    .bpass-time{font-size:17px;}
+    .bpass-route{padding:14px 13px 10px;gap:6px;}
+    .bpass-mid{min-width:56px;}
+    .bpass-meta{padding:11px 13px 12px;gap:10px 16px;}
+    .bpass-bars{margin:0 13px 12px;height:22px;}
+    .bpass-tear::before{left:-19px;}
+    .bpass-tear::after{right:-19px;}
+    .dayScroll button{min-width:60px;padding:8px 6px;}
+    .dayScroll button .icon{font-size:17px;}
+    .dayScroll button .d{font-size:12.5px;}
+    .dayScroll button .t{display:none;}
+    .dayScrollArrow{width:26px;height:26px;font-size:14px;}
+    nav.daynav button .todayDot{top:-5px;inset-inline-end:-3px;}
+    .nowBar{padding:12px 14px;}
+    .nowBar-place{font-size:16px;}
+    .installBanner{padding:9px 14px;font-size:13px;}
+    .installBanner-text{min-width:0;}
+    .weatherCard{padding:10px 14px;font-size:13.5px;gap:10px;}
+    .funFactCard{padding:12px 14px 10px;}
+    .funFactText{font-size:14px;}
+    .quizCard{padding:18px 14px;border-radius:18px;}
+    .quizQuestion{font-size:17px;}
+    .quizOptions{grid-template-columns:1fr;}
+    .kidTitle{font-size:22px !important;}
+    .weatherLoc{font-size:12px;}
+    .waFab{padding:8px 2px 9px;font-size:10.5px;}
+    .waFab svg{width:18px;height:18px;}
+    .panel{padding:18px 16px 20px;}
+    .panel h2.title{font-size:23px;}
+    #mapDiv{height:260px;}
+    .mapCtrlBtn{width:32px;height:32px;font-size:15px;}
+    .mapRouteInfo{font-size:12px;gap:12px;}
+    .boxes{flex-direction:column;}
+    .photoGallery figure{height:150px;flex:1 1 45%;}
+    table.sched td{padding:12px 10px;font-size:14.5px;}
+  }
+
+  .camCard{background:#fff;border:1px solid var(--line,#EFE1E1);border-radius:var(--radius-md,14px);
+    padding:14px 16px 12px;margin-bottom:20px;box-shadow:var(--shadow-soft,0 4px 16px rgba(43,35,32,.09));}
+  .camCard[hidden]{display:none;}
+  .camHead{display:flex;align-items:center;gap:8px;font-weight:800;color:var(--red-dark,#8A0E22);font-size:15px;margin-bottom:8px;}
+  .camHead .live{background:#e53935;color:#fff;font-size:10.5px;font-weight:800;padding:2px 8px;border-radius:999px;letter-spacing:.4px;}
+  .camGroup{margin:10px 0 2px;font-size:13px;font-weight:700;color:var(--muted,#78706c);}
+  .camList{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;}
+  .camBtn{display:inline-flex;align-items:center;gap:6px;text-decoration:none;
+    background:var(--cream-2,#FBEEEF);color:var(--ink,#2B2320);border:1px solid var(--line,#EFE1E1);
+    border-radius:999px;padding:8px 14px;font-size:13.5px;font-weight:600;transition:transform .12s ease,background .12s ease;}
+  .camBtn:hover{background:#f5dfe1;transform:translateY(-1px);}
+  .camBtn:active{transform:scale(.97);}
+  .camNote{margin-top:10px;font-size:12px;color:var(--muted,#78706c);line-height:1.5;}
+  @media (max-width:860px){.camBtn{padding:9px 13px;font-size:13.5px;}}
+  .appTable td:last-child{width:1%;vertical-align:middle;}
+  .appDl{display:block;white-space:nowrap;margin:3px 0;padding:5px 10px;border-radius:999px;background:#fff;border:1px solid var(--line,#EFE1E1);color:var(--red-dark,#8A0E22);font-weight:700;font-size:12px;text-decoration:none;text-align:center;}
+  .ticketBox{background:#fff;border:1.5px solid var(--gold,#C89B3C);border-radius:14px;padding:12px 14px;margin:14px 0;}
+  .ticketBox b{display:block;color:var(--gold-dark,#8f6d24);margin-bottom:6px;}
+  .ticketLinks{display:flex;flex-direction:column;gap:6px;}
+  .ticketLinks a{color:var(--red-dark,#8A0E22);font-weight:700;font-size:14px;text-decoration:none;}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <a class="allTrips" href="../?all">→ כל הטיולים</a>
+  <div class="eyebrow">ימית ואיתי · אילן ומיטל · גבי · רפאל • 13-16 בנובמבר 2026</div>
+  <h1>🏃 לרנקה + חצי מרתון</h1>
+  <span class="countdown" id="countdown" hidden></span>
+  
+</header>
+
+<div class="installBanner" id="installBanner" hidden>
+  <span class="installBanner-icon">📲</span>
+  <span class="installBanner-text" id="installBannerText">התקינו את האתר כאפליקציה למסך הבית — גישה מהירה גם בלי אינטרנט</span>
+  <button class="installBanner-btn" id="installBannerBtn" type="button">התקן</button>
+  <button class="installBanner-close" id="installBannerClose" type="button" aria-label="סגור" title="סגור">✕</button>
+</div>
+
+<div class="layout">
+  <nav class="daynav" id="daynav">
+    <div class="dayScrollWrap">
+      <button type="button" class="dayScrollArrow" id="dayScrollPrev" aria-label="היום הקודם">‹</button>
+      <div class="dayScroll" id="dayScroll"></div>
+      <button type="button" class="dayScrollArrow" id="dayScrollNext" aria-label="היום הבא">›</button>
+    </div>
+  </nav>
+  <main class="content">
+    <div class="nowBar" id="nowBar" hidden>
+      <div class="nowBar-text">
+        <span class="nowBar-label" id="nowBarLabel">🧭 עכשיו בלו״ז</span>
+        <span class="nowBar-place" id="nowBarPlace">—</span>
+      </div>
+      <a class="nowBar-btn" id="nowBarBtn" href="#" target="_blank" rel="noopener">נווט עכשיו ב-Waze</a>
+    </div>
+    <div class="mapCard" id="mapCard">
+      <div class="mapTitle">
+        <h2 id="mapTitle">🗺️ מפת היום</h2>
+        <span id="mapSub">ממורכזת אוטומטית ביעד היום</span>
+      </div>
+      <div class="mapWrap">
+        <div id="mapDiv"></div>
+        <div class="mapControls">
+          <button type="button" class="mapCtrlBtn" id="mapLayerBtn" title="החלף שכבת מפה">🛰️</button>
+          <button type="button" class="mapCtrlBtn" id="mapFullBtn" title="הרחב למסך מלא">⛶</button>
+        </div>
+      </div>
+      <div class="mapRouteInfo" id="mapRouteInfo" hidden></div>
+    </div>
+    <div class="weatherCard" id="weatherCard" hidden></div>
+    <div class="camCard" id="camCard" hidden></div>
+    <div class="funFactCard" id="funFactCard" hidden>
+      <div class="funFact-head">🎈 הידעת?</div>
+      <div class="funFact-body">
+        <button type="button" class="funFactArrow" id="funFactPrev" aria-label="העובדה הקודמת">‹</button>
+        <p class="funFactText" id="funFactText"></p>
+        <button type="button" class="funFactArrow" id="funFactNext" aria-label="העובדה הבאה">›</button>
+      </div>
+      <div class="funFactDots" id="funFactDots"></div>
+    </div>
+    <div class="panel" id="panel"></div>
+  </main>
+</div>
+
+<div class="searchSheet" id="searchSheet" hidden>
+  <div class="searchBar">
+    <input type="search" id="searchInput" enterkeyhint="search" autocomplete="off"
+           placeholder="חיפוש באתר — מקום, מלון, שעה…" aria-label="חיפוש באתר">
+    <button type="button" class="searchClose" id="searchClose" aria-label="סגירת החיפוש" title="סגירת החיפוש">✕</button>
+  </div>
+  <div class="searchResults" id="searchResults"></div>
+</div>
+
+<nav class="tabbar" id="tabbar" aria-label="עמודי האתר"></nav>
+
+
+<script>
+/* ---------- Race page: Larnaka half marathon, 15.11.2026 ----------
+   Times and places from the organiser's site (larnakamarathon.com — Week Program,
+   Registration Center, FAQ) and the Race Roster event page, checked 1.11.2026. */
+const RACE_TIMES = [
+  {t:"מרתון מלא (42.2 ק״מ)", w:"06:55"},
+  {t:"<b>חצי מרתון (21.1 ק״מ) — שלנו</b>", w:"<b>07:05</b>"},
+  {t:"10 ק״מ", w:"10:30"},
+  {t:"5 ק״מ", w:"11:20"},
+  {t:"מרוץ ילדים 1 ק״מ (גילאי 6-12)", w:"13:00"},
+  {t:"טקס פרסים — חצי מרתון", w:"09:30"},
+];
+
+function renderRace(){
+  return `
+    <div class="tag">🏅 יום א׳ · 15.11.2026 · Finikoudes</div>
+    <h2 class="title">חצי מרתון לרנקה</h2>
+    <div class="meta">Radisson Hotels Larnaka Marathon — כל מה שצריך לדעת: איסוף המספרים, הזינוק, הכבישים הסגורים ומה לקחת.</div>
+
+    <div class="sectionLabel">⏱️ שעות הזינוק</div>
+    <table class="kids" style="margin-bottom:12px;">
+      ${RACE_TIMES.map(r => `<tr><td>${r.t}</td><td>${r.w}</td></tr>`).join("")}
+    </table>
+    <div class="box yellow"><b>07:05 או 07:15?</b>בתוכנית השבוע באתר המרוץ חצי המרתון יוצא ב-07:05. בעמוד ההרשמה (Race Roster) ובחוברת של משרד התיירות כתוב 07:15. השעה הסופית תופיע במדריך הרצים (Race Guide) שנשלח במייל לפני המרוץ — מתכננים להיות בזינוק ב-06:40 בכל מקרה.</div>
+
+    <div class="sectionLabel">🎽 איסוף מספרים וערכות</div>
+    <table class="kids" style="margin-bottom:12px;">
+      <tr><td><b>איפה</b> — המרכז הרב-תכליתי של עיריית לרנקה, Faneromenis 62. כ-15 דק׳ הליכה מהמלון.
+        <a class="rowWaze" href="${wazeLink("registration")}" target="_blank" rel="noopener" title="נווט ב-Waze למרכז הרישום">🧭</a></td><td>&nbsp;</td></tr>
+      <tr><td><b>יום ה׳ 12.11</b></td><td>10:00-19:00</td></tr>
+      <tr><td><b>יום ו׳ 13.11 — היום שלנו</b></td><td>09:00-18:00</td></tr>
+      <tr><td><b>שבת 14.11 — גיבוי</b></td><td>09:00-18:00</td></tr>
+    </table>
+    <div class="boxes">
+      <div class="box red"><b>אוספים כבר ביום שישי</b>אין איסוף ביום המרוץ עצמו. בשבת חוזרים מלימסול רק בסביבות 17:50 — צמוד לסגירה. לכן ההליכה למרכז הרישום מתוכננת ביום שישי ב-16:45, אחרי הצ׳ק-אין.</div>
+      <div class="box tan"><b>אוסף אחד בשביל כולם</b>מותר לאסוף ערכה בשביל רץ אחר, עם מייל אישור ההרשמה שלו. לשמור את מיילי האישור של כל הרצים בטלפון אחד.</div>
+    </div>
+
+    <div class="sectionLabel">📍 הזינוק והסיום</div>
+    <div class="places">
+      <div class="p"><b>זינוק וסיום — </b>המרתון וחצי המרתון יוצאים ומסיימים בטיילת Finikoudes, מול בניין העירייה — כ-5 דק׳ הליכה מהמלון. המסלול לאורך החוף, עם נוף לאגמי המלח ולפלמינגו.</div>
+      <div class="p"><b>פיקדון תיקים — </b>יש שמירת תיקים ליד קו הזינוק. הנוהל המדויק יופיע במדריך הרצים. מכיוון שהמלון קרוב, אפשר גם לוותר ולצאת בלי תיק.</div>
+      <div class="p"><b>לפיד המרתון — </b>ביום שישי ב-18:00 מגיע לטיילת Finikoudes "הלפיד האותנטי של המרתון". זה בדיוק אחרי איסוף המספרים, אז שווה להישאר.</div>
+    </div>
+
+    <div class="sectionLabel">🚧 כבישים וחניה</div>
+    <div class="boxes">
+      <div class="box red"><b>הרכב לא זז עד הצהריים</b>הכבישים סביב המסלול נפתחים לפי לוח זמנים, והאחרונים נפתחים 6 שעות אחרי זינוק המרתון — כלומר בסביבות 13:00. הכול עד אז הולכים ברגל.</div>
+      <div class="box tan"><b>רשימת חניונים</b>המארגנים מפרסמים רשימת חניות ברשתות ובניוזלטר בימים שלפני המרוץ. לבדוק מול המלון איפה הרכב חונה בלילה שבין שבת לראשון.</div>
+    </div>
+
+    <div class="sectionLabel">🎒 מה לקחת — רשימת יום המרוץ</div>
+    <ol class="checklist">
+      <li>מספר הריצה עם 4 סיכות, או חגורת מספר. צ׳יפ התזמון — לפי ההוראות בערכה.</li>
+      <li>נעלי הריצה <b>ברגליים בטיסה</b> — הן לא נכנסות לתיק של 8 ק״ג, ואי אפשר להחליף אותן כאן.</li>
+      <li>ג׳לים: בטיסה כל ג׳ל עד 100 מ״ל, בתוך שקית הנוזלים.</li>
+      <li>וזלין / משחה נגד שפשוף, כובע, משקפי שמש וקרם הגנה — גם ב-07:00 השמש כבר חזקה.</li>
+      <li>שעון וטלפון טעונים, ומטען בחדר.</li>
+      <li>חולצה ישנה שזורקים בזינוק — בבוקר של אמצע נובמבר עוד קריר.</li>
+      <li>ארוחה קלה לפני הריצה, קנויה בערב שבת. ארוחת הבוקר במלון כנראה לא תתחיל בזמן.</li>
+      <li>בגדים להחלפה וכפכפים אחרי הסיום.</li>
+    </ol>
+
+    <div class="ticketBox"><b>🔗 האתר והמידע הרשמי</b><div class="ticketLinks">
+      <a href="https://larnakamarathon.com/" target="_blank" rel="noopener">אתר המרוץ ↗</a>
+      <a href="https://larnakamarathon.com/week-program/" target="_blank" rel="noopener">תוכנית השבוע ושעות הזינוק ↗</a>
+      <a href="https://larnakamarathon.com/registration-center/" target="_blank" rel="noopener">מרכז הרישום ↗</a>
+      <a href="https://larnakamarathon.com/faq/" target="_blank" rel="noopener">שאלות נפוצות ↗</a>
+      <a href="https://raceroster.com/events/2026/112892/radisson-hotels-larnaka-marathon-2026" target="_blank" rel="noopener">עמוד ההרשמה ב-Race Roster ↗</a>
+    </div></div>
+    <div class="footerbar">💡 המידע נאסף מאתר המרוץ ב-1.11.2026. המארגנים: Eleven Blue Events · info@elevenblueevents.com · ‎+357 7005 0123</div>
+  `;
+}
+
+/* ---------- Coordinates ---------- */
+const LOC = {
+  lca:          {lat:34.8751, lon:33.6249, label:"שדה התעופה לרנקה (LCA)", address:"Larnaca International Airport, Cyprus"},
+  sunhall:      {lat:34.9170, lon:33.6378, label:"מלון Sun Hall — טיילת Finikoudes", address:"Sun Hall Hotel, Athens Avenue, Larnaca, Cyprus"},
+  registration: {lat:34.9150, lon:33.6300, label:"מרכז הרישום — איסוף מספרים", address:"Faneromenis 62, Larnaca, Cyprus"},
+  race_start:   {lat:34.9128, lon:33.6372, label:"קו הזינוק והסיום — מול העירייה, Finikoudes"},
+  finikoudes:   {lat:34.9145, lon:33.6375, label:"טיילת Finikoudes", address:"Finikoudes Promenade, Larnaca, Cyprus"},
+  kyra:         {lat:34.917625, lon:33.62609, label:"Kyra Giorgena Tavern"},
+  lefkara:      {lat:34.8667, lon:33.3075, label:"לפקרה (Pano Lefkara)", address:"Lefkara, Cyprus"},
+  katodrys:     {lat:34.8559, lon:33.3286, label:"Kato Drys", address:"Kato Drys, Cyprus"},
+  lim_old:      {lat:34.6742, lon:33.0432, label:"העיר העתיקה של לימסול", address:"Saripolou Square, Limassol, Cyprus"},
+  lim_castle:   {lat:34.6720, lon:33.0418, label:"טירת לימסול — המוזיאון לימי הביניים", address:"Limassol Castle, Limassol, Cyprus"},
+  lim_marina:   {lat:34.6676, lon:33.0393, label:"מרינת לימסול", address:"Limassol Marina, Limassol, Cyprus"},
+  molos:        {lat:34.6760, lon:33.0480, label:"טיילת Molos", address:"Molos Promenade, Limassol, Cyprus"},
+  fort:         {lat:34.9100, lon:33.6362, label:"המצודה של לרנקה", address:"Larnaca Medieval Castle, Larnaca, Cyprus"},
+  lazarus:      {lat:34.9118, lon:33.6347, label:"כנסיית לזרוס הקדוש", address:"Church of Saint Lazarus, Larnaca, Cyprus"},
+  skala:        {lat:34.9078, lon:33.6340, label:"רובע סקאלה", address:"Skala, Larnaca, Cyprus"},
+  marina:       {lat:34.9200, lon:33.6395, label:"מרינת לרנקה", address:"Larnaca Marina, Larnaca, Cyprus"},
+  mackenzie:    {lat:34.8925, lon:33.6385, label:"חוף Mackenzie", address:"Mackenzie Beach, Larnaca, Cyprus"},
+  metropolis:   {lat:34.9384, lon:33.5985, label:"קניון Metropolis", address:"Metropolis Mall, Larnaca, Cyprus"},
+  saltlake:     {lat:34.8852, lon:33.6105, label:"אגם המלח ו-Hala Sultan Tekke", address:"Hala Sultan Tekke, Larnaca, Cyprus"},
+  militzis:     {lat:34.9056, lon:33.6355, label:"Militzis", address:"Militzis Restaurant, Piale Pasha, Larnaca, Cyprus"},
+};
+const FULL_ROUTE = ["lca","sunhall","registration","finikoudes","lefkara","katodrys","lim_old","lim_castle","molos","sunhall",
+  "race_start","fort","skala","mackenzie","sunhall","metropolis","saltlake","lca"];
+
+/* ---------- Day content ---------- */
+const DAYS = [
+{
+  id:"checklist", nav:"צ׳קליסט", navSub:"לפני שיוצאים",
+  segment: [],
+  render: () => renderChecklist(),
+},
+{
+  id:"d1", nav:"13.11", navSub:"נחיתה + מספרים",
+  segment: ["lca","sunhall","registration","finikoudes","kyra"],
+  render: () => `
+    <div class="tag">יום ו׳, 13.11 · יום הגעה • איסוף מספרים ולפיד המרתון</div>
+    <h2 class="title">נחיתה בלרנקה + ערב ראשון בטיילת</h2>
+    <div class="meta">טיסה: LY 5133 (אל על בשם סאן דור), 13:45 מטרמינל 1 → נחיתה 14:50 · שעון קפריסין זהה לשעון ישראל · נסיעה: שדה התעופה → המלון כ-15 דק׳</div>
+    <table class="sched">
+      <tr><td>הגעה לנתב״ג — <b>טרמינל 1</b>, לא 3</td><td>11:45</td></tr>
+      <tr><td>טיסת LY 5133 ללרנקה</td><td>13:45</td></tr>
+      <tr><td>נחיתה, ביקורת דרכונים ואיסוף הרכב השכור (7 מקומות)</td><td>14:50-15:45</td></tr>
+      <tr><td>צ׳ק-אין במלון Sun Hall וחניה</td><td>16:00-16:30</td></tr>
+      <tr><td>הליכה למרכז הרישום — איסוף מספרי ריצה וערכות (פתוח עד 18:00)</td><td>16:45-17:30</td></tr>
+      <tr><td>הגעת לפיד המרתון לטיילת Finikoudes</td><td>18:00</td></tr>
+      <tr><td>הליכה בטיילת Finikoudes</td><td>18:15-19:30</td></tr>
+      <tr><td>ארוחת ערב ב-Kyra Giorgena — מזה קפריסאי (ברגל או במונית)</td><td>20:00</td></tr>
+    </table>
+    <div class="sectionLabel">📍 מה יש שם</div>
+    <div class="places">
+      <div class="p"><b>טיילת Finikoudes — </b>הטיילת הראשית של לרנקה, בשורה של עצי דקל מול חוף עירוני. המלון עליה, הזינוק של המרוץ עליה, ורוב הערבים יעברו עליה.</div>
+      <div class="p"><b>לפיד המרתון — </b>ביום שישי בשש בערב מגיע לטיילת "הלפיד האותנטי של המרתון", שפותח את סוף השבוע של המרוץ. נופל בדיוק אחרי איסוף המספרים.</div>
+      <div class="p"><b>Kyra Giorgena — </b>טברנה משפחתית ותיקה ברחובות הישנים, עם מזה קפריסאי: הרבה מנות קטנות שמגיעות אחת אחרי השנייה. סגורה בימי שני — ביום שישי פתוחה מ-19:00.</div>
+    </div>
+    <div class="boxes">
+      <div class="box red"><b>איסוף המספרים — היום</b>מרכז הרישום פתוח עד 18:00, ואין איסוף ביום המרוץ. מחר חוזרים מלימסול רק בסביבות 17:50, אז היום זה החלון הבטוח. מי שאוסף בשביל רץ אחר צריך את מייל אישור ההרשמה שלו.</div>
+      <div class="box yellow"><b>להזמין שולחן ל-6</b>Kyra Giorgena קטנה ומתמלאת בסופ״ש. טלפון: <span dir="ltr">+357 24 664978</span>.</div>
+      <div class="box tan"><b>כבודת יד בלבד</b>בכרטיס אין מזוודה רשומה, אז יוצאים מהשדה בלי לחכות למסוע — ישר לדלפק הרכב השכור.</div>
+    </div>
+    <div class="box red"><b>נהיגה בצד שמאל</b>בקפריסין נוהגים בצד שמאל, וההגה בצד ימין. הנסיעה הראשונה קצרה: שדה התעופה → המלון. בכיכרות נכנסים עם כיוון השעון ונותנים זכות קדימה לבאים מימין.</div>
+    <div class="footerbar">מטבע: יורו (€). כרטיס אשראי מתקבל כמעט בכל מקום. התקע בקפריסין בריטי (3 פינים) — צריך מתאם.</div>
+  `
+},
+{
+  id:"d2", nav:"14.11", navSub:"לפקרה ולימסול",
+  segment: ["sunhall","lefkara","katodrys","lim_old","lim_castle","molos","sunhall"],
+  render: () => `
+    <div class="tag">שבת, 14.11 · יום טיול • יום לפני המרוץ — בלי להתאמץ</div>
+    <h2 class="title">לפקרה ולימסול</h2>
+    <div class="meta">נסיעה: לרנקה → לפקרה כ-40 דק׳ · לפקרה → לימסול כ-45-50 דק׳ · לימסול → לרנקה כ-50 דק׳ (A1) · שקיעה ~16:45</div>
+    <table class="sched">
+      <tr><td>יציאה מלרנקה</td><td>09:00</td></tr>
+      <tr><td>לפקרה: סמטאות, תחרה, צורפות כסף, קפה בכפר</td><td>09:45-11:00</td></tr>
+      <tr><td>Kato Drys — כפר קטן ושקט ליד לפקרה (אופציונלי)</td><td>11:15-12:00</td></tr>
+      <tr><td>נסיעה ללימסול</td><td>12:00-12:45</td></tr>
+      <tr><td>ארוחת צהריים בעיר העתיקה של לימסול</td><td>12:45-14:00</td></tr>
+      <tr><td>טירת לימסול והעיר העתיקה</td><td>14:00-15:00</td></tr>
+      <tr><td>המרינה וטיילת Molos — קפה ושקיעה</td><td>15:00-17:00</td></tr>
+      <tr><td>חזרה ללרנקה</td><td>17:00-17:50</td></tr>
+      <tr><td>ארוחת פחמימות</td><td>19:00</td></tr>
+      <tr><td>שינה מוקדמת — מחר השכמה ב-05:15</td><td>21:30</td></tr>
+    </table>
+    <div class="sectionLabel">📍 מה יש שם</div>
+    <div class="places">
+      <div class="p"><b>לפקרה — </b>כפר הררי של בתי אבן בהירה, מפורסם בתחרה הרקומה ביד (Lefkaritika) ובצורפות כסף. נשות הכפר יושבות ורוקמות בפתחי הבתים. לפי המסורת, לאונרדו דה וינצ׳י קנה כאן מפה לקתדרלה של מילאנו.</div>
+      <div class="p"><b>Kato Drys — </b>כפר אבן קטן בעמק מתחת ללפקרה, עם מעט מאוד תיירים. עצירה קצרה למי שרוצה עוד כפר — אפשר לוותר עליה אם מאחרים.</div>
+      <div class="p"><b>טירת לימסול — </b>מבצר מימי הביניים בלב העיר העתיקה, ובתוכו המוזיאון הקפריסאי לימי הביניים. לפי המסורת, ריצ׳רד לב הארי התחתן כאן ב-1191. בשבת פתוח 10:00-17:00.</div>
+      <div class="p"><b>המרינה ו-Molos — </b>מרינה חדשה עם בתי קפה מול היאכטות, וטיילת ארוכה עם פארק ופסלים לאורך הים. המקום לשבת לקפה ולראות את השקיעה.</div>
+    </div>
+    <div class="boxes">
+      <div class="box green"><b>יום לפני המרוץ</b>יש היום לא מעט הליכה על אבנים ובעליות של לפקרה. לנעול נעליים נוחות — לא את נעלי המרוץ — לשתות הרבה, ולא להישאר בשמש בצהריים.</div>
+      <div class="box tan"><b>חניה בלימסול</b>העיר העתיקה צפופה. יש חניונים בתשלום ליד הנמל הישן והטירה — חונים פעם אחת והולכים משם ברגל לטירה, למרינה ול-Molos.</div>
+      <div class="box yellow"><b>גיבוי לאיסוף המספרים</b>אם משהו השתבש אתמול: מרכז הרישום נפתח היום ב-09:00 ונסגר ב-18:00. עוברים שם בבוקר לפני היציאה, ומאחרים בחצי שעה.</div>
+    </div>
+    <div class="box red"><b>ארוחת פחמימות — להזמין מראש</b>בשבת של סוף שבוע המרוץ הרבה רצים מחפשים פסטה באותה שעה. להזמין שולחן ל-6 ל-19:00, קרוב למלון, כדי לא להתרחק.</div>
+  `
+},
+{
+  id:"d3", nav:"15.11", navSub:"🏅 יום המרוץ",
+  segment: ["sunhall","race_start","sunhall","fort","lazarus","skala","mackenzie","sunhall"],
+  render: () => `
+    <div class="tag">יום א׳, 15.11 · 🏅 יום המרוץ • חצי מרתון לרנקה</div>
+    <h2 class="title">חצי מרתון — ואחר כך חוגגים</h2>
+    <div class="meta">זינוק החצי: 07:05 לפי תוכנית האירוע (במקור אחר 07:15 — לאמת במדריך הרצים) · זינוק וסיום ב-Finikoudes, מול העירייה — כ-5 דק׳ הליכה מהמלון</div>
+    <table class="sched">
+      <tr><td>השכמה וארוחה קלה בחדר</td><td>05:15</td></tr>
+      <tr><td>הליכה לאזור הזינוק ופיקדון תיקים</td><td>06:20</td></tr>
+      <tr><td>זינוק המרתון המלא</td><td>06:55</td></tr>
+      <tr><td>זינוק חצי המרתון 🏃</td><td>07:05</td></tr>
+      <tr><td>סיום לפי הקצב, ועידוד בקו הגמר</td><td>08:45-09:45</td></tr>
+      <tr><td>טקס הפרסים של חצי המרתון</td><td>09:30</td></tr>
+      <tr><td>מקלחת ומנוחה במלון</td><td>10:00-11:30</td></tr>
+      <tr><td>ארוחת התאוששות בטיילת</td><td>11:30-13:00</td></tr>
+      <tr><td>מנוחה במלון — הכבישים סביב הטיילת נפתחים בסביבות 13:00</td><td>13:00-14:30</td></tr>
+      <tr><td>המצודה של לרנקה, כנסיית לזרוס הקדוש ורובע סקאלה — ברגל</td><td>14:30-16:00</td></tr>
+      <tr><td>חוף Mackenzie — טבילה בים ושקיעה (~16:45)</td><td>16:15-17:30</td></tr>
+      <tr><td>ארוחת חגיגה 🎉</td><td>20:00</td></tr>
+    </table>
+    <div class="sectionLabel">📍 מה יש שם</div>
+    <div class="places">
+      <div class="p"><b>המסלול — </b>לאורך החוף של לרנקה, עם נוף לאגמי המלח ולפלמינגו. הכול על כבישים סגורים לתנועה.</div>
+      <div class="p"><b>המצודה של לרנקה — </b>מבצר קטן על קו המים בקצה הדרומי של הטיילת, עם מוזיאון קטן ונוף מהחומה. בחורף פתוחה בימי ראשון 09:30-17:00.</div>
+      <div class="p"><b>כנסיית לזרוס הקדוש — </b>כנסיית אבן מהמאה ה-9-10. לפי המסורת, לזרוס — שישו החזיר לחיים — חי בלרנקה עוד 30 שנה והיה הבישוף של העיר. קברו במרתף שמתחת לכנסייה.</div>
+      <div class="p"><b>רובע סקאלה — </b>הרובע הטורקי הישן, מדרום למצודה: סמטאות שקטות, בתי חרסיה וסדנאות קרמיקה.</div>
+      <div class="p"><b>חוף Mackenzie — </b>החוף הפופולרי של לרנקה, ממש ליד שדה התעופה, עם ברים על החול. המים באמצע נובמבר עדיין סביב 22-23 מעלות.</div>
+    </div>
+    <div class="boxes">
+      <div class="box yellow"><b>הפכנו את סדר אחר הצהריים</b>המצודה נסגרת ב-17:00, ובשעה 17:30 כבר חושך. לכן הסיור ברגל ב-14:30, ומקנזי בדיוק בשקיעה. את המרינה רואים ממילא מהמלון.</div>
+      <div class="box red"><b>הרכב לא זז עד 13:00</b>הכבישים סביב הטיילת סגורים, והאחרונים נפתחים כ-6 שעות אחרי זינוק המרתון. עד אז הכול ברגל.</div>
+      <div class="box tan"><b>ארוחת בוקר לפני הריצה</b>ארוחת הבוקר במלון כנראה לא תתחיל בזמן. לקנות ערב קודם מה שאוכלים לפני ריצה — לחמניה, בננה, ממרח — ולאכול בחדר.</div>
+    </div>
+    <div class="box green"><b>🏅 כל הפרטים על המרוץ</b>איסוף המספרים, פיקדון התיקים והרשימה מה לקחת — בעמוד "המרוץ" בתפריט התחתון.</div>
+  `
+},
+{
+  id:"d4", nav:"16.11", navSub:"פלמינגו + טיסה",
+  segment: ["sunhall","metropolis","saltlake","lca"],
+  render: () => `
+    <div class="tag">יום ב׳, 16.11 · יום אחרון • ⚠️ הטיסה ב-15:40</div>
+    <h2 class="title">קניון, פלמינגו והביתה</h2>
+    <div class="meta">טיסה: LY 5142, ‏15:40 → נחיתה 16:45 בטרמינל 3 · המלון → Metropolis כ-15 דק׳ · Metropolis → אגם המלח כ-15 דק׳ · אגם המלח → שדה התעופה כ-5 דק׳</div>
+    <table class="sched">
+      <tr><td>ארוחת בוקר רגועה</td><td>08:00-09:15</td></tr>
+      <tr><td>צ׳ק-אאוט — התיקים ברכב</td><td>09:30</td></tr>
+      <tr><td>קניון Metropolis — קניות וצהריים מוקדם</td><td>10:00-12:00</td></tr>
+      <tr><td>אגם המלח ומסגד Hala Sultan Tekke — פלמינגו</td><td>12:15-12:50</td></tr>
+      <tr><td>תדלוק והחזרת הרכב בשדה התעופה</td><td>13:00</td></tr>
+      <tr><td>צ׳ק-אין ובידוק ביטחוני</td><td>13:30</td></tr>
+      <tr><td>טיסת LY 5142 הביתה</td><td>15:40</td></tr>
+      <tr><td>נחיתה בנתב״ג, טרמינל 3</td><td>16:45</td></tr>
+    </table>
+    <div class="sectionLabel">📍 מה יש שם</div>
+    <div class="places">
+      <div class="p"><b>קניון Metropolis — </b>הקניון הגדול של לרנקה, עם רשתות אופנה, סופר ומתחם אוכל. מקום טוב לקניות אחרונות ולצהריים מוקדם.</div>
+      <div class="p"><b>אגם המלח — </b>אגם מלוח ענק ממש ליד שדה התעופה. בחורף הוא מתמלא מים ומגיעים אליו פלמינגו — כמה יהיו תלוי בכמות המים באגם.</div>
+      <div class="p"><b>Hala Sultan Tekke — </b>מסגד עם צריח ועצי דקל על שפת האגם, מהאתרים המוסלמים החשובים בקפריסין. הנוף על המים, עם המסגד והפלמינגו, הוא אחת התמונות המוכרות של לרנקה.</div>
+    </div>
+    <div class="box red"><b>שינוי מהלו״ז המקורי</b>בכרטיס כתוב שהטיסה חזרה ממריאה ב-15:40, ולא ב-23:00. לכן ירדו מהיום הקפה בחוף אחר הצהריים וארוחת הערב האחרונה, והקניון זז לבוקר — מספיק לשעתיים של קניות וצהריים.</div>
+    <div class="boxes">
+      <div class="box tan"><b>להחזיר עם מיכל מלא</b>יש תחנות דלק בדרך מהאגם לשדה. לשמור קבלה, ולצלם את מד הדלק והקילומטרים בהחזרה.</div>
+      <div class="box yellow"><b>קניות וכבודת יד</b>בכרטיס אין מזוודה רשומה — לקנות רק מה שנכנס לתיק. נוזלים מעל 100 מ״ל (שמן זית, יין) לא עוברים בבידוק.</div>
+    </div>
+  `
+},
+{
+  id:"race", nav:"המרוץ", navSub:"חצי מרתון",
+  segment: ["sunhall","registration","race_start"],
+  render: () => renderRace(),
+},
+{
+  id:"alt", nav:"מידע", navSub:"טיסות, רכב וטיפים",
+  segment: [],
+  render: () => `
+    <div class="tag">לשמור בטלפון</div>
+    <h2 class="title">מידע כללי לטיול</h2>
+    <div class="sectionLabel">🗓️ הלו״ז בקצרה</div>
+    <table class="kids" style="margin-bottom:18px;">
+      <tr><td><b>יום 1 · ו׳ 13.11</b> — נחיתה, איסוף מספרים, לפיד המרתון וטברנה</td><td>לרנקה</td></tr>
+      <tr><td><b>יום 2 · שבת 14.11</b> — לפקרה, Kato Drys ולימסול</td><td>לרנקה</td></tr>
+      <tr><td><b>יום 3 · א׳ 15.11</b> — 🏅 חצי מרתון, המצודה, Mackenzie וארוחת חגיגה</td><td>לרנקה</td></tr>
+      <tr><td><b>יום 4 · ב׳ 16.11</b> — Metropolis, פלמינגו וטיסה ב-15:40</td><td>—</td></tr>
+    </table>
+    <div class="sectionLabel">👥 מי נוסע</div>
+    <table class="kids" style="margin-bottom:18px;">
+      <tr><td><b>איתי וימית</b></td><td>זוג</td></tr>
+      <tr><td><b>אילן ומיטל</b></td><td>זוג</td></tr>
+      <tr><td><b>גבי</b></td><td>יחיד</td></tr>
+      <tr><td><b>רפאל</b></td><td>יחיד</td></tr>
+    </table>
+    <div class="sectionLabel">✈️ הטיסות שלנו</div>
+    <div class="box red"><b>שימו לב: טרמינל 1, ושעת החזור</b>ההלוך יוצא מ<b>טרמינל 1</b>. החזור ממריא ב-<b>15:40</b> ולא ב-23:00 כמו שהיה רשום בלו״ז, ונוחת בטרמינל 3. בכרטיס שכאן רשומים איתי וימית — לוודא שאילן, מיטל, גבי ורפאל באותן טיסות ובאותו טרמינל.</div>
+    ${renderFlights()}
+    <div class="boxes">
+      <div class="box yellow"><b>כבודה: 0 מזוודות</b>בכרטיס אין מזוודה רשומה — רק כבודת יד. בכרטיסי Lite של אל על הטרולי מוגבל ל-8 ק״ג, ובנוסף פריט אישי מתחת למושב. לבדוק באתר אל על לפני האריזה, או לקנות מזוודה מראש אם צריך.</div>
+      <div class="box tan"><b>מבוצע ע״י סאן דור</b>הטיסות של אל על בביצוע סאן דור, ולכן הצ׳ק-אין באתר ובאפליקציה של אל על, עם מספרי הטיסה LY 5133 / LY 5142.</div>
+    </div>
+    <div class="sectionLabel">🏨 איפה ישנים</div>
+    <table class="kids" style="margin-bottom:18px;">
+      <tr><td><b>Sun Hall Hotel</b> — Athens Avenue, על טיילת Finikoudes. צ׳ק-אין מ-14:00, צ׳ק-אאוט עד 12:00. לפי אתרי ההזמנות יש חניה חינם בסביבה — לבדוק עם המלון, ובמיוחד ללילה שלפני המרוץ.
+        <a class="rowWaze" href="${wazeLink("sunhall")}" target="_blank" rel="noopener" title="נווט ב-Waze למלון">🧭</a></td><td><span dir="ltr">13.11 – 16.11</span></td></tr>
+    </table>
+    <div class="sectionLabel">🚗 נהיגה בקפריסין</div>
+    <table class="kids" style="margin-bottom:18px;">
+      <tr><td><b>צד שמאל</b> — נוהגים בצד שמאל של הכביש, ההגה מימין וההילוכים ביד שמאל. לבקש רכב אוטומטי.</td><td>הכי חשוב</td></tr>
+      <tr><td><b>כיכרות</b> — נכנסים עם כיוון השעון, וזכות הקדימה לרכב שכבר בכיכר (מימין).</td><td>&nbsp;</td></tr>
+      <tr><td><b>מהירות</b> — 50 בעיר, 80 בכביש בין-עירוני, 100 בכביש המהיר. יש מצלמות מהירות קבועות.</td><td>&nbsp;</td></tr>
+      <tr><td><b>אין כבישי אגרה</b> בקפריסין. משלמים רק על דלק וחניה.</td><td>&nbsp;</td></tr>
+      <tr><td><b>רישיון</b> — רישיון ישראלי בתוקף; לבדוק עם חברת ההשכרה אם דורשים גם רישיון בינלאומי. נהג נוסף — לרשום בדלפק.</td><td>לבדוק לפני</td></tr>
+      <tr><td><b>הצפון</b> — את הרכב השכור לא לוקחים לצד הטורקי של האי בלי אישור מהחברה (הביטוח לא חל שם). המסלול שלנו כולו בדרום.</td><td>&nbsp;</td></tr>
+      <tr><td><b>חירום</b> — 112. מספר הסיוע בדרכים של חברת ההשכרה — לשמור בטלפון.</td><td>&nbsp;</td></tr>
+    </table>
+    <div class="sectionLabel">💡 טיפים</div>
+    <table class="kids" style="margin-bottom:18px;">
+      <tr><td><b>שעון</b> — קפריסין באותו שעון כמו ישראל באמצע נובמבר. אין הפרש.</td><td>&nbsp;</td></tr>
+      <tr><td><b>שקע חשמל</b> — תקע בריטי עם 3 פינים מרובעים (Type G). צריך מתאם, אחד לכל חדר.</td><td>להביא מהבית</td></tr>
+      <tr><td><b>שקיעה</b> — בסביבות 16:45, וב-17:15 כבר חושך. כל מה שבחוץ — לפני כן.</td><td>&nbsp;</td></tr>
+      <tr><td><b>מזג אוויר</b> — אמצע נובמבר נעים: בערך 20-24 מעלות ביום, קריר יותר בערב ובבוקר המוקדם.</td><td>&nbsp;</td></tr>
+      <tr><td><b>תשלום בכרטיס</b> — תמיד לבחור לשלם ביורו ולא בשקלים. ההמרה של בית העסק יקרה בכמה אחוזים.</td><td>בכל קנייה</td></tr>
+      <tr><td><b>מזה</b> — בטברנה מזמינים "מזה" לכולם ולא מנות לכל אחד. מגיעות 15-20 מנות קטנות. לבוא רעבים.</td><td>&nbsp;</td></tr>
+    </table>
+    <div class="sectionLabel">📱 אפליקציות מומלצות</div>
+    <div class="box tan">בנוסף ל-Waze, Google Maps ו-WhatsApp. הכפתור פותח את חנות האפליקציות על החיפוש של האפליקציה.</div>
+    <table class="kids appTable" style="margin-bottom:18px;">
+      <tr><td><b>✈️ EL AL</b> — צ׳ק-אין, כרטיסי עלייה למטוס ועדכונים על הטיסה.</td><td><a class="appDl" href="#" data-app="EL AL">⬇️ EL AL</a></td></tr>
+      <tr><td><b>🏃 Race Roster</b> — ההרשמה למרוץ ופרטי הרץ.</td><td><a class="appDl" href="#" data-app="Race Roster">⬇️ Race Roster</a></td></tr>
+      <tr><td><b>🌦️ Windy</b> — תחזית מפורטת לפי שעות, כולל רוח לבוקר המרוץ.</td><td><a class="appDl" href="#" data-app="Windy">⬇️ Windy</a></td></tr>
+    </table>
+    <div class="sectionLabel">🎟️ קישורים רשמיים</div>
+    ${renderTicketList()}
+    <div class="sectionLabel">✅ מה צריך לסגור</div>
+    <ol class="checklist">
+      <li>לוודא שאילן, מיטל, גבי ורפאל על אותן טיסות — ואת שעת החזור (15:40).</li>
+      <li>להזמין שולחן ל-6 ב-Kyra Giorgena לשישי ב-20:00.</li>
+      <li>להזמין מסעדה לארוחת הפחמימות (שבת 19:00) ולארוחת החגיגה (ראשון 20:00).</li>
+      <li>לבדוק עם המלון את החניה, ובמיוחד בלילה שלפני המרוץ.</li>
+      <li>לקרוא את מדריך הרצים כשיגיע במייל — שעת הזינוק הסופית ונוהל פיקדון התיקים.</li>
+      <li>להחליט אם צריך מזוודה רשומה, ולקנות אותה מראש באתר אל על.</li>
+    </ol>
+  `
+},
+{
+  id:"forecast", nav:"תחזית", navSub:"עד 16 יום קדימה",
+  segment: [],
+  render: () => renderForecast(),
+},
+{
+  id:"trivia", nav:"טריוויה", navSub:"בואו לשחק!",
+  segment: [],
+  render: () => `
+    <div class="tag kidTag">🎮 פינת המשחק</div>
+    <h2 class="title kidTitle">🎯 טריוויה קפריסין</h2>
+    <p class="quizIntro">כמה אתם מכירים את קפריסין ואת הטיול שלנו? ${TRIVIA.length} שאלות — בואו לבדוק! 🦩</p>
+    <div id="quizRoot" class="quizRoot"></div>
+  `
+},
+];
+
+/* ---------- "Did you know?" facts, 3-5 per trip day ---------- */
+const FUN_FACTS = {
+  d1: [
+    "השם העתיק של לרנקה הוא כיתיון — אחת הערים העתיקות בקפריסין.",
+    "קפריסין היא האי השלישי בגודלו בים התיכון, אחרי סיציליה וסרדיניה.",
+    "בקפריסין נוהגים בצד שמאל — מורשת של התקופה הבריטית, שנגמרה ב-1960.",
+    "המילה 'מזה' באה מהמילה הפרסית לטעם — וזו ארוחה שלמה של מנות קטנות.",
+  ],
+  d2: [
+    "התחרה של לפקרה נקראת 'לפקריטיקה', ורוקמים אותה ביד כבר מאות שנים.",
+    "לפי המסורת, לאונרדו דה וינצ׳י ביקר בלפקרה וקנה מפה רקומה לקתדרלה של מילאנו.",
+    "לפי המסורת, ריצ׳רד לב הארי התחתן עם ברנגריה בטירת לימסול ב-1191.",
+    "יין הקומנדריה מאזור לימסול נחשב ליין עם השם העתיק ביותר שעדיין מייצרים.",
+  ],
+  d3: [
+    "חצי מרתון הוא 21.0975 ק״מ — בדיוק חצי מ-42.195.",
+    "המרחק של המרתון נקבע באולימפיאדת לונדון 1908, כדי שהמרוץ יסתיים מול התא המלכותי.",
+    "לפי המסורת, לזרוס — שישו החזיר לחיים — חי בלרנקה 30 שנה והיה הבישוף של העיר.",
+    "רובע סקאלה היה הרובע הטורקי של לרנקה, ומפורסם בסדנאות הקרמיקה שלו.",
+  ],
+  d4: [
+    "בחורף מגיעים לאגם המלח של לרנקה אלפי פלמינגו — ובקיץ האגם כמעט מתייבש.",
+    "פלמינגו ורודים בגלל מה שהם אוכלים: סרטנים זעירים עם צבע אדמדם.",
+    "Hala Sultan Tekke נבנה סביב קברה של אום חראם, לפי המסורת קרובת משפחה של הנביא מוחמד.",
+    "הטיסה הביתה — שעה וחמש דקות בלבד. פחות מהזמן שלקח לרוץ את החצי!",
+  ],
+};
+
+/* ---------- Restaurant recommendations ---------- */
+function eatsLink(q){
+  return `https://waze.com/ul?q=${encodeURIComponent(q)}&navigate=yes`;
+}
+
+const EATS = {
+  d1: {
+    title:"ערב ראשון",
+    list:[
+      {n:"Kyra Giorgena Tavern", t:"מזה קפריסאי", d:"טברנה משפחתית ותיקה ברחובות הישנים של לרנקה. מזמינים מזה לכולם, והמנות מגיעות בגלים. סגורה בימי שני; פתוחה מ-19:00. להזמין שולחן ל-6.", q:"Kyra Giorgena Tavern, Larnaca, Cyprus"},
+    ],
+    note:"בשדה התעופה ובדרך אין צורך לעצור — הצהריים בטיסה או קל בטיילת אחרי הצ׳ק-אין."
+  },
+  d2: {note:"בלפקרה — קפה ומאפה בבתי הקפה שבכיכר הכפר. בלימסול, הסמטאות סביב הטירה וכיכר Saripolou מלאות מסעדות ובתי קפה. בערב — ארוחת פחמימות קרוב למלון, בהזמנה מראש."},
+  d3: {
+    title:"ארוחת החגיגה",
+    list:[
+      {n:"Militzis", t:"מטבח קפריסאי מסורתי", d:"מסעדה ותיקה ומוכרת בטיילת Piale Pasha, דרומית למצודה. מפורסמת בקלפטיקו — כבש שמתבשל שעות בתנור חרס. הליכה של כ-20 דק׳ מהמלון.", q:"Militzis Restaurant, Piale Pasha, Larnaca, Cyprus"},
+    ],
+    note:"ארוחת ההתאוששות בצהריים — בטיילת Finikoudes, ברגל (הכבישים עוד סגורים). לאורך Piale Pasha, אחרי המצודה, יש עוד שורה של טברנות דגים מול הים."
+  },
+  d4: {note:"צהריים מוקדם במתחם האוכל של Metropolis, לפני הנסיעה לשדה. בשדה יש בתי קפה אחרי הבידוק."},
+};
+
+function renderEats(id){
+  const e = EATS[id];
+  if (!e) return "";
+  const cards = (e.list || []).map(r => `
+    <div class="eat">
+      <div class="body">
+        <div class="nm">${r.n}${r.t?`<span class="tagline">${r.t}</span>`:""}</div>
+        <div class="ds">${r.d}</div>
+        ${r.w?`<div class="lk"><a href="${r.w}" target="_blank" rel="noopener">האתר הרשמי</a></div>`:""}
+      </div>
+      <a class="nav" href="${eatsLink(r.q)}" target="_blank" rel="noopener" title="נווט ב-Waze ל-${r.n}">🧭</a>
+    </div>`).join("");
+  return `
+    <div class="sectionLabel">🍽️ איפה אוכלים${e.title?` — ${e.title}`:""}</div>
+    ${cards?`<div class="eats">${cards}</div>`:""}
+    ${e.note?`<div class="box tan">${e.note}</div>`:""}
+  `;
+}
+
+/* ---------- Forecast page: today + 5 days for several destinations at once ----------
+   One Open-Meteo request covers all of them (the API accepts comma-separated coordinates
+   and returns an array in the same order). Destinations were picked to be the ones the
+   itinerary is flexible about — Grossglockner and Hallstatt in particular are swapped to
+   the clearest day, so seeing them side by side is the whole point. */
+const FORECAST_LOCS = [
+  {k:"sunhall",    nm:"לרנקה",   note:"הבסיס והמרוץ"},
+  {k:"lefkara",    nm:"לפקרה",   note:"שבת"},
+  {k:"lim_castle", nm:"לימסול",  note:"שבת"},
+];
+
+const FORECAST_DAYS = 16;   // Open-Meteo's maximum — already reaches the whole trip
+
+function renderForecast(){
+  return `
+    <div class="tag">מזג אוויר</div>
+    <h2 class="title">🌦️ תחזית לאזור הטיול</h2>
+    <div class="meta">עד 16 ימים קדימה, בלרנקה ובשני היעדים של יום שבת. גללו לצדדים.</div>
+    <div id="fcRoot"><div class="fcLoading">טוען תחזית…</div></div>
+    <div class="box tan" style="margin-top:16px;"><b>מה לבדוק</b>הכי חשוב — הבוקר של יום ראשון בלרנקה: טמפרטורה ורוח בשעות 07:00-10:00. בעמוד של יום 15.11 יש גם תחזית לפי שעות. לפקרה גבוהה יותר, ושם קריר בכמה מעלות.</div>
+    <div class="box yellow" style="margin-top:12px;"><b>עד כמה לסמוך על זה</b>1-3 ימים קדימה — אמין מאוד, 4-7 ימים — סביר, ומעבר ל-10 ימים זו יותר מגמה מאשר תחזית.</div>
+  `;
+}
+
+async function initForecast(){
+  const root = document.getElementById("fcRoot");
+  if (!root) return;
+  const lats = FORECAST_LOCS.map(o=>LOC[o.k].lat).join(",");
+  const lons = FORECAST_LOCS.map(o=>LOC[o.k].lon).join(",");
+  const url = `https://api.open-meteo.com/v1/forecast?latitude=${lats}&longitude=${lons}`
+    + `&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_probability_max`
+    + `&timezone=Asia%2FNicosia&forecast_days=${FORECAST_DAYS}`;
+  try {
+    const resp = await fetch(url);
+    if (!resp.ok) throw new Error("http " + resp.status);
+    let data = await resp.json();
+    if (!Array.isArray(data)) data = [data];   // a single-location query returns a bare object
+    const dates = data[0]?.daily?.time || [];
+    if (!dates.length) throw new Error("no data");
+
+    // Column headers: weekday + date, flagged when the date is one of our trip days.
+    const heads = dates.map((iso,i)=>{
+      const wd = WEEKDAY_HE_SHORT[new Date(iso+"T00:00:00").getDay()];
+      const [ , m, d ] = iso.split("-");
+      const tripId = Object.keys(DAY_DATES).find(k=>DAY_DATES[k]===iso);
+      const tripDay = tripId ? DAYS.find(x=>x.id===tripId) : null;
+      return `<th class="${i===0?"fcToday":""}">
+        <span class="wd">${i===0?"היום":wd}</span>
+        <span class="dt">${+d}.${+m}</span>
+        ${tripDay?`<span class="trip">${tripDay.navSub}</span>`:""}
+      </th>`;
+    }).join("");
+
+    const rows = FORECAST_LOCS.map((o,li)=>{
+      const d = data[li]?.daily;
+      if (!d) return "";
+      const cells = dates.map((_,i)=>{
+        const max = Math.round(d.temperature_2m_max[i]);
+        const min = Math.round(d.temperature_2m_min[i]);
+        const rain = d.precipitation_probability_max[i];
+        const wet = rain >= 50;
+        return `<td class="${i===0?"fcToday":""}">
+          <span class="ic">${weatherEmoji(d.weathercode[i])}</span>
+          <span class="tm"><b>${max}°</b>${min}°</span>
+          <span class="rn${wet?" wet":""}">${rain}%</span>
+        </td>`;
+      }).join("");
+      return `<tr><th scope="row" class="fcPlace">
+        <span class="nm">${LOC_ICON[o.k]||"📍"} ${o.nm}</span>
+        ${o.note?`<span class="nt">${o.note}</span>`:""}
+      </th>${cells}</tr>`;
+    }).join("");
+
+    const covered = dates.filter(d => Object.values(DAY_DATES).includes(d)).length;
+    const coverMsg = covered
+      ? `התחזית כבר מכסה ${covered} מתוך 4 ימי הטיול.`
+      : "התחזית עדיין לא מגיעה לימי הטיול — חזרו לכאן קרוב יותר לתאריך.";
+
+    root.innerHTML = `<div class="fcWrap"><table class="fcTable">
+      <thead><tr><th class="fcPlace"></th>${heads}</tr></thead>
+      <tbody>${rows}</tbody>
+    </table></div>
+    <div class="fcLegend">${coverMsg} גללו לצדדים לימים נוספים · אחוז = סיכוי למשקעים · אדום = מעל 50%</div>`;
+  } catch(e){
+    root.innerHTML = `<div class="fcLoading">התחזית לא נטענה כרגע — נסו שוב מאוחר יותר. שאר האתר פועל כרגיל.</div>`;
+  }
+}
+
+/* ---------- Checklist ---------- */
+const CHECKLIST = [
+  {id:"docs", ic:"🛂", name:"מסמכים", items:[
+    {t:"דרכונים בתוקף לכל הנוסעים"},
+    {t:"ביטוח נסיעות", s:"לבדוק שמכסה גם פעילות ספורט — ריצה במרוץ מאורגן"},
+    {t:"רישיון נהיגה ישראלי", s:"לבדוק עם חברת ההשכרה אם צריך גם רישיון בינלאומי"},
+    {t:"אישור הזמנת הרכב השכור (7 מקומות, אוטומטי)"},
+    {t:"אישור הזמנה — Sun Hall Hotel"},
+    {t:"מיילי אישור ההרשמה למרוץ של כל הרצים", s:"צריך אותם כדי לאסוף ערכה בשביל רץ אחר"},
+    {t:"כרטיסי עלייה למטוס בטלפון", s:"אפליקציית אל על"},
+  ]},
+  {id:"run", ic:"🏃", name:"ציוד ריצה", items:[
+    {t:"נעלי ריצה — ברגליים בטיסה", s:"בתיק של 8 ק״ג אין להן מקום"},
+    {t:"בגדי ריצה וגרביים"},
+    {t:"שעון ריצה ומטען"},
+    {t:"חגורת מספר או סיכות"},
+    {t:"ג׳לים — כל אחד עד 100 מ״ל, בשקית הנוזלים"},
+    {t:"וזלין / משחה נגד שפשוף", s:"בשקית הנוזלים"},
+    {t:"כובע ומשקפי שמש"},
+    {t:"חולצה ישנה לזרוק בזינוק"},
+  ]},
+  {id:"cloth", ic:"👕", name:"ביגוד", items:[
+    {t:"בגדים קיציים לימים", s:"אמצע נובמבר: בערך 20-24 מעלות ביום"},
+    {t:"סווטשירט או ז׳קט דק", s:"לערבים, לבוקר המרוץ ולפקרה"},
+    {t:"נעליים נוחות להליכה", s:"לשבת — לא את נעלי המרוץ"},
+    {t:"בגד ים ומגבת חוף", s:"לטבילה במקנזי"},
+    {t:"כפכפים"},
+  ]},
+  {id:"toilet", ic:"🧴", name:"תמרוקים", items:[
+    {t:"קרם הגנה", s:"עד 100 מ״ל בכבודת יד"},
+    {t:"תרופות קבועות ותרופות בסיסיות", s:"נגד כאבים, פלסטרים לשלפוחיות"},
+  ]},
+  {id:"gear", ic:"🎒", name:"ציוד וגאדג׳טים", items:[
+    {t:"מתאם לשקע בריטי (Type G)", s:"3 פינים מרובעים — אחד לכל חדר"},
+    {t:"סוללה ניידת"},
+    {t:"eSIM או חבילת גלישה לחו״ל"},
+    {t:"כרטיס אשראי בלי עמלת המרה, ומעט יורו במזומן"},
+    {t:"להוריד את האפליקציות המומלצות", s:"בעמוד מידע — עם כפתור הורדה לכל אחת"},
+  ]},
+  {id:"last", ic:"⏰", name:"ביום היציאה", items:[
+    {t:"צ׳ק-אין לטיסה"},
+    {t:"לשקול את התיקים — 8 ק״ג", s:"לבדוק את המגבלה המדויקת באתר אל על"},
+    {t:"להגיע לטרמינל 1 עד 11:45", s:"לא טרמינל 3"},
+    {t:"להוריד את האתר הזה למסך הבית", s:"עובד גם בלי אינטרנט"},
+  ]},
+];
+
+const CK_KEY = "larnaca2026_checklist_v1";
+let ckState = {};
+try { ckState = JSON.parse(localStorage.getItem(CK_KEY) || "{}"); } catch(e){ ckState = {}; }
+function ckSave(){ try { localStorage.setItem(CK_KEY, JSON.stringify(ckState)); } catch(e){} }
+function ckKey(si, ii){ return CHECKLIST[si].id + ":" + ii; }
+
+function renderChecklist(){
+  return `
+    <div class="tag">לפני שיוצאים</div>
+    <h2 class="title">✅ הצ׳קליסט שלנו</h2>
+    <div class="meta">כל משפחה מסמנת לעצמה. הסימון נשמר במכשיר — אפשר לסגור ולחזור.</div>
+    <div class="ckProgress">
+      <div class="row">
+        <span class="big" id="ckPct">0%</span>
+        <span class="cap" id="ckCap">0 מתוך 0 בוצעו</span>
+      </div>
+      <div class="ckBar"><i id="ckFill" style="width:0%"></i></div>
+    </div>
+    <div id="ckRoot">${CHECKLIST.map((sec, si) => {
+      const done = sec.items.filter((_,ii)=>ckState[ckKey(si,ii)]).length;
+      return `<div class="ckSec${done===sec.items.length?" done":""}${si===0?" open":""}" data-s="${si}">
+        <button type="button" class="ckHead">
+          <span class="ic">${sec.ic}</span>
+          <span class="nm">${sec.name}</span>
+          <span class="cnt">${done}/${sec.items.length}</span>
+          <span class="car">▾</span>
+        </button>
+        <div class="ckBody">${sec.items.map((it,ii)=>{
+          const on = !!ckState[ckKey(si,ii)];
+          return `<div class="ckItem${on?" on":""}" data-s="${si}" data-i="${ii}">
+            <span class="ckBox">${on?"✓":""}</span>
+            <span class="txt">${it.t}${it.s?`<small>${it.s}</small>`:""}</span>
+          </div>`;
+        }).join("")}</div>
+      </div>`;
+    }).join("")}</div>
+    <div class="ckTools">
+      <button type="button" id="ckOpenAll">פתח הכל</button>
+      <button type="button" id="ckCloseAll">סגור הכל</button>
+      <button type="button" id="ckReset">אפס סימונים</button>
+    </div>
+    <div class="box tan" style="margin-top:16px;"><b>איך זה עובד</b>הסימונים נשמרים בדפדפן של המכשיר שסימנתם בו, ולא משותפים בין המשפחות — לכל משפחה רשימה משלה. אם תפתחו את האתר בטלפון אחר, הרשימה שם תהיה ריקה.</div>
+  `;
+}
+
+function ckUpdateProgress(){
+  let total=0, done=0;
+  CHECKLIST.forEach((sec,si)=>sec.items.forEach((_,ii)=>{ total++; if(ckState[ckKey(si,ii)]) done++; }));
+  const pct = total ? Math.round(done/total*100) : 0;
+  const p = document.getElementById("ckPct");
+  if (!p) return;
+  p.textContent = pct + "%";
+  document.getElementById("ckCap").textContent = `${done} מתוך ${total} בוצעו`;
+  document.getElementById("ckFill").style.width = pct + "%";
+}
+
+// Wired once per render of the checklist page, via delegation on #ckRoot.
+function initChecklist(){
+  const root = document.getElementById("ckRoot");
+  if (!root) return;
+  ckUpdateProgress();
+  root.addEventListener("click", e => {
+    const head = e.target.closest(".ckHead");
+    if (head){ head.parentElement.classList.toggle("open"); return; }
+    const item = e.target.closest(".ckItem");
+    if (!item) return;
+    const si = +item.dataset.s, ii = +item.dataset.i, k = ckKey(si,ii);
+    ckState[k] = !ckState[k];
+    ckSave();
+    // repaint just this row and its section counter, so open/closed state is preserved
+    const sec = item.closest(".ckSec");
+    item.classList.toggle("on", !!ckState[k]);
+    item.querySelector(".ckBox").textContent = ckState[k] ? "✓" : "";
+    const secDone = CHECKLIST[si].items.filter((_,j)=>ckState[ckKey(si,j)]).length;
+    sec.querySelector(".cnt").textContent = secDone + "/" + CHECKLIST[si].items.length;
+    sec.classList.toggle("done", secDone === CHECKLIST[si].items.length);
+    ckUpdateProgress();
+  });
+  document.getElementById("ckOpenAll")?.addEventListener("click", ()=>
+    root.querySelectorAll(".ckSec").forEach(s=>s.classList.add("open")));
+  document.getElementById("ckCloseAll")?.addEventListener("click", ()=>
+    root.querySelectorAll(".ckSec").forEach(s=>s.classList.remove("open")));
+  document.getElementById("ckReset")?.addEventListener("click", ()=>{
+    if(!confirm("לאפס את כל הסימונים?")) return;
+    ckState = {}; ckSave(); selectDay("checklist");
+  });
+}
+
+/* ---------- Flights, rendered as boarding-pass cards ----------
+   Israel and Cyprus share a clock in November (both UTC+2), so durations are a plain subtraction. */
+const FLIGHTS = [
+  {no:"LY 5133", airline:"EL AL · SUN DOR", dur:"1ש׳ 05ד׳",
+   from:{code:"TLV", city:"Tel Aviv · T1", time:"13:45"},
+   to:  {code:"LCA", city:"Larnaca",       time:"14:50"},
+   date:"13 Nov 2026", weekday:"יום ו׳", cls:"Economy (U)", bag:"יד בלבד"},
+  {no:"LY 5142", airline:"EL AL · SUN DOR", dur:"1ש׳ 05ד׳",
+   from:{code:"LCA", city:"Larnaca",       time:"15:40"},
+   to:  {code:"TLV", city:"Tel Aviv · T3", time:"16:45"},
+   date:"16 Nov 2026", weekday:"יום ב׳", cls:"Economy (O)", bag:"יד בלבד"},
+];
+
+function renderFlights(){
+  return FLIGHTS.map(f => `
+    <div class="bpass">
+      <div class="bpass-head">
+        <span class="bpass-airline">${f.airline}</span>
+        <span class="bpass-no">${f.no}</span>
+      </div>
+      <div class="bpass-route">
+        <div class="bpass-end">
+          <span class="bpass-code">${f.from.code}</span>
+          <span class="bpass-city">${f.from.city}</span>
+          <span class="bpass-time">${f.from.time}</span>
+        </div>
+        <div class="bpass-mid">
+          <span class="bpass-dur">${f.dur}</span>
+          <span class="bpass-path"><span class="bpass-plane">✈</span></span>
+        </div>
+        <div class="bpass-end arr">
+          <span class="bpass-code">${f.to.code}</span>
+          <span class="bpass-city">${f.to.city}</span>
+          <span class="bpass-time">${f.to.time}</span>
+        </div>
+      </div>
+      <div class="bpass-tear"></div>
+      <div class="bpass-meta">
+        <div><span class="k">תאריך</span><span class="v">${f.date}</span></div>
+        <div><span class="k">יום</span><span class="v">${f.weekday}</span></div>
+        <div><span class="k">מחלקה</span><span class="v">${f.cls}</span></div>
+        <div><span class="k">כבודה</span><span class="v">${f.bag}</span></div>
+      </div>
+      <div class="bpass-bars" aria-hidden="true"></div>
+    </div>`).join("");
+}
+
+/* ---------- Trivia quiz: multiple-choice questions about Cyprus + this trip ---------- */
+const TRIVIA = [
+  { q:"מה עיר הבירה של קפריסין?", options:["ניקוסיה","לרנקה","לימסול","פאפוס"], correct:0,
+    fact:"ניקוסיה, באמצע האי — הבירה האחרונה בעולם שמחולקת בקו גבול." },
+  { q:"באיזה צד של הכביש נוהגים בקפריסין?", options:["שמאל","ימין","תלוי בעיר","באמצע"], correct:0,
+    fact:"בצד שמאל, כמו בבריטניה — קפריסין הייתה מושבה בריטית עד 1960." },
+  { q:"מה האורך של חצי מרתון?", options:["21.1 ק״מ","20 ק״מ","25 ק״מ","18.5 ק״מ"], correct:0,
+    fact:"21.0975 ק״מ — בדיוק חצי מ-42.195 של מרתון מלא." },
+  { q:"במה מפורסם הכפר לפקרה?", options:["תחרה רקומה ביד","יין אדום","גבינת חלומי","קדרות"], correct:0,
+    fact:"התחרה נקראת לפקריטיקה, ולצידה הכפר מפורסם גם בצורפות כסף." },
+  { q:"איזה עוף מגיע בחורף לאגם המלח של לרנקה?", options:["פלמינגו","שקנאי","חסידה","ברבור"], correct:0,
+    fact:"אלפי פלמינגו מגיעים בחורף, כשהאגם מתמלא מים." },
+  { q:"מה המטבע בקפריסין?", options:["יורו","לירה קפריסאית","דרכמה","פאונד"], correct:0,
+    fact:"קפריסין עברה ליורו ב-2008. לפני כן הייתה הלירה הקפריסאית." },
+  { q:"מאיזה חלב עושים חלומי?", options:["כבשים ועיזים","פרה בלבד","תאו","גמל"], correct:0,
+    fact:"חלומי מסורתי עשוי מחלב כבשים ועיזים, ולפעמים גם פרה. היא לא נמסה בצלייה!" },
+  { q:"מה היה השם העתיק של לרנקה?", options:["כיתיון","אתונה","קרתגו","סלמיס"], correct:0,
+    fact:"כיתיון — עיר עתיקה שייסדו הפיניקים, ומוזכרת גם בתנ״ך כ'כִּתִּים'." },
+  { q:"לפי המסורת, איזו דמות תנ״כית חיה בלרנקה?", options:["לזרוס","משה","יונה","שמשון"], correct:0,
+    fact:"לפי המסורת, לזרוס חי בלרנקה 30 שנה אחרי שהוחזר לחיים, והכנסייה בעיר נקראת על שמו." },
+  { q:"איזו אלה יוונית נולדה, לפי המיתולוגיה, מקצף הים ליד חופי קפריסין?", options:["אפרודיטה","אתנה","הרה","ארטמיס"], correct:0,
+    fact:"אפרודיטה, אלת האהבה — הסלע שלה, Petra tou Romiou, נמצא ליד פאפוס." },
+  { q:"איזה מלך התחתן לפי המסורת בטירת לימסול?", options:["ריצ׳רד לב הארי","הנרי השמיני","שלמה המלך","נפוליאון"], correct:0,
+    fact:"ריצ׳רד לב הארי, בדרכו למסע הצלב השלישי, ב-1191." },
+  { q:"כמה זמן לוקחת הטיסה מנתב״ג ללרנקה?", options:["כשעה","כשלוש שעות","כחצי שעה","כחמש שעות"], correct:0,
+    fact:"שעה וחמש דקות — קפריסין היא השכנה הכי קרובה שאפשר לטוס אליה." },
+];
+
+/* ---------- Destination photos (Wikimedia Commons) ---------- */
+function wmFile(name, width){
+  return "https://commons.wikimedia.org/wiki/Special:FilePath/" + encodeURIComponent(name.replace(/ /g,"_")) + "?width=" + (width||1400);
+}
+function wmPage(name){
+  return "https://commons.wikimedia.org/wiki/File:" + encodeURIComponent(name.replace(/ /g,"_"));
+}
+// f = an exact Wikimedia Commons file name (verified). w = a Wikipedia article ("en:Title" / "pl:Title"):
+// its lead photo is fetched at runtime from the Wikipedia REST API (CORS-enabled), so the picture is
+// always one that actually exists. Anything that fails to load simply hides itself.
+const IMAGES = {
+  d1:  [ {w:"en:Larnaca", alt:"לרנקה"}, {w:"en:Finikoudes", alt:"טיילת Finikoudes"} ],
+  d2:  [ {w:"en:Lefkara", alt:"לפקרה"}, {w:"en:Limassol_Castle", alt:"טירת לימסול"} ],
+  d3:  [ {w:"en:Larnaca_Castle", alt:"המצודה של לרנקה"}, {w:"en:Church_of_Saint_Lazarus,_Larnaca", alt:"כנסיית לזרוס הקדוש"} ],
+  d4:  [ {w:"en:Larnaca_Salt_Lake", alt:"אגם המלח של לרנקה"}, {w:"en:Hala_Sultan_Tekke", alt:"Hala Sultan Tekke"} ],
+};
+const WIKI_IMG_CACHE = {};
+async function wikiLeadImage(spec){
+  if (WIKI_IMG_CACHE[spec]) return WIKI_IMG_CACHE[spec];
+  const [lang, title] = spec.split(":");
+  const p = fetch(`https://${lang}.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`)
+    .then(r => r.ok ? r.json() : null)
+    .then(j => j && (j.thumbnail || j.originalimage) ? {
+        src: (j.originalimage && j.originalimage.width <= 1600 ? j.originalimage.source : (j.thumbnail ? j.thumbnail.source.replace(/\/\d+px-/, "/1200px-") : j.originalimage.source)),
+        page: (j.content_urls && j.content_urls.desktop && j.content_urls.desktop.page) || `https://${lang}.wikipedia.org/wiki/${encodeURIComponent(title)}`
+      } : null)
+    .catch(() => null);
+  WIKI_IMG_CACHE[spec] = p;
+  return p;
+}
+function fillWikiImages(root){
+  root.querySelectorAll("figure[data-wiki]").forEach(async fig => {
+    const r = await wikiLeadImage(fig.dataset.wiki);
+    if (!r){ fig.style.display = "none"; return; }
+    const a = fig.querySelector("a"), img = fig.querySelector("img");
+    a.href = r.page;
+    img.onerror = () => { fig.style.display = "none"; };
+    img.src = r.src;
+  });
+}
+
+/* ---------- Ticket / booking links per day (official sites) ---------- */
+const TICKETS = {
+  d1:  [ {n:"מרכז הרישום של המרוץ — שעות וכתובת", u:"https://larnakamarathon.com/registration-center/"} ],
+  d2:  [ {n:"טירת לימסול — המוזיאון לימי הביניים (שעות ומחיר)", u:"https://www.visitcyprus.com/discover-cyprus/culture/museums-galleries/cyprus-medieval-museum-limassol-lemesos-castle/"} ],
+  d3:  [ {n:"אתר המרוץ — תוכנית ושעות זינוק", u:"https://larnakamarathon.com/week-program/"},
+         {n:"המצודה של לרנקה — שעות ומחיר", u:"https://www.visitcyprus.com/discover-cyprus/culture/sites-and-monuments/larnaka-larnaca-medieval-castle/"} ],
+  d4:  [ {n:"אל על — צ׳ק-אין וניהול הזמנה", u:"https://www.elal.com/"} ],
+};
+function renderTickets(id){
+  const t = TICKETS[id];
+  if (!t) return "";
+  return `<div class="ticketBox"><b>🎟️ הזמנת כרטיסים</b><div class="ticketLinks">${
+    t.map(x => `<a href="${x.u}" target="_blank" rel="noopener">${x.n} ↗</a>`).join("")
+  }</div></div>`;
+}
+function renderTicketList(){
+  return `<table class="kids" style="margin-bottom:18px;">${
+    Object.keys(TICKETS).sort((a,b) => +a.slice(1) - +b.slice(1)).map(id => {
+      const d = DAYS.find(x => x.id === id);
+      return TICKETS[id].map(x => `<tr><td><a href="${x.u}" target="_blank" rel="noopener"><b>${x.n}</b> ↗</a></td><td>יום ${id.slice(1)} · ${d ? d.nav : ""}</td></tr>`).join("");
+    }).join("")
+  }</table>`;
+}
+
+function renderGallery(id){
+  const imgs = IMAGES[id];
+  if(!imgs || !imgs.length) return "";
+  return `<div class="photoGallery">${imgs.map(im => im.w ? `
+    <figure data-wiki="${im.w}">
+      <a href="#" target="_blank" rel="noopener"><img alt="${im.alt}" loading="lazy"></a>
+      <figcaption>${im.alt}</figcaption>
+    </figure>` : `
+    <figure>
+      <a href="${wmPage(im.f)}" target="_blank" rel="noopener">
+        <img src="${wmFile(im.f)}" alt="${im.alt}" loading="lazy"
+             onerror="this.closest('figure').style.display='none'">
+      </a>
+      <figcaption>${im.alt}</figcaption>
+    </figure>`).join("")}</div>`;
+}
+
+/* ---------- Map (Google Maps, no key) + Waze navigation ---------- */
+const DAY_ICON = {
+  checklist:"✅", forecast:"🌦️", d1:"✈️", d2:"🏰", d3:"🏅", d4:"🦩",
+  alt:"📋", race:"🏃", trivia:"🎯",
+};
+const LOC_ICON = {
+  lca:"✈️", sunhall:"🏨", registration:"🎽", race_start:"🏁", finikoudes:"🌴", kyra:"🍽️",
+  lefkara:"🧵", katodrys:"🏘️", lim_old:"🏛️", lim_castle:"🏰", lim_marina:"⛵", molos:"🌅",
+  fort:"🏰", lazarus:"⛪", skala:"🏺", marina:"⛵", mackenzie:"🏖️", metropolis:"🛍️", saltlake:"🦩", militzis:"🍽️",
+};
+
+/* ---------- Weather: per-day forecast (Open-Meteo, no key needed) for the day's
+   main destination, shown between the map and the schedule. ---------- */
+const WEATHER_LOC = {
+  d1:"sunhall", d2:"lim_castle", d3:"race_start", d4:"saltlake",
+};
+const WEATHER_CACHE = {};
+let weatherSeq = 0;
+
+function weatherEmoji(code){
+  if (code === 0) return "☀️";
+  if (code === 1 || code === 2) return "🌤️";
+  if (code === 3) return "☁️";
+  if (code === 45 || code === 48) return "🌫️";
+  if ([51,53,55,56,57,80,81,82].includes(code)) return "🌦️";
+  if ([61,63,65,66,67].includes(code)) return "🌧️";
+  if ([71,73,75,77,85,86].includes(code)) return "❄️";
+  if ([95,96,99].includes(code)) return "⛈️";
+  return "🌡️";
+}
+
+/* Which clock hours a given day's schedule actually spans, read straight from that day's
+   table so it can never drift out of sync when times are edited. Used to tint the hours
+   the family is out of the hotel. */
+function dayHourRange(id){
+  const day = DAYS.find(d=>d.id===id);
+  if (!day) return null;
+  const tmp = document.createElement("div");
+  tmp.innerHTML = day.render();
+  const hours = [];
+  tmp.querySelectorAll("table.sched tr").forEach(tr=>{
+    const tds = tr.querySelectorAll("td");
+    if (tds.length < 2) return;
+    for (const m of tds[1].textContent.matchAll(/(\d{1,2}):(\d{2})/g)){
+      hours.push(parseInt(m[1],10));
+    }
+  });
+  if (!hours.length) return null;
+  return [Math.min(...hours), Math.max(...hours)];
+}
+
+const HOUR_FROM = 6, HOUR_TO = 22;   // outside this the strip is just padding
+
+function renderHourly(hourly, id){
+  if (!hourly || !hourly.time || !hourly.time.length) return "";
+  const range = dayHourRange(id);
+  const cells = [];
+  hourly.time.forEach((iso, i) => {
+    const h = parseInt(iso.slice(11,13), 10);
+    if (h < HOUR_FROM || h > HOUR_TO) return;
+    const t = Math.round(hourly.temperature_2m[i]);
+    const r = hourly.precipitation_probability?.[i];
+    const out = range && h >= range[0] && h <= range[1];
+    cells.push(`<div class="wxHour${out?" out":""}">
+      <div class="hr">${String(h).padStart(2,"0")}</div>
+      <div class="ic">${weatherEmoji(hourly.weathercode[i])}</div>
+      <div class="tp">${t}°</div>
+      <div class="rn${r>=50?" wet":""}">${r==null?"–":r+"%"}</div>
+    </div>`);
+  });
+  if (!cells.length) return "";
+  return `<div class="wxHours">${cells.join("")}</div>
+    <div class="wxNote">${range?"מודגש בזהב: השעות שאתם בחוץ לפי הלו״ז של היום. ":""}גללו לצדדים לשעות נוספות.</div>`;
+}
+
+async function injectWeather(id){
+  const card = document.getElementById("weatherCard");
+  const locKey = WEATHER_LOC[id];
+  const date = DAY_DATES[id];
+  if (!locKey || !date){
+    card.hidden = true;
+    return;
+  }
+  const mySeq = ++weatherSeq;
+  card.hidden = false;
+  card.innerHTML = `<div class="wxTop"><span class="weatherLoading">🌦️ טוען תחזית ל-${LOC[locKey].label}…</span></div>`;
+
+  const cacheKey = locKey + "_" + date;
+  try {
+    let data = WEATHER_CACHE[cacheKey];
+    if (!data){
+      const loc = LOC[locKey];
+      const url = `https://api.open-meteo.com/v1/forecast?latitude=${loc.lat}&longitude=${loc.lon}`
+        + `&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_probability_max`
+        + `&hourly=temperature_2m,precipitation_probability,weathercode`
+        + `&timezone=Asia%2FNicosia&start_date=${date}&end_date=${date}`;
+      const resp = await fetch(url);
+      if (!resp.ok) throw new Error("weather http " + resp.status);
+      data = await resp.json();
+      WEATHER_CACHE[cacheKey] = data;
+    }
+    if (mySeq !== weatherSeq) return; // a newer day was selected meanwhile — drop this result
+    const d = data.daily;
+    if (!d || !d.time || !d.time.length){
+      card.innerHTML = `<div class="wxTop"><span class="weatherNA">📅 התחזית ל-${LOC[locKey].label} עדיין לא זמינה — תופיע כאן כשבועיים-שלושה לפני התאריך.</span></div>`;
+      return;
+    }
+    const code = d.weathercode[0];
+    const max = Math.round(d.temperature_2m_max[0]);
+    const min = Math.round(d.temperature_2m_min[0]);
+    const rain = d.precipitation_probability_max[0];
+    card.innerHTML = `
+      <div class="wxTop">
+        <span class="weatherIcon">${weatherEmoji(code)}</span>
+        <span class="weatherTemps"><b>${max}°</b> / ${min}°</span>
+        <span class="weatherRain">🌧️ ${rain}%</span>
+        <span class="weatherLoc">${LOC[locKey].label}</span>
+      </div>
+      ${renderHourly(data.hourly, id)}
+    `;
+    scrollHoursIntoView(card);
+  } catch(e){
+    if (mySeq !== weatherSeq) return;
+    card.innerHTML = `<div class="wxTop"><span class="weatherNA">מזג האוויר לא נטען כרגע — שאר האתר פועל כרגיל.</span></div>`;
+  }
+}
+
+// The strip starts at 06:00, but the hours worth looking at are the ones on the schedule —
+// so nudge it to the first gold cell instead of leaving the user on an empty dawn.
+// scrollIntoView is used rather than setting scrollLeft: horizontal scroll offsets are
+// mirrored (and inconsistently signed) in RTL, and this sidesteps that entirely.
+// block:"nearest" keeps it from scrolling the page vertically as a side effect.
+function scrollHoursIntoView(card){
+  const first = card.querySelector(".wxHour.out");
+  if (first) first.scrollIntoView({inline:"start", block:"nearest"});
+}
+
+/* ---------- Leaflet map: full route (muted) + today's highlighted segment,
+   drawn as the real driving road (via OSRM, no key) with a straight-line fallback,
+   plus a base-layer toggle (street/topo) and a fullscreen mode. ---------- */
+let leafletMap = null;
+let mapLayers = []; // markers/polylines currently on the map, cleared+rebuilt on each render
+let mapGen = 0;      // bumped on every updateMap() call so stale async work (routes, animations) can bail out
+let streetLayer = null, topoLayer = null;
+let currentLayerMode = "street";
+
+const ROUTE_CACHE = {};
+async function fetchRoute(keys){
+  const cacheKey = keys.join(",");
+  if (ROUTE_CACHE[cacheKey]) return ROUTE_CACHE[cacheKey];
+  const coordStr = keys.map(k => `${LOC[k].lon},${LOC[k].lat}`).join(";");
+  const url = `https://router.project-osrm.org/route/v1/driving/${coordStr}?overview=full&geometries=geojson`;
+  const resp = await fetch(url);
+  if (!resp.ok) throw new Error("osrm http " + resp.status);
+  const data = await resp.json();
+  if (data.code !== "Ok" || !data.routes || !data.routes.length) throw new Error("osrm no route");
+  const route = data.routes[0];
+  const result = {
+    latlngs: route.geometry.coordinates.map(c => [c[1], c[0]]),
+    distanceKm: route.distance / 1000,
+    durationMin: route.duration / 60,
+  };
+  ROUTE_CACHE[cacheKey] = result;
+  return result;
+}
+
+// Reveals a polyline progressively (a light "drawing" animation) rather than popping in at once.
+// `gen` is the mapGen snapshot at call time — if a newer updateMap() has since run, we quietly stop.
+function animatePolyline(latlngs, options, gen, duration){
+  const line = L.polyline([], options).addTo(leafletMap);
+  mapLayers.push(line);
+  const total = latlngs.length;
+  if (total < 2){ line.setLatLngs(latlngs); return line; }
+  const start = performance.now();
+  function step(now){
+    if (gen !== mapGen) return;
+    const t = Math.min(1, (now - start) / duration);
+    const count = Math.max(2, Math.round(total * t));
+    line.setLatLngs(latlngs.slice(0, count));
+    if (t < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+  return line;
+}
+
+function initMap(){
+  if (typeof L === "undefined"){
+    document.getElementById("mapDiv").innerHTML =
+      '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--muted);font-size:13px;padding:12px;text-align:center;">המפה לא נטענה (בעיית רשת) — שאר האתר פועל כרגיל.</div>';
+    return;
+  }
+  leafletMap = L.map("mapDiv", {scrollWheelZoom:false});
+  // CARTO started requiring an API key ("API KEY REQUIRED" on every tile), so the street layer
+  // uses OpenStreetMap's standard tiles: no key, just the attribution below.
+  streetLayer = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    maxZoom:19,
+    attribution:'© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>'
+  });
+  topoLayer = L.tileLayer("https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png", {
+    subdomains:"abc",
+    maxZoom:17,
+    attribution:"© OpenTopoMap (CC-BY-SA) © OpenStreetMap contributors"
+  });
+  streetLayer.addTo(leafletMap);
+
+  const layerBtn = document.getElementById("mapLayerBtn");
+  if (layerBtn){
+    layerBtn.addEventListener("click", () => {
+      if (currentLayerMode === "street"){
+        leafletMap.removeLayer(streetLayer);
+        topoLayer.addTo(leafletMap);
+        currentLayerMode = "topo";
+        layerBtn.textContent = "🗺️";
+        layerBtn.title = "עבור לתצוגת רחוב";
+      } else {
+        leafletMap.removeLayer(topoLayer);
+        streetLayer.addTo(leafletMap);
+        currentLayerMode = "street";
+        layerBtn.textContent = "🛰️";
+        layerBtn.title = "עבור לתצוגה טופוגרפית";
+      }
+    });
+  }
+
+  const fullBtn = document.getElementById("mapFullBtn");
+  const mapCardEl = document.getElementById("mapCard");
+  if (fullBtn && mapCardEl){
+    fullBtn.addEventListener("click", () => {
+      const isFull = mapCardEl.classList.toggle("fullscreen");
+      document.body.classList.toggle("mapFsOpen", isFull);
+      fullBtn.textContent = isFull ? "✕" : "⛶";
+      fullBtn.title = isFull ? "סגור מסך מלא" : "הרחב למסך מלא";
+      setTimeout(() => leafletMap.invalidateSize(), 260);
+    });
+  }
+}
+
+function fmtRouteInfo(distanceKm, durationMin){
+  const km = Math.round(distanceKm);
+  const h = Math.floor(durationMin / 60), m = Math.round(durationMin % 60);
+  const timeStr = h > 0 ? `${h}:${String(m).padStart(2,"0")} שעות` : `${m} דק׳`;
+  return `<span>🛣️ <b>${km}</b> ק"מ</span><span>⏱️ <b>${timeStr}</b> נסיעה</span><span style="opacity:.75">סה״כ כל הנסיעות של היום, לפי סדר העצירות</span>`;
+}
+
+async function updateMap(segment, isOverview){
+  if (!leafletMap) return;
+  mapLayers.forEach(l=>leafletMap.removeLayer(l));
+  mapLayers = [];
+  const gen = ++mapGen;
+
+  const routeInfoEl = document.getElementById("mapRouteInfo");
+  if (routeInfoEl) routeInfoEl.hidden = true;
+
+  const keys = segment.length ? segment : FULL_ROUTE;
+  const uniqueKeys = [...new Set(keys)];
+
+  // Straight-line coordinates — drawn immediately so the map never waits on the network,
+  // then swapped for the real road route (via OSRM) if/when that resolves.
+  const fullStraight = FULL_ROUTE.map(k=>[LOC[k].lat, LOC[k].lon]);
+  const segStraight = keys.map(k=>[LOC[k].lat, LOC[k].lon]);
+
+  const FULL_STYLE = isOverview ? {color:"#C8102E", weight:4, opacity:.85} : {color:"#cbb9ba", weight:3, dashArray:"2,8", opacity:.8};
+  let fullLine = animatePolyline(fullStraight, FULL_STYLE, gen, 500);
+  let segLine = null;
+  if (!isOverview && keys.length > 1){
+    segLine = animatePolyline(segStraight, {color:"#C8102E", weight:5, opacity:.9}, gen, 650);
+  }
+
+  // Markers: Wagrain (home base) gets a pin shape; today's other stops are highlighted red dots;
+  // in overview mode all stops are plain muted dots. Clicking a marker pops up its name + a Waze link.
+  // Numbered stops. Day view: 1, 2, 3… in the order the day visits them (the home base — the
+  // apartment or tonight's campsite — gets 🏠 instead of a number). Overview: the number of the
+  // trip day on which each place is first visited, so the whole route reads as days on the map.
+  const HOME_KEYS = ["krakow","camp1","camp_zak"];
+  const stopNo = {};
+  if (isOverview){
+    DAYS.filter(d => /^d\d+$/.test(d.id)).forEach(d => d.segment.forEach(k => {
+      if (!HOME_KEYS.includes(k) && !(k in stopNo)) stopNo[k] = +d.id.slice(1);
+    }));
+  } else {
+    let n = 0;
+    keys.forEach(k => { if (!HOME_KEYS.includes(k) && !(k in stopNo)) stopNo[k] = ++n; });
+  }
+  uniqueKeys.forEach(k=>{
+    const loc = LOC[k];
+    const isBase = HOME_KEYS.includes(k);
+    const isActive = !isBase;
+    const label = isBase ? "🏠" : (stopNo[k] || "•");
+    const cls = "map-num" + (isBase ? " home" : (isOverview ? " day" : ""));
+    const icon = L.divIcon({className:"", html:`<div class="${cls}">${label}</div>`, iconSize:[24,24], iconAnchor:[12,12]});
+    const marker = L.marker([loc.lat, loc.lon], {icon}).addTo(leafletMap);
+    const tClass = "map-tooltip" + (isBase ? " base-tooltip" : (isActive ? " active-tooltip" : ""));
+    marker.bindTooltip((isBase ? "" : (isOverview ? "יום " + stopNo[k] + " · " : stopNo[k] + ". ")) + loc.label, {className:tClass, direction:"top", offset:[0,-12]});
+    marker.bindPopup(
+      `<div style="font-family:Heebo,sans-serif;text-align:center;">
+        <b>${loc.label}</b><br>
+        <a href="${wazeLink(k)}" target="_blank" rel="noopener" style="color:#C8102E;font-weight:700;text-decoration:none;">🧭 נווט ב-Waze</a>
+      </div>`
+    );
+    mapLayers.push(marker);
+  });
+
+  // Fit bounds to the relevant set of points (based on the straight-line coordinates —
+  // available immediately, and close enough even once the real route comes in).
+  const boundsKeys = isOverview ? FULL_ROUTE : uniqueKeys;
+  const bounds = L.latLngBounds(boundsKeys.map(k=>[LOC[k].lat, LOC[k].lon]));
+  leafletMap.fitBounds(bounds, {padding:[30,30], maxZoom: isOverview ? 9 : 12});
+  setTimeout(()=>leafletMap.invalidateSize(), 50);
+
+  // Upgrade to the real driving route in the background; silently keep the straight
+  // lines if the routing service is unreachable.
+  fetchRoute(FULL_ROUTE).then(r => {
+    if (gen !== mapGen) return;
+    leafletMap.removeLayer(fullLine);
+    const idx = mapLayers.indexOf(fullLine);
+    if (idx !== -1) mapLayers.splice(idx, 1);
+    fullLine = animatePolyline(r.latlngs, FULL_STYLE, gen, 500);
+  }).catch(()=>{});
+
+  if (!isOverview && keys.length > 1){
+    fetchRoute(keys).then(r => {
+      if (gen !== mapGen) return;
+      leafletMap.removeLayer(segLine);
+      const idx = mapLayers.indexOf(segLine);
+      if (idx !== -1) mapLayers.splice(idx, 1);
+      segLine = animatePolyline(r.latlngs, {color:"#C8102E", weight:5, opacity:.9}, gen, 800);
+      if (routeInfoEl){
+        routeInfoEl.innerHTML = fmtRouteInfo(r.distanceKm, r.durationMin);
+        routeInfoEl.hidden = false;
+      }
+    }).catch(()=>{});
+  }
+}
+
+function wazeLink(k){
+  const loc = LOC[k];
+  if (loc.address){
+    return `https://waze.com/ul?q=${encodeURIComponent(loc.address)}&navigate=yes`;
+  }
+  return `https://waze.com/ul?ll=${loc.lat}%2C${loc.lon}&navigate=yes`;
+}
+
+/* Per-day map of [substring appearing in a schedule row's first cell -> LOC key],
+   used to attach an inline Waze button to the specific row that marks arrival/start
+   at that destination. Substrings are exact fragments of the existing row text. */
+const ROW_WAZE = {
+  d1: [ ["נחיתה, ביקורת דרכונים","lca"], ["צ׳ק-אין במלון","sunhall"], ["מרכז הרישום","registration"], ["לפיד המרתון","finikoudes"], ["Kyra Giorgena","kyra"] ],
+  d2: [ ["לפקרה: סמטאות","lefkara"], ["Kato Drys","katodrys"], ["ארוחת צהריים בעיר העתיקה","lim_old"], ["טירת לימסול","lim_castle"], ["המרינה וטיילת Molos","lim_marina"], ["חזרה ללרנקה","sunhall"] ],
+  d3: [ ["הליכה לאזור הזינוק","race_start"], ["מקלחת ומנוחה","sunhall"], ["המצודה של לרנקה","fort"], ["חוף Mackenzie","mackenzie"], ["ארוחת חגיגה","militzis"] ],
+  d4: [ ["קניון Metropolis","metropolis"], ["אגם המלח","saltlake"], ["החזרת הרכב","lca"] ],
+};
+function injectRowWaze(id){
+  const rules = ROW_WAZE[id];
+  if(!rules) return;
+  panelEl.querySelectorAll("table.sched td:first-child").forEach(td=>{
+    const text = td.textContent;
+    const rule = rules.find(([sub])=> text.includes(sub));
+    if(!rule) return;
+    const [, locKey] = rule;
+    const a = document.createElement("a");
+    a.href = wazeLink(locKey);
+    a.target = "_blank";
+    a.rel = "noopener";
+    a.className = "rowWaze";
+    a.title = "נווט ב-Waze ל-" + LOC[locKey].label;
+    a.textContent = "🧭";
+    td.appendChild(a);
+  });
+}
+
+/* Per-day map of [substring in a schedule row -> congestion warning], mirroring ROW_WAZE.
+   Each flagged row gets a 🚦 badge; tapping it opens a short note with the peak window and
+   what to do about it. Only genuine choke points are listed — badging every drive would
+   make the schedule unreadable and train people to ignore the icon. */
+const TRAFFIC = {};   // no traffic badges on this trip — Waze only
+
+function injectTraffic(id){
+  const rules = TRAFFIC[id];
+  if(!rules) return;
+  panelEl.querySelectorAll("table.sched td:first-child").forEach(td=>{
+    const text = td.textContent;
+    const rule = rules.find(([sub])=> text.includes(sub));
+    if(!rule) return;
+    const [, info] = rule;
+    const note = document.createElement("div");
+    note.className = "trafficNote";
+    note.hidden = true;
+    note.innerHTML = `<b>🚦 שעת שיא: ${info.peak}</b><br>${info.text}`;
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "rowTraffic";
+    btn.textContent = "🚦";
+    btn.title = "צפוי עומס - " + info.peak;
+    btn.setAttribute("aria-label", "פרטי עומס תנועה");
+    btn.setAttribute("aria-expanded", "false");
+    btn.addEventListener("click", ()=>{
+      const open = note.hidden;
+      note.hidden = !open;
+      btn.setAttribute("aria-expanded", String(open));
+    });
+    td.appendChild(btn);
+    td.appendChild(note);
+  });
+}
+
+/* Per-day road money: Vignette, point tolls (Sondermaut) and paid parking at the stops,
+   mirroring the TRAFFIC structure. Each flagged row gets a 💶 badge that opens the detail,
+   and renderToll() prints the day's summary at the bottom of the page. Only real payments
+   are listed; days that cost nothing say so explicitly, so silence is never ambiguous. */
+const TOLL = {};      // no cost badges on this trip
+
+function injectToll(id){
+  const data = TOLL[id];
+  if(!data || !data.rows) return;
+  panelEl.querySelectorAll("table.sched td:first-child").forEach(td=>{
+    const text = td.textContent;
+    const rule = data.rows.find(([sub])=> text.includes(sub));
+    if(!rule) return;
+    const [, info] = rule;
+    const note = document.createElement("div");
+    note.className = "tollNote";
+    note.hidden = true;
+    note.innerHTML = `<b>💶 ${info.t}: ${info.c}</b><br>${info.x}`;
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "rowToll";
+    btn.textContent = "💶";
+    btn.title = info.t + " - " + info.c;
+    btn.setAttribute("aria-label", "פרטי עלות בשורה זו");
+    btn.setAttribute("aria-expanded", "false");
+    btn.addEventListener("click", ()=>{
+      const open = note.hidden;
+      note.hidden = !open;
+      btn.setAttribute("aria-expanded", String(open));
+    });
+    td.appendChild(btn);
+    td.appendChild(note);
+  });
+}
+
+// The day's road-money summary, printed at the bottom of the day page.
+function renderToll(id){
+  const data = TOLL[id];
+  if(!data || !data.sum) return "";
+  return `<div class="tollBox"><b>💶 חניה, כניסות ועלויות דרך</b><ul>${
+    data.sum.map(li => `<li>${li}</li>`).join("")
+  }</ul></div>`;
+}
+
+/* ---------- Smart Waze target: reads today's schedule + the clock, and figures out
+   which point on today's route makes sense to navigate to right now. ---------- */
+function parseTimeToMinutes(text){
+  const m = text.match(/(\d{1,2}):(\d{2})/);
+  if(!m) return null;
+  return parseInt(m[1],10)*60 + parseInt(m[2],10);
+}
+
+function getRowTimes(id){
+  const rules = ROW_WAZE[id];
+  if(!rules) return [];
+  const day = DAYS.find(d=>d.id===id);
+  if(!day) return [];
+  const tmp = document.createElement("div");
+  tmp.innerHTML = day.render();
+  const out = [];
+  tmp.querySelectorAll("table.sched tr").forEach(tr=>{
+    const tds = tr.querySelectorAll("td");
+    if(tds.length < 2) return;
+    const text = tds[0].textContent;
+    const rule = rules.find(([sub])=> text.includes(sub));
+    if(!rule) return;
+    const [, locKey] = rule;
+    out.push({loc:locKey, label:text.split("—")[0].trim(), minutes: parseTimeToMinutes(tds[1].textContent)});
+  });
+  return out;
+}
+
+function getSmartTarget(id){
+  const rows = getRowTimes(id);
+  if(!rows.length) return null;
+  const now = new Date();
+  const nowMin = now.getHours()*60 + now.getMinutes();
+  // rows are already in schedule (chronological) order — pick the first one that hasn't
+  // happened yet; if the whole day already passed, fall back to the last stop (usually the hotel).
+  const upcoming = rows.find(r => r.minutes === null || r.minutes >= nowMin);
+  return upcoming || rows[rows.length - 1];
+}
+
+function updateNowBar(viewingId){
+  const bar = document.getElementById("nowBar");
+  const today = todaysDayId();
+  if (!today || viewingId !== today){
+    bar.hidden = true;
+    return;
+  }
+  const target = getSmartTarget(today);
+  if (!target){
+    bar.hidden = true;
+    return;
+  }
+  bar.hidden = false;
+  document.getElementById("nowBarLabel").textContent = "🧭 עכשיו בלו״ז: " + target.label;
+  document.getElementById("nowBarPlace").textContent = LOC[target.loc].label;
+  document.getElementById("nowBarBtn").href = wazeLink(target.loc);
+}
+
+/* ---------- "Did you know?" carousel ---------- */
+let funFactList = [];
+let funFactIndex = 0;
+
+function renderFunFactDots(){
+  const dotsEl = document.getElementById("funFactDots");
+  if (!dotsEl) return;
+  dotsEl.innerHTML = funFactList.map((_, i) =>
+    `<span class="${i === funFactIndex ? "on" : ""}"></span>`
+  ).join("");
+}
+
+function renderFunFactView(){
+  const textEl = document.getElementById("funFactText");
+  if (!textEl || !funFactList.length) return;
+  textEl.textContent = funFactList[funFactIndex];
+  renderFunFactDots();
+}
+
+function updateFunFacts(id){
+  const card = document.getElementById("funFactCard");
+  if (!card) return;
+  const facts = FUN_FACTS[id];
+  if (!facts || !facts.length){
+    card.hidden = true;
+    funFactList = [];
+    return;
+  }
+  funFactList = facts;
+  funFactIndex = 0;
+  card.hidden = false;
+  renderFunFactView();
+}
+
+document.getElementById("funFactPrev")?.addEventListener("click", () => {
+  if (!funFactList.length) return;
+  funFactIndex = (funFactIndex - 1 + funFactList.length) % funFactList.length;
+  renderFunFactView();
+});
+document.getElementById("funFactNext")?.addEventListener("click", () => {
+  if (!funFactList.length) return;
+  funFactIndex = (funFactIndex + 1) % funFactList.length;
+  renderFunFactView();
+});
+
+/* ---------- Trivia quiz ---------- */
+function shuffleArr(arr){
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+let quizOrder = [];
+let quizPos = 0;
+let quizScore = 0;
+
+function initTrivia(){
+  const root = document.getElementById("quizRoot");
+  if (!root) return;
+  quizOrder = shuffleArr(TRIVIA.map((_, i) => i));
+  quizPos = 0;
+  quizScore = 0;
+  root.addEventListener("click", onQuizClick);
+  renderQuizQuestion();
+}
+
+function onQuizClick(e){
+  const optBtn = e.target.closest(".quizOption");
+  if (optBtn && !optBtn.classList.contains("disabled")){
+    handleQuizAnswer(optBtn);
+    return;
+  }
+  const nextBtn = e.target.closest(".quizNextBtn");
+  if (nextBtn){
+    quizPos++;
+    renderQuizQuestion();
+    return;
+  }
+  const againBtn = e.target.closest(".quizAgainBtn");
+  if (againBtn){
+    quizOrder = shuffleArr(TRIVIA.map((_, i) => i));
+    quizPos = 0;
+    quizScore = 0;
+    renderQuizQuestion();
+  }
+}
+
+function renderQuizQuestion(){
+  const root = document.getElementById("quizRoot");
+  if (!root) return;
+  if (quizPos >= quizOrder.length){
+    renderQuizSummary();
+    return;
+  }
+  const item = TRIVIA[quizOrder[quizPos]];
+  const optOrder = shuffleArr(item.options.map((_, i) => i));
+  root.innerHTML = `
+    <div class="quizCard">
+      <div class="quizProgress">
+        <span>שאלה ${quizPos + 1} מתוך ${quizOrder.length}</span>
+        <span class="quizScore">⭐ ${quizScore}</span>
+      </div>
+      <p class="quizQuestion">${item.q}</p>
+      <div class="quizOptions">
+        ${optOrder.map(i => `<button type="button" class="quizOption" data-idx="${i}">${item.options[i]}</button>`).join("")}
+      </div>
+    </div>
+  `;
+}
+
+function handleQuizAnswer(optBtn){
+  const item = TRIVIA[quizOrder[quizPos]];
+  const chosen = Number(optBtn.dataset.idx);
+  const isCorrect = chosen === item.correct;
+  if (isCorrect) quizScore++;
+
+  document.querySelectorAll(".quizOption").forEach(b => {
+    b.classList.add("disabled");
+    const idx = Number(b.dataset.idx);
+    if (idx === item.correct) b.classList.add("correct");
+    else if (b === optBtn) b.classList.add("wrong");
+  });
+
+  const card = document.querySelector(".quizCard");
+  if (card){
+    const scoreEl = card.querySelector(".quizScore");
+    if (scoreEl) scoreEl.textContent = "⭐ " + quizScore;
+    const feedback = document.createElement("div");
+    feedback.className = "quizFeedback " + (isCorrect ? "correct" : "wrong");
+    feedback.textContent = isCorrect ? "🎉 נכון מאוד!" : "❌ לא בדיוק...";
+    card.appendChild(feedback);
+    const fact = document.createElement("div");
+    fact.className = "quizFact";
+    fact.textContent = "💡 " + item.fact;
+    card.appendChild(fact);
+    const isLast = quizPos + 1 >= quizOrder.length;
+    const nextBtn = document.createElement("button");
+    nextBtn.type = "button";
+    nextBtn.className = "quizNextBtn";
+    nextBtn.textContent = isLast ? "לתוצאה הסופית 🏁" : "השאלה הבאה ⟵";
+    card.appendChild(nextBtn);
+  }
+}
+
+function renderQuizSummary(){
+  const root = document.getElementById("quizRoot");
+  if (!root) return;
+  const total = quizOrder.length;
+  let emoji, msg;
+  if (quizScore === total){
+    emoji = "🏆"; msg = "מושלם! אתם ממש מומחי קפריסין!";
+  } else if (quizScore >= total * 0.7){
+    emoji = "🥳"; msg = "כל הכבוד! אתם מכירים את קפריסין מצוין.";
+  } else if (quizScore >= total * 0.4){
+    emoji = "😊"; msg = "יפה מאוד! אחרי הטיול תדעו עוד יותר.";
+  } else {
+    emoji = "🌟"; msg = "התחלה נהדרת — בואו נגלה עוד בקפריסין ביחד!";
+  }
+  root.innerHTML = `
+    <div class="quizCard quizSummary">
+      <div class="emoji">${emoji}</div>
+      <div class="scoreLine">הניקוד שלכם: ${quizScore} מתוך ${total} ⭐</div>
+      <div class="msg">${msg}</div>
+      <button type="button" class="quizAgainBtn">🔁 לשחק שוב</button>
+    </div>
+  `;
+}
+
+/* ---------- Nav + panel rendering ---------- */
+const tabbarEl = document.getElementById("tabbar");
+const dayScrollEl = document.getElementById("dayScroll");
+const panelEl = document.getElementById("panel");
+const mapTitleEl = document.getElementById("mapTitle");
+const mapSubEl = document.getElementById("mapSub");
+
+/* ---------- Auto-open today's day during the trip ---------- */
+const DAY_DATES = {
+  d1:"2026-11-13", d2:"2026-11-14", d3:"2026-11-15", d4:"2026-11-16",
+};
+function todaysDayId(){
+  const now = new Date();
+  const y = now.getFullYear(), m = String(now.getMonth()+1).padStart(2,"0"), dd = String(now.getDate()).padStart(2,"0");
+  const todayStr = `${y}-${m}-${dd}`;
+  for (const id in DAY_DATES){
+    if (DAY_DATES[id] === todayStr) return id;
+  }
+  return null;
+}
+const TODAY_ID = todaysDayId();
+
+/* ---------- Weekday label (e.g. "יום ה׳", "שבת") for a trip-day id, from DAY_DATES ---------- */
+const WEEKDAY_HE = ["יום א׳","יום ב׳","יום ג׳","יום ד׳","יום ה׳","יום ו׳","שבת"]; // index = Date#getDay()
+const WEEKDAY_HE_SHORT = ["א׳","ב׳","ג׳","ד׳","ה׳","ו׳","שבת"];
+function weekdayLabel(id){
+  const iso = DAY_DATES[id];
+  if (!iso) return "";
+  return WEEKDAY_HE[new Date(iso + "T00:00:00").getDay()];
+}
+function weekdayShort(id){
+  const iso = DAY_DATES[id];
+  if (!iso) return "";
+  return WEEKDAY_HE_SHORT[new Date(iso + "T00:00:00").getDay()];
+}
+
+/* ---------- Countdown badge in the header: days left, or which trip day we're on. ---------- */
+function updateCountdown(){
+  const el = document.getElementById("countdown");
+  if (!el) return;
+  const now = new Date();
+  const today0 = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const tripStart = new Date(2026, 10, 13);
+  const tripEnd = new Date(2026, 10, 16);
+  const diffDays = Math.round((tripStart - today0) / 86400000);
+
+  if (today0 > tripEnd){
+    el.hidden = true;
+    return;
+  }
+  if (diffDays > 1){
+    el.textContent = `⏳ עוד ${diffDays} ימים לטיסה!`;
+  } else if (diffDays === 1){
+    el.textContent = `⏳ מחר טסים!`;
+  } else if (diffDays === 0){
+    el.textContent = `🎉 היום זה קורה — טיסה טובה!`;
+  } else if (TODAY_ID && /^d\d+$/.test(TODAY_ID)){
+    const n = TODAY_ID.slice(1);
+    el.textContent = `📍 יום ${n} מתוך 4 בטיול`;
+  } else {
+    el.hidden = true;
+    return;
+  }
+  el.hidden = false;
+}
+updateCountdown();
+
+// Top strip: the 10 trip days in a horizontal scroller (see the arrow handlers below).
+// Bottom tab bar: the four reference pages, always one tap away regardless of scroll position.
+const TOP_NAV_IDS = ["checklist", "alt", "race", "forecast", "trivia"];
+DAYS.forEach(d=>{
+  if (TOP_NAV_IDS.includes(d.id)) return;   // tab-bar pages are built below, in TOP_NAV_IDS order
+  const btn = document.createElement("button");
+  btn.id = "nav-"+d.id;
+  btn.type = "button";
+  const isToday = (d.id === TODAY_ID);
+  if (isToday) btn.classList.add("isToday");
+  const wd = weekdayShort(d.id);
+  btn.innerHTML = `<span class="icon">${DAY_ICON[d.id]||"📍"}</span><span class="label">${wd ? `<span class="wd">${wd}</span>` : ""}<span class="d">${d.nav}</span><span class="t">${d.navSub}</span></span>${isToday ? '<span class="todayDot">היום</span>' : ''}`;
+  btn.addEventListener("click", ()=> selectDay(d.id));
+  dayScrollEl.appendChild(btn);
+});
+TOP_NAV_IDS.forEach(id=>{
+  const d = DAYS.find(x=>x.id===id);
+  if (!d) return;
+  const btn = document.createElement("button");
+  btn.id = "nav-"+id;
+  btn.type = "button";
+  btn.innerHTML = `<span class="icon">${DAY_ICON[id]||"📍"}</span><span class="lbl">${d.nav}</span>`;
+  btn.addEventListener("click", ()=> selectDay(id));
+  tabbarEl.appendChild(btn);
+});
+// Search sits in the tab bar like any other page button — same size, same icon+label shape —
+// except that it opens the search sheet instead of switching pages.
+const searchTabBtn = document.createElement("button");
+searchTabBtn.id = "nav-search";
+searchTabBtn.type = "button";
+searchTabBtn.title = "חיפוש באתר";
+searchTabBtn.setAttribute("aria-label", "חיפוש באתר");
+searchTabBtn.innerHTML = `<span class="icon">🔍</span><span class="lbl">חיפוש</span>`;
+searchTabBtn.addEventListener("click", () => openSearch());
+tabbarEl.appendChild(searchTabBtn);
+
+// The WhatsApp link lives in the markup near the header for no-JS fallback, but belongs
+// at the end of the tab bar — move the existing node rather than duplicating it.
+const waEl = document.querySelector(".waFab");
+if (waEl) tabbarEl.appendChild(waEl);
+
+/* ---------- Day scroller arrows: step to the previous/next day chip ----------
+   Tracked with its own index (not tied to which day is currently selected/active),
+   so repeated arrow clicks keep advancing even if the user hasn't tapped a chip yet. */
+const DAY_SCROLL_IDS = DAYS.map(d=>d.id).filter(id => !TOP_NAV_IDS.includes(id));
+let dayScrollIdx = Math.max(0, DAY_SCROLL_IDS.indexOf(TODAY_ID));
+function scrollDayIntoView(id){
+  const btn = document.getElementById("nav-"+id);
+  if (btn) btn.scrollIntoView({behavior:"smooth", inline:"center", block:"nearest"});
+}
+function stepDayScroll(dir){
+  dayScrollIdx = Math.min(DAY_SCROLL_IDS.length - 1, Math.max(0, dayScrollIdx + dir));
+  scrollDayIntoView(DAY_SCROLL_IDS[dayScrollIdx]);
+}
+document.getElementById("dayScrollPrev")?.addEventListener("click", () => stepDayScroll(-1));
+document.getElementById("dayScrollNext")?.addEventListener("click", () => stepDayScroll(1));
+
+/* ---------- Live webcams per day ---------- */
+  const WEBCAMS = {};   // אפשר להוסיף מצלמות חיות מלרנקה בהמשך
+
+function renderWebcams(id){
+  const card = document.getElementById("camCard");
+  if (!card) return;
+  const groups = WEBCAMS[id];
+  if (!groups){ card.hidden = true; return; }
+  const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"&quot;");
+  card.hidden = false;
+  card.innerHTML =
+    `<div class="camHead"><span class="live">LIVE</span>📹 מצלמות חיות באזור</div>` +
+    groups.map(g => `<div class="camGroup">${esc(g.t)}</div><div class="camList">` +
+      g.cams.map(c => `<a class="camBtn" href="${esc(c.u)}" target="_blank" rel="noopener">📷 ${esc(c.n)}</a>`).join("") +
+      `</div>`).join("") +
+    `<div class="camNote">הקישורים נפתחים בחלון חדש באתרי צד שלישי (תיירות מקומית, bergfex, Panomax ועוד). בלילה המצלמות חשוכות, ולפעמים מצלמה בודדת מושבתת — לכן יש כמה לכל אזור.</div>`;
+}
+
+
+/* ---------- Shekel estimate next to every euro amount ----------
+   Prices stay in euro (that's what you pay on the spot); each amount gets "(≈₪…)" appended.
+   Rate: OFX mid-market, 29.10.2026. */
+const EUR_ILS = 3.47;
+function ilsRound(n){
+  const v = n * EUR_ILS;
+  return v < 20 ? Math.round(v) : v < 200 ? Math.round(v/5)*5 : Math.round(v/10)*10;
+}
+function ilsFmt(n){ return ilsRound(n).toLocaleString("en-US"); }
+const EUR_RE = /€(\d{1,3}(?:,\d{3})*(?:\.\d+)?)(?:\s?[-–]\s?€?(\d{1,3}(?:,\d{3})*(?:\.\d+)?))?/g;
+function addShekels(root){
+  if (!root) return;
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+  const nodes = [];
+  while (walker.nextNode()) nodes.push(walker.currentNode);
+  nodes.forEach(node => {
+    const t = node.nodeValue;
+    if (!t.includes("€")) return;
+    node.nodeValue = t.replace(EUR_RE, (m, a, b, off, str) => {
+      if (str.slice(off + m.length, off + m.length + 4).includes("₪")) return m;   // already converted
+      const x = parseFloat(a.replace(/,/g, "")), y = b ? parseFloat(b.replace(/,/g, "")) : null;
+      return m + ` (≈₪${ilsFmt(x)}${y !== null ? "-" + ilsFmt(y) : ""})`;
+    });
+  });
+}
+
+/* ---------- App download buttons: open the phone's own store on a search for the app ---------- */
+document.addEventListener("click", (e) => {
+  const a = e.target.closest("a.appDl");
+  if (!a) return;
+  e.preventDefault();
+  const q = encodeURIComponent(a.dataset.app);
+  const ua = navigator.userAgent;
+  const isIOS = /iPhone|iPad|iPod/.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  const url = isIOS
+    ? "itms-apps://search.itunes.apple.com/WebObjects/MZSearch.woa/wa/search?media=software&term=" + q
+    : "https://play.google.com/store/search?q=" + q + "&c=apps";
+  if (isIOS) location.href = url; else window.open(url, "_blank", "noopener");
+});
+
+function selectDay(id){
+  const day = DAYS.find(d=>d.id===id);
+  if(!day) return;
+  // Restaurant picks are injected rather than written into each day's template, so all the
+  // food data lives in one place (EATS) instead of scattered across ten render functions.
+  panelEl.innerHTML = renderGallery(id) + day.render() + renderTickets(id) + renderToll(id) + renderEats(id);
+  injectRowWaze(id);
+  injectTraffic(id);
+  injectToll(id);
+  addShekels(panelEl);
+  fillWikiImages(panelEl);
+  document.querySelectorAll("nav.daynav button, nav.tabbar button").forEach(b=>b.classList.remove("active"));
+  document.getElementById("nav-"+id).classList.add("active");
+  if (DAY_SCROLL_IDS.includes(id)){
+    dayScrollIdx = DAY_SCROLL_IDS.indexOf(id);
+    scrollDayIntoView(id);
+  }
+  const isOverview = (id === "alt");
+  const isTrivia = (id === "trivia");
+  // Trivia and the costs table are reference pages, not places — a map, a forecast and a
+  // "navigate now" button would all be noise there, so hide the whole strip.
+  const noMap = isTrivia || ["checklist","forecast"].includes(id);
+  const segment = day.segment.length ? day.segment : FULL_ROUTE;
+
+  const mapCardEl = document.getElementById("mapCard");
+  if (mapCardEl) mapCardEl.hidden = noMap;
+
+  if (!noMap){
+    try { updateMap(segment, isOverview); } catch(e) { console.error("map update failed", e); }
+    updateNowBar(id);
+    injectWeather(id);
+    const wdLabel = weekdayShort(id);
+    mapTitleEl.textContent = (DAY_ICON[id]||"🗺️") + " מפה — " + (wdLabel ? wdLabel + " " : "") + day.nav;
+    mapSubEl.textContent = isOverview ? "כל המסלול" : "ממורכזת אוטומטית ביעד היום";
+  } else {
+    document.getElementById("nowBar").hidden = true;
+    document.getElementById("weatherCard").hidden = true;
+    if (isTrivia) initTrivia();
+    if (id === "checklist") initChecklist();
+    if (id === "forecast") initForecast();
+  }
+
+  renderWebcams(id);
+  updateFunFacts(id);
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+try { initMap(); } catch(e) { console.error("map init failed", e); }
+selectDay(TODAY_ID || "d1");
+
+/* ---------- Site-wide search ----------
+   Only one day's panel exists in the DOM at a time, so the index is built by rendering
+   every day into a detached element (same trick as getRowTimes) the first time the search
+   is opened. Each entry remembers {day, selector, index-within-selector}, so a result can
+   be re-found in the live panel after selectDay() re-renders it. The rendered string must
+   match what selectDay() builds, or the indexes would point at the wrong element. */
+const SEARCH_SECTIONS = [
+  {sel:".tag",                       kind:"תאריך וכותרת"},
+  {sel:"h2.title",                   kind:"כותרת היום"},
+  {sel:"table.sched td:first-child", kind:"לו״ז"},
+  {sel:".places .p",                 kind:"מה יש שם"},
+  {sel:".box",                       kind:"מידע"},
+  {sel:".tollBox li",                kind:"עלויות דרך"},
+  {sel:".eat .body",                 kind:"מסעדה"},
+  {sel:"table.kids td:first-child",  kind:"פרטים"},
+  {sel:"ul.altlist li",              kind:"חלופה"},
+  {sel:"ol.checklist li",            kind:"בדיקות לפני הנסיעה"},
+];
+// Pages built by their own JS (checklist state, live forecast, quiz) aren't indexable from
+// a detached render, so they stay out.
+const SEARCH_SKIP_DAYS = ["trivia", "forecast", "checklist"];   // "race" is static, so it stays searchable
+
+// Hebrew transliterations, so "הלשטט" finds Hallstatt and "vienna" finds וינה.
+const SEARCH_SYNONYMS = [
+  ["larnaca","לרנקה"], ["larnaka","לרנקה"], ["limassol","לימסול"], ["lefkara","לפקרה"],
+  ["finikoudes","פיניקודס טיילת"], ["mackenzie","מקנזי חוף"], ["metropolis","מטרופוליס קניון"],
+  ["molos","מולוס"], ["skala","סקאלה"], ["lazarus","לזרוס"], ["kato drys","קאטו דריס"],
+  ["hala sultan","האלה סולטן מסגד"], ["flamingo","פלמינגו"], ["marathon","מרתון מרוץ"], ["waze","וייז"],
+];
+function normText(s){
+  return (s||"")
+    .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+    .replace(/ß/g,"ss")
+    .toLowerCase()
+    .replace(/[״׳'"`]/g,"")
+    .replace(/\s+/g," ")
+    .trim();
+}
+function synonymExtra(hay){
+  let extra = "";
+  SEARCH_SYNONYMS.forEach(([lat, heb]) => {
+    if (hay.includes(lat)) extra += " " + heb;
+    else if (heb.split(" ").some(w => hay.includes(w))) extra += " " + lat;
+  });
+  return extra;
+}
+function escHtml(s){
+  return String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+}
+
+let SEARCH_INDEX = null;
+function buildSearchIndex(){
+  if (SEARCH_INDEX) return SEARCH_INDEX;
+  const idx = [];
+  const tmp = document.createElement("div");
+  DAYS.forEach(day => {
+    if (SEARCH_SKIP_DAYS.includes(day.id)) return;
+    tmp.innerHTML = day.render() + renderToll(day.id) + renderEats(day.id);
+    SEARCH_SECTIONS.forEach(sec => {
+      tmp.querySelectorAll(sec.sel).forEach((el, i) => {
+        const text = el.textContent.replace(/\s+/g," ").trim();
+        if (text.length < 3) return;
+        const base = normText(text);
+        idx.push({dayId:day.id, sel:sec.sel, i, kind:sec.kind, text,
+                  hay: base + " " + normText(sec.kind) + synonymExtra(base)});
+      });
+    });
+  });
+  Object.keys(LOC).forEach(k => {
+    const loc = LOC[k];
+    const text = loc.label + (loc.address ? " — " + loc.address : "");
+    const base = normText(text);
+    idx.push({place:k, kind:"מקום", text, hay: base + synonymExtra(base)});
+  });
+  SEARCH_INDEX = idx;
+  return idx;
+}
+
+function runSearch(q){
+  const nq = normText(q);
+  if (nq.length < 2) return null;
+  const tokens = nq.split(" ").filter(Boolean);
+  const out = [];
+  buildSearchIndex().forEach(e => {
+    if (!tokens.every(t => e.hay.includes(t))) return;
+    let score = e.hay.indexOf(tokens[0]);
+    if (e.place) score -= 400;
+    if (e.sel === "h2.title" || e.sel === ".tag") score -= 300;
+    if (e.kind === "לו״ז") score -= 60;
+    out.push({e, score});
+  });
+  out.sort((a,b) => a.score - b.score);
+  return out;
+}
+
+// Highlights the matched term inside a trimmed excerpt, so long info boxes stay scannable.
+function markSnippet(text, rawToken){
+  const MAX = 140;
+  const i = rawToken ? text.toLowerCase().indexOf(rawToken.toLowerCase()) : -1;
+  const start = i > 60 ? i - 50 : 0;
+  const piece = text.slice(start, start + MAX);
+  const pre = start > 0 ? "…" : "";
+  const post = (start + MAX) < text.length ? "…" : "";
+  const rel = i - start;
+  if (i >= 0 && rel >= 0 && rel + rawToken.length <= piece.length){
+    return pre + escHtml(piece.slice(0, rel)) +
+           "<mark>" + escHtml(piece.slice(rel, rel + rawToken.length)) + "</mark>" +
+           escHtml(piece.slice(rel + rawToken.length)) + post;
+  }
+  return pre + escHtml(piece) + post;
+}
+
+function renderSearchResults(q){
+  const box = document.getElementById("searchResults");
+  const results = runSearch(q);
+  if (results === null){
+    box.innerHTML = `<div class="searchHint">הקלידו שתי אותיות ומעלה. אפשר לחפש שם מקום (לפקרה, פלמינגו, מרוץ), מסעדה, שם מלון, שעה מהלו״ז או כל טקסט מהאתר.</div>`;
+    return;
+  }
+  if (!results.length){
+    box.innerHTML = `<div class="searchEmpty">אין תוצאות ל"${escHtml(q.trim())}". נסו מילה אחת קצרה יותר.</div>`;
+    return;
+  }
+  const token = q.trim().split(/\s+/)[0];
+  const places = results.filter(r => r.e.place).slice(0, 6);
+  const byDay = {};
+  results.filter(r => !r.e.place).forEach(r => {
+    (byDay[r.e.dayId] = byDay[r.e.dayId] || []).push(r);
+  });
+
+  let html = "";
+  if (places.length){
+    html += `<div class="searchGroup"><h3 class="searchGroupHead">📍 מקומות וניווט</h3>` +
+      places.map(r => `<div class="searchPlaceRow">
+        <span class="nm">${LOC_ICON[r.e.place] || "📍"} ${markSnippet(r.e.text, token)}</span>
+        <a class="rowWaze" href="${wazeLink(r.e.place)}" target="_blank" rel="noopener" title="נווט ב-Waze">🧭</a>
+      </div>`).join("") + `</div>`;
+  }
+  DAYS.forEach(d => {
+    const list = byDay[d.id];
+    if (!list) return;
+    html += `<div class="searchGroup"><h3 class="searchGroupHead">${DAY_ICON[d.id] || "📍"} ${d.nav} · ${d.navSub}</h3>` +
+      list.slice(0, 8).map(r => `<button type="button" class="searchItem"
+        data-day="${d.id}" data-sel="${escHtml(r.e.sel)}" data-i="${r.e.i}">
+        <span class="kind">${r.e.kind}</span>${markSnippet(r.e.text, token)}</button>`).join("") + `</div>`;
+  });
+  box.innerHTML = html;
+}
+
+function openSearch(){
+  const sheet = document.getElementById("searchSheet");
+  const input = document.getElementById("searchInput");
+  if (!sheet || !input) return;
+  sheet.hidden = false;
+  document.body.classList.add("searchOpen");
+  renderSearchResults(input.value);
+  setTimeout(() => input.focus(), 60);
+}
+function closeSearch(){
+  const sheet = document.getElementById("searchSheet");
+  if (!sheet) return;
+  sheet.hidden = true;
+  document.body.classList.remove("searchOpen");
+}
+
+// Re-finds the matched element in the freshly rendered panel and flashes it.
+function jumpToResult(dayId, sel, i){
+  closeSearch();
+  selectDay(dayId);
+  setTimeout(() => {
+    const el = panelEl.querySelectorAll(sel)[Number(i)];
+    if (!el) return;
+    const target = el.closest("tr") || el;
+    target.classList.add("searchHit");
+    target.scrollIntoView({behavior:"smooth", block:"center"});
+    setTimeout(() => target.classList.remove("searchHit"), 2400);
+  }, 240);
+}
+
+(function initSearch(){
+  const input = document.getElementById("searchInput");
+  let debounce = null;
+  input?.addEventListener("input", () => {
+    clearTimeout(debounce);
+    debounce = setTimeout(() => renderSearchResults(input.value), 120);
+  });
+  input?.addEventListener("keydown", e => { if (e.key === "Escape") closeSearch(); });
+  document.getElementById("searchClose")?.addEventListener("click", closeSearch);
+  document.addEventListener("keydown", e => { if (e.key === "Escape") closeSearch(); });
+  document.getElementById("searchResults")?.addEventListener("click", e => {
+    const btn = e.target.closest(".searchItem");
+    if (!btn) return;
+    jumpToResult(btn.dataset.day, btn.dataset.sel, btn.dataset.i);
+  });
+})();
+
+/* ---------- PWA auto-refresh: every time the app is opened/foregrounded, actively
+   check for a newer version and, if one takes over, reload automatically so the
+   visitor never has to manually clear the cache. ---------- */
+if ("serviceWorker" in navigator){
+  // Only auto-reload on a REAL update (a newer service worker replacing one that was
+  // already controlling this page) — not on the very first install, where the first
+  // "controllerchange" just means the page has a controller for the first time.
+  let hadController = !!navigator.serviceWorker.controller;
+
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("sw.js", { updateViaCache: "none" }).then((reg) => {
+      // Re-check for a new version every time the app is opened or comes back to the foreground.
+      reg.update().catch(()=>{});
+      document.addEventListener("visibilitychange", () => {
+        if (document.visibilityState === "visible") reg.update().catch(()=>{});
+      });
+    }).catch(()=>{});
+  });
+
+  let swRefreshed = false;
+  navigator.serviceWorker.addEventListener("controllerchange", () => {
+    if (!hadController){ hadController = true; return; }
+    if (swRefreshed) return;
+    swRefreshed = true;
+    window.location.reload();
+  });
+}
+
+/* ---------- Install prompt: proactively offer to install the app, instead of
+   relying on the visitor to find the option in the browser menu themselves. ---------- */
+(function(){
+  const DISMISS_KEY = "larnaca2026_install_dismissed_v1";
+  const banner = document.getElementById("installBanner");
+  const textEl = document.getElementById("installBannerText");
+  const btnEl = document.getElementById("installBannerBtn");
+  const closeEl = document.getElementById("installBannerClose");
+  let deferredPrompt = null;
+
+  function isStandalone(){
+    return window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
+  }
+  function isIOS(){
+    const ua = window.navigator.userAgent;
+    const iOSDevice = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
+    const iPadOS13Plus = navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1;
+    return iOSDevice || iPadOS13Plus;
+  }
+  function dismissed(){
+    try { return localStorage.getItem(DISMISS_KEY) === "1"; } catch(e){ return false; }
+  }
+
+  function show(mode){
+    if (!banner || isStandalone() || dismissed()) return;
+    if (mode === "ios"){
+      textEl.textContent = "התקינו את האתר כאפליקציה: הקישו שיתוף ⬆️ ואז \"הוסף למסך הבית\"";
+      btnEl.hidden = true;
+    } else {
+      textEl.textContent = "התקינו את האתר כאפליקציה למסך הבית — גישה מהירה גם בלי אינטרנט";
+      btnEl.hidden = false;
+    }
+    banner.hidden = false;
+  }
+  function hide(){
+    if (banner) banner.hidden = true;
+  }
+
+  window.addEventListener("beforeinstallprompt", (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    show("android");
+  });
+
+  window.addEventListener("appinstalled", () => {
+    hide();
+    try { localStorage.setItem(DISMISS_KEY, "1"); } catch(e){}
+  });
+
+  btnEl && btnEl.addEventListener("click", async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    try { await deferredPrompt.userChoice; } catch(e){}
+    deferredPrompt = null;
+    hide();
+  });
+
+  closeEl && closeEl.addEventListener("click", () => {
+    hide();
+    try { localStorage.setItem(DISMISS_KEY, "1"); } catch(e){}
+  });
+
+  if (isIOS() && !isStandalone() && !dismissed()){
+    setTimeout(() => show("ios"), 1500);
+  }
+})();
+</script>
+
+</body>
+</html>
