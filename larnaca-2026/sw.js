@@ -1,6 +1,6 @@
 // כל טיול מקבל מטמון משלו עם קידומת משלו, כדי שלא ימחק את המטמון של הלובי או של טיולים אחרים.
 const PREFIX = "larnaca2026-";
-const CACHE = PREFIX + "v2";
+const CACHE = PREFIX + "v3";
 const ASSETS = [
   "./",
   "./index.html",
