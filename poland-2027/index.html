@@ -1534,10 +1534,10 @@ const DAYS = [
       <tr><td><b>אפרת</b> — 2 הורים · דולב (11) · דותן (8) · ליה (3)</td><td>5 נפשות</td></tr>
     </table>
     <div class="sectionLabel">✈️ הטיסות שלנו</div>
-    <div class="box yellow"><b>עוד לא הוזמנו — זו האופציה שבודקים</b>LOT, ישיר הלוך-חזור, $1,360.90 ל-5 נפשות. כשתהיה הזמנה, נעדכן כאן את הסטטוס ואת הכבודה.</div>
+    <div class="box green"><b>✅ הוזמנו — 1.11.2026</b>LOT, ישיר הלוך-חזור, מחלקת תיירים. משפחת רוזנבלום: $1,297.90 ל-5 נפשות. מזוודה רשומה אחת לכל נוסע כלולה במחיר. הכרטיסים לא ניתנים להחזר, ושינויים מוגבלים.</div>
     ${renderFlights()}
     <div class="boxes">
-      <div class="box tan"><b>כבודה ב-LOT</b>בכרטיס הזול ביותר (Saver) כלול רק תיק יד, ומזוודה רשומה בתוספת. בכרטיסים היקרים יותר המזוודה כלולה. 10 נוסעים — לבדוק מה כלול לפני שבוחרים סוג כרטיס.</div>
+      <div class="box tan"><b>כבודה ב-LOT</b>בכרטיסים שהזמנו: מזוודה רשומה אחת לכל נוסע ותיק יד (המשקל המותר — לבדוק ב״ניהול הזמנה״ באתר LOT). אסור להעלות למטוס תרסיסים, זיקוקים ונוזלים דליקים. משפחת אפרת — לוודא שגם בכרטיסים שלכם המזוודה כלולה.</div>
       <div class="box red"><b>שתי טיסות לילה</b>בהלוך מגיעים לנתב״ג ב-02:40 — קמים בסביבות 01:30. בחזור נוחתים ב-04:25. לתאם איסוף מהשדה בשני הכיוונים, ולהשאיר את יום ג׳ 15.6 פנוי להתאוששות.</div>
     </div>
     <div class="sectionLabel">🏠 איפה ישנים</div>
@@ -1600,7 +1600,7 @@ const DAYS = [
     </ul>
     <div class="sectionLabel">✅ מה צריך לסגור</div>
     <ol class="checklist">
-      <li>להזמין את טיסות LOT (7.6 ו-14.6), ולבדוק מה כלול בכבודה.</li>
+      <li><s>להזמין את טיסות LOT (7.6 ו-14.6)</s> — ✅ הוזמנו ב-1.11.2026, מזוודה אחת לנוסע כלולה.</li>
       <li>חברת השכרת הקרוואנים ונקודת האיסוף: גודל, מחיר ליום, ביטוח, ציוד מטבח ומצעים.</li>
       <li>רכבים לימי העיר: שני רכבים שכורים, או מיניבוס 9 מקומות ועוד רכב קטן.</li>
       <li>קמפינגים ספציפיים לשני הלילות.</li>
@@ -1987,11 +1987,11 @@ const FLIGHTS = [
   {no:"LO 2112", airline:"LOT POLISH AIRLINES", dur:"3ש׳ 50ד׳",
    from:{code:"TLV", city:"Tel Aviv", time:"05:40"},
    to:  {code:"KRK", city:"Kraków",   time:"08:30"},
-   date:"07 Jun 2027", weekday:"יום ב׳", cls:"לא הוזמן", bag:"לבדוק"},
+   date:"07 Jun 2027", weekday:"יום ב׳", cls:"תיירים ✓", bag:"מזוודה 1"},
   {no:"LO 2111", airline:"LOT POLISH AIRLINES", dur:"3ש׳ 30ד׳",
    from:{code:"KRK", city:"Kraków",   time:"23:55"},
    to:  {code:"TLV", city:"Tel Aviv", time:"04:25"},
-   date:"14 Jun 2027", weekday:"יום ב׳", cls:"לא הוזמן", bag:"לבדוק"},
+   date:"14 Jun 2027", weekday:"יום ב׳", cls:"תיירים ✓", bag:"מזוודה 1"},
 ];
 
 function renderFlights(){
@@ -2054,7 +2054,7 @@ const COST_FAMILIES = [
 // Whole-trip estimate per family. lo/hi in złoty; the flights are a fixed budget in dollars.
 // Totals are computed here, so changing one line updates the sum.
 const USD_ILS = 3.10;                 // OFX, 15.10.2026
-const FLIGHT_BUDGET_USD = 1360.90;    // per family (5 people) — LOT quote
+const FLIGHT_BUDGET_USD = 1297.90;    // Rosenblum family (5 people) — LOT, booked 1.11.2026
 const TRIP_EST = [
   {label:"אטרקציות (הטבלה למעלה)", lo:COST_ROWS.filter(r=>!r.opt).reduce((t,r)=>t+famRowCost(r),0), hi:COST_ROWS.filter(r=>!r.opt).reduce((t,r)=>t+famRowCost(r),0)},
   {label:"קרוואן ל-3 ימים + דמי שירות (עונת ביניים)", lo:1350, hi:3000},
@@ -2107,14 +2107,14 @@ function renderCosts(){
     <div class="costFam">
       <h3>הערכה ל-2 מבוגרים + 3 ילדים, 8 ימים</h3>
       <table>
-        <tr><td><bdi>טיסות LOT (הצעת מחיר)</bdi></td><td>$${FLIGHT_BUDGET_USD.toLocaleString("en-US",{minimumFractionDigits:2})} (≈${ils(FLIGHT_BUDGET_USD*USD_ILS)})</td></tr>
+        <tr><td><bdi>טיסות LOT (הוזמנו ✓)</bdi></td><td>$${FLIGHT_BUDGET_USD.toLocaleString("en-US",{minimumFractionDigits:2})} (≈${ils(FLIGHT_BUDGET_USD*USD_ILS)})</td></tr>
         ${TRIP_EST.map(r => `<tr><td><bdi>${r.label}</bdi></td><td>${r.lo === r.hi ? eur(r.lo) : "~" + r.lo.toLocaleString("en-US") + "-" + r.hi.toLocaleString("en-US") + " zł"}</td></tr>`).join("")}
         <tr class="sum"><td>סה״כ משוער לכל משפחה</td><td>${ils(FLIGHT_BUDGET_USD*USD_ILS + TRIP_EST.reduce((t,r)=>t+r.lo,0)*PLN_ILS)} – ${ils(FLIGHT_BUDGET_USD*USD_ILS + TRIP_EST.reduce((t,r)=>t+r.hi,0)*PLN_ILS)}</td></tr>
       </table>
     </div>
     <div class="boxes">
       <div class="box yellow"><b>אם חברת הקרוואנים בכל זאת דורשת 7 ימים</b>אנחנו אוספים בעונת הביניים, אז סביר שלא. אם כן (כי ההשכרה גולשת לתחילת העונה הגבוהה), התוספת היא כ-1,500-3,700 zł למשפחה.</div>
-      <div class="box tan"><b>על מה ההערכה מבוססת</b>הטיסות — הצעת המחיר של LOT, $1,360.90 ל-5 נפשות. האטרקציות — המחירים בטבלה למעלה. הקרוואן — מחירי השכרה ב-2026. הרכב — רכב סטיישן ל-8 ימים רצופים, בלי להחזיר בימי הקרוואן. הלינה והאוכל — הערכה בלבד. שערים: דולר ≈ ₪3.10, זלוטי ≈ ₪0.80 (אוקטובר 2026).</div>
+      <div class="box tan"><b>על מה ההערכה מבוססת</b>הטיסות — המחיר ששילמנו ל-LOT, $1,297.90 ל-5 נפשות (כולל מזוודה לכל נוסע). האטרקציות — המחירים בטבלה למעלה. הקרוואן — מחירי השכרה ב-2026. הרכב — רכב סטיישן ל-8 ימים רצופים, בלי להחזיר בימי הקרוואן. הלינה והאוכל — הערכה בלבד. שערים: דולר ≈ ₪3.10, זלוטי ≈ ₪0.80 (אוקטובר 2026).</div>
     </div>
     <div class="box tan"><b>עוד לא בפנים</b>מזכרות, ומלון ליד השדה אם בוחרים בו ללילה האחרון. נחליף את ההערכות במספרים אמיתיים כשיגיעו הצעות מחיר.</div>
 
