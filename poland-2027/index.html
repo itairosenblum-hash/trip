@@ -1065,7 +1065,8 @@ const LOC = {
   energylandia:{lat:49.9993, lon:19.4103, label:"Energylandia", address:"Energylandia, Zator, Poland"},
   zatorland:   {lat:49.9947, lon:19.4304, label:"Zatorland — פארק הדינוזאורים", address:"Zatorland, Zator, Poland"},
   rabkoland:   {lat:49.6086, lon:19.9658, label:"Rabkoland — פארק שעשועים ברבקה", address:"Rabkoland, Rabka-Zdrój, Poland"},
-  bania:       {lat:49.3946, lon:20.1050, label:"Hotel Bania + Termy Bania", address:"Hotel Bania, Białka Tatrzańska, Poland"},
+  hotel:       {lat:49.3890, lon:20.1030, label:"Góralski Resort Family & SPA — המלון בהרים", address:"Góralski Resort Family & SPA, Środkowa 158e, Białka Tatrzańska, Poland"},
+  bania:       {lat:49.3946, lon:20.1050, label:"Termy Bania — בריכות חמות", address:"Termy Bania, Białka Tatrzańska, Poland"},
   niedzica:    {lat:49.4238, lon:20.3195, label:"טירת Niedzica (Zamek Dunajec)", address:"Zamek Dunajec, Niedzica, Poland"},
   dunajec:     {lat:49.4107, lon:20.3626, label:"מעגן הרפסודות Sromowce-Kąty", address:"Przystań Flisacka Sromowce Wyżne-Kąty, Poland"},
   szczawnica:  {lat:49.4262, lon:20.4870, label:"סוף השיט — Szczawnica"},
@@ -1083,8 +1084,8 @@ const LOC = {
   auschwitz:   {lat:50.0270, lon:19.2040, label:"מוזיאון אושוויץ-בירקנאו", address:"Auschwitz-Birkenau Memorial, Oświęcim, Poland"},
   chocholow:   {lat:49.2985, lon:19.8330, label:"Chochołowskie Termy", address:"Chochołowskie Termy, Chochołów, Poland"},
 };
-const FULL_ROUTE = ["krk_airport","rabkoland","bania",
-  "dunajec","szczawnica","niedzica","bania","gubalowka","bania",
+const FULL_ROUTE = ["krk_airport","rabkoland","hotel","bania","hotel",
+  "dunajec","szczawnica","niedzica","hotel","gubalowka","hotel",
   "wawel","krakow","energylandia","krakow","wieliczka","bonarka","krakow",
   "ogrod","kazimierz","vistula","krakow","ojcow","pieskowa","krakow","krk_airport"];
 
@@ -1097,10 +1098,10 @@ const DAYS = [
 },
 {
   id:"d1", nav:"7.6", navSub:"נחיתה + Rabkoland",
-  segment: ["krk_airport","rabkoland","bania"],
+  segment: ["krk_airport","rabkoland","hotel","bania","hotel"],
   render: () => `
     <div class="tag">יום ב׳, 7.6 · יום הגעה • ישר להרים, לפארק שעשועים ולבריכות</div>
-    <h2 class="title">נחיתה ← Rabkoland ← Hotel Bania</h2>
+    <h2 class="title">נחיתה ← Rabkoland ← Góralski Resort</h2>
     <div class="meta">טיסה: LOT ‏LO 2112, ‏05:40 (שעון ישראל) → 08:30 (שעון פולין, שעה אחת פחות) · נסיעות: שדה התעופה → Rabka-Zdrój כשעה ורבע-שעה וחצי (A4 ו-S7); Rabka → Białka Tatrzańska כ-50 דק׳</div>
     <table class="sched">
       <tr><td>הגעה לנתב״ג, טרמינל 3</td><td>02:40</td></tr>
@@ -1110,19 +1111,19 @@ const DAYS = [
       <tr><td>נסיעה דרומה לרבקה</td><td>10:15-11:30</td></tr>
       <tr><td>Rabkoland — קרוסלות, כפר ויקינגים וחווה. צהריים בתוך הפארק</td><td>11:30-14:30</td></tr>
       <tr><td>נסיעה לבְּיַאלְקָה טַטְשַׁנְסְקָה</td><td>14:45-15:45</td></tr>
-      <tr><td>צ׳ק-אין ב-Hotel Bania</td><td>~15:45</td></tr>
-      <tr><td>Termy Bania — בריכות חמות ומגלשות, צמוד למלון</td><td>16:15-18:30</td></tr>
-      <tr><td>ארוחת ערב במלון ושינה מוקדמת</td><td>19:00</td></tr>
+      <tr><td>צ׳ק-אין ב-Góralski Resort</td><td>~15:45</td></tr>
+      <tr><td>Termy Bania — בריכות חמות ומגלשות, 3 דק׳ נסיעה מהמלון</td><td>16:15-18:30</td></tr>
+      <tr><td>ארוחת ערב ושינה מוקדמת</td><td>19:00</td></tr>
     </table>
     <div class="sectionLabel">📍 מה יש שם</div>
     <div class="places">
       <div class="p"><b>Rabkoland — </b>פארק שעשועים משפחתי של כ-2 הקטאר, בנוי כמו עיירת אגדות: כפר ויקינגים, ג׳ונגל הררי, עמק הדבורים והחווה של דודה מרינה. קרוסלות, רכבות קטנות ומתקנים שהורים עולים עליהם יחד עם הילדים. מושלם למאיה, ליה, עומר ודותן. לא צריך להבין מילה.</div>
-      <div class="p"><b>Hotel Bania — </b>המלון מחובר ישירות למתחם הבריכות Termy Bania, ולאורחים הכניסה לבריכות ולסאונות בלי הגבלה. יש חדר משחקים, מגרש משחקים, קולנוע לילדים, מיני-לונה פארק בחוץ ומפעילים כל יום.</div>
-      <div class="p"><b>Termy Bania — </b>בריכות מים חמים מינרליים בפנים ובחוץ, עם מגלשות, אזור פעוטות ונוף לטטרה.</div>
+      <div class="p"><b>Góralski Resort Family &amp; SPA — </b>המלון שלנו בהרים, ב-Białka Tatrzańska (Środkowa 158e). דירות עם 2 חדרי שינה ל-6, סאונה וג׳קוזי, מגרש משחקים בחוץ וחניה חינם. אין בריכה במלון — הבריכות ב-Termy Bania, כ-1.2 ק״מ משם.</div>
+      <div class="p"><b>Termy Bania — </b>בריכות מים חמים מינרליים בפנים ובחוץ, עם מגלשות, אזור פעוטות ונוף לטטרה. כרטיס לפי שעות.</div>
     </div>
     <div class="boxes">
       <div class="box green"><b>למה ישר להרים</b>בנחיתה כולם עייפים, ובקרקוב אי אפשר להיכנס לדירה לפני 15:00. כאן היום בנוי ככה שהילדים לא צריכים לחכות לכלום: פארק שעשועים בבוקר, ובריכות חמות עד הערב. וכשחוזרים לקרקוב בסוף הטיול, כבר רגילים לשעון ולאוכל.</div>
-      <div class="box tan"><b>אם כולם גמורים</b>מוותרים על Rabkoland ונוסעים ישר למלון (כשעתיים מהשדה). לשאול את המלון מראש אם אפשר להשאיר מזוודות ולהיכנס לבריכות עוד לפני הצ׳ק-אין.</div>
+      <div class="box tan"><b>אם כולם גמורים</b>מוותרים על Rabkoland ונוסעים ישר לבְּיַאלְקָה (כשעתיים מהשדה): משאירים מזוודות במלון ונכנסים ל-Termy Bania כבר בצהריים. לשאול את המלון מראש אם אפשר להשאיר מזוודות לפני הצ׳ק-אין.</div>
     </div>
     <div class="box red"><b>לבדוק לפני</b>Rabkoland עונתי, ולא פתוח כל יום. לבדוק בלוח הפתיחה באתר שהוא פתוח ביום שני 7.6. אם לא — מגרשי המשחקים בפארק העירוני של רבקה (Park Zdrojowy) הם עצירה חינמית וטובה.</div>
     <div class="footerbar">שלושה לילות באותו מלון — פורקים את המזוודות פעם אחת.</div>
@@ -1130,7 +1131,7 @@ const DAYS = [
 },
 {
   id:"d2", nav:"8.6", navSub:"רפסודות + אגם",
-  segment: ["bania","dunajec","szczawnica","dunajec","niedzica","bania"],
+  segment: ["hotel","dunajec","szczawnica","dunajec","niedzica","hotel"],
   render: () => `
     <div class="tag">יום ג׳, 8.6 · על המים • שיט ברפסודות בבוקר, בריכות אחר הצהריים</div>
     <h2 class="title">רפסודות בדונאיץ + אגם Czorsztyn</h2>
@@ -1144,8 +1145,8 @@ const DAYS = [
       <tr><td>שיט קצר באגם Czorsztyn מהמעגן שליד הטירה</td><td>13:15-13:45</td></tr>
       <tr><td>צהריים מול האגם</td><td>13:45-14:30</td></tr>
       <tr><td>חזרה למלון</td><td>14:30-15:15</td></tr>
-      <tr><td>בריכות, או מועדון הילדים והמיני-לונה פארק של המלון</td><td>15:30-18:30</td></tr>
-      <tr><td>ארוחת ערב במלון</td><td>19:00</td></tr>
+      <tr><td>מנוחה במלון — מגרש המשחקים לילדים, סאונה וג׳קוזי להורים (או סיבוב נוסף ב-Termy Bania)</td><td>15:30-18:30</td></tr>
+      <tr><td>ארוחת ערב</td><td>19:00</td></tr>
     </table>
     <div class="sectionLabel">📍 מה יש שם</div>
     <div class="places">
@@ -1158,12 +1159,12 @@ const DAYS = [
       <div class="box tan"><b>השיט הוא בכיוון אחד</b>השיט מסתיים בעיירה אחרת, ולכן חוזרים לרכבים במיניבוסים שממתינים בסוף השיט, בתשלום. לקחת מהרכב רק תיק קטן.</div>
     </div>
     <div class="box red"><b>הרפסודות והקטנות</b>השיט הקצר ביותר הוא עד Szczawnica — כשעתיים ורבע על הרפסודה, בלי שירותים ובלי אפשרות לרדת באמצע. לבדוק מול המפעיל מאיזה גיל מותר לעלות. <b>אם מאיה וליה לא עולות:</b> הורה אחד נוסע איתן ברכב ל-Szczawnica (כחצי שעה), מבלה בטיילת ומחכה לשאר בסוף השיט — וכך גם לא צריך את המיניבוס חזרה. על הרפסודות מקבלים חגורות הצלה.</div>
-    <div class="footerbar">אחר הצהריים חופשי במלון — הילדים בבריכות, ההורים נחים.</div>
+    <div class="footerbar">אחר הצהריים חופשי — מי שרוצה עוד בריכות, Termy Bania במרחק 3 דק׳ נסיעה.</div>
   `
 },
 {
   id:"d3", nav:"9.6", navSub:"זקופנה",
-  segment: ["bania","gubalowka","krupowki","bania"],
+  segment: ["hotel","gubalowka","krupowki","hotel"],
   render: () => `
     <div class="tag">יום ד׳, 9.6 · נוף לכל הרכס, בלי טיפוס</div>
     <h2 class="title">זקופנה וגובאלובקה</h2>
@@ -1174,8 +1175,8 @@ const DAYS = [
       <tr><td>עלייה ברכבל על המסילה לגובאלובקה</td><td>10:00</td></tr>
       <tr><td>למעלה: נוף פתוח לכל רכס הטטרה, מגלשת הרים, מגרשי משחקים ודוכנים</td><td>10:15-13:00</td></tr>
       <tr><td>ירידה ברכבל ורחוב Krupówki — צהריים, גבינת אוסצ׳יפק ומזכרות</td><td>13:00-15:30</td></tr>
-      <tr><td>חזרה למלון ובריכה אחרונה</td><td>16:00-18:30</td></tr>
-      <tr><td>ערב אחרון בהרים — ארוחת ערב במלון</td><td>19:00</td></tr>
+      <tr><td>חזרה למלון — מגרש משחקים ומנוחה</td><td>16:00-18:30</td></tr>
+      <tr><td>ערב אחרון בהרים — ארוחת ערב</td><td>19:00</td></tr>
     </table>
     <div class="sectionLabel">📍 מה יש שם</div>
     <div class="places">
@@ -1186,19 +1187,19 @@ const DAYS = [
       <div class="box green"><b>למה גובאלובקה</b>את כל רכס הטטרה רואים מלמעלה בלי לטפס — הרכבל עושה את העבודה. מתאים לכולם, מהבנות בנות ה-3 ועד דן ודולב.</div>
       <div class="box tan"><b>אופציה לגדולים</b>הרכבל לקספרובי ווירך (Kasprowy Wierch) עולה לפסגה של כמעט 2,000 מטר — נוף של פסגות בלי לטפס. הורה אחד עם דן, דולב, עומר ודותן, והשאר בגובאלובקה. להזמין כרטיסים מראש, וללבוש מעיל — למעלה קר.</div>
     </div>
-    <div class="box red"><b>מזג אוויר</b>בטטרה מזג האוויר משתנה מהר. אם יורד גשם — נשארים במלון ובבריכות, ומחליפים את זקופנה עם יום הרפסודות או מקצרים אותה.</div>
+    <div class="box red"><b>מזג אוויר</b>בטטרה מזג האוויר משתנה מהר. אם יורד גשם — יום בריכות מקורות ב-Termy Bania, ומחליפים את זקופנה עם יום הרפסודות או מקצרים אותה.</div>
     <div class="footerbar">בערב: לארוז — מחר עוברים לקרקוב.</div>
   `
 },
 {
   id:"d4", nav:"10.6", navSub:"קרקוב + הדרקון",
-  segment: ["bania","wawel","smok","krakow","rynek","krakow"],
+  segment: ["hotel","wawel","smok","krakow","rynek","krakow"],
   render: () => `
-    <div class="tag">יום ה׳, 10.6 · יורדים לעיר • בוקר בבריכה, אחר הצהריים הדרקון</div>
+    <div class="tag">יום ה׳, 10.6 · יורדים לעיר • בוקר רגוע, אחר הצהריים הדרקון</div>
     <h2 class="title">חזרה לקרקוב + הדרקון של ואוול</h2>
     <div class="meta">נסיעה: Białka Tatrzańska → קרקוב כשעתיים (DK49, DK47 ו-S7) · בקרקוב: ואוול → הדירה → הכיכר ברגל או בחשמלית</div>
     <table class="sched">
-      <tr><td>ארוחת בוקר, בריכה או מועדון הילדים</td><td>08:00-10:30</td></tr>
+      <tr><td>ארוחת בוקר, מגרש המשחקים של המלון ואריזה</td><td>08:00-10:30</td></tr>
       <tr><td>צ׳ק-אאוט ויציאה לקרקוב</td><td>11:00</td></tr>
       <tr><td>נסיעה צפונה לקרקוב</td><td>11:00-13:00</td></tr>
       <tr><td>צהריים בטיילת הוויסלה מתחת לגבעת ואוול</td><td>13:15-14:15</td></tr>
@@ -1366,9 +1367,9 @@ const DAYS = [
     <h2 class="title">מידע כללי לטיול</h2>
     <div class="sectionLabel">🗓️ הלו״ז בקצרה</div>
     <table class="kids" style="margin-bottom:18px;">
-      <tr><td><b>יום 1 · ב׳ 7.6</b> — נחיתה ← Rabkoland ← בריכות חמות</td><td>Hotel Bania</td></tr>
-      <tr><td><b>יום 2 · ג׳ 8.6</b> — רפסודות בדונאיץ + אגם Czorsztyn</td><td>Hotel Bania</td></tr>
-      <tr><td><b>יום 3 · ד׳ 9.6</b> — זקופנה וגובאלובקה</td><td>Hotel Bania</td></tr>
+      <tr><td><b>יום 1 · ב׳ 7.6</b> — נחיתה ← Rabkoland ← בריכות חמות</td><td>Góralski Resort</td></tr>
+      <tr><td><b>יום 2 · ג׳ 8.6</b> — רפסודות בדונאיץ + אגם Czorsztyn</td><td>Góralski Resort</td></tr>
+      <tr><td><b>יום 3 · ד׳ 9.6</b> — זקופנה וגובאלובקה</td><td>Góralski Resort</td></tr>
       <tr><td><b>יום 4 · ה׳ 10.6</b> — חזרה לקרקוב, ואוול והדרקון, רחבת השוק</td><td>קרקוב</td></tr>
       <tr><td><b>יום 5 · ו׳ 11.6</b> — Energylandia, ובערב ליל שבת</td><td>קרקוב</td></tr>
       <tr><td><b>יום 6 · שבת 12.6</b> — מכרה המלח + קניון Bonarka</td><td>קרקוב</td></tr>
@@ -1389,14 +1390,15 @@ const DAYS = [
     </div>
     <div class="sectionLabel">🏠 איפה ישנים</div>
     <table class="kids" style="margin-bottom:18px;">
-      <tr><td><b>Hotel Bania, בְּיַאלְקָה טַטְשַׁנְסְקָה</b> — שלושה לילות בהרים. המלון מחובר לפארק המים Termy Bania (כניסה חופשית לאורחים), עם מועדון ילדים ומפעילים. ארוחת בוקר כלולה. צריך יחידה ל-5 לכל משפחה.</td><td><span dir="ltr">7.6 – 10.6</span></td></tr>
+      <tr><td><b>✅ Góralski Resort Family &amp; SPA, בְּיַאלְקָה טַטְשַׁנְסְקָה</b> — שלושה לילות בהרים. Środkowa 158e, כ-1.2 ק״מ מ-Termy Bania. דירה עם 2 חדרי שינה לכל משפחה.</td><td><span dir="ltr">7.6 – 10.6</span></td></tr>
       <tr><td><b>קרקוב — דירה עם חניה</b> — ארבעה לילות באותו מקום. מועמד מוביל: Riverside Aparthotel (דירת 2 חדרי שינה, 76 מ״ר, עד 6 אנשים, חניה מקורה), שתי דירות — אחת לכל משפחה. לבקש לשמור מזוודות ב-14.6 עד הערב.</td><td><span dir="ltr">10.6 – 14.6</span></td></tr>
     </table>
-    <div class="sectionLabel">🏨 על Hotel Bania</div>
+    <div class="sectionLabel">🏨 על Góralski Resort</div>
     <div class="boxes">
-      <div class="box green"><b>למה דווקא שם</b>אחרי כל טיול בהרים חוזרים לבריכות חמות, למגלשות ולמועדון הילדים — בלי לארוז ובלי לנסוע. מהמלון: זקופנה כ-30-40 דק׳, מעגן הרפסודות כ-40 דק׳.</div>
-      <div class="box tan"><b>מה לשאול במייל</b>חדר משפחתי או דירה ל-2 מבוגרים + 3 ילדים (11, 8, 3) — שתי יחידות · מחיר ל-7-10.6 · מחיר לילדים · חניה לשני רכבים · האם אפשר להיכנס לבריכות ב-7.6 לפני הצ׳ק-אין · מדיניות ביטול. ‏rezerwacja@bania.pl · ‎+48 18 534 4370</div>
-      <div class="box yellow"><b>מחיר מנחה</b>באתר: מ-357 zł לאדם ללילה כולל ארוחת בוקר (מחיר יומי, 2026). לילדים יש מחיר אחר — רק בהצעת מחיר.</div>
+      <div class="box green"><b>מה יש שם</b>דירות עם 2 חדרי שינה (עד 6 אנשים), בחלקן מטבח. סאונה, ג׳קוזי ועיסויים, מגרש משחקים בחוץ, פינת על האש, קבלה 24 שעות וחניה פרטית חינם.</div>
+      <div class="box yellow"><b>אין בריכה במלון</b>הבריכות והמגלשות ב-Termy Bania, כ-1.2 ק״מ (3 דק׳ נסיעה). הכניסה בתשלום לפי שעות — בעמוד העלויות.</div>
+      <div class="box tan"><b>לוודא מול המלון</b>שתי הדירות — אחת לכל משפחה, עם 2 חדרי שינה · האם ארוחת בוקר כלולה · שעת צ׳ק-אין ב-7.6 (מגיעים בסביבות 15:45) · שתי חניות · האם יש מטבח בדירה.</div>
+      <div class="box tan"><b>מהמלון</b>זקופנה כ-30-40 דק׳ · מעגן הרפסודות כ-40 דק׳ · קרקוב כשעתיים.</div>
     </div>
     <div class="sectionLabel">🎟️ הזמנת כרטיסים — האתרים הרשמיים</div>
     ${renderTicketList()}
@@ -1440,14 +1442,14 @@ const DAYS = [
     <div class="sectionLabel">⏱️ מבנה הטיול</div>
     <ul class="altlist">
       <li>הטיול הוא <b>8 ימים</b> — מ-7.6 עד 14.6, עם טיסת לילה בסוף.</li>
-      <li><b>3 לילות בהרים</b> ב-Hotel Bania (7-10.6), ואז <b>4 לילות בקרקוב</b> (10-14.6) — ובלילה של 14.6 בטיסה.</li>
-      <li>מתחילים בהרים כי ביום הנחיתה ממילא אי אפשר להיכנס לדירה בקרקוב לפני הצהריים, ובמלון יש בריכות שמחכות. קרקוב בסוף — קרוב לשדה ביום הטיסה.</li>
+      <li><b>3 לילות בהרים</b> ב-Góralski Resort בבְּיַאלְקָה (7-10.6), ואז <b>4 לילות בקרקוב</b> (10-14.6) — ובלילה של 14.6 בטיסה.</li>
+      <li>מתחילים בהרים כי ביום הנחיתה ממילא אי אפשר להיכנס לדירה בקרקוב לפני הצהריים, וב-Termy Bania, ליד המלון, יש בריכות שמחכות. קרקוב בסוף — קרוב לשדה ביום הטיסה.</li>
       <li>שני רכבים שכורים, אחד לכל משפחה, מהשדה ועד השדה. בלי קרוואנים.</li>
     </ul>
     <div class="sectionLabel">✅ מה צריך לסגור</div>
     <ol class="checklist">
       <li><s>להזמין את טיסות LOT (7.6 ו-14.6)</s> — ✅ הוזמנו ב-1.11.2026, מזוודה אחת לנוסע כלולה.</li>
-      <li>Hotel Bania ל-7-10.6 — שתי יחידות ל-5 נפשות.</li>
+      <li><s>מלון בהרים ל-7-10.6</s> — ✅ Góralski Resort Family &amp; SPA.</li>
       <li>דירה בקרקוב ל-10-14.6 עם חניה — שתי דירות (Riverside או חלופה).</li>
       <li>שני רכבים שכורים מהשדה ל-8 ימים, עם מושבי בטיחות.</li>
       <li>כרטיסים מראש: Energylandia, מכרה המלח, ואם רוצים — קספרובי ווירך.</li>
@@ -1483,7 +1485,7 @@ const FUN_FACTS = {
     "Rabkoland בנוי כמו עיירת אגדות — עם כפר ויקינגים וחווה!",
     "רבקה היא עיירת מרפא, ויש בה פסל של סנטה קלאוס מול תחנת הרכבת.",
     "המים בבריכות של Termy Bania מגיעים חמים מעומק האדמה.",
-    "בפולנית 'Dzień dobry' (ג׳ן דוברי) זה בוקר טוב — שווה להגיד בכניסה למלון!",
+    "בפולנית 'Dzień dobry' (ג׳ן דוברי) זה בוקר טוב — שווה להגיד בקבלה של המלון!",
   ],
   d2: [
     "הרפסודאים של הדונאיץ לובשים תלבושת עממית מסורתית עם כובע שחור קטן.",
@@ -1537,7 +1539,7 @@ function eatsLink(q){
 }
 
 const EATS = {
-  d1: {note:"ארוחת בוקר בבית קפה ליד השדה או בתחנת דלק גדולה בדרך. ב-Rabkoland יש דוכני אוכל ומזנונים. בערב — המסעדה של המלון, בלי לנסוע לשום מקום."},
+  d1: {note:"ארוחת בוקר בבית קפה ליד השדה או בתחנת דלק גדולה בדרך. ב-Rabkoland יש דוכני אוכל ומזנונים. ב-Termy Bania יש מסעדות בתוך המתחם — ארוחת ערב שם, אחרי הבריכות."},
   d2: {note:"ליד טירת Niedzica ועל שפת האגם יש מסעדות ובתי קפה. ב-Szczawnica, בסוף השיט, יש דוכני אוכל לאורך הטיילת — למי שמחכה עם הקטנות."},
   d3: {
     title:"בזקופנה",
@@ -1683,7 +1685,7 @@ const CHECKLIST = [
     {t:"ביטוח נסיעות כולל כיסוי לילדים ולרכב השכור"},
     {t:"רישיון נהיגה בינלאומי", s:"לנהגים — לצד הרישיון הישראלי"},
     {t:"אישורי הטיסות שמורים בטלפון"},
-    {t:"אישור הזמנה — Hotel Bania"},
+    {t:"אישור הזמנה — Góralski Resort"},
     {t:"אישור הזמנה — הדירה בקרקוב"},
     {t:"אישור הזמנת רכב שכור"},
     {t:"כרטיסים שהוזמנו מראש", s:"מכרה המלח, Energylandia"},
@@ -1693,7 +1695,7 @@ const CHECKLIST = [
     {t:"סווטשירט או פליז לכל אחד", s:"למכרה המלח (כ-15 מעלות) ולערבים בהרים"},
     {t:"מעיל גשם קל או פונצ׳ו", s:"גשמי קיץ קצרים נפוצים בטטרה"},
     {t:"נעלי הליכה נוחות", s:"למכרה ול-Ojców"},
-    {t:"בגדי ים — שניים לכל אחד", s:"שלושה ימים של בריכות ב-Hotel Bania, ועוד Energylandia"},
+    {t:"בגדי ים — שניים לכל אחד", s:"ל-Termy Bania, לג׳קוזי במלון ול-Energylandia"},
     {t:"כובע ומשקפי שמש"},
     {t:"פיג׳מות חמות", s:"הלילות בהרים קרירים"},
   ]},
@@ -1702,7 +1704,7 @@ const CHECKLIST = [
     {t:"דוחה יתושים", s:"ליד האגמים והנהר בערב"},
     {t:"תרופות קבועות ותרופות בסיסיות", s:"נגד חום, כאבים, בחילות בנסיעה, פלסטרים"},
     {t:"פינצטה לקרציות", s:"ולשאול את רופא הילדים על חיסון לדלקת מוח מקרציות — לוקח כמה חודשים"},
-    {t:"כפכפים לבריכה", s:"מגבות לבריכה — לבדוק אם המלון נותן"},
+    {t:"כפכפים ומגבות לבריכה", s:"ב-Termy Bania אפשר גם לשכור מגבת"},
   ]},
   {id:"kids", ic:"👶", name:"לקטנות", items:[
     {t:"מנשא למאיה ולליה", s:"למכרה המלח עגלה לא מתאימה"},
@@ -1869,7 +1871,8 @@ function renderFlights(){
    couldn't confirm for 2026 and estimated instead. opt:true rows are shown but not summed. */
 const COST_ROWS = [
   {day:"7.6",  label:"Rabkoland (לפי גובה)", a:124, k11:124, k8:124, k3:114},
-  {day:"7-9.6",label:"Termy Bania — כלול במלון", a:0, k11:0, k8:0, k3:0},
+  {day:"7.6",  label:"Termy Bania (כמה שעות, אונליין)", a:125, k11:105, k8:105, k3:1, est:true},
+  {day:"8.6",  label:"(סיבוב נוסף ב-Termy Bania)", a:125, k11:105, k8:105, k3:1, est:true, opt:true},
   {day:"8.6",  label:"רפטינג בדונאיץ (מחירי 2025)", a:105, k11:74, k8:74, k3:0},
   {day:"8.6",  label:"מיניבוס חזרה מסוף השיט", a:25, k11:25, k8:25, k3:0, est:true},
   {day:"8.6",  label:"טירת Niedzica (חצר) + שיט באגם", a:45, k11:30, k8:30, k3:0, est:true},
@@ -1894,7 +1897,7 @@ const USD_ILS = 3.10;                 // OFX, 15.10.2026
 const FLIGHT_BUDGET_USD = 1297.90;    // Rosenblum family (5 people) — LOT, booked 1.11.2026
 const TRIP_EST = [
   {label:"אטרקציות (הטבלה למעלה)", lo:COST_ROWS.filter(r=>!r.opt).reduce((t,r)=>t+famRowCost(r),0), hi:COST_ROWS.filter(r=>!r.opt).reduce((t,r)=>t+famRowCost(r),0)},
-  {label:"Hotel Bania, 3 לילות עם ארוחת בוקר ובריכות", lo:3500, hi:5500},
+  {label:"Góralski Resort, 3 לילות (דירה ל-5)", lo:2000, hi:3500},
   {label:"לינה בקרקוב, 4 לילות (דירה עם חניה)", lo:1600, hi:2800},
   {label:"רכב שכור ל-8 ימים, כולל מושבי בטיחות", lo:1400, hi:2400},
   {label:"דלק (כ-600 ק״מ)", lo:250, hi:400},
@@ -1948,8 +1951,8 @@ function renderCosts(){
       </table>
     </div>
     <div class="boxes">
-      <div class="box yellow"><b>Hotel Bania — הערכה בלבד</b>באתר המלון: מ-357 zł לאדם ללילה כולל ארוחת בוקר. ילדים זולים יותר, והמחיר הסופי רק בהצעת מחיר. הבריכות כלולות — לכן אין שורה של Termy Bania בטבלה.</div>
-      <div class="box tan"><b>על מה ההערכה מבוססת</b>הטיסות — המחיר ששילמנו ל-LOT, $1,297.90 ל-5 נפשות (כולל מזוודה לכל נוסע). האטרקציות — המחירים בטבלה למעלה. המלון — מחיר מנחה מאתר Hotel Bania. הרכב — רכב סטיישן ל-8 ימים רצופים. הלינה והאוכל — הערכה בלבד. שערים: דולר ≈ ₪3.10, זלוטי ≈ ₪0.80 (אוקטובר 2026).</div>
+      <div class="box yellow"><b>Góralski Resort — לעדכן למחיר האמיתי</b>השורה בטבלה היא הערכה. כשיש אישור הזמנה — מחליפים במחיר ששילמנו. בריכות לא כלולות במלון: Termy Bania מופיע כשורה נפרדת.</div>
+      <div class="box tan"><b>על מה ההערכה מבוססת</b>הטיסות — המחיר ששילמנו ל-LOT, $1,297.90 ל-5 נפשות (כולל מזוודה לכל נוסע). האטרקציות — המחירים בטבלה למעלה. המלון — הערכה עד שנכניס את המחיר מההזמנה. הרכב — רכב סטיישן ל-8 ימים רצופים. הלינה והאוכל — הערכה בלבד. שערים: דולר ≈ ₪3.10, זלוטי ≈ ₪0.80 (אוקטובר 2026).</div>
     </div>
     <div class="box tan"><b>עוד לא בפנים</b>מזכרות, וארוחות ערב במלון אם הן לא כלולות. נחליף את ההערכות במספרים אמיתיים כשיגיעו הצעות מחיר.</div>
 
@@ -1957,8 +1960,8 @@ function renderCosts(){
     <div class="boxes">
       <div class="box tan"><b>Energylandia — לפני 27.6</b>עד 26.6 הפארק בעונה הנמוכה, ומ-27.6 המחיר עולה בכ-20 zł לכרטיס. היום שלנו (11.6) נופל בעונה הזולה. ילדים עד 140 ס״מ משלמים מחיר מוזל — אם דן או דולב נמוכים מזה, החיסכון גדל.</div>
       <div class="box tan"><b>מכרה המלח — סיור בפולנית</b>סיור בפולנית זול בכ-40 zł למבוגר מסיור באנגלית, אבל הילדים לא יבינו את ההסבר. כדאי רק אם יש מדריך פרטי או אפליקציה בעברית.</div>
-      <div class="box tan"><b>הקטנות בחינם כמעט בכל מקום</b>מאיה וליה נכנסות בחינם למכרה, לרפטינג, לרכבל ולפארק הלאומי. ב-Energylandia וב-Rabkoland הן כבר משלמות (ב-Rabkoland חינם רק עד 90 ס״מ).</div>
-      <div class="box tan"><b>מזמינים אונליין</b>ב-Energylandia ובמכרה המלח המחיר אונליין זול יותר מהקופה, ובמכרה גם מבטיח שעה.</div>
+      <div class="box tan"><b>הקטנות בחינם כמעט בכל מקום</b>מאיה וליה נכנסות בחינם למכרה, לרפטינג, לרכבל ולפארק הלאומי, ובזלוטי אחד ל-Termy Bania (עד 104 ס״מ). ב-Energylandia וב-Rabkoland הן כבר משלמות (ב-Rabkoland חינם רק עד 90 ס״מ).</div>
+      <div class="box tan"><b>מזמינים אונליין</b>ב-Energylandia, ב-Termy Bania ובמכרה המלח המחיר אונליין זול יותר מהקופה, ובמכרה גם מבטיח שעה.</div>
     </div>
     <div class="footerbar">💡 המחירים נאספו ממקורות פומביים לעונת 2026 (הרפטינג מ-2025). ל-2027 צפויה עלייה קטנה — לאמת מול אתרי האטרקציות כשמזמינים.</div>
   `;
@@ -1988,8 +1991,8 @@ const TRIVIA = [
     fact:"דזיינקויה! ו'שלום' זה Dzień dobry (ג׳ן דוברי)." },
   { q:"מה זה אוסצ׳יפק?", options:["גבינה מעושנת מחלב כבשים","סוג של לחם","ריקוד עממי","כובע הררי"], correct:0,
     fact:"גבינה בצורת ציר מקושט, שמוכרים צלויה בזקופנה עם ריבת חמוציות." },
-  { q:"מה מחובר למלון שלנו בהרים?", options:["פארק מים עם בריכות חמות","גן חיות","תחנת רכבת","טירה"], correct:0,
-    fact:"Hotel Bania מחובר ל-Termy Bania — בריכות חמות ומגלשות, ואפשר להיכנס כמה שרוצים!" },
+  { q:"מאיפה מגיעים המים החמים בבריכות של Termy Bania?", options:["מעומק האדמה","מהים","מהשלג בהרים","מדוד ענק"], correct:0,
+    fact:"המים מגיעים חמים ממעיינות עמוק מתחת לאדמה — לכן הבריכות חמות גם בחוץ!" },
   { q:"איזו מדינה נמצאת מעבר לנהר בזמן הרפטינג?", options:["סלובקיה","גרמניה","אוסטריה","אוקראינה"], correct:0,
     fact:"בחלק מהשיט, צד אחד של הנהר בפולין והצד השני בסלובקיה." },
   { q:"איזה מדען מפורסמת נולדה בפולין וזכתה בשני פרסי נובל?", options:["מארי קירי","אלברט איינשטיין","אייזק ניוטון","ניקולה טסלה"], correct:0,
@@ -2044,7 +2047,8 @@ function fillWikiImages(root){
 /* ---------- Ticket / booking links per day (official sites) ---------- */
 const TICKETS = {
   d1:  [ {n:"Rabkoland — כרטיסים", u:"https://www.rabkoland.pl/en/individual-tickets"},
-         {n:"Hotel Bania — הזמנות", u:"https://hotelbania.pl/en"} ],
+         {n:"Termy Bania — כרטיסים", u:"https://www.termabania.pl/kup-bilet"},
+         {n:"Termy Bania — מחירון", u:"https://www.termabania.pl/cennik"} ],
   d2:  [ {n:"רפטינג בדונאיץ — כרטיסים אונליין", u:"https://flisacy.pl/sklep"},
          {n:"טירת Niedzica — שעות ומחירים", u:"https://www.zamekniedzica.pl/"} ],
   d3:  [ {n:"רכבל לגובאלובקה (PKL)", u:"https://www.pkl.pl/gubalowka/gubalowka.html"},
@@ -2099,7 +2103,7 @@ const DAY_ICON = {
 };
 const LOC_ICON = {
   krk_airport:"✈️", krakow:"🏡", rynek:"🏛️", wieliczka:"⛏️", wawel:"🏰", smok:"🐉", energylandia:"🎢",
-  zatorland:"🦖", rabkoland:"🎠", bania:"♨️", niedzica:"🏰", dunajec:"🛶", szczawnica:"🛶",
+  zatorland:"🦖", rabkoland:"🎠", hotel:"🏨", bania:"♨️", niedzica:"🏰", dunajec:"🛶", szczawnica:"🛶",
   gubalowka:"🚞", krupowki:"🧀", kasprowy:"🚡", kazimierz:"🕍", plac_nowy:"🥖", ogrod:"🔬", vistula:"⛴️",
   bonarka:"🛍️", ojcow:"🦇", pieskowa:"🏰", park_wodny:"🌊", auschwitz:"🕯️", chocholow:"♨️",
 };
@@ -2107,7 +2111,7 @@ const LOC_ICON = {
 /* ---------- Weather: per-day forecast (Open-Meteo, no key needed) for the day's
    main destination, shown between the map and the schedule. ---------- */
 const WEATHER_LOC = {
-  d1:"bania", d2:"dunajec", d3:"gubalowka", d4:"krakow",
+  d1:"hotel", d2:"dunajec", d3:"gubalowka", d4:"krakow",
   d5:"energylandia", d6:"wieliczka", d7:"krakow", d8:"ojcow",
 };
 const WEATHER_CACHE = {};
@@ -2367,7 +2371,7 @@ async function updateMap(segment, isOverview){
   // Numbered stops. Day view: 1, 2, 3… in the order the day visits them (the home base — the
   // apartment or the mountain hotel — gets 🏠 instead of a number). Overview: the number of the
   // trip day on which each place is first visited, so the whole route reads as days on the map.
-  const HOME_KEYS = ["krakow","bania"];
+  const HOME_KEYS = ["krakow","hotel"];
   const stopNo = {};
   if (isOverview){
     DAYS.filter(d => /^d\d+$/.test(d.id)).forEach(d => d.segment.forEach(k => {
@@ -2440,9 +2444,9 @@ function wazeLink(k){
    used to attach an inline Waze button to the specific row that marks arrival/start
    at that destination. Substrings are exact fragments of the existing row text. */
 const ROW_WAZE = {
-  d1: [ ["נחיתה, איסוף מזוודות","krk_airport"], ["Rabkoland —","rabkoland"], ["צ׳ק-אין ב-Hotel Bania","bania"] ],
-  d2: [ ["יציאה מהמלון למעגן","dunajec"], ["טירת Niedzica מבחוץ","niedzica"], ["חזרה למלון","bania"] ],
-  d3: [ ["חניה ליד תחנת הרכבל","gubalowka"], ["רחוב Krupówki","krupowki"], ["חזרה למלון","bania"] ],
+  d1: [ ["נחיתה, איסוף מזוודות","krk_airport"], ["Rabkoland —","rabkoland"], ["צ׳ק-אין ב-Góralski Resort","hotel"], ["Termy Bania —","bania"] ],
+  d2: [ ["יציאה מהמלון למעגן","dunajec"], ["טירת Niedzica מבחוץ","niedzica"], ["חזרה למלון","hotel"] ],
+  d3: [ ["חניה ליד תחנת הרכבל","gubalowka"], ["רחוב Krupówki","krupowki"], ["חזרה למלון","hotel"] ],
   d4: [ ["צהריים בטיילת הוויסלה","wawel"], ["מערת הדרקון","smok"], ["צ׳ק-אין בדירה","krakow"], ["הליכה לרחבת השוק","rynek"] ],
   d5: [ ["הגעה ל-Energylandia","energylandia"], ["הגעה לדירה","krakow"] ],
   d6: [ ["הגעה למכרה המלח","wieliczka"], ["נסיעה לקניון Bonarka","bonarka"], ["חזרה לדירה","krakow"] ],
@@ -2542,10 +2546,11 @@ const TOLL = {
     rows: [
       ["נסיעה דרומה לרבקה", {t:"אגרת A4", c:"תלוי במסלול", x:"מהשדה דרומה עוברים על הטבעת של קרקוב. בקטע A4 של הטבעת אין אגרה; אם Waze שולח דרך תחנת Balice מערבה — יש תשלום של כ-18 zł. S7 דרומה חינמי."}],
       ["Rabkoland —", {t:"חניה", c:"ליד הכיכר", x:"הפארק במרכז רבקה, ליד הכיכר. חניה עירונית בתשלום קטן בשעות היום. מחיר משוער."}],
-      ["צ׳ק-אין ב-Hotel Bania", {t:"חניה", c:"לבדוק", x:"לשאול את המלון אם החניה לאורחים בתשלום, ולבקש מקום לשני רכבים."}],
+      ["צ׳ק-אין ב-Góralski Resort", {t:"חניה", c:"חינם", x:"למלון חניה פרטית חינם. לבקש מראש מקום לשני רכבים."}],
+      ["Termy Bania —", {t:"חניה", c:"לבדוק", x:"ל-Termy Bania חניון גדול. אפשר גם לבוא מהמלון — 3 דק׳ נסיעה."}],
     ],
     sum: ["<span class=\"none\">אין אגרות</span> ברוב המסלולים — S7 ו-DK47 חינמיים.",
-          "<b>חניה</b> — ברבקה בתשלום קטן; במלון — לבדוק."],
+          "<b>חניה</b> — ברבקה בתשלום קטן; במלון — חינם."],
   },
   d2: {
     rows: [
@@ -3135,7 +3140,7 @@ const SEARCH_SYNONYMS = [
   ["krakow","קרקוב"], ["kraków","קרקוב"], ["wieliczka","וליצ׳קה ווליצקה מכרה"], ["wawel","ואוול וואוול"],
   ["energylandia","אנרג׳ילנדיה אנרגילנדיה"], ["zator","זאטור"], ["zatorland","זאטורלנד דינוזאורים"],
   ["niedzica","ניידז׳יצה נידזיצה"], ["czorsztyn","צ׳ורשטין"], ["dunajec","דונאיץ רפטינג רפסודות"],
-  ["szczawnica","שצ׳בניצה"], ["bania","בניה בריכות"], ["białka","ביאלקה"], ["zakopane","זקופנה"],
+  ["szczawnica","שצ׳בניצה"], ["bania","בניה בריכות"], ["góralski","גורלסקי מלון"], ["białka","ביאלקה"], ["zakopane","זקופנה"],
   ["gubałówka","גובאלובקה"], ["krupówki","קרופובקי"], ["morskie oko","מורסקיה אוקו"],
   ["kazimierz","קז׳ימייז׳ קזימייז"], ["ojców","אויצוב"], ["pieskowa","פייסקובה"],
   ["termy","טרמה בריכות חמות"], ["camping","קמפינג"], ["waze","וייז"],
